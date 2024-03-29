@@ -1,0 +1,37 @@
+## Topnav single links
+## if you want to list an external url, use external_url instead of url. the theme will apply a different link base.
+topnav:
+- title: Topnav
+  items:
+    - title: GitHub
+      external_url: https://github.com/agorago/wego
+    - title: News
+      url: /news
+
+#Topnav dropdowns
+topnav_dropdowns:
+- title: Topnav dropdowns
+  folders:
+    - title: Links
+      folderitems:
+        - title: Wego Source
+          external_url: https://github.com/agorago/wego
+        - title: Wego Code Generator
+          external_url:  https://github.com/agorago/wego-gen
+        - title: String Demo API
+          external_url: https://github.com/agorago/stringdemoapi
+        - title: String Demo Service
+          external_url: https://github.com/agorago/stringdemoservice
+        - title: Sample Deployment Service
+          external_url: https://github.com/agorago/sample-deploy
+        - title: Store API
+          external_url: https://github.com/agorago/storeapi
+        - title: Store Service
+          external_url: https://github.com/agorago/storeservice
+    - title: Products
+      folderitems:
+        - title: Wego
+          url: /wego_landing_page.html
+        - title: Wego Generator
+          url: /wego_gen_landing_page.html
+        
