@@ -3,8 +3,6 @@
 topnav:
 - title: Topnav
   items:
-    - title: GitHub
-      external_url: https://github.com/agorago/wego
     - title: News
       url: /news
 
@@ -12,26 +10,18 @@ topnav:
 topnav_dropdowns:
 - title: Topnav dropdowns
   folders:
-    - title: Links
+    - title: GitHubs
       folderitems:
-        - title: Wego Source
-          external_url: https://github.com/agorago/wego
-        - title: Wego Code Generator
-          external_url:  https://github.com/agorago/wego-gen
-        - title: String Demo API
-          external_url: https://github.com/agorago/stringdemoapi
-        - title: String Demo Service
-          external_url: https://github.com/agorago/stringdemoservice
-        - title: Sample Deployment Service
-          external_url: https://github.com/agorago/sample-deploy
-        - title: Store API
-          external_url: https://github.com/agorago/storeapi
-        - title: Store Service
-          external_url: https://github.com/agorago/storeservice
+        - title: Chenile Source
+          external_url: https://github.com/rajakolluru/chenile
+        - title: Chenile Samples
+          external_url:  https://github.com/rajakolluru/chenile-samples
+        - title: Documentation GitHub
+          external_url: https://github.com/rajakolluru/cheniledocs.github.io
     - title: Products
       folderitems:
-        - title: Wego
-          url: /wego_landing_page.html
-        - title: Wego Generator
-          url: /wego_gen_landing_page.html
+        - title: Chenile
+          url: /chenile-landing-page.html
+        - title: Chenile Tutorial
+          url: /app-gen-landing-page.html
         
