@@ -1,0 +1,78 @@
+# This is your sidebar TOC. The sidebar code loops through sections here and provides the appropriate formatting.
+
+entries:
+- title: sidebar
+  product: Tutorial
+  version: 0.0.1
+  folders:
+
+  - title:
+    output: pdf
+    type: frontmatter
+    folderitems:
+    - title:
+      url: /titlepage.html
+      output: pdf
+      type: frontmatter
+    - title:
+      url: /tocpage.html
+      output: pdf
+      type: frontmatter
+
+  - title: Introduction
+    output: web, pdf
+    folderitems:
+
+    - title:  Chenile Microservices
+      url: /chenile-microservices.html
+      output: web,pdf
+      type: homepage
+     
+    - title: App Gen Overview
+      url: /app-gen-landing-page.html
+      output: web, pdf
+      
+    - title: Getting Started
+      url: /app-gen-getting-started.html
+      output: web, pdf
+
+  - title: Services & Mini Monoliths
+    output: web,pdf
+    folderitems: 
+      
+    - title: Generating a Micro Service
+      output: web,pdf
+      url: /chenile-generating-microservice.html
+    
+    - title: Generating a Mini Monolith
+      output: web,pdf
+      url: /chenile-generating-minimonolith.html
+
+  - title: Testing & Devops
+    output: web, pdf
+    folderitems:
+  
+    - title: Testing
+      url: /chenile-testing-tutorial.html
+      output: web, pdf
+
+    - title: DevOps
+      url: /chenile-devops.html
+      output: web,pdf
+   
+  - title: Interception
+    output: web, pdf
+    folderitems:
+    
+    - title: Writing a Chenile Interceptor
+      url: /chenile-writing-interceptor.html
+      output: web, pdf
+  
+  - title: OWIZ
+    output: web,pdf
+    folderitems:
+    
+    - title: OWIZ Tutorial
+      url: /owiz-tut.html
+      output: web,pdf
+       

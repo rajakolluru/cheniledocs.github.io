@@ -3,7 +3,7 @@ title: Chenile Mini Monolith
 keywords: Chenile minimonolith
 sidebar: tutorial_sidebar
 toc: true
-permalink: mini_monolith.html
+permalink: chenile-generating-minimonolith.html
 folder: chenile-tutorial
 summary: How does Chenile implement the Mini Monolith architecture?
 ---

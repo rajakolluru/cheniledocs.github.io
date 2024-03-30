@@ -11,9 +11,9 @@ entries:
     - title: News
       url: /news.html
       output: web
-    - title: WeGO
-      url: /wego_landing_page.html
+    - title: Chenile
+      url: /chenile-landing-page.html
       output: web
-    - title: WeGO code generator
-      url: /wego_gen_landing_page.html
+    - title: Chenile Tutorial
+      url: /app_gen_landing_page.html
       output: web

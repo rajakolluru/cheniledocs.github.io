@@ -3,7 +3,7 @@ title: Chenile API Model
 keywords: chenile  servicemesh
 sidebar: chenile_sidebar
 toc: true
-permalink: api-model.html
+permalink: chenile-api-model.html
 folder: chenile
 summary: Chenile - API Model
 ---

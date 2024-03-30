@@ -3,7 +3,7 @@ title: OWIZ Tutorial
 keywords: OWIZ orchestration
 sidebar: tutorial_sidebar
 toc: true
-permalink: owiz_tut.html
+permalink: owiz-tut.html
 folder: wego
 summary: A Tutorial for the Orchestration Wizard that powers Chenile and is shipped with it
 ---

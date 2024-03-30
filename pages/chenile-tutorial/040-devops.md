@@ -3,7 +3,7 @@ title: Chenile DevOps
 keywords: Chenile devops
 sidebar: tutorial_sidebar
 toc: true
-permalink: devops.html
+permalink: chenile-devops.html
 folder: chenile-tutorial
 summary: How does Chenile help with DevOps?
 ---

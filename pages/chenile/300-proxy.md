@@ -3,7 +3,7 @@ title: Chenile Proxy Framework
 keywords: chenile  proxy
 sidebar: chenile_sidebar
 toc: true
-permalink: proxy.html
+permalink: chenile-proxy.html
 folder: chenile
 summary: Chenile - Proxy Framework
 ---

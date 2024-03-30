@@ -3,7 +3,7 @@ title: Chenile In VM Service Mesh
 keywords: chenile  servicemesh
 sidebar: chenile_sidebar
 toc: true
-permalink: intro.html
+permalink: chenile-service-mesh.html
 folder: chenile
 summary: Chenile - In VM Service Mesh
 ---

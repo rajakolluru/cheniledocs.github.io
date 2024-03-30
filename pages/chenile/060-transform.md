@@ -3,7 +3,7 @@ title: Chenile Transformation Framework
 keywords: chenile  transformation
 sidebar: chenile_sidebar
 toc: true
-permalink: transform.html
+permalink: chenile-transformation.html
 folder: chenile
 summary: Chenile - Transforamtion Framework
 ---

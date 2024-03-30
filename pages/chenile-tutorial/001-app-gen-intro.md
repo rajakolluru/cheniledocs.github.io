@@ -3,7 +3,7 @@ title: Chenile Code Generator
 keywords: app-gen code generation
 sidebar: tutorial_sidebar
 toc: false
-permalink: app_gen_landing_page.html
+permalink: app-gen-landing-page.html
 folder: chenile-tutorial
 summary: An introduction to app-gen -  the code generator for Chenile
 ---

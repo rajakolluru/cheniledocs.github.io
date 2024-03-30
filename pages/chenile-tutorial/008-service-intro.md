@@ -3,7 +3,7 @@ title: Introduction to Chenile Services
 keywords: chenile tutorial services
 sidebar: tutorial_sidebar
 toc: true
-permalink: testing.html
+permalink: chenile-generating-microservice.html
 folder: chenile-tutorial
 summary: Chenile Services 
 ---

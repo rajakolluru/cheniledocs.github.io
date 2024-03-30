@@ -1,0 +1,151 @@
+# This is your sidebar TOC. The sidebar code loops through sections here and provides the appropriate formatting.
+
+
+entries:
+- title: Sidebar
+  product: Chenile
+  version: 0.0.1
+  folders:
+
+  - title:
+    output: pdf
+    type: frontmatter
+    folderitems:
+    - title:
+      url: /titlepage.html
+      output: pdf
+      type: frontmatter
+    - title:
+      url: /tocpage.html
+      output: pdf
+      type: frontmatter
+
+  - title: Introduction
+    output: web, pdf
+    folderitems:
+
+    - title:  Why Chenile?
+      url: /index.html
+      output: web,pdf
+     
+    - title: Overview
+      url: /chenile-landing-page.html
+      output: web, pdf
+      type: homepage
+
+    - title: A Quick Intro
+      url: /chenile_intro.html
+      output: web, pdf
+
+  - title: The Theory
+    output: web,pdf
+    folderitems: 
+      
+    - title: Design Principles
+      output: web,pdf
+      url: /chenile-design-principles.html
+    
+    - title: Usage Patterns
+      output: web,pdf
+      url: /chenile-usage-patterns.html
+
+    - title: Service Policies
+      output: web,pdf
+      url: /chenile-service-policies.html
+
+    - title: Logical Architecture
+      output: web,pdf
+      url: /chenile-logical-architecture.html
+
+    - title: In VM Mesh
+      output: web,pdf
+      url: /chenile-service-mesh.html
+
+  - title: The Context & The Registry
+    output: web, pdf
+    folderitems:
+  
+    - title: Context
+      url: /chenile-exchange.html
+      output: web, pdf
+
+    - title: Chenile API Model
+      url: /chenile-api-model.html
+      output: web,pdf
+      
+    - title: Local Service Registry
+      url: /local-service-registry.html
+      output: web, pdf
+   
+  - title: The Interception Framework
+    output: web, pdf
+    folderitems:
+    
+    - title: Last Mile Interception
+      url: /last-mile-interception.html
+      output: web, pdf
+ 
+    - title: Request Processing
+      url: /chenile-request-processing.html
+      output: web, pdf
+
+    - title: Interceptor Chain
+      url: /chenile-interceptor-chain.html
+      output: web, pdf
+
+    - title: Error Handling
+      url: /chenile-error-handling.html
+      output: web, pdf
+  
+    - title: Transformations
+      url: /chenile-transformation.html
+      output: web, pdf
+
+    - title: Chenile Proxy Framework
+      url: /chenile-tproxy.html
+      output: web, pdf
+
+  - title: Some viewpoints
+    output: web,pdf
+    folderitems:
+    
+    - title: Development
+      url: /chenile-development.html
+      output: web,pdf
+
+    - title: Deployment
+      url: /chenile-deployment.html
+      output: web,pdf
+
+    - title: Testing
+      url: /chenile-testing.html
+      output: web,pdf
+       
+  - title: Customization, A-B Testing etc.
+    output: web, pdf
+    folderitems:
+
+    - title: Service Customizations
+      url: /chenile-customization.html
+      output: web, pdf
+    
+    - title: Multi Tenancy
+      url: /chenile-multi-tenancy.html
+      output: web, pdf
+    
+
+  - title: Chenile Workflow & Orchestrations
+    output: web, pdf
+    folderitems:
+      
+    - title: Orchestration Wizard
+      url: /chenile-owiz.html
+      output: web, pdf
+      
+    - title: The State Transition Machine
+      url: /chenile-stm.html
+      output: web, pdf
+
+      
+
+    

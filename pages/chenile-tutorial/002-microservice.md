@@ -3,7 +3,7 @@ title: Micro Service Generation Using WeGO-Gen
 keywords: app-gen code generation 
 sidebar: tutorial_sidebar
 toc: true
-permalink: app_gen_microservice.html
+permalink: chenile-microservices.html
 folder: chenile-tutorial
 summary: How to generate a typical micro service using app-gen
 ---

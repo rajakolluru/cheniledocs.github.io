@@ -3,7 +3,7 @@ title: Chenile Testing
 keywords: Chenile testing
 sidebar: tutorial_sidebar
 toc: true
-permalink: testing.html
+permalink: chenile-testing-tutorial.html
 folder: chenile-tutorial
 summary: How does Chenile facilitate testing?
 ---

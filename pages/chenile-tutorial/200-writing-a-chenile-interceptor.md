@@ -1,5 +1,11 @@
 ---
-sidebar_label: 'Writing an Aurora Interceptor'
+title: Writing a Chenile Interceptor
+keywords: Chenile interceptor app-gen
+sidebar: tutorial_sidebar
+toc: true
+permalink: chenile-writing-interceptor.html.html
+folder: chenile-tutorial
+summary: How do you write a chenile interceptor?
 ---
 # Writing a Chenile Interceptor
 A Chenile interceptor implements a service policy. A service policy is an implementation of a horizontal requirement that cuts across multiple services. 

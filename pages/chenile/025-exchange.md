@@ -3,7 +3,7 @@ title: Chenile Exchange
 keywords: chenile  exchange
 sidebar: chenile_sidebar
 toc: true
-permalink: exchange.html
+permalink: chenile-exchange.html
 folder: chenile
 summary: Chenile - Exchange
 ---

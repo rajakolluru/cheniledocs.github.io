@@ -3,7 +3,7 @@ title: Chenile Request Processing
 keywords: chenile  request_processing
 sidebar: chenile_sidebar
 toc: true
-permalink: api-model.html
+permalink: chenile-request-processing.html
 folder: chenile
 summary: Chenile - Request Processing
 ---

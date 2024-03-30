@@ -3,7 +3,7 @@ title: Getting Started
 keywords: chenile tutorial getting-started
 sidebar: tutorial_sidebar
 toc: true
-permalink: testing.html
+permalink: app-gen-getting-started.html
 folder: chenile-tutorial
 summary: Getting started on Chenile code generator
 ---
