@@ -1,5 +1,5 @@
 ---
-title: Micro Service Generation Using WeGO-Gen
+title: Micro Service Generation Using app-gen
 keywords: app-gen code generation 
 sidebar: tutorial_sidebar
 toc: true
