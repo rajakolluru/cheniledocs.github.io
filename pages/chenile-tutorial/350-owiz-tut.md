@@ -13,7 +13,7 @@ This tutorial walks the user through creation of orchestrations using _owiz_. Pl
 
 ## Set up
 To set up using OWIZ, you need access to the OWIZ library. The following pom snippet will help this:
-{% highlight bash %}
+{% highlight xml %}
 	<dependency>
 		<groupId>org.chenile</groupId>
 		<artifactId>owiz</artifactId>
@@ -126,8 +126,8 @@ With these classes in place, we are ready to write our orchestration scripts and
 
 ## The Simplest Example
  The simplest orchestration is to run one instance of the command (say _simpleCommand1_) and nothing else: 
-{% highlight xml %}
 orch1.xml
+{% highlight xml %}
 <flows>
 	<flow>
 		<command componentName="simpleCommand1" first='true'/>
@@ -157,8 +157,8 @@ The orchestration is composed of multiple flows. (each with a unique ID). Each f
 
 ## Simplifying the XML further
 The above XML is needlessly verbose. It can even be reduced by skipping "command" tag and the attributes that can be inferred such as "first". We can write a new XML file - orch2.xml as follows;
-{% highlight xml %}
 orch2.xml
+{% highlight xml %}
 <flows>
 	<flow>
 		<simpleCommand1/>
@@ -169,8 +169,8 @@ The orchestration for orch2.xml is identical to that of "orch1.xml"
 
 ## Avoiding Camel Case
 XML puritans will not like camel case in XML tags. They can instead use "orch3.xml" which looks like this:
-{% highlight xml %}
 orch3.xml
+{% highlight xml %}
 <flows>
 	<flow>
 		<simple-command1/>
@@ -182,8 +182,8 @@ As expected, this produces the same results.
 ## Executing a chain of commands
 The next step is to use commands one after the other. In this case, we would like to execute simpleCommand1, simpleCommand2 and simpleCommand3 one after the other.
 The orch4.xml that is used is as follows:
-{% highlight xml %}
 orch4.xml
+{% highlight xml %}
 <flows>
 	<flow>
 		<chain>
@@ -197,7 +197,7 @@ orch4.xml
 The chain tag above is mapped to a class called org.chenile.owiz.impl.Chain which is instantiated. This class runs all the commands contained inside one after the other.
 
 We can easily test this by writing Test4.java that looks like:
-{% highlight xml %}
+{% highlight java %}
 public class Test4 extends BaseTest{
 	@Test public void testSimple() throws Exception {
 		OrchExecutor<BaseContext> oe = obtainOrchExecutor("orch3.xml");
@@ -217,8 +217,8 @@ The invocation order is as expected. The commands are invoked in the same order 
 Sometimes, it is possible that we would want to change the command invocation order. We may not want to keep the order of the commands the same as the order that they are inserted into the configuration. To accomplish this, the chain supports the notion of index. The commands will be invoked in the ascending order of index. 
 
 Let us change the orch4.xml to orch4-a.xml
-{% highlight xml %}
 orch4-a.xml
+{% highlight xml %}
 <flows>
 	<flow>
 		<chain>
@@ -237,8 +237,8 @@ Sometimes, we want to execute things conditionally. For example, it is possible 
 For this, we use a special command called org.chenile.owiz.impl.Router that is available as part of _owiz_. Router is an abstract class. The sub classes of Router compute specific routes. We will discuss the first sub class here called org.chenile.owiz.impl.ognl.OgnlRouter. This router uses an expression language to specify routes. Let us say, that the route is stored within the BaseContext in a key called "myRoute". 
 
 Here is some sample code to do the routing:
-{% highlight xml %}
 orch5.xml
+{% highlight xml %}
 <flows>
 	<flow>
 		<command componentName='org.chenile.owiz.impl.ognl.OgnlRouter' expression='myRoute'>
@@ -288,8 +288,8 @@ public class MyRouter extends Router<BaseContext>{
 	
 {% endhighlight %}
 Code above instantiates this router in Spring. In the orch7.xml below, we map the spring name (as componentName) to a custom command tag.The command tag can  evaluate as before. 
-{% highlight xml %}
 orch7.xml
+{% highlight xml %}
 <flows>
 	<add-command-tag tag='switch' componentName='myRouter'/>
 	<flow>
@@ -364,8 +364,8 @@ FilterChain:
 
 {% endhighlight %}
 The orch.xml is similar to the chain and reads:
-{% highlight xml %}
 orch8.xml
+{% highlight xml %}
 <flows>
 	<flow>
 		<filter-chain>
@@ -450,8 +450,9 @@ We should instantiate it in Spring:
 {% endhighlight %}
 Due to this, total becomes an xml key word that is supported by OWIZ. 
 We will use an orchestration as follows:
-{% highlight xml %}
 orch9.xml
+{% highlight xml %}
+
 <flows>
 	<flow>
 		<total>
@@ -490,8 +491,8 @@ If the total is < 1000 then commandId1 must be invoked else commandId2 must be i
 ## Modular Configurations
 _Owiz_ support modular configurations i.e. configurations that can be modularized into multiple files. 
 As an example, let us take _orch6.xml_ which we will copy as orch10.xml with the following configuration:
-{% highlight xml %}
 orch10.xml
+{% highlight xml %}
 <flows>
 	<add-command-tag tag='switch' componentName='org.chenile.owiz.impl.ognl.OgnlRouter'/>
 	<flow id='flow1'>
@@ -505,8 +506,8 @@ orch10.xml
 The router allows us to choose between route1 and route2 depending on the value of "myRoute".
 But let us say that we want to introduce a third route "route3" without changing the configuration. We can do that in another file and read both the files into the OWIZ configuration. 
 Let us call this as orch11.xml with the following configuration:
-{% highlight xml %}
 orch11.xml
+{% highlight xml %}
 <flows>
 	<add-command-tag tag='switch' componentName='org.chenile.owiz.impl.ognl.OgnlRouter'/>
 	<flow id='flow1'>
@@ -548,7 +549,7 @@ public class OrchAwareCommand extends CommandBase<BaseContext>{
 	}
 }
 
-```
+{% endhighlight %}
 
 Next we put this into Spring as orchAwareCommand using the following snippet in the configuration class:
 {% highlight java %}
@@ -559,8 +560,9 @@ Next we put this into Spring as orchAwareCommand using the following snippet in 
 {% endhighlight %}
 
 Next we write the following orchestration _orch12.xml_
-{% highlight xml %}
 orch12.xml
+{% highlight xml %}
+
 <flows>
 	<flow>
 		<orch-aware-command commandId='my-orch-aware-command'/>
