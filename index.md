@@ -2,7 +2,7 @@
 title: "Chenile -  Micro Services - done right! "
 keywords: homepage
 tags: [getting_started, introduction]
-sidebar: wego_sidebar
+sidebar: chenile_sidebar
 permalink: index.html
 summary: Why Chenile? We discuss the rationale here for a framework and how Chenile can help.
 ---

@@ -18,7 +18,7 @@ topnav_dropdowns:
           external_url:  https://github.com/rajakolluru/chenile-samples
         - title: Documentation GitHub
           external_url: https://github.com/rajakolluru/cheniledocs.github.io
-    - title: Products
+    - title: Categories
       folderitems:
         - title: Chenile
           url: /chenile-landing-page.html
