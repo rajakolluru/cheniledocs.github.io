@@ -3,7 +3,7 @@ title: Chenile Orchestration
 keywords: chenile  orchestration
 sidebar: chenile_sidebar
 toc: true
-permalink: chenile-orch.html
+permalink: chenile-owiz.html
 folder: chenile
 summary: Chenile - Orchestration
 ---

@@ -102,7 +102,7 @@ entries:
       output: web, pdf
 
     - title: Chenile Proxy Framework
-      url: /chenile-tproxy.html
+      url: /chenile-proxy.html
       output: web, pdf
 
   - title: Some viewpoints
