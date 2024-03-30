@@ -5,12 +5,9 @@ entries:
   levels: one
   folders:
 
-  - title: Products
+  - title: Categories
     output: web
     folderitems:
-    - title: News
-      url: /news.html
-      output: web
     - title: Chenile
       url: /chenile-landing-page.html
       output: web

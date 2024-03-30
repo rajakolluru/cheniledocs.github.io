@@ -7,7 +7,7 @@ permalink: index.html
 summary: Why Chenile? We discuss the rationale here for a framework and how Chenile can help.
 ---
 
-{% include note.html content="An introduction to Chenile. Want to use it write away? Go to <a href='chenile_setup.html'>set up page</a>" %}
+{% include note.html content="An introduction to Chenile. Want to use it write away? Go to <a href='app-gen-landing-page.html'>set up page</a>" %}
 
 # Motivation 
 Micro services have become the prevalent paradigm for development. We could create autonomous teams with segmented responsibilities. Each team knows its respective domain and builds services in them. All the teams collaborate to create an ecosystem that can accomplish complex tasks with aplomb. 
