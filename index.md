@@ -32,8 +32,9 @@ Look at the autonomy pyramid shown below:
 ![Autonomy vs. Cohesion Balance](images/chenile/autonomy.png)
 
 As we see, the greater the concerns that are independent, the more autonomous the BCs become! But greater autonomy also decreases cohesion and the potential for reuse. We advocate a good amount of autonomy but discourage the type of autonomy that decreases governance (which in turn is counter productive for cohesion). Our recommendations are shown in the diagram. The reasons are given below:
+
 | S. No. | Feature  | Our recommendation | Justification | How does Chenile help? |
-|--------|--------  |-------------|----------------------|------------------------|
+|--------|--------|-----------------------------------|------------------------|
 | 1|Backlog | Y | A healthy independent backlog is vital for autonomy | Chenile helps in building features independently |
 | 2|Codebase | Y | Code must be modular and autonomous. Yet it must expose the correct interfaces for others to consume| Chenile generator generates code that complies to Dependency Inversion Principle.|
 | 3|Database | Y | Databases must evolve independently. Yet they should expose "aggregates" as recommended by DDD for others to consume | Chenile recommends to use Java JPA and Mybatis. Please see the section about the usage of the CQRS pattern (Command Query Responsibility Separation) |
