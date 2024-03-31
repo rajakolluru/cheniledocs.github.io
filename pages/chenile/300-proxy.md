@@ -17,5 +17,5 @@ summary: Chenile - Proxy Framework
 * Remote proxy manages interactions with the remote server via HTTP
 * These capabilities make the Aurora framework a service mesh with both ingress and egress interception capabilities
 
-![Proxy Framework](img/proxy-framework.png "Proxy Request Processing Cycle")
+![Proxy Framework](images/chenile/proxy-framework.png "Proxy Request Processing Cycle")
 
