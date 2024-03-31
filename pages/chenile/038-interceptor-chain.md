@@ -8,7 +8,7 @@ folder: chenile
 summary: Chenile - Interceptor Chain
 ---
 # Interceptor Chain
-Chenile uses the Chenile framework to configure the service and interceptors that need to be applied.
+Chenile uses an OWIZ based interception framework to configure the service and interceptors that need to be applied.
 
 ## Controller - Service Separation
 The service class must be separated from the controller. Controllers provide the entry point for all requests. Spring provides a controller that supports HTTP end points. A URL is mapped to the operation within a controller using standard Spring post annotations such as @GetMapping, @PostMapping etc. 

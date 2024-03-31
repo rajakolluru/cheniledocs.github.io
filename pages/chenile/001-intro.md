@@ -47,7 +47,7 @@ Chenile provides blue print accelerators to implement these patterns.
 ## Dependency Management
 Chenile provides comprehensive dependency management features. It standardizes the dependency versions of all the libraries using Spring boot. Chenile dependencies are also standardized. Every service has to include the correct version of Chenile framework. The rest of the dependencies flow from there. 
 
-### Aurora Versioning
+### CHenile Versioning
 Chenile recommends a few patterns around framework versioning. All services can leverage the comprehensive versioning features provided by git (using git tags). Maven has adopted specific variables such as _revision_ which can be used to specify the version that is released. This shifts the burden of maintaining version information to git.
 
 ### Depedency Manifest
@@ -64,9 +64,6 @@ Chenile allows for a federated development model. All services are modularized a
 
 Chenile also provides extension points for subapps and services to extend the functionality. These extension points allow region specific services (for example) to leverage common services. 
 
-## Object Model
-All shared entities in Chenile will comply to a standard domain model. This can unify the language that is used to depict entities such as Order, Item, Offer etc. The object model is published from Aurora SDKs which allow the applications to communicate seamlessly to backend resource tiers such as OMS, IQS etc.
-
 ## Event Model
 Chenile also envisages a common published event model to advertise changes to key Walmart entities.
 
@@ -82,7 +79,7 @@ A big part of application development is about the consistent application of NFR
 * **Service Specific Policies** - Service configurations specify the NFR policy. This allows customization of the NFRs according to individual services. 
 
 ## Chenile Proxy
-Chenile extends the notion of service mesh and makes it part of the VM. The Aurora proxy allows the developers to write code that is agnostic to the location of a service's dependency. For example, if service1 depends on service2 then the developer can directly invoke service2 by merely knowing its interface. The proxy framework abstracts the complexity of talking to the remote service. If service2 is co-deployed with service1 in the same mini monolith, then Aurora will invoke the local proxy. Else it will invoke a remote HTTP based proxy.
+Chenile extends the notion of service mesh and makes it part of the VM. The Chenile proxy allows the developers to write code that is agnostic to the location of a service's dependency. For example, if service1 depends on service2 then the developer can directly invoke service2 by merely knowing its interface. The proxy framework abstracts the complexity of talking to the remote service. If service2 is co-deployed with service1 in the same mini monolith, then Chenile will invoke the local proxy. Else it will invoke a remote HTTP based proxy.
 
 
 
