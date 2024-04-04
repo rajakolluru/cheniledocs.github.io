@@ -45,6 +45,10 @@ a[data-toggle="tooltip"] {
     cursor: default;
 }
 
+.text-primary {
+    color: #72ac4a;
+}
+
 .navbar-inverse {
     background-color: #72ac4a;
     border-color: #5b893c;
