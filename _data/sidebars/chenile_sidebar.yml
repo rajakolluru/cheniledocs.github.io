@@ -24,15 +24,15 @@ entries:
     output: web, pdf
     folderitems:
 
-    - title:  Why Chenile?
-      url: /index.html
-      output: web,pdf
-     
-    - title: Overview
-      url: /chenile-landing-page.html
+    - title: Why Chenile
+      url: /why-chenile.html
       output: web, pdf
       type: homepage
 
+    - title:  Overview
+      url: /index.html
+      output: web,pdf
+     
     - title: A Quick Intro
       url: /chenile_intro.html
       output: web, pdf

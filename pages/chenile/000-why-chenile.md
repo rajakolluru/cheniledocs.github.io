@@ -1,9 +1,9 @@
 ---
-title: "Chenile Modulith-  Micro Services - done right! "
+title: "Chenile Modulith Framework -  Micro Services done right! "
 keywords: homepage
 tags: [getting_started introduction modulith]
 sidebar: chenile_sidebar
-permalink: index.html
+permalink: why-chenile.html
 summary: Why Chenile? We discuss the rationale here for a framework and how Chenile can help.
 ---
 
