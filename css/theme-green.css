@@ -45,6 +45,10 @@ a[data-toggle="tooltip"] {
     cursor: default;
 }
 
+a[data-toggle] {
+    color: #72ac4a;
+}
+
 .text-primary {
     color: #72ac4a;
 }
