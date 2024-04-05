@@ -10,7 +10,7 @@ summary: Chenile - Request Processing
 
 # Request Processing Pipeline
 
-![Request Processing Pipeline](images/chenile/request-processing.png "Request Processing Pipeline")
+![Request Processing Pipeline](/images/chenile/request-processing.png "Request Processing Pipeline")
 
 ## Introduction
 Every service is a combination of functional and non functional requirements. Typically, functional requirements are implemented using a service class. The service class must implement the business logic for the service which is basically functional requirements. More specifically, the service class implements the business logic in a particular operation (or in Java terms a method). 

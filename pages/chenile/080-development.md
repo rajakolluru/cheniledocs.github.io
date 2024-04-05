@@ -25,4 +25,4 @@ summary: Chenile - Development Model
 * CI friendly maven variables such as "revision"
 * "revision" is obtained from git tag (using git describe)
 
-![Library Stack](img/library.png "Library Stack")
+![Library Stack](/images/chenile/library.png "Library Stack")

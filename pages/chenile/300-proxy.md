@@ -3,7 +3,7 @@ title: Chenile Proxy Framework
 keywords: chenile  proxy
 sidebar: chenile_sidebar
 toc: true
-permalink: chenile-proxy.html
+permalink: /chenile-proxy.html
 folder: chenile
 summary: Chenile - Proxy Framework
 ---
@@ -17,5 +17,5 @@ summary: Chenile - Proxy Framework
 * Remote proxy manages interactions with the remote server via HTTP
 * These capabilities make the Aurora framework a service mesh with both ingress and egress interception capabilities
 
-![Proxy Framework](images/chenile/proxy-framework.png "Proxy Request Processing Cycle")
+![Proxy Framework](/images/chenile/proxy-framework.png "Proxy Request Processing Cycle")
 

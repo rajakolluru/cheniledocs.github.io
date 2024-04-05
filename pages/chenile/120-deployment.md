@@ -46,7 +46,7 @@ Conway's Law states that the artifacts created by an organization mirror the org
 Accordingly, if services belong to different orgs they must be hosted separately. This facilitates org autononomy.
 
 
-![Deployment Architecture](img/deployment.png)
+![Deployment Architecture](/images/chenile/deployment.png)
 
 
 

@@ -13,7 +13,7 @@ Chenile Query Service customizes the orchestration framework to run a query that
 
 Micro Service commands are responsible to obtain results from individual micro services whilst the parallel chains execute commands under them in parallel and aggregate the results with a timeout. The query framework is capable of handling partial success by returning a HTTP status code 206. 
 
-![Query Framework](img/query.png)
+![Query Framework](/images/chenile/query.png)
 
 In the above diagram, profile has three first level keys such as tax, partner and returns. The returns directly communicates with a Micro service to fetch relevant information. tax and partner in turn call other sub commands to interact with the respective micro services. profile,tax and partner are parallel chains while the other commands are Micro service commands. 
 

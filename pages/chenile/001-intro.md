@@ -3,7 +3,7 @@ title: Introduction to Chenile Framework
 keywords: chenile  Introduction
 sidebar: chenile_sidebar
 toc: true
-permalink: chenile_intro.html
+permalink: /chenile_intro.html
 folder: chenile
 summary: Chenile Introduction
 ---
