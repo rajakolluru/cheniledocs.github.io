@@ -21,7 +21,7 @@ topnav_dropdowns:
     - title: Categories
       folderitems:
         - title: Chenile
-          url: /chenile-landing-page.html
+          url: /index.html
         - title: Chenile Tutorial
           url: /app-gen-landing-page.html
         
