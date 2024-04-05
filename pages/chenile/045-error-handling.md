@@ -3,7 +3,7 @@ title: Chenile Error Handling
 keywords: chenile  error-handling
 sidebar: chenile_sidebar
 toc: true
-permalink: chenile-error-handling.html
+permalink: /chenile-error-handling.html
 folder: chenile
 summary: Chenile - Error Handling
 ---

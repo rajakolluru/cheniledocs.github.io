@@ -3,7 +3,7 @@ title: Usage Patterns
 keywords: chenile  usage
 sidebar: chenile_sidebar
 toc: true
-permalink: chenile-usage-patterns.html
+permalink: /chenile-usage-patterns.html
 folder: chenile
 summary: Chenile - Usage Patterns
 ---

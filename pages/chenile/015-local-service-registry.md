@@ -3,7 +3,7 @@ title: Chenile In VM Service Mesh
 keywords: chenile  servicemesh
 sidebar: chenile_sidebar
 toc: true
-permalink: local-service-registry.html
+permalink: /local-service-registry.html
 folder: chenile
 summary: Chenile - Local Service Registry
 ---

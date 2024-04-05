@@ -3,7 +3,7 @@ title: Chenile Testing
 keywords: chenile  testing
 sidebar: chenile_sidebar
 toc: true
-permalink: chenile-testing.html
+permalink: /chenile-testing.html
 folder: chenile
 summary: Chenile - Testing
 ---

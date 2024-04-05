@@ -3,7 +3,7 @@ title: Chenile Last Mile Interception
 keywords: chenile  interception
 sidebar: chenile_sidebar
 toc: true
-permalink: last-mile-interception.html
+permalink: /last-mile-interception.html
 folder: chenile
 summary: Chenile - Last Mile Interception
 ---

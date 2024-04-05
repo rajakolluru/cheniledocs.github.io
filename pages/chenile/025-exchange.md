@@ -3,7 +3,7 @@ title: Chenile Exchange
 keywords: chenile  exchange
 sidebar: chenile_sidebar
 toc: true
-permalink: chenile-exchange.html
+permalink: /chenile-exchange.html
 folder: chenile
 summary: Chenile - Exchange
 ---
@@ -19,26 +19,7 @@ To understand the request processing series in detail, please see [Request Proce
 
 # Structure of ChenileExchange 
 
-```plantuml
-@startuml
-class ChenileExchange{
-	// invocation context
-	OperationDefinition operationDefinition;
-	ChenileServiceDefinition serviceDefinition;
-	// Request context
-	Map<String,Object> headers;
-	Object body;
-	Map<String, MultipartFile> multiPartMap;
-	// Response  
-	Object response;
-	RuntimeException exception;
-	// Mutated invocation context
-	Object serviceReference;
-	Method method;
-	}
-@enduml
-
-```
+<img src='/images/chenile/chenile-exchange-class.png'/>
 
 The entire context of the request is contained within this exchange. The ChenileExchange can be approximately broken down into the following types of fields:
 

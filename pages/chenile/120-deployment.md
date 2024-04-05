@@ -3,7 +3,7 @@ title: Chenile Deployment Model
 keywords: chenile  deployment
 sidebar: chenile_sidebar
 toc: true
-permalink: chenile-deployment.html
+permalink: /chenile-deployment.html
 folder: chenile
 summary: Chenile - Deployment Model
 ---

@@ -3,7 +3,7 @@ title: Chenile Development Model
 keywords: chenile  servicemesh
 sidebar: chenile_sidebar
 toc: true
-permalink: chenile-development.html
+permalink: /chenile-development.html
 folder: chenile
 summary: Chenile - Development Model
 ---

@@ -3,7 +3,7 @@ title: Design Principles
 keywords: chenile  Design Principles
 sidebar: chenile_sidebar
 toc: true
-permalink: chenile-design-principles.html
+permalink: /chenile-design-principles.html
 folder: chenile
 summary: Chenile - Design principles
 ---

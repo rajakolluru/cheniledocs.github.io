@@ -63,6 +63,7 @@ The **ResponseMessage** is a structure that contains more information about erro
 ```
 
 ## ResponseMessage fields
+
 | Field  | Values | Comments |
 |--------|--------|----------|
 | code| HTTP status code| The HTTP status code that corresponds to this error or warning. Typically in the 4XX and 5XX series |

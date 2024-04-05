@@ -3,7 +3,7 @@ title: Chenile Service Customizations
 keywords: chenile  customization A-B
 sidebar: chenile_sidebar
 toc: true
-permalink: chenile-customization.html
+permalink: /chenile-customization.html
 folder: chenile
 summary: Chenile - Customizations
 ---

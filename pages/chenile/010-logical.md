@@ -3,7 +3,7 @@ title: Logical Architecture
 keywords: chenile  logical
 sidebar: chenile_sidebar
 toc: true
-permalink: chenile-logical-architecture.html
+permalink: /chenile-logical-architecture.html
 folder: chenile
 summary: Chenile - Logical Architecture
 ---

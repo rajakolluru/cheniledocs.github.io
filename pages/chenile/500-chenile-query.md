@@ -3,7 +3,7 @@ title: Chenile Query Service
 keywords: chenile  query
 sidebar: chenile_sidebar
 toc: true
-permalink: query.html
+permalink: /query.html
 folder: chenile
 summary: Chenile - Query Service
 ---

@@ -3,7 +3,7 @@ title: Chenile Interceptor Chain
 keywords: chenile  interceptor
 sidebar: chenile_sidebar
 toc: true
-permalink: chenile-interceptor-chain.html
+permalink: /chenile-interceptor-chain.html
 folder: chenile
 summary: Chenile - Interceptor Chain
 ---

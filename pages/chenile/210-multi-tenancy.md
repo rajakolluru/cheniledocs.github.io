@@ -3,7 +3,7 @@ title: Chenile Multi Tenancy
 keywords: chenile  multi-tenant
 sidebar: chenile_sidebar
 toc: true
-permalink: chenile-multi-tenancy.html
+permalink: /chenile-multi-tenancy.html
 folder: chenile
 summary: Chenile - Multi Tenancy
 ---

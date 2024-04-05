@@ -3,7 +3,7 @@ title: Service Policies
 keywords: chenile  policy
 sidebar: chenile_sidebar
 toc: true
-permalink: chenile-service-policies.html
+permalink: /chenile-service-policies.html
 folder: chenile
 summary: Chenile Service Policies
 ---
