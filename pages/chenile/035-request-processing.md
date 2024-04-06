@@ -33,41 +33,7 @@ For a service to be considered useful, it needs to be exposed via some transport
 
 A controller is typically used to expose the service. The controller delegates the functionality to the service pipeline which ultimately invokes the service. This is described in the sequence diagram below:
 
-```plantuml
-@startuml
-autonumber
-actor Actor      
-boundary HttpEndPoint
-participant Controller 
-participant ChenileEntryPoint
-participant Interceptor1 
-participant Interceptor2
-participant Service 
-
-Actor -> HttpEndPoint : Makes request
-activate HttpEndPoint
-HttpEndPoint -> Controller : Invokes the controller
-activate Controller
-Controller -> ChenileEntryPoint : Invokes Chenile Pipeline
-activate ChenileEntryPoint
-ChenileEntryPoint -> Interceptor1 : Invokes first interceptor
-activate Interceptor1
-Interceptor1 -> Interceptor1 : preProcess()
-Interceptor1 -> Interceptor2 : Invokes next interceptor
-activate Interceptor2
-Interceptor2 -> Interceptor2 : preProcess()
-Interceptor2 -> Service : Calls the service
-activate Service
-return 
-Interceptor2 -> Interceptor2: postprocess()
-return
-Interceptor1 -> Interceptor1: postprocess()
-return
-return
-return
-return
-@enduml
-```
+![Request Processing Sequence](/images/chenile/request-processing-sequence.png)
 
 <a name='seda-pipeline'/>
 ## SEDA Pipeline
@@ -85,17 +51,8 @@ The functionality of individual interceptors might vary from one service to the 
 
 ## Processor Sequencing
 Typically, processors are sequenced in this order
-```plantuml
-hide footbox
-ErrorHandler -> PreProcessors
-PreProcessors -> Transformation
-Transformation -> ServiceReferenceChooser
-ServiceReferenceChooser -> PostProcessors
-PostProcessors -> OpertionSpecificProcessors
-OperationSpecificProcessors -> ServiceSpecificProcessors
-ServiceSpecificProcessors -> ServiceInvoker 
-ServiceInvoker -> Service
-```
+
+![Default Interceptor Chain](/images/chenile/default-interceptor-chain.png)
 
 ### ErrorHandler
 Error handler must be the first interceptor. This will also make it the last interceptor for the purpose of post processing. Hence it would have the opportunity to handle all errors in one place. Chenile ships with its own error handler. This can be over-ridden at the mini monolith level in "chenile.properties" file. 
