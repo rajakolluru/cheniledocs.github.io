@@ -5,6 +5,10 @@ topnav:
   items:
     - title: News
       url: /news
+    - title: Documentation
+      url: /index.html
+    - title: Tutorial
+      url: /app-gen-landing-page.html
 
 #Topnav dropdowns
 topnav_dropdowns:
@@ -18,10 +22,4 @@ topnav_dropdowns:
           external_url:  https://github.com/rajakolluru/chenile-samples
         - title: Documentation GitHub
           external_url: https://github.com/rajakolluru/cheniledocs.github.io
-    - title: Categories
-      folderitems:
-        - title: Chenile
-          url: /index.html
-        - title: Chenile Tutorial
-          url: /app-gen-landing-page.html
         

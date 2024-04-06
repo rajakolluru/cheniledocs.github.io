@@ -5,12 +5,9 @@ entries:
   levels: one
   folders:
 
-  - title: Categories
+  - title: Documentation
     output: web
-    folderitems:
-    - title: Chenile
-      url: /chenile-landing-page.html
-      output: web
-    - title: Chenile Tutorial
-      url: /app-gen-landing-page.html
-      output: web
+    url: /chenile-landing-page.html
+  - title: Tutorial
+    url: /app-gen-landing-page.html
+    output: web  
