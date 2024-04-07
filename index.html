@@ -5,13 +5,13 @@ sidebar: chenile_sidebar
 toc: false
 permalink: /index.html
 folder: chenile
-summary: Explains the rationale behind the Chenile framework.
+summary: What is Chenile?
 ---
 <div class="row">
         <div class="col-lg-12">
             <h2 class="page-header">What is Chenile?</h2>
         </div>
-        <div class="col-md-3 col-sm-6">
+        <div class="col-md-2 col-sm-6">
             <div class="panel panel-default text-center">
                 <div class="panel-heading">
                     <span class="fa-stack fa-5x">
@@ -20,13 +20,13 @@ summary: Explains the rationale behind the Chenile framework.
                     </span>
                 </div>
                 <div class="panel-body">
-                    <h4>The Why</h4>
-                    <p>Why do we need a framework in Java for Micro services development</p>
+                    <h4>Basics</h4>
+                    <p>What is Chenile? What does it do? How does it benefit you?</p>
                     <a href="#basics" class="btn btn-primary">Learn More</a>
                 </div>
             </div>
         </div>
-        <div class="col-md-3 col-sm-6">
+        <div class="col-md-2 col-sm-6">
             <div class="panel panel-default text-center">
                 <div class="panel-heading">
                     <span class="fa-stack fa-5x">
@@ -41,7 +41,7 @@ summary: Explains the rationale behind the Chenile framework.
                 </div>
             </div>
         </div>
-        <div class="col-md-3 col-sm-6">
+        <div class="col-md-2 col-sm-6">
             <div class="panel panel-default text-center">
                 <div class="panel-heading">
                     <span class="fa-stack fa-5x">
@@ -51,12 +51,12 @@ summary: Explains the rationale behind the Chenile framework.
                 </div>
                 <div class="panel-body">
                     <h4>Patterns</h4>
-                    <p>Chenile is a repository of patterns, blue prints and best practices around using them</p>
+                    <p>Chenile repository of patterns, blue prints and best practices</p>
                     <a href="#patterns" class="btn btn-primary">Learn More</a>
                 </div>
             </div>
         </div>
-        <div class="col-md-3 col-sm-6">
+        <div class="col-md-2 col-sm-6">
             <div class="panel panel-default text-center">
                 <div class="panel-heading">
                     <span class="fa-stack fa-5x">
@@ -66,12 +66,12 @@ summary: Explains the rationale behind the Chenile framework.
                 </div>
                 <div class="panel-body">
                     <h4>Extensible</h4>
-                    <p>Chenile encourages customization. Your org can override any part of Chenile to take care of its specific needs. Chenile provides multiple extension points - at the org level, at the service level and even at the service method (operation) level.</p>
+                    <p>Extending Chenile for the org. </p>
                     <a href="#extensible" class="btn btn-primary">Learn More</a>
                 </div>
             </div>
         </div>
-        <div class="col-md-3 col-sm-6">
+        <div class="col-md-2 col-sm-6">
             <div class="panel panel-default text-center">
                 <div class="panel-heading">
                     <span class="fa-stack fa-5x">
@@ -86,7 +86,7 @@ summary: Explains the rationale behind the Chenile framework.
                 </div>
             </div>
         </div>
-        <div class="col-md-3 col-sm-6">
+        <div class="col-md-2 col-sm-6">
             <div class="panel panel-default text-center">
                 <div class="panel-heading">
                     <span class="fa-stack fa-5x">
@@ -111,7 +111,7 @@ summary: Explains the rationale behind the Chenile framework.
         <div class="col-lg-12">
 
             <ul id="myTab" class="nav nav-tabs nav-justified">
-                <li class="active"><a href="#basics" data-toggle="tab"><i class="fa fa-question"></i> The Why</a>
+                <li class="active"><a href="#basics" data-toggle="tab"><i class="fa fa-question"></i>Basics</a>
                 </li>
                 <li class=""><a href="#who" data-toggle="tab"><i class="fa fa-user"></i> Who can use?</a>
                 </li>
@@ -139,7 +139,6 @@ summary: Explains the rationale behind the Chenile framework.
                     <li>Enable internationalization from day One</li>
                     <li>Design message formats, generic responses, exception handling etc.</li>
                     <li>Design the structure of code repositories, devOps and build practices etc.</li>
-                    <li>
                     </ol></p>
                     <p>Best of all Chenile ships with a code generator that generates code that complies to these blue prints. This code can give you a huge jumpstart.</p>
                 </div>
@@ -161,13 +160,13 @@ summary: Explains the rationale behind the Chenile framework.
                 </div>
                 <div class="tab-pane fade" id="extensible">
                     <h4>Extensible</h4>
-                    <p>We love SOLID principles. We expatiate at length on these principles and develop our code in accordance to these principles. The framework is built to be extensible. It is possible to change the request processing of Chenile. It is trivial to write new blue prints and integrate with chenile. The code generator can be customized to generate code compliant to these blue prints. </p>
+                    <p>Chenile encourages customization. An org can override any part of Chenile for its specific needs. Chenile provides multiple extension points - at the org level, at the service level and even at the service method (operation) level.</p>
+                    <p>We love SOLID principles. The framework is built to be extensible. Every part of Chenile is designed to be extensible. It is possible to change the request processing of Chenile. It is trivial to write new blue prints and integrate with chenile. The code generator can be customized to generate code compliant to these blue prints. </p>
                     <p>Thr Chenile Interceptor Framework can be customized to your organization and even at the service or operation level!</p>
                     <p>Chenile also ships with configurable options for most of its features. These can be used to extend the framework and customize the services. </p>
                 </div>
                 <div class="tab-pane fade" id="pipeline">
                     <h4>Lightweight Request Processing Pipeline</h4>
-                     <p>Chenile makes it possible to add horizontal concerns seamlessly across transports (like HTTP, Kafka etc.). We did not want to write specific code that is protocol specific.</p>
                     <p>Chenile started out as a light-weight alternative to a SEDA pipeline implementation that runs within the same JVM. The idea was to provide an ability to do last-mile interception. This de-couples horizontal concerns from functionality. Last mile interception allows orgs to push a lot of customization into services without needing to invest in expensive customization in the API Gateway layer. Chenile recommends API Gateway as an excellent upstream interception layer before the services. However, it is hard to customize API Gateways. Certain concerns such as transformation must be handled close to the services and therefore make an excellent concern that could be implemented in the last mile.</p>
                     <p>We wanted to make this last-mile interception work in a transport agnostic manner i.e. it should work across HTTP, KAFKA, message queues etc. By doing so, we wanted to re-use the pipeline across transports.</p>
                     <p>Chenile ships with interceptors that could implement important horizontal concerns such as transformation, caching, exception handling etc. </p>
@@ -178,7 +177,7 @@ summary: Explains the rationale behind the Chenile framework.
             <div class="tab-pane fade" id="workflow">
                     <h4>Chenile State Machine</h4>
                      <p>Chenile supports a state machine to automate workflows and event sourcing</p>
-                     <p>State machines can be attached to <i>stateful entities</i> i.e. entities that contain a state field. The state field determines what actions are applicable to these entities.It is possible to store additional metadata for the state. This can be used in the program. </p>
+                     <p>State machines can be attached to <i>stateful entities</i> i.e. entities that contain a state field. The state field determines what events (which often translate into UI actions) are applicable to these entities in that state.It is possible to store additional metadata for the state. This can be used in the program. </p>
                      <p>For example, an order can transition from an Opened to "In Process" to "Fulfilled" to "Closed" states. As it marches through these states, the order can be mutated in interesting ways using "events". These events depend on the state of the order. Upon receipt of an event, the order can transition to another state or stay in the same state. </p>
                      <p>The Chenile state transition machine (STM) allows these states and transitions to be configured externally using a State Transition Diagram (STD). A workflow engine navigates through the STD and calls registered handlers for every event that occurs to the state entity. In the Order example, the STM calls appropriate handlers when the order transitions from the Opened to the the "In Process" state for example.</p>
                      <p>The STM supports event sourcing as well.<p>
