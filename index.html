@@ -66,8 +66,38 @@ summary: Explains the rationale behind the Chenile framework.
                 </div>
                 <div class="panel-body">
                     <h4>Extensible</h4>
-                    <p>Chenile can be customized to your organization. It can be extended in multiple ways.</p>
+                    <p>Chenile encourages customization. Your org can override any part of Chenile to take care of its specific needs. Chenile provides multiple extension points - at the org level, at the service level and even at the service method (operation) level.</p>
                     <a href="#extensible" class="btn btn-primary">Learn More</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <div class="panel panel-default text-center">
+                <div class="panel-heading">
+                    <span class="fa-stack fa-5x">
+                          <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                          <i class="fa fa-xmarks-lines fa-stack-1x fa-inverse"></i>
+                    </span>
+                </div>
+                <div class="panel-body">
+                    <h4>Request Pipeline</h4>
+                    <p>Chenile uses a message context and standardizes request processing using a light-weight processing pipeline.</p>
+                    <a href="#pipeline" class="btn btn-primary">Learn More</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <div class="panel panel-default text-center">
+                <div class="panel-heading">
+                    <span class="fa-stack fa-5x">
+                          <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                          <i class="fa fa-arrows-split-up-and-left fa-stack-1x fa-inverse"></i>
+                    </span>
+                </div>
+                <div class="panel-body">
+                    <h4>Workflows</h4>
+                    <p>Chenile supports workflow and event sourcing for entities.</p>
+                    <a href="#workflow" class="btn btn-primary">Learn More</a>
                 </div>
             </div>
         </div>
@@ -89,37 +119,71 @@ summary: Explains the rationale behind the Chenile framework.
                 </li>
                 <li class=""><a href="#extensible" data-toggle="tab"><i class="fa fa-plug"></i>Extensibility</a>
                 </li>
+                <li class=""><a href="#pipeline" data-toggle="tab"><i class="fa fa-xmarks-lines"></i>Pipeline</a>
+                </li>
+                <li class=""><a href="#workflow" data-toggle="tab"><i class="fa fa-arrows-split-up-and-left"></i>Workflow</a>
+                </li>
             </ul>
 
             <div id="myTabContent" class="tab-content">
                 <div class="tab-pane fade active in" id="basics">
                     <h4>Basics</h4>
-                    <p>Chenile is a Microservices development framework in Java. It generates code and contains important libraries that aid in software development. </p>
-                    <p>Chenile was conceived when we felt the need to add horizontal services seamlessly across transports (like HTTP, Kafka etc.). We did not want to write specific code that is protocol specific. So we wrote an interception framework that allows programmers to write code without worrying about other horizontal concerns.  </p>
-                    <p> Over time it has evolved to become much more than that. Chenile has a collection of patterns, blue prints, testing strategies and some best practices. </p>
-                    <p>Chenile standardizes the frameworks that needs to be used. It also standardizes the correct tech stack with the currently supported versions of the code. So that you can focus on writing services without thinking about these things</p>
+                    <p>Chenile is a Microservices development framework that is built in Java using Spring Boot. Chenile helps to build micro services faster using best practices. It enables developers to focus on functionality.</p>
+                    <p>Chenile separates the developers from architects. It allows architects to focus on central concerns such as:
+                    <ol>
+                    <li>Standardization - standardize tech stacks (both the framework and the version to be used)</li>
+                    <li>Enforcing modular development</li>
+                    <li>De-couple horizontal concerns from functionality</li>
+                    <li>Design test harnesses to enable extensive testing</li>
+                    <li>Enable automatic logging and observability</li>
+                    <li>Enable internationalization from day One</li>
+                    <li>Design message formats, generic responses, exception handling etc.</li>
+                    <li>Design the structure of code repositories, devOps and build practices etc.</li>
+                    <li>
+                    </ol></p>
+                    <p>Best of all Chenile ships with a code generator that generates code that complies to these blue prints. This code can give you a huge jumpstart.</p>
                 </div>
                 <div class="tab-pane fade" id="who">
                     <h4>Who ?</h4>
-                    <p>Are you an early stage startup who wants to focus on developing industrial strength services using well established patterns without bothering to find the optimal tech stack or browsing through reams of documentation? If yes, Chenile can help you there</p>
-                    <p>Are you a Spring Boot developer who is confused as to how to choose from and integrate into the myriads of frameworks that are available? Chenile can recommend specific frameworks and tell you to integrate them into your application. It generates stub code that you can enhance later.</p>
-                    <p>Are you a big enterprise who finds it hard to standardize? Chenile can help you with that. Also see the customization and extensibility part for more details. </p>
-                    <p> Are you a software developer who would ideally like to leverage multi-module maven builds? Chenile has you covered!</p>
+                    <p>Are you an early stage startup who wants to focus on developing industrial strength services using well established patterns without wasting time to research on the optimal tech stack or browsing through reams of documentation? If yes, Chenile can help you there</p>
+                    <p>Are you a Spring Boot developer who is able to write code but struggle with best practices? Chenile can recommend specific frameworks and tell you to integrate them into your application. It generates stub code that you can use to write your functionality.</p>
+                    <p>Are you a big enterprise who finds it hard to standardize the tech stack or patterns? Chenile can help you with that. Chenile can be completely customized as well which makes it a great framework to build all standardization efforts. </p>
+                    <p> Are you a software developer who would like to leverage multi-module maven builds? Chenile has you covered!</p>
                     <p></p>
                 </div>
                 <div class="tab-pane fade" id="patterns">
                     <h4>Patterns & Blue Prints</h4>
+                    <p>Chenile encapsulates our learning from multiple projects from many years. It distills this knowledge into established patterns. We wrote supporting code to allow developers to implement these patterns. We wrote code generators that create stubs that developers can then use to implement functionality. By using Chenile documentation, libraries, patterns and code generators, developers can produce industrial strength code on day one. Not on day 180! </p>
+                    <p>Chenile is first and foremost an accelerator to design a complete micro services ecosystem.</p>
                     <p>Interested in developing Moduliths? Chenile has its own pattern for developing robust moduliths.</p>
-                    <p>Like CQRS but confused about how to use it? Chenile has its own blue print to develop modulith services using the CQRS pattern.</p>
-                    <p>Best of all Chenile ships with a code generator that generates code that complies to these blue prints. This code can give a huge jumpstart.</p>
+                    <p>Do you want to use CQRS? Chenile has its own blue print to develop modulith services using the CQRS pattern.</p>
                     <p>Our workflow , query and interceptor blue prints are easy to understand and ship with documentation. These are generated by the code generator</p> 
                 </div>
                 <div class="tab-pane fade" id="extensible">
                     <h4>Extensible</h4>
-                    <p>Chenile is SOLID compliant. The framework is built to be extensible. It is trivial to write new blue prints and integrate with chenile. The code generator can be customized to generate code compliant to these blue prints. </p>
-                    <p>Implementing horizontal concerns in the last mile is a killer feature with Chenile. Interceptors can be introduced before services are invoked. These can be customized to your organization and even at the service or operation level!</p>
+                    <p>We love SOLID principles. We expatiate at length on these principles and develop our code in accordance to these principles. The framework is built to be extensible. It is possible to change the request processing of Chenile. It is trivial to write new blue prints and integrate with chenile. The code generator can be customized to generate code compliant to these blue prints. </p>
+                    <p>Thr Chenile Interceptor Framework can be customized to your organization and even at the service or operation level!</p>
                     <p>Chenile also ships with configurable options for most of its features. These can be used to extend the framework and customize the services. </p>
                 </div>
+                <div class="tab-pane fade" id="pipeline">
+                    <h4>Lightweight Request Processing Pipeline</h4>
+                     <p>Chenile makes it possible to add horizontal concerns seamlessly across transports (like HTTP, Kafka etc.). We did not want to write specific code that is protocol specific.</p>
+                    <p>Chenile started out as a light-weight alternative to a SEDA pipeline implementation that runs within the same JVM. The idea was to provide an ability to do last-mile interception. This de-couples horizontal concerns from functionality. Last mile interception allows orgs to push a lot of customization into services without needing to invest in expensive customization in the API Gateway layer. Chenile recommends API Gateway as an excellent upstream interception layer before the services. However, it is hard to customize API Gateways. Certain concerns such as transformation must be handled close to the services and therefore make an excellent concern that could be implemented in the last mile.</p>
+                    <p>We wanted to make this last-mile interception work in a transport agnostic manner i.e. it should work across HTTP, KAFKA, message queues etc. By doing so, we wanted to re-use the pipeline across transports.</p>
+                    <p>Chenile ships with interceptors that could implement important horizontal concerns such as transformation, caching, exception handling etc. </p>
+                    <p>The pipeline code is super extensible. Chenile supports a Domain Specific Language (DSL) to customize the pipeline. </p>
+                    <p>Chenile also supports its own super-flexible exchange object. It also introduces a Generic Response object that could communicate errors, warnings etc. back from the service layer </p>
+                    <p>See <a href="/chenile-request-processing.html">for more information about request processing.</a></p>
+            </div>
+            <div class="tab-pane fade" id="workflow">
+                    <h4>Chenile State Machine</h4>
+                     <p>Chenile supports a state machine to automate workflows and event sourcing</p>
+                     <p>State machines can be attached to <i>stateful entities</i> i.e. entities that contain a state field. The state field determines what actions are applicable to these entities.It is possible to store additional metadata for the state. This can be used in the program. </p>
+                     <p>For example, an order can transition from an Opened to "In Process" to "Fulfilled" to "Closed" states. As it marches through these states, the order can be mutated in interesting ways using "events". These events depend on the state of the order. Upon receipt of an event, the order can transition to another state or stay in the same state. </p>
+                     <p>The Chenile state transition machine (STM) allows these states and transitions to be configured externally using a State Transition Diagram (STD). A workflow engine navigates through the STD and calls registered handlers for every event that occurs to the state entity. In the Order example, the STM calls appropriate handlers when the order transitions from the Opened to the the "In Process" state for example.</p>
+                     <p>The STM supports event sourcing as well.<p>
+                    <p>See <a href='/chenile-stm.html'>state transition machine</a> for more information.</p>
+
             </div>
 
         </div>
