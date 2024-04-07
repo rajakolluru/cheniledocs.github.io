@@ -7,8 +7,6 @@ permalink: /why-chenile.html
 summary: Why Chenile? We discuss the rationale here for a framework and how Chenile can help.
 ---
 
-{% include note.html content="An introduction to Chenile. Want to use it write away? Go to <a href='app-gen-landing-page.html'>set up page</a>" %}
-
 # Motivation 
 Micro services have become the prevalent paradigm for development. We could create autonomous teams with segmented responsibilities. Each team knows its respective domain and builds services in them. All the teams collaborate to create an ecosystem that can accomplish complex tasks with aplomb. 
 
@@ -31,21 +29,23 @@ Look at the autonomy pyramid shown below:
 
 ![Autonomy vs. Cohesion Balance](images/chenile/autonomy.png)
 
-As we see, the greater the concerns that are independent, the more autonomous the BCs become! But greater autonomy also decreases cohesion and the potential for reuse. We advocate a good amount of autonomy but discourage the type of autonomy that decreases governance (which in turn is counter productive for cohesion). Our recommendations are shown in the diagram. The reasons are given below:
+As we see, the greater the concerns that are independent, the more autonomous the BCs become! But greater autonomy also decreases cohesion and the potential for reuse. We advocate a good amount of autonomy but discourage the type of autonomy that decreases governance (which in turn is counter productive for cohesion). Our recommendations and reasons are tabulated below:
 
 | S. No. | Feature  | Our recommendation | Justification | How does Chenile help? |
 |--------|--------|-----------------------------------|------------------------|
-| 1|Backlog | Y | A healthy independent backlog is vital for autonomy | Chenile helps in building features independently |
-| 2|Codebase | Y | Code must be modular and autonomous. Yet it must expose the correct interfaces for others to consume| Chenile generator generates code that complies to Dependency Inversion Principle.|
-| 3|Database | Y | Databases must evolve independently. Yet they should expose "aggregates" as recommended by DDD for others to consume | Chenile recommends to use Java JPA and Mybatis. Please see the section about the usage of the CQRS pattern (Command Query Responsibility Separation) |
-| 4|Validation | Y | It should be possible to validate code independent of other groups. Else it becomes too hard to evolve autonomously | Chenile generates an entire test harness based on Spring MVC and Cucumber for BDD. |
+| 1|Backlog | Yes | A healthy independent backlog is vital for autonomy | Chenile helps in building features independently |
+| 2|Codebase | Yes | Code must be modular and autonomous. Yet it must expose the correct interfaces for others to consume| Chenile generator generates code that complies to Dependency Inversion Principle.|
+| 3|Database | Yes | Databases must evolve independently. Yet they should expose "aggregates" as recommended by DDD for others to consume | Chenile recommends to use Java JPA and Mybatis. Please see the section about the usage of the CQRS pattern (Command Query Responsibility Separation) |
+| 4|Validation | Yes | It should be possible to validate code independent of other groups. Else it becomes too hard to evolve autonomously | Chenile generates an entire test harness based on Spring MVC and Cucumber for BDD. |
 | 5|Deployment | To an extent | Deployment autonomy is often overhyped. It causes more harm than good. It is a good idea to pack together a bunch of services and deploy them together. However, every micro service must not be independently deployed. It increase the complexity for observability and deployment| Chenile advocates the Mini Monolith pattern which is discussed below |
-| 6|Architecture / Tech Stack | N | In general, Architectural and Tech Stack divergence increases complexity and decreases the ability to standardize and reuse software | Chenile provides common libraries and tech stack standardization by having a common Maven POM. | 
+| 6|Architecture / Tech Stack | No | In general, Architectural and Tech Stack divergence increases complexity and decreases the ability to standardize and reuse software | Chenile provides common libraries and tech stack standardization by having a common Maven POM. | 
 
 # Architectural / Tech Stack Standardization
+Chenile recommends that we have limited tech stacks with common architectural patterns. This vastly improves resource fungibility besides promoting reuse. 
+
 All Chenile services must be written as independent maven modules that are brought together in a package. These services will leverage a common parent pom which in turn inherits from (chenile-parent) which lastly inherits from the spring boot parent pom. Thus the entire tech stack is standardized and specified in one place. The correct versions must be defined at the parent pom level and not at the service level. 
 
-Chenile also standardizes the architecture and provides an interception framework that is common across all services. This is discussed in greater detail [in this section on last mile interception](last-mile-interception.html). 
+Chenile also standardizes the architecture by recommending specific architectural blue prints. Please look at the [design patterns](/design-patterns.html)for more information. and provides an interception framework that is common across all services. This is discussed in greater detail [in this section on last mile interception](last-mile-interception.html). We also advocate the CQRS pattern and 
 
 There are more details in the pages around the need for API Gateways, Service Registries etc. (TODO we will add these links soon in this page)
 
@@ -87,66 +87,6 @@ Code needs to be split into code modules. Each code module does a small slice of
 Further, there must be a distinction between Non functional requirements (NFR) and functionality. Functionality - such as User management , Order management etc. must be owned by different bounded contexts. But there must be other teams such as Architecture team, performance team etc, who own NFRs. NFRs are also implemented in a common way using Chenile interceptors that can then be integrated with the code execution pipeline. (see [this section on last mile interception](last-mile-interception.html). )
 
 Thus Chenile with its code generation capabilities and base modules provides a solid edifice to write Micro services. 
-
-# Other Benefits
-
-* Very often programmers write a ton of similar boiler plate code to achieve logging, monitoring, and a myriad of other horizontal concerns. They implement them by duplicating code rather than re-using it. This is because it is difficult to find a framework that incorporates them seamlessly. Even if it does so, it does not do it across all transports. It may be HTTP specific.
-
-* Concepts such as service registry often take a back seat. It is hard to find one single place where all the micro services are documented and could be "discovered". Chenile services register themselves into one common registry and hence we have an opportunity to create a common registry for all services. 
-
-* Design paradigms like modularization, dependency injection, testability, SOLID principles etc. very often take a back seat since programmers are busy solving functional problems. This lapse tends to manifest itself at a later stage leading to substantial re-writes
-
-* Standardization is another illusory pursuit. Many people use different open source frameworks. Sometimes, they use the same technology differently in the absence of an established standard. 
-
-* DevOps requires a lot of effort. This includes the time spent in writing build and deployment scripts, achieving versioning, achieving docker builds etc. Programmers tend to focus on these rather than spending time creating functionality.
-
-* Developers also spend a lot of time in exposing transports such as HTTP, writing JSON encoders and de-coders and stitching middleware with the services. 
-
-* Similarly concerns like circuit  breaking, rate limiting etc. tend to get de-prioritized. They are implemented as a kludge much later.
-
-* Developers also struggle with entities that have workflows. 
-
-* Very often, there is not much of a distinction between an architect role and a developer role. Application developers must concentrate on one important thing -  i.e. understand the domain and write application code. Architects must choose the frameworks, integrate them together, establish standards and write framework code.
-
-So, our idea was to build a RAD (Rapid Application Development) framework to get all developers immediately productive. The RAD must also establish standards, conventions and provide common services required throughout the estate.  
-
-# What does Chenile do?
-* Chenile is a fabric. You can use it to stitch Micro services. You can write services without worrying about transports, middlewares, horizontal services, transformations etc. Chenile allows these to seamlessly incorporated by framework architects whilst allowing developers to write functional code.
-* Chenile is a Java Library that contains framework code. But the framework code is just the tip of the iceberg.
-* Chenile comes bundled with a code generator that generates typical boiler plate code that conforms to a stereotype. (such as a HTTP over JSON Micro Service for example)
-* Chenile ships with its own workflow engine which acts like a State Transition Machine (STM). 
-* Chenile has an implementation of a Chain of responsibility. This provides a flexible command framework that allows a complex task to be decomposed into a chain of commands - each command implementing a slice of work. 
-*  Chenile comes with documentation that talks about coding principles and how to achieve these principles.
-*  Chenile ships with examples that contain a lot of example code.
-*  Chenile's code generator also creates Makefiles, Dockerfile etc.
-*  Chenile  identifies common usecases that can be solved - eg. developing microservices, creating 'mini-monoliths' (more on this later) etc. These use cases become Chenile stereotypes. Code generators help in generating code that conforms to these stereotypes
-* Chenile helps in the solution of horizontal concerns. It integrates with myriads of different frameworks that facilitate logging, auditing, i18n etc.
-* Chenile establishes standards and conventions that ease code development and maintenance.
-
-# This is all cool.. but doesn't Spring Boot already provide these ?
-We agree that Spring Boot is an awesome ecosystem. In fact, we like it so much that we built Chenile on top of Spring Boot!
-Spring Boot is not opinionated. This is good because it caters to different use cases. Chenile seeks to impose certain opinionated standards on Spring Boot development. These stadards cover a gamut of things - from simple naming conventions to recommending certain design paradigms to standardizing how Maven must be used etc.  
-
-These standards are automatically incorporated in Chenile Micro services if the Chenile code generator is used. 
-
-For example, it takes less than 5 minutes to generate a Spring Boot micro service that does the following:
-1. Have a multi module Maven project which separates development concerns from deployment and implements the Dependency inversion principle (DIP) of SOLID
-2. Supports multiple transports - HTTP being one of them
-3. Adheres to established naming conventions
-4. Generates Swagger docs and other files that allow us to document this service in a service registry
-5. Adheres to established ways of implementing a work flow
-6. Incorporates horizontal concerns seamlessly
-7. Uses standardized exception handling 
-8. emits a response in one standard format with provision to return exceptions, errors and warnings
-9. Uses international message bundles
-10. Implements test cases with a sophisticated Cucumber access and a standardized Gherkin language
-11. Facilitates versioning strategies and builds a CI/CD pipeline
-12. incorporates observability 
-and much much more.  
-
-This obviates the need for developers to wade through endless documentation, stack overflow pages and sift through multiple opinions. In short, you have more time to implement functionality without worrying about semantics, best practices etc. (which you will also eventually learn by looking at Chenile's documentation)
-
-In short, Chenile makes you productive on day one instead of waiting for months! 
 
 
 
