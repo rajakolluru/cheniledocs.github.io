@@ -28,8 +28,8 @@ entries:
       url: /index.html
       output: web,pdf
 
-    - title: Why Chenile
-      url: /why-chenile.html
+    - title: The Autonomy Pyramid
+      url: /the-autonomy-pyramid.html
       output: web, pdf
       type: homepage
      
