@@ -32,10 +32,6 @@ entries:
       url: /the-autonomy-pyramid.html
       output: web, pdf
       type: homepage
-     
-    - title: A Quick Intro
-      url: /chenile_intro.html
-      output: web, pdf
 
   - title: The Theory
     output: web,pdf
@@ -49,33 +45,37 @@ entries:
       output: web,pdf
       url: /chenile-usage-patterns.html
 
+  - title: Chenile Services
+    output: web,pdf
+    folderitems: 
+      
+    - title: Service Design
+      output: web,pdf
+      url: /chenile-service-design.html
+    
     - title: Service Policies
       output: web,pdf
       url: /chenile-service-policies.html
 
-    - title: Logical Architecture
-      output: web,pdf
-      url: /chenile-logical-architecture.html
+    - title: Local Service Registry
+      url: /local-service-registry.html
+      output: web, pdf
 
-    - title: In VM Mesh
-      output: web,pdf
-      url: /chenile-service-mesh.html
+    - title: Chenile Trajectories
+      url: /chenile-trajectories.html
+      output: web, pdf
 
-  - title: The Context & The Registry
+  - title: Service Context
     output: web, pdf
     folderitems:
   
-    - title: Context
+    - title: Chenile Exchange
       url: /chenile-exchange.html
       output: web, pdf
 
     - title: Chenile API Model
       url: /chenile-api-model.html
       output: web,pdf
-      
-    - title: Local Service Registry
-      url: /local-service-registry.html
-      output: web, pdf
    
   - title: The Interception Framework
     output: web, pdf

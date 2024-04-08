@@ -8,8 +8,16 @@ folder: chenile
 summary: Chenile Service Policies
 ---
 
-# Service Policies
+## Introduction to Service Policies
 A service gets deployed and exposed to other services using transports such as HTTP. At the time of exposing a service, the policies need to be defined. Polices can be company wide policies or org wide policies or can even exist at the level of individual services. Service level policies are especially useful for generic services that can be customized to do specific things by using configuration. 
+
+## Defining the Service Policies
+All service policies are defined at the time of registering a service into the service registry. Service Policies are defined as configuration information. Each policy section has a name 
+Service registry provides the policy configuration for all services. This configuration enables service policy implementation across different layers. 
+
+For example, the API Gateway can consult the service registry and implement authentication or authorization policies. The service registry allows for auto-discovery for routing to different services as well.
+
+The service registry can be distributed or even be local to the services. Local service registries allow the implementation of service policies in the last mile. This is the easiest way to implement a service registry. In the case of last mile interception, the service registry is a bunch of data structures (POJOs in the Java world) that contain the service policy configurations. These can be accessed by the interceptors in the last mile. The interceptors can then do something about implementing the policy using the configurations. 
 
 ## Where to implement Service policies?
 Service policies can be implemented in API Gateways, Service meshes or in the last mile.
@@ -47,12 +55,7 @@ Last mile interception can implement the following:
 3. Other org wide service policies that can apply for a bunch of related services.
 4. Service specific policies. 
 
-## Requirements from a Service Registry
-Service registry provides the policy configuration for all services. This configuration enables service policy implementation across different layers. 
 
-For example, the API Gateway can consult the service registry and implement authentication or authorization policies. The service registry allows for auto-discovery for routing to different services as well.
-
-The service registry can be distributed or even be local to the services. Local service registries allow the implementation of service policies in the last mile. This is the easiest way to implement a service registry. In the case of last mile interception, the service registry is a bunch of data structures (POJOs in the Java world) that contain the service policy configurations. These can be accessed by the interceptors in the last mile. The interceptors can then do something about implementing the policy using the configurations. 
 
 
 

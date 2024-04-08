@@ -8,7 +8,7 @@ folder: chenile
 summary: Chenile - Local Service Registry
 ---
 # Local Service Registry
-Local Service Registy contains the configurations for all the services and operations that are present in the deployable. 
+Local Service Registry contains the configurations for all the services and operations that are present in the mini monolith. 
 _Chenile_ stores local service registry in a local data structure called _ChenileConfiguration_. The local service registry allows us to de-couple service implementations from their configuration. The configuration provides the following information:
 1. Service Meta data: E.g., service name, operations that are supported by the service, the parameters that are accepted by the operation etc.
 2. Service Policies: This defines the policies that are applicable for the service/operation. Policies can also differ depending on the context of the invocation. E.g., it is possible to define an interceptor chain for a service/operation based on region, A-B testing trajectory etc. 
@@ -18,7 +18,7 @@ _Chenile_ stores local service registry in a local data structure called _Chenil
 Typically, there is a one to one mapping between services and their configuration. For example, a UserServiceImpl can map to a UserService configuration. However, in multi tenant systems, one configuration can map to multiple implementations. Hence Chenile provides a mechanism to capture service configuration distinct from the actual implementation. 
 
 ## Service Configuration Attributes 
-In the above configurations, we are defining a service that has multiple operations. Services are assumed to be instantiated in Spring. These configuration specify the name of the Spring Bean that needs to be called when the service is invoked. Some of the attributes are defined below:
+In the above configurations, we are defining a service that has multiple operations. Services are assumed to be instantiated in Spring as specified in [this article](/chenile-service-design.html). These configuration specify the name of the Spring Bean that needs to be called when the service is invoked. Some of the attributes are defined below:
 
 |Attribute|Specified where?|Description|
 |----------|-----------|---------------|
@@ -70,7 +70,8 @@ The following is an excerpt from chenile-http test case:
 _Chenile_ additionally supports Spring rest controllers to configure the services. Spring controllers use annotations to specify the mapping of a URL to an operation within a service. The standard Spring annotations are supported along with Chenile specific annotations. Here is an example from chenile-http test case:
 ```java
 @RestController
-@ChenileController(value = "JsonController", serviceName = "jsonService")
+@ChenileController(value = "JsonController", serviceName = "jsonService" ,
+    healthCheckerName = "JsonHealthChecker")
 public class JsonController extends ControllerSupport{
      @GetMapping("/c/getOne/{key}")
      @InterceptedBy("jsonInterceptor")
@@ -82,10 +83,5 @@ public class JsonController extends ControllerSupport{
 ```
 In this example, the annotation @ChenileController specifies that this controller is a Chenile Service configuration for service "JsonController". All controllers can extend a super class ControllerSupport and delegate to the process method to enable interception. The rest of the configuration is auto-populated using reflection and by accessing the Spring annotations. 
 
-
-
-### Chenile Trajectories
-Chenile supports the notion of a trajectory. A unique trajectory ID is assigned to a request where applicable to influence routing of the service to specific services. The header name _chenile-trajectory-id_ gets populated with the trajectory ID. Trajectories allow the service name to be over-ridden for specific requests. For example it is possible to specify that all users who are male 21 to 25 years are put into a particular test trajectory. This trajectory can have its own experimental implementation of the service. 
-For more information on trajectories, please see [service customizations](service-customizations)
 
 

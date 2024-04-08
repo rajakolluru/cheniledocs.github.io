@@ -51,34 +51,5 @@ In this implementation, Chenile does not play any role. The client either knows 
 * The client or the upstream system needs to be aware of every implementation of the service for all trajectories and then invoke the correct one. This logic can potentially be scattered across the enterprise.
 * This is not a modular implementation as it requires too much knowledge of all possible implementations. Hence removing an experimental trajectory _t1_ will require considerable amount of clean up. 
 
-## Different Service Implementation
-### The Strategy
-In this case, we desire to write a new implementation of the service say _UserServiceT1Impl_ that is applicable for this particular trajectory. _UserServiceT1Impl_ implements the same interface _UserService_. This service will be exposed using the same URL. All requests to trajectory _t1_ will be routed to the new service
-
-_UserServiceT1Impl_ can extend the default implementation _UserServiceImpl_. It is possible to write this implementation from scratch as well. 
-The entire logic is put into a new module that exists only for trajectory _t1_. 
-Contents of the module:
-```java
-  public class UserServiceT1Impl extends UserServiceImpl{
-    // custom code that extends the base class methods
-  }
-  import org.chenile.core.annotation.ConditionalOnTrajectory;
-  @Bean 
-  @ConditionalOnTrajectory(id = "t1",service = "userService") 
-  public UserService userServiceT1(){
-  	return new UserServiceT1Impl();
-  }
-
-```
-
-The ConditionalOnTrajectory annotation states that this bean definition replaces the _userService_ bean definition for trajectory _t1_. Chenile will check if the trajectory ID matches and will re-route all requests to this bean instead of _userService_. 
-### Advantages
-* Provides a modular way of customizing the service. The bean definition and instantiation is "discovered" only if the corresponding module is discovered. It is quite simple to get rid of this implementation by removing the module.
-
-## Customizing the interface
-Sometimes, the interface needs to be customized for a specific trajectory. For example, UserService might have to
-accept additional information for trajectory _t1_. It might have to also return additional information. Let us take a new subclass of _User_ called _T1User_. 
-
-The _UserService_ is still valid since _T1User_ can be accepted and returned in lieu of _User_. However, transformations can get tricky! The _T1User_ class needs to be created in lieu of _User_ from JSON. Chenile helps this out using the "bodyClass" abstraction which is discussed in [Chenile Transformation Framework](transform)
 
 
