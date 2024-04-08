@@ -3,7 +3,7 @@
 entries:
 - title: Sidebar
   levels: one
-  folders:
+  folderitems:
 
   - title: Documentation
     output: web
