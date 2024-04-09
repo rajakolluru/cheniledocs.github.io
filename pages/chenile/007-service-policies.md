@@ -9,15 +9,18 @@ summary: Chenile Service Policies
 ---
 
 ## Introduction to Service Policies
-A service gets deployed and exposed to other services using transports such as HTTP. At the time of exposing a service, the policies need to be defined. Polices can be company wide policies or org wide policies or can even exist at the level of individual services. Service level policies are especially useful for generic services that can be customized to do specific things by using configuration. 
+A service gets deployed and exposed to other services using transports such as HTTP. At the time of exposing a service, the policies need to be defined. Chenile ships with certain default policies for all its services. These can be over-ridden for a particular instance of Chenile. It can also be augmented at the company level or org level (within a company) or even  at the level of individual services or operations. Service level policies are especially useful for generic services that can be customized to do specific things by using configuration. 
 
 ## Defining the Service Policies
-All service policies are defined at the time of registering a service into the service registry. Service Policies are defined as configuration information. Each policy section has a name 
-Service registry provides the policy configuration for all services. This configuration enables service policy implementation across different layers. 
+All service policies are defined at the time of registering a service into the service registry. Remember, it is not configured at the service bean level but at the service level. This means that there can be two services that use the same bean. This makes the services powerful. 
+
+Service Policies are defined as configuration information. Each policy section has a name and specific configuration for a particular policy. E.g., Let us say we have a policy called Authorization that ensures that the user has the necessary permissions to invoke a particular service. This will work across all services but the permission to check needs to be configured at the service or operation level because the perms will change from service to service or can even vary at the operation level. I might need CREATE-ORDER permission to be able to call the OrderService.create() operation.
+
+Chenile ships with its own INVM service registry. An external service registry provides the policy configuration for all services in the enterprise. This can make the service configuration accessible throughout the enterprise. 
 
 For example, the API Gateway can consult the service registry and implement authentication or authorization policies. The service registry allows for auto-discovery for routing to different services as well.
 
-The service registry can be distributed or even be local to the services. Local service registries allow the implementation of service policies in the last mile. This is the easiest way to implement a service registry. In the case of last mile interception, the service registry is a bunch of data structures (POJOs in the Java world) that contain the service policy configurations. These can be accessed by the interceptors in the last mile. The interceptors can then do something about implementing the policy using the configurations. 
+Local service registries allow the implementation of service policies in the last mile. This is the easiest way to implement a service policy. In the case of last mile interception, the service registry is a bunch of data structures (POJOs in the Java world) that contain the service policy configurations. These can be accessed by the interceptors in the last mile. The interceptors can then do something about implementing the policy using the configurations. 
 
 ## Where to implement Service policies?
 Service policies can be implemented in API Gateways, Service meshes or in the last mile.

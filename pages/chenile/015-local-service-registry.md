@@ -12,13 +12,13 @@ Local Service Registry contains the configurations for all the services and oper
 _Chenile_ stores local service registry in a local data structure called _ChenileConfiguration_. The local service registry allows us to de-couple service implementations from their configuration. The configuration provides the following information:
 1. Service Meta data: E.g., service name, operations that are supported by the service, the parameters that are accepted by the operation etc.
 2. Service Policies: This defines the policies that are applicable for the service/operation. Policies can also differ depending on the context of the invocation. E.g., it is possible to define an interceptor chain for a service/operation based on region, A-B testing trajectory etc. 
-3. Service Policies: Chenile Service configuration is extensible. It allows new policies to be defined in a flexible fashion without making changes to the chenile core code that maintains the service registry.
+3. Service Policies' Configuration: Chenile Service policy configuration is extensible. It allows new policies to be defined in a flexible fashion without making changes to the chenile core code that maintains the service registry.
 
 ## Specifying Service Configuration
-Typically, there is a one to one mapping between services and their configuration. For example, a UserServiceImpl can map to a UserService configuration. However, in multi tenant systems, one configuration can map to multiple implementations. Hence Chenile provides a mechanism to capture service configuration distinct from the actual implementation. 
+Typically, there is a one to one mapping between services and their configuration. For example, a UserServiceImpl can map to a UserService configuration. However, in multi tenant systems, one configuration can map to multiple implementations. Hence Chenile provides a mechanism to capture service configuration distinct from the actual implementation. It is also possible that the same impl can map to multiple services. For example, the Chenile workflow service module uses a service called StateEntityWorkflowImpl that can be used by all workflow entities. This is because the service can behave differently in accordance to the state transition diagram that is fed to it. 
 
 ## Service Configuration Attributes 
-In the above configurations, we are defining a service that has multiple operations. Services are assumed to be instantiated in Spring as specified in [this article](/chenile-service-design.html). These configuration specify the name of the Spring Bean that needs to be called when the service is invoked. Some of the attributes are defined below:
+We can define a service with multiple operations. Services are assumed to be instantiated in Spring as specified in [this article](/chenile-service-design.html). These configuration specify the name of the Spring Bean that needs to be called when the service is invoked. Some of the attributes are defined below:
 
 |Attribute|Specified where?|Description|
 |----------|-----------|---------------|
@@ -81,7 +81,7 @@ public class JsonController extends ControllerSupport{
     }
 
 ```
-In this example, the annotation @ChenileController specifies that this controller is a Chenile Service configuration for service "JsonController". All controllers can extend a super class ControllerSupport and delegate to the process method to enable interception. The rest of the configuration is auto-populated using reflection and by accessing the Spring annotations. 
+In this example, the annotation @ChenileController specifies that this controller is a Chenile Service configuration for service "JsonController". All controllers can extend a super class ControllerSupport and delegate to the process method to enable interception. The rest of the configuration is auto-populated using reflection and by accessing the Spring annotations. Note also that the above configuration adds an operation specific interceptor called "jsonInterceptor" for the getOne() operation of the JsonController service. 
 
 
 

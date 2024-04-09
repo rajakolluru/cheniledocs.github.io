@@ -33,7 +33,7 @@ entries:
       output: web, pdf
       type: homepage
 
-  - title: The Theory
+  - title: Design
     output: web,pdf
     folderitems: 
       
