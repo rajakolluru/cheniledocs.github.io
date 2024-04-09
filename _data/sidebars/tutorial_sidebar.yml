@@ -48,6 +48,10 @@ entries:
       output: web,pdf
       url: /chenile-generating-minimonolith.html
 
+    - title: Trajectory Overrides
+      output: web,pdf
+      url: /chenile-trajectories-tutorial.html
+
   - title: Testing & Devops
     output: web, pdf
     folderitems:
