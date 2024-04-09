@@ -125,7 +125,7 @@ public class S1T1ServiceImpl extends S1ServiceImpl{
 }
 {% endhighlight %}
 Note that there is no value gained above by extending the class. We could have just implemented the S1Service directly and write the whole code from scratch. Anyways, we are now throwing a new error 1235 which is applicable only on t1 trajectory. We will define a resource bundle for trajectory t1 in this code module as follows:
-% highlight properties %}
+{% highlight properties %}
 E1235=ID with value {0} is illegal
 {% endhighlight %}
 
