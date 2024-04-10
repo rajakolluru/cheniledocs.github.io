@@ -13,13 +13,13 @@ summary: Chenile - Request Processing
 ![Request Processing Pipeline](/images/chenile/request-processing.png "Request Processing Pipeline")
 
 ## Introduction
-Every service is a combination of functional and non functional requirements. Typically, functional requirements are implemented using a service class. The service class must implement the business logic for the service which is basically functional requirements. More specifically, the service class implements the business logic in a particular operation (or in Java terms a method). 
+Every service is a combination of functional and non functional requirements. Typically, functional requirements are implemented using a service class.  More specifically, the service class implements the business logic in a particular operation (or in Java terms a method). 
 
 ## Service Policies
 Non functional requirements are commonly referred to as service policies. The service class must not be bothered about service policies. This recommendation is in accordance with the Single Responsibility Principle (SRP) which stipulates that every class must have only one functionality. 
 
 ### Where are service policies implemented?
-Service policies can be implemented at any of the upstream API gateways (including TORBIT or API Proxy) or at the actual service level. Chenile provides a last mile interception at the service level. This is available in addition to all the upstream service policies that the incoming request comes through. For an overview of Last mile interception please see [this page](last-mile-interception)
+Service policies can be implemented at any of the upstream API gateways or at the actual service level. Chenile provides a last mile interception at the service level. This is available in addition to all the upstream service policies that the incoming request comes through. For an overview of Last mile interception please see [this page](last-mile-interception)
 
 ## Service Pipeline
 Chenile implements last mile interception using a service pipeline. Service interceptors are lined up along the pipeline. Each of the interceptor must implement a service policy. Policies related to logging, security, transformations, caching etc. get progressively implemented in the pipeline. The last interceptor will invoke the service class. The pipeline is a two-way street. All the policies are invoked on the way back as well. 
@@ -78,5 +78,23 @@ These processort will be applied for every operation exposed by the service i.e.
 
 ### ServiceInvoker
 This processor actually invokes the service. The service that needs to be invoked has already been identified by the Service Reference chooser above. 
+
+## Interceptor Chain
+Chenile uses an OWIZ based interception framework to configure the service and interceptors that need to be applied.
+
+## Controller - Service Separation
+The service class must be separated from the controller. Controllers provide the entry point for all requests. Spring provides a controller that supports HTTP end points. A URL is mapped to the operation within a controller using standard Spring post annotations such as @GetMapping, @PostMapping etc. 
+
+Chenile provides two ways to configure the Spring processing pipeline:
+1. Use a Spring controller to configure the entry point for HTTP requests. Use standard Spring annotations to configure the controller. Add additional Chenile annotations to configure policies for the service.
+2. Use a JSON to completely configure the service end to end. Let Chenile provide the controller to intercept all HTTP requests. 
+
+## Chenile Entry Point
+Ultimately, all requests converge to a common internal entry point called Chenile Entry Point. From this point onwards, Chenile provides a Chenile Highway with all the interceptors and the service woven into it. The entire request context is put into a [Chenile Exchange object](exchange). 
+
+## Chenile Interceptor
+Each interceptor in the Chenile Highway must extend from ChenileInterceptorBase. This class provides convenience methods to perform pre or post processing. It also contains methods that allow the interceptor to be bypassed in case the request does not have to be intercepted. The exchange provides access to the entire configuration for the service. ChenileInterceptorBase has convenience methods that extract the configuration information from the exchange. 
+
+
 
 

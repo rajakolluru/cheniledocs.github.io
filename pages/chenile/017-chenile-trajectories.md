@@ -8,7 +8,7 @@ permalink: /chenile-trajectories.html
 folder: chenile
 summary: Chenile - Trajectories. What are they and why are they useful?
 ---
-{% include note.html content="Interested in a Trajectory tutorial for Chenile? Go to <a href='//chenile-trajectories-tutorial.html'>this tutorial page.</a>" %}
+{% include note.html content="Interested in a Trajectory tutorial for Chenile? Go to <a href='chenile-trajectories-tutorial.html'>this tutorial page.</a>" %}
 
 In Chenile, a trajectory is defined as a path that is taken for fulfilling a request. Trajectories are computed in one of the first interceptors. By default, the trajectory is null i.e. the request is not treated in a special way. If it is determined that the request needs to be treated specially, the trajectory is computed and inserted into the request as a special header called "x-trajectory". A trajectory is assigned only if a particular request needs to be treated differently. Else the trajectory ID will be null. 
 

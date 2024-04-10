@@ -89,10 +89,6 @@ entries:
       url: /chenile-request-processing.html
       output: web, pdf
 
-    - title: Interceptor Chain
-      url: /chenile-interceptor-chain.html
-      output: web, pdf
-
     - title: Error Handling
       url: /chenile-error-handling.html
       output: web, pdf

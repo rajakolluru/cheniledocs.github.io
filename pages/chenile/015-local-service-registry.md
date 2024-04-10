@@ -1,5 +1,5 @@
 ---
-title: Chenile In VM Service Mesh
+title: Local Service Registry
 keywords: chenile  servicemesh
 sidebar: chenile_sidebar
 toc: true
@@ -7,7 +7,6 @@ permalink: /local-service-registry.html
 folder: chenile
 summary: Chenile - Local Service Registry
 ---
-# Local Service Registry
 Local Service Registry contains the configurations for all the services and operations that are present in the mini monolith. 
 _Chenile_ stores local service registry in a local data structure called _ChenileConfiguration_. The local service registry allows us to de-couple service implementations from their configuration. The configuration provides the following information:
 1. Service Meta data: E.g., service name, operations that are supported by the service, the parameters that are accepted by the operation etc.

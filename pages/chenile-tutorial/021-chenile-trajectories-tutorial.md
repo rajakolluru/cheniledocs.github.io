@@ -2,7 +2,7 @@
 title: Chenile Trajectories Tutorial
 keywords: chenile  trajectories tutorial
 tags: chenile trajectories tutorial
-sidebar: chenile_sidebar
+sidebar: tutorial_sidebar
 toc: true
 permalink: /chenile-trajectories-tutorial.html
 folder: chenile

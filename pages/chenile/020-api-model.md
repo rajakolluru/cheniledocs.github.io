@@ -39,7 +39,7 @@ The return value that is exposed by the HTTP transport is defined by a class cal
 | Field  | Values | Comments |
 |--------|--------|----------|
 | success|true or false | Returns true if the request is successful (with or without warnings) false if there are errors. If success is false then data will be null and must be ignored |
-| errors | a list of ResponseMessage(s) (discussed below) | this gives a list of ResponseMessage objects with each one if them either representing an error or warning |
+| errors | a list of ResponseMessage(s) (discussed below) | this gives a list of ResponseMessage objects with each one of them either representing an error or warning |
 | data| return value from service or null if success is false| This field represents the return value from the service that is called. It can be ignored if success is false |
 | code | HTTPStatus code| Same as the HTTP status code that is returned by the API. In short, the payload of the response echoes the actual HTTP status code that was returned|
 
