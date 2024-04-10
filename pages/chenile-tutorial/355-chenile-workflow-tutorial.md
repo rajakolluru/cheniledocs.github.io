@@ -1,5 +1,5 @@
 ---
-title: Chenile Worfklow Blue Print - Tutorial
+title: Chenile Workflow Blue Print - Tutorial
 keywords: chenile  stm state-transition fsm finite-state tutorial
 sidebar: tutorial_sidebar
 toc: true
