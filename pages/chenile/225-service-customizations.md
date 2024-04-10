@@ -8,7 +8,7 @@ folder: chenile
 summary: Chenile - Customizations
 ---
 
-# Service Customizations
+## Service Customizations
 Chenile backend treats every request as belonging to a unique trajectory. There is a header that is typically called as "x-chenile-trajectory-id" that denotes the trajectory of a particular request. This can be null if there is no particular trajectory that is applicable i.e. the default implementation is used for this request. Requests to Chenile services can be assigned unique paths based on the trajectory ID. Trajectories need to be computed using custom interceptors. These interceptors can assign a unique trajectory to a request based on considerations such as request origin, user cohorts, country, regions etc. 
 
 Chenile backend allows multiple ways to customize a service per trajectory. These are discussed below in the context of a user service that needs to be customized for a trajectory _t1_ . The user service is exposed at URL _api.walmart.com/users_. Let us say that the user service is fronted by an interface called _UserService_ with a default implementation in class _UserServiceImpl_. In Spring, the user service impl is instantiated using a bean named _userservice_ 

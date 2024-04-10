@@ -7,8 +7,6 @@ permalink: /chenile-testing.html
 folder: chenile
 summary: Chenile - Testing
 ---
-
-# Chenile Testing Framework
 Chenile framework builds on top of the Chenile platform convention that stipulates the API signatures of Chenile services. The Chenile testing framework is powered by Spring Boot Mock MVC framework, Cucumber, Gherkin. 
 
 The testing framework does the following:
@@ -16,8 +14,8 @@ The testing framework does the following:
 2. Provides a ready made integration with Spring Mock MVC that allows people to test services from the outside including things like serialization, deserialization, service policies etc.
 3. Since Spring Mock MVC supports a scripting language, this framework provides a thin wrapper that allows people to write test cases using a standardized Gherkin syntax. 
 
-# Gherkin Syntax
-Chenile framework supports the following types of test syntax and structure:
+## Gherkin Syntax
+Chenile framework has developed its own Gherkin syntax. This supports scripting. Hence this can be used without the need to 
 
 ## Test Invocation
 ### POST / PUT 
