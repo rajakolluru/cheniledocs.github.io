@@ -72,11 +72,15 @@ entries:
       url: /chenile-writing-interceptor.html
       output: web, pdf
   
-  - title: OWIZ
+  - title: OWIZ & Workflow
     output: web,pdf
     folderitems:
     
     - title: OWIZ Tutorial
       url: /owiz-tut.html
+      output: web,pdf
+
+    - title: Workflow Tutorial
+      url: /chenile-workflow-tutorial.html
       output: web,pdf
        
