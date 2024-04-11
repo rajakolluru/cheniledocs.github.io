@@ -150,6 +150,10 @@ entries:
       url: /chenile-cqrs.html
       output: web, pdf
 
+    - title: Chenile Mybatis Query Service
+      url: /chenile-mybatis-query-service.html
+      output: web, pdf
+
 
       
 
