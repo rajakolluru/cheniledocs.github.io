@@ -73,10 +73,10 @@ defaults:
       type: "pages"
     values:
       layout: "page"
-      comments: false
+      comments: true
       # if you don't want to use Commento.io and just hide comments, change true to false wherever you see the comments property
       search: true
-      sidebar: home_sidebar
+      sidebar: chenile_sidebar
       topnav: topnav
   -
     scope:
@@ -102,6 +102,7 @@ defaults:
 # these are defaults used for the frontmatter for these file types
 
 sidebars:
+- chenile_sidebar
 - home_sidebar
 - mydoc_sidebar
 - product1_sidebar
