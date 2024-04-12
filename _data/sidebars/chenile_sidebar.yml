@@ -20,22 +20,22 @@ entries:
       output: pdf
       type: frontmatter
 
-  - title: Introduction
+  - title: Introduction & Design
     output: web, pdf
     folderitems:
 
     - title:  Overview - Index page
       url: /index.html
       output: web,pdf
+      type: homepage
 
     - title: The Autonomy Pyramid
       url: /the-autonomy-pyramid.html
       output: web, pdf
-      type: homepage
 
-  - title: Design
-    output: web,pdf
-    folderitems: 
+    - title: On Modulith Architecture
+      url: /on-modulith-architecture.html
+      output: web, pdf
       
     - title: Design Principles
       output: web,pdf
