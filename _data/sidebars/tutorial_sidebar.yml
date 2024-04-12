@@ -83,4 +83,12 @@ entries:
     - title: Workflow Tutorial
       url: /chenile-workflow-tutorial.html
       output: web,pdf
+
+  - title: Chenile Query
+    output: web,pdf
+    folderitems:
+    
+    - title: Mybatis Query
+      url: /chenile-mybatis-query-tutorial.html
+      output: web,pdf
        
