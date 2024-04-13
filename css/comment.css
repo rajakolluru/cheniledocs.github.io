@@ -4,6 +4,8 @@
  * https://github.com/primer/primitives/blob/main/LICENSE
  */
 main {
+  font-size:16px;
+  font-family: "Josefin Sans";
   --color-prettylights-syntax-comment: #768390;
   --color-prettylights-syntax-constant: #6cb6ff;
   --color-prettylights-syntax-entity: #dcbdfb;
