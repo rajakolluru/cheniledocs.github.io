@@ -3,7 +3,7 @@
  * Copyright (c) 2018 GitHub Inc.
  * https://github.com/primer/primitives/blob/main/LICENSE
  */
-.giscus {
+main {
   --color-prettylights-syntax-comment: #768390;
   --color-prettylights-syntax-constant: #6cb6ff;
   --color-prettylights-syntax-entity: #dcbdfb;
@@ -83,12 +83,12 @@
   --color-social-reaction-bg-hover: var(--color-scale-gray-7);
   --color-social-reaction-bg-reacted-hover: var(--color-scale-blue-8);
 }
-.giscus .pagination-loader-container {
+main .pagination-loader-container {
   background-image: url(https://github.com/images/modules/pulls/progressive-disclosure-line-dark.svg);
 }
 
 /*! Custom CSS */
-.giscus {
+main {
   color-scheme: dark;
 }
 .gsc-reactions-count {
