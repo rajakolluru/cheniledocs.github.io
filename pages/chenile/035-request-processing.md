@@ -52,7 +52,7 @@ The functionality of individual interceptors might vary from one service to the 
 ## Processor Sequencing
 Typically, processors are sequenced in this order
 
-![Default Interceptor Chain](/images/chenile/default-interceptor-chain.png)
+[![Default Interceptor Chain](/images/chenile/default-interceptor-chain.png)](/images/chenile/default-interceptor-chain.png)
 
 ### ErrorHandler
 Error handler must be the first interceptor. This will also make it the last interceptor for the purpose of post processing. Hence it would have the opportunity to handle all errors in one place. Chenile ships with its own error handler. This can be over-ridden at the mini monolith level in "chenile.properties" file. 
