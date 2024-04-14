@@ -3,10 +3,10 @@
  * Copyright (c) 2018 GitHub Inc.
  * https://github.com/primer/primitives/blob/main/LICENSE
  */
-main .gsc-comments{
-  background-color: black;
-  font-size: 16px;
-  font-family: "Josefin Sans";
+
+main {
+  font-size: "16px";
+  font-family: "Courier New";
   --color-prettylights-syntax-comment: #768390;
   --color-prettylights-syntax-constant: #6cb6ff;
   --color-prettylights-syntax-entity: #dcbdfb;
@@ -39,80 +39,95 @@ main .gsc-comments{
   --color-prettylights-syntax-constant-other-reference-link: #96d0ff;
   --color-btn-text: #adbac7;
   --color-btn-bg: #373e47;
-  --color-btn-border: rgba(205, 217, 229, 0.1);
+  --color-btn-border: rgb(205 217 229 / 10%);
   --color-btn-shadow: 0 0 transparent;
   --color-btn-inset-shadow: 0 0 transparent;
   --color-btn-hover-bg: #444c56;
   --color-btn-hover-border: #768390;
-  --color-btn-active-bg: #3d444d;
+  --color-btn-active-bg: hsl(213deg 12% 27% / 100%);
   --color-btn-active-border: #636e7b;
-  --color-btn-primary-text: hsl(var(--pc));
-  --color-btn-primary-bg: hsl(var(--p));
-  --color-btn-primary-border: transparent;
+  --color-btn-selected-bg: #2d333b;
+  --color-btn-primary-text: #fff;
+  --color-btn-primary-bg: #347d39;
+  --color-btn-primary-border: rgb(205 217 229 / 10%);
   --color-btn-primary-shadow: 0 0 transparent;
   --color-btn-primary-inset-shadow: 0 0 transparent;
-  --color-btn-primary-hover-bg: hsl(var(--pf));
-  --color-btn-primary-hover-border: transparent;
-  --color-btn-primary-selected-bg: hsl(var(--pf));
+  --color-btn-primary-hover-bg: #46954a;
+  --color-btn-primary-hover-border: rgb(205 217 229 / 10%);
+  --color-btn-primary-selected-bg: #347d39;
   --color-btn-primary-selected-shadow: 0 0 transparent;
-  --color-btn-primary-disabled-text: hsla(var(--pc), 0.5);
-  --color-btn-primary-disabled-bg: hsla(var(--p), 0.6);
-  --color-btn-primary-disabled-border: transparent;
-  --color-fg-default: hsl(var(--bc));
-  --color-fg-muted: hsla(var(--bc), 0.4);
-  --color-fg-subtle: hsla(var(--bc), 0.1);
-  --color-canvas-default: hsl(var(--b1));
-  --color-canvas-overlay: hsl(var(--b1));
-  --color-canvas-inset: hsl(var(--b2));
-  --color-canvas-subtle: hsl(var(--b2));
-  --color-border-default: hsl(var(--b3));
-  --color-border-muted: hsla(var(--b3), 0.4);
-  --color-neutral-muted: hsla(var(--n), 0.4);
-  --color-neutral-subtle: hsla(var(--n), 0.1);
-  --color-accent-fg: hsl(var(--a));
-  --color-accent-emphasis: hsl(var(--af));
-  --color-accent-muted: hsla(var(--a), 0.4);
-  --color-accent-subtle: hsla(var(--a), 0.15);
-  --color-success-fg: hsl(var(--su));
-  --color-danger-fg: hsl(var(--wa));
-  --color-primer-shadow-focus: 0 0 0 3px #143d79;
-  --color-scale-gray-7: hsl(var(--b1));
-  --color-scale-gray-8: hsl(var(--b2));
-  --color-scale-blue-8: hsl(var(--b3));
+  --color-btn-primary-disabled-text: rgb(205 217 229 / 50%);
+  --color-btn-primary-disabled-bg: rgb(52 125 57 / 60%);
+  --color-btn-primary-disabled-border: rgb(205 217 229 / 10%);
+  --color-action-list-item-default-hover-bg: rgb(144 157 171 / 12%);
+  --color-segmented-control-bg: rgb(99 110 123 / 10%);
+  --color-segmented-control-button-bg: #22272e;
+  --color-segmented-control-button-selected-border: #636e7b;
+  --color-fg-default: #adbac7;
+  --color-fg-muted: #768390;
+  --color-fg-subtle: #545d68;
+  --color-canvas-default: rgb(25 39 52);
+  --color-canvas-overlay: #161b22;
+  --color-canvas-inset: rgb(21 32 43 / 100%);
+  --color-canvas-subtle: rgb(37 51 65);
+  --color-border-default: #444c56;
+  --color-border-muted: #373e47;
+  --color-neutral-muted: rgb(99 110 123 / 40%);
+  --color-accent-fg: #539bf5;
+  --color-accent-emphasis: #316dca;
+  --color-accent-muted: rgb(65 132 228 / 40%);
+  --color-accent-subtle: rgb(56 139 253 / 10%);
+  --color-success-fg: #57ab5a;
+  --color-attention-fg: #c69026;
+  --color-attention-muted: rgb(174 124 20 / 40%);
+  --color-attention-subtle: rgb(174 124 20 / 15%);
+  --color-danger-fg: #e5534b;
+  --color-danger-muted: rgb(229 83 75 / 40%);
+  --color-danger-subtle: rgb(229 83 75 / 10%);
+  --color-primer-shadow-inset: 0 0 transparent;
+  --color-scale-gray-7: #373e47;
+  --color-scale-blue-8: #143d79;
 
   /*! Extensions from @primer/css/alerts/flash.scss */
-  --color-social-reaction-border: var(--color-scale-blue-8);
-  --color-social-reaction-bg: var(--color-scale-gray-8);
   --color-social-reaction-bg-hover: var(--color-scale-gray-7);
   --color-social-reaction-bg-reacted-hover: var(--color-scale-blue-8);
 }
+
 main .pagination-loader-container {
-  background-image: url(https://github.com/images/modules/pulls/progressive-disclosure-line-dark.svg);
+  background-image: url("https://github.com/images/modules/pulls/progressive-disclosure-line-dark.svg");
 }
 
 /*! Custom CSS */
-main {
-  color-scheme: dark;
-}
+
 .gsc-reactions-count {
   display: none;
 }
-.gsc-comments > .gsc-header {
-  order: 1;
-}
-.gsc-comments > .gsc-comment-box {
-  margin-bottom: 1rem;
-  order: 2;
-}
-.gsc-comments > .gsc-timeline {
-  order: 3;
-}
+
 .gsc-timeline {
   flex-direction: column-reverse;
 }
+
 .gsc-header {
   padding-bottom: 1rem;
 }
+
+.gsc-comments > .gsc-header {
+  order: 1;
+}
+
+.gsc-comments > .gsc-comment-box {
+  order: 2;
+  margin-bottom: 1rem;
+}
+
+.gsc-comments > .gsc-timeline {
+  order: 3;
+}
+
 .gsc-homepage-bg {
   background-color: #15202b;
+}
+
+main .gsc-loading-image {
+  background-image: url("https://github.githubassets.com/images/mona-loading-dimmed.gif");
 }
