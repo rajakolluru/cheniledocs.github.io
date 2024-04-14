@@ -74,7 +74,7 @@ These interceptors require the payload to be of the correct type.Post processors
 These processors provide additional processing for a particular operation. This processing is specific to the particular operation 
 
 ### Service Specific Processors
-These processort will be applied for every operation exposed by the service i.e. they are defined at the service level 
+These processors will be applied for every operation exposed by the service i.e. they are defined at the service level 
 
 ### ServiceInvoker
 This processor actually invokes the service. The service that needs to be invoked has already been identified by the Service Reference chooser above. 

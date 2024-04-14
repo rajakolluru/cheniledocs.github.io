@@ -1,7 +1,7 @@
 ---
 title: The Autonomy Conundrum
 keywords: homepage
-tags: [autonomy introduction modulith]
+tags: [autonomy introduction modulith chenile]
 sidebar: chenile_sidebar
 permalink: /the-autonomy-pyramid.html
 summary: We explain the Autonomy Pyramid. Then we talk about Chenile's recommendation 
