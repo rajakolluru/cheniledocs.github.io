@@ -3,10 +3,10 @@
  * Copyright (c) 2018 GitHub Inc.
  * https://github.com/primer/primitives/blob/main/LICENSE
  */
-
+@import url('https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap');
 main {
   font-size: "16px";
-  font-family: "Courier New";
+  font-family:"Josefin Sans";
   --color-prettylights-syntax-comment: #768390;
   --color-prettylights-syntax-constant: #6cb6ff;
   --color-prettylights-syntax-entity: #dcbdfb;
@@ -125,9 +125,10 @@ main .pagination-loader-container {
 }
 
 .gsc-homepage-bg {
-  background-color: #15202b;
+  background-color: #cccccc;
 }
 
 main .gsc-loading-image {
-  background-image: url("https://github.githubassets.com/images/mona-loading-dimmed.gif");
+  background-color: #e2e2e2;
+  /* background-image: url("https://github.githubassets.com/images/mona-loading-dimmed.gif"); */
 }
