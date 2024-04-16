@@ -19,7 +19,7 @@ public interface OrderService {
 
 The request navigates through interceptors before it reaches the OrderService as explained in the [request processing pipeline](/chenile-request-processing.html). The interceptors have full access to the context of the request since they accept a [Chenile Exchange](/chenile-exchange.html). 
 
-The service signature accepts only the Order object as shown above. Let us say the service invokes the DAO layer which needs to persist the Order. The DAO layer might want to store details about the request such as the User ID of the person who initiated the Order, the channel that was used to initiate the order, trajectory ID information etc. These fields are typically reside in the HTTP Header and are therefore not accessible to the OrderService and the DAO layer that it is calling. How do we solve this problem?
+The service signature accepts only the Order object as shown above. Let us say the service invokes the DAO layer which needs to persist the Order. The DAO layer might want to store details about the request such as the User ID of the person who initiated the Order, the channel that was used to initiate the order, trajectory ID information etc. These fields typically reside in the HTTP Header and are therefore not accessible to the OrderService and the DAO layer that it is calling. How do we solve this problem?
 
 One alternative is to accept the ChenileExchange everywhere thereby making the signature unweildy. So we need to rewrite the signature as follows:
 
