@@ -5,7 +5,7 @@
 }
 
 body, .panel-body{
-    background-color: #808000;
+    background-color: #777777;
     color: wheat;
 }
 blockquote{
@@ -28,15 +28,15 @@ h4 {color: coral; }
 }
 
 .nav > li.active > a {
-    background-color: #bbbb00;
+    background-color: #b2b2b2;
 }
 
 .nav > li > a:hover {
-    background-color: #bbbb00;
+    background-color: #b2b2b2;
 }
 
 div.navbar-collapse .dropdown-menu > li > a:hover {
-    background-color: #bbbb00;
+    background-color: #b2b2b2;
 }
 
 .navbar-inverse .navbar-nav>li>a, .navbar-inverse .navbar-brand {
@@ -49,23 +49,23 @@ div.navbar-collapse .dropdown-menu > li > a:hover {
 
 .nav li.thirdlevel > a {
     background-color: #FAFAFA !important;
-    color: #bbbb00;
+    color: #b2b2b2;
     font-weight: bold;
 }
 
 a[data-toggle="tooltip"] {
-    color: #bbbb00;
+    color: #b2b2b2;
     font-style: italic;
     cursor: default;
 }
 
 .navbar-inverse {
-    background-color: #bbbb00;
-    border-color: #bbbb00;
+    background-color: #b2b2b2;
+    border-color: #b2b2b2;
 }
 
 .navbar-inverse .navbar-nav > .open > a, .navbar-inverse .navbar-nav > .open > a:hover, .navbar-inverse .navbar-nav > .open > a:focus {
-    color: #bbbb00;
+    color: #b2b2b2;
 }
 
 .navbar-inverse .navbar-nav > .open > a, .navbar-inverse .navbar-nav > .open > a:hover, .navbar-inverse .navbar-nav > .open > a:focus {
@@ -75,13 +75,13 @@ a[data-toggle="tooltip"] {
 
 /* not sure if using this ...*/
 .navbar-inverse .navbar-collapse, .navbar-inverse .navbar-form {
-    border-color: #bbbb00 !important;
+    border-color: #b2b2b2 !important;
 }
 
 .btn-primary {
     color: #ffffff;
-    background-color: #bbbb00;
-    border-color: #bbbb00;
+    background-color: #b2b2b2;
+    border-color: #b2b2b2;
 }
 
 .btn-primary:hover,
@@ -89,12 +89,12 @@ a[data-toggle="tooltip"] {
 .btn-primary:active,
 .btn-primary.active,
 .open .dropdown-toggle.btn-primary {
-    background-color: #bbbb00;
-    border-color: #bbbb00;
+    background-color: #b2b2b2;
+    border-color: #b2b2b2;
 }
 
 .printTitle {
-    color: #bbbb00 !important;
+    color: #b2b2b2 !important;
 }
 
 body.print h1 {color: yellow !important; font-size:28px;}
@@ -103,7 +103,7 @@ body.print h3 {color: #E50E51 !important; font-size:14px;}
 body.print h4 {color: coral !important; font-size:14px; font-style: italic;}
 
 .anchorjs-link:hover {
-    color: #bbbb00;
+    color: #b2b2b2;
 }
 
 div.sidebarTitle {
