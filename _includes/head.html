@@ -15,12 +15,10 @@
 <link rel="stylesheet" href="css/customstyles.css">
 <link rel="stylesheet" href="css/boxshadowproperties.css">
 <!-- most color styles are extracted out to here -->
-<link rel="stylesheet" href="css/theme-dark-blue.css" media='none' id='dark-blue'>
-<link rel="stylesheet" href="css/theme-dark-blue-on-blue.css" media='none' id='dark-blue-blue'>
-<link rel="stylesheet" href="css/theme-dark-green.css" media='none' id='dark-green'>
+<link rel="stylesheet" href="css/theme-dark.css" media='none' id='dark'>
 <link rel="stylesheet" href="css/theme-green.css" media='none' id='green'>
 <link rel="stylesheet" href="css/theme-blue.css" media='' id='blue'>
-<link rel="stylesheet" href="css/theme-shipwreck.css" media='none' id='ship-wreck'>
+<link rel="stylesheet" href="css/theme-tannish.css" media='none' id='tannish'>
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -55,14 +53,8 @@ function storeCurrentTheme(s){
 
 function switchToCurrentTheme(){
     switch(localStorage.getItem("ChenileDocsTheme")){
-        case "Dark-Green":
-            setThemeDarkGreen();
-            break;
-        case "Dark-Blue":
-            setThemeDarkBlue();
-            break;
-        case "Dark-Blue-Blue":
-            setThemeDarkBlueOnBlue();
+        case "Dark":
+            setThemeDark();
             break;
         case "Light-Green":
             setThemeLightGreen();
@@ -70,69 +62,43 @@ function switchToCurrentTheme(){
         case "Light-Blue":
             setThemeLightBlue();
             break;
-        case "Ship-Wreck":
-            setThemeShipWreck();
+        case "Tannish":
+            setThemeTannish();
             break;
     }
 }
 
-function setThemeDarkGreen(){
-    document.getElementById('dark-blue').media='none'
-    document.getElementById('dark-blue-blue').media='none'
-    document.getElementById('dark-green').media=''
-    document.getElementById('green').media='none'
-    document.getElementById('blue').media='none'
-    document.getElementById('ship-wreck').media='none'
-    storeCurrentTheme("Dark-Green")
-}
 
-function setThemeDarkBlueOnBlue(){
-    document.getElementById('dark-blue').media='none'
-    document.getElementById('dark-blue-blue').media=''
-    document.getElementById('dark-green').media='none'
+function setThemeDark(){
+    document.getElementById('dark').media=''
     document.getElementById('green').media='none'
     document.getElementById('blue').media='none'
-    document.getElementById('ship-wreck').media='none'
-    storeCurrentTheme("Dark-Blue-Blue")
-}
-function setThemeDarkBlue(){
-    document.getElementById('dark-blue').media=''
-    document.getElementById('dark-blue-blue').media='none'
-    document.getElementById('dark-green').media='none'
-    document.getElementById('green').media='none'
-    document.getElementById('blue').media='none'
-    document.getElementById('ship-wreck').media='none'
-    storeCurrentTheme("Dark-Blue")
+    document.getElementById('tannish').media='none'
+    storeCurrentTheme("Dark")
 }
 
 function setThemeLightBlue(){
-    document.getElementById('dark-blue').media='none'
-    document.getElementById('dark-blue-blue').media='none'
-    document.getElementById('dark-green').media='none'
+    document.getElementById('dark').media='none'
     document.getElementById('green').media='none'
     document.getElementById('blue').media=''
-    document.getElementById('ship-wreck').media='none'
+    document.getElementById('tannish').media='none'
     storeCurrentTheme("Light-Blue")
 }
 
 function setThemeLightGreen(){
-    document.getElementById('dark-blue').media='none'
-    document.getElementById('dark-blue-blue').media='none'
-    document.getElementById('dark-green').media='none'
+    document.getElementById('dark').media='none'
     document.getElementById('green').media=''
     document.getElementById('blue').media='none'
-    document.getElementById('ship-wreck').media='none'
+    document.getElementById('tannish').media='none'
     storeCurrentTheme("Light-Green")
 }
 
-function setThemeShipWreck(){
-    document.getElementById('dark-blue').media='none'
-    document.getElementById('dark-blue-blue').media='none'
-    document.getElementById('dark-green').media='none'
+function setThemeTannish(){
+    document.getElementById('dark').media='none'
     document.getElementById('green').media='none'
     document.getElementById('blue').media='none'
-    document.getElementById('ship-wreck').media=''
-    storeCurrentTheme("Ship-Wreck")
+    document.getElementById('tannish').media=''
+    storeCurrentTheme("Tannish")
 }
 
 switchToCurrentTheme()
