@@ -20,7 +20,7 @@ blockquote{
 h1 { color: yellow;}
 h2 {color: white;}
 h3 {color: #d0d0d0; }
-h4 {color: #3590ae; }
+h4 {color: #d8f2ff; }
 
 .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
     background-color: #b2b2b2;
@@ -122,7 +122,7 @@ li.sidebarTitle {
     margin-top:20px;
     font-weight:normal;
     font-size:130%;
-    color: #3590ae;
+    color: #d8f2ff;
     margin-bottom:10px;
     margin-left: 5px;
 }
