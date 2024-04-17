@@ -59,9 +59,13 @@ a[data-toggle="tooltip"] {
     cursor: default;
 }
 
+a[data-toggle] {
+    color: #404040;
+}
+
 .navbar-inverse {
     background-color: #b2b2b2;
-    border-color: #b2b2b2;
+    border-color: #555555;
 }
 
 .navbar-inverse .navbar-nav > .open > a, .navbar-inverse .navbar-nav > .open > a:hover, .navbar-inverse .navbar-nav > .open > a:focus {
@@ -69,7 +73,7 @@ a[data-toggle="tooltip"] {
 }
 
 .navbar-inverse .navbar-nav > .open > a, .navbar-inverse .navbar-nav > .open > a:hover, .navbar-inverse .navbar-nav > .open > a:focus {
-    background-color: #5b893c;
+    background-color: #b2b2b2;
     color: #ffffff;
 }
 
@@ -103,6 +107,10 @@ body.print h3 {color: #d0d0d0 !important; font-size:14px;}
 body.print h4 {color: coral !important; font-size:14px; font-style: italic;}
 
 .anchorjs-link:hover {
+    color: #b2b2b2;
+}
+
+.text-primary {
     color: #b2b2b2;
 }
 
