@@ -122,3 +122,7 @@ li.sidebarTitle {
 .navbar-inverse .navbar-toggle:focus, .navbar-inverse .navbar-toggle:hover {
     background-color: #E50E51;
 }
+
+table > tbody > tr:nth-of-type(odd) {
+    background-color: #777777;
+}

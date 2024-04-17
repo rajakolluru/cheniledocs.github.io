@@ -1,11 +1,11 @@
 destination: _site/
 url: "http://127.0.0.1:4010"
-baseurl: "/mydoc-pdf"
+baseurl: "/chenile-pdf"
 port: 4010
 output: pdf
 product: mydoc
-print_title: Jekyll theme for documentation — mydoc product
-print_subtitle: version 6.0
+print_title: Jekyll theme for documentation — Chenile
+print_subtitle: version 1.2.3
 output: pdf
 defaults:
   -
@@ -17,4 +17,4 @@ defaults:
       comments: true
       search: true
 
-pdf_sidebar: mydoc_sidebar
+pdf_sidebar: chenile_sidebar
