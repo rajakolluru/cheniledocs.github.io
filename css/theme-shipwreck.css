@@ -59,15 +59,15 @@ a[data-toggle] {
 
 .navbar-inverse {
     background-color: #998877;
-    border-color: ##4a4138;
+    border-color: #4a4138;
 }
 
 .navbar-inverse .navbar-nav > .open > a, .navbar-inverse .navbar-nav > .open > a:hover, .navbar-inverse .navbar-nav > .open > a:focus {
-    color: ##4a4138;
+    color: #4a4138;
 }
 
 .navbar-inverse .navbar-nav > .open > a, .navbar-inverse .navbar-nav > .open > a:hover, .navbar-inverse .navbar-nav > .open > a:focus {
-    background-color: ##4a4138;
+    background-color: #4a4138;
     color: #ffffff;
 }
 
@@ -78,8 +78,8 @@ a[data-toggle] {
 
 .btn-primary {
     color: #ffffff;
-    background-color: ##4a4138;
-    border-color: ##4a4138;
+    background-color: #4a4138;
+    border-color: #4a4138;
 }
 
 .btn-primary:hover,
