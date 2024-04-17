@@ -18,8 +18,9 @@
 <link rel="stylesheet" href="css/theme-dark-blue.css" media='none' id='dark-blue'>
 <link rel="stylesheet" href="css/theme-dark-blue-on-blue.css" media='none' id='dark-blue-blue'>
 <link rel="stylesheet" href="css/theme-dark-green.css" media='none' id='dark-green'>
-<link rel="stylesheet" href="css/theme-green.css" media='' id='green'>
-<link rel="stylesheet" href="css/theme-blue.css" media='none' id='blue'>
+<link rel="stylesheet" href="css/theme-green.css" media='none' id='green'>
+<link rel="stylesheet" href="css/theme-blue.css" media='' id='blue'>
+<link rel="stylesheet" href="css/theme-shipwreck.css" media='none' id='ship-wreck'>
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -69,6 +70,9 @@ function switchToCurrentTheme(){
         case "Light-Blue":
             setThemeLightBlue();
             break;
+        case "Ship-Wreck":
+            setThemeShipWreck();
+            break;
     }
 }
 
@@ -78,6 +82,7 @@ function setThemeDarkGreen(){
     document.getElementById('dark-green').media=''
     document.getElementById('green').media='none'
     document.getElementById('blue').media='none'
+    document.getElementById('ship-wreck').media='none'
     storeCurrentTheme("Dark-Green")
 }
 
@@ -87,6 +92,7 @@ function setThemeDarkBlueOnBlue(){
     document.getElementById('dark-green').media='none'
     document.getElementById('green').media='none'
     document.getElementById('blue').media='none'
+    document.getElementById('ship-wreck').media='none'
     storeCurrentTheme("Dark-Blue-Blue")
 }
 function setThemeDarkBlue(){
@@ -95,6 +101,7 @@ function setThemeDarkBlue(){
     document.getElementById('dark-green').media='none'
     document.getElementById('green').media='none'
     document.getElementById('blue').media='none'
+    document.getElementById('ship-wreck').media='none'
     storeCurrentTheme("Dark-Blue")
 }
 
@@ -104,6 +111,7 @@ function setThemeLightBlue(){
     document.getElementById('dark-green').media='none'
     document.getElementById('green').media='none'
     document.getElementById('blue').media=''
+    document.getElementById('ship-wreck').media='none'
     storeCurrentTheme("Light-Blue")
 }
 
@@ -113,7 +121,18 @@ function setThemeLightGreen(){
     document.getElementById('dark-green').media='none'
     document.getElementById('green').media=''
     document.getElementById('blue').media='none'
+    document.getElementById('ship-wreck').media='none'
     storeCurrentTheme("Light-Green")
+}
+
+unction setThemeShipWreck(){
+    document.getElementById('dark-blue').media='none'
+    document.getElementById('dark-blue-blue').media='none'
+    document.getElementById('dark-green').media='none'
+    document.getElementById('green').media='none'
+    document.getElementById('blue').media='none'
+    document.getElementById('ship-wreck').media=''
+    storeCurrentTheme("Ship-Wreck")
 }
 
 switchToCurrentTheme()
