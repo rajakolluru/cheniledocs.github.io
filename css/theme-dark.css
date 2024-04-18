@@ -4,6 +4,18 @@
     font-size:16px;
 }
 
+.alert-info  {
+    background-color: #;
+    color: #31708f;
+    background-color: #aaaaaa;
+    border-color: #bce8f1;   
+}
+
+
+.alert-info a {
+   color: #337ab7; 
+}
+
 body, .panel-body{
     background-color: #555555;
     color: wheat;
