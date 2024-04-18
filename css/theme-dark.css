@@ -42,16 +42,16 @@ h3 {color: #d0d0d0; }
 h4 {color: #d8f2ff; }
 
 .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
-    background-color: #b2b2b2;
+    background-color: #999999;
     color: white;
 }
 
 .nav > li.active > a {
-    background-color: #b2b2b2;
+    background-color: #999999;
 }
 
 .nav > li > a:hover {
-    background-color: #b2b2b2;
+    background-color: #999999;
 }
 
 div.navbar-collapse .dropdown-menu > li > a:hover {
