@@ -21,6 +21,10 @@ a {
     text-decoration: none
 }
 
+ul li a {
+    color: #337ab7;
+}
+
 h1 { color: #ffffed;}
 h2 {color: white;}
 h3 {color: #d0d0d0; }
