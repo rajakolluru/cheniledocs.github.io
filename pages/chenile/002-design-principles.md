@@ -8,9 +8,17 @@ folder: chenile
 summary: Chenile - Design principles
 ---
 
-Chenile works with a few  principles. They form the basis of its design patterns and blue prints. We will enumerate them below. 
+Chenile modulith framework works with a few  principles. They form the basis of its design patterns and blue prints. We will enumerate them below. 
 ##  Domain Driven Development
 Chenile believes in a good domain driven design. The design of Chenile modules keeps them autonomous. Each Chenile module is envisaged to represent a bounded context. There are two code modules per bounded context - one to document the API and external facing model objects and the other to implement the API and for internal module objects. The latter is not consumed by the dependent services. 
+## Code Modules
+Chenile services are developed in independent code modules. Code modules are Maven modules.(We do want to incorporate JPMS at some point in time. However currently we equate code modules to Maven modules. )Code modules are packaged as jars. The jars contain code and configurations (including messsage bundles). Code modules do not contain the code that belongs to the dependencies. Hence Chenile code modules are not meant to be deployed. They are supplied as libraries.
+## Code Packages - Mini Monoliths
+Code packages are an assembly of code modules. The packages serve as a way to pack the code modules together with a main method. (typically the Spring Boot main method). Code packages contain all dependent code. They are packaged with the maven flatten plugin. Code packages can be deployed anywhere. Since packages don't contain code (other than the main() method which does nothing) they act as mere deployment containers. 
+## De-coupling Development from Deployment
+Code modules are owned by developers. Code packages are owned by SRE folks. (of course developers can be SRE's as well). Developers don't make any assumptions about the packages. SRE folks enforce their best practices on the packages and have full discretion to package code modules in different ways. For example they may decide to package two services s1 and s2 in the same package or they may decide to split the two into two different packages depending on requirements such as scalability, cohesion etc. By de-coupling packages from code modules, Chenile gives true independence to both developers and SRE's
+## De-coupling Testing from Deployment
+Code modules must be tested independent of their packaging. Test code must mock all dependencies and msut not make any assumptions on how the code modules will be eventually packaged. See [Chenile Test Strategy](/chenile-test-strategy.html) for more information.
 ## Message Driven
 Chenile fundamentally deals with messages as opposed to the normal request-response paradigm. Messages are mutated as they navigate different commands. This paradigm is compatible with SEDA (Staged Event Driven Architecture) and similar paradigms. 
 Message driven architecture supports Message Queues, Kafka events etc. and is easily convertible to a normal request-response paradigm.
