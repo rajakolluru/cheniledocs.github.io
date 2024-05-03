@@ -13,6 +13,9 @@ summary: An introduction to the Chenile framework, its purpose and users.
         <div class="col-lg-12">
             <h2 class="page-header">Chenile - An introduction</h2>
         </div>
+        <div class="col-lg-12">
+            <img src='/images/chenile/chenile-esb.png' style='object-fit: cover;'/>
+        </div>
         <div class="col-md-2 col-sm-6">
             <div class="panel panel-default text-center">
                 <div class="panel-heading">
@@ -78,8 +81,8 @@ summary: An introduction to the Chenile framework, its purpose and users.
                     </span>
                 </div>
                 <div class="panel-body">
-                    <h4>Pipeline</h4>
-                    <p>Request processing</p>
+                    <h4>ESB</h4>
+                    <p>Request Pipeline</p>
                 </div>
             </div>
         </div>
@@ -115,7 +118,7 @@ summary: An introduction to the Chenile framework, its purpose and users.
                 </li>
                 <li class=""><a href="#extensible" data-toggle="tab"><i class="fa fa-plug"></i>Extensibility</a>
                 </li>
-                <li class=""><a href="#pipeline" data-toggle="tab"><i class="fa fa-xmarks-lines"></i>Pipeline</a>
+                <li class=""><a href="#pipeline" data-toggle="tab"><i class="fa fa-xmarks-lines"></i>ESB</a>
                 </li>
                 <li class=""><a href="#workflow" data-toggle="tab"><i class="fa fa-arrows-split-up-and-left"></i>Workflow</a>
                 </li>
@@ -166,8 +169,10 @@ summary: An introduction to the Chenile framework, its purpose and users.
                     <p>Chenile also ships with configurable options for most of its features. These can be used to extend the framework and customize the services. </p>
                 </div>
                 <div class="tab-pane fade" id="pipeline">
-                    <h4>Lightweight Request Processing Pipeline</h4>
-                    <p>Chenile started out as a light-weight alternative to a SEDA pipeline implementation that runs within the same JVM. The idea was to provide an ability to do last-mile interception. This de-couples horizontal concerns from functionality. Last mile interception allows orgs to push a lot of customization into services without needing to invest in expensive customization in the API Gateway layer. Chenile recommends API Gateway as an excellent upstream interception layer before the services. However, it is hard to customize API Gateways. Certain concerns such as transformation must be handled close to the services and therefore make an excellent concern that could be implemented in the last mile.</p>
+                    <h4>Lightweight ESB (Enterprise Service Bus)</h4>
+                    <p>Chenile started out as an embedded Enterprise Service Bus (ESB). The idea was to de-couple service functionality from transports. Services implement functionality. Trasports merely expose the services to the outside world. Our services can be invoked via HTTP, Kafka, MQ, MQ-TT etc. without any changes to the central infrastructure code. 
+                    Chenile provides an ability to do last-mile interception. This de-couples horizontal concerns from functionality. Last mile interception allows orgs to push a lot of horizontal functionality (such as routing, caching, logging, auditing etc.) into services without needing to invest in expensive customization in the API Gateway layer. 
+                    Chenile does recommend a robust API Gateway as an excellent upstream interception layer before the services. However, it is hard to customize API Gateways. Certain concerns such as transformation must be handled close to the services and therefore make an excellent concern that could be implemented in the last mile.</p>
                     <p>We wanted to make this last-mile interception work in a transport agnostic manner i.e. it should work across HTTP, KAFKA, message queues etc. By doing so, we wanted to re-use the pipeline across transports.</p>
                     <p>Chenile ships with interceptors that could implement important horizontal concerns such as transformation, caching, exception handling etc. It integrates with myriads of different frameworks that facilitate logging, auditing, i18n etc.</p>
                     <p>The pipeline code is super extensible. Chenile supports a Domain Specific Language (DSL) to customize the pipeline. </p>
@@ -204,7 +209,7 @@ summary: An introduction to the Chenile framework, its purpose and users.
                 </div>
                 <div class="media-body">
                     <h4 class="media-heading">Availability Concerns</h4>
-                    <p>Implement Circuit breaking, rate limiting etc. in the last mile or in the API Gateway</p>
+                    <p>Implement horizontal services in the last mile.</p>
                 </div>
             </div>
             <div class="media">
