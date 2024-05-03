@@ -7,6 +7,23 @@ permalink: /chenile-development.html
 folder: chenile
 summary: Chenile - Development Model
 ---
+Chenile consists of two types of development assemblies. One is called a code module and another is a code package.
+
+Code Module is a Maven JAR module containing Java classes and resources. A code module contains the code for implementing a particular service or utility or API. Here are some types of code modules:
+
+API code module
+: An API code module's name ends with -api (e.g., user-api) It contains interfaces and model objects. They define the contracts for a particular service. If service1 depends on service2, it only consumes service2's API code module. 
+
+Service Code Module (aka Impl)
+: A service code module's name ends with -service (e.g., user-service). It contains classes that implement the contracts defined in the corresponding api code module. This contains implementations, health checks for the service, controller classes to define the service and finally the Spring configuration classes that instantiate these classes. DAO's are also packaged in the service module.
+
+Configuration Code Module 
+: This contains only configurations. This module is tied to a mini monolith. For example, if we desire to make a mini monolith called commerce by packaging all the commerce related services together then this module contains all the configurations for different environments. This code module is controlled by the SRE folks in conjunction with the developers. This module contains secrets, application.yml (or application.properties), application-{env}.properties (or yml) etc. Hence this module is tied to deployment and a mini monolith. 
+
+## Code Packages
+Code packages are a special type of code modules. They make an executable JAR using spring-boot-maven-plugin. This code package is a collection of the relevant code modules (including api, services and configurations). The code package makes an executable Java jar file that can be run with java -jar. Hence this packages all its dependencies as jars. In Chenile, we create a separate profile called "it" to run integration tests on the packages. The integration tests are automatically triggered when the package is built. 
+
+
 ## Packaging using Code Modules
 Chenile enforces a code module structure that separates the responsibility of the developers, architects and System Reliability Engineers (SRE). 
 
