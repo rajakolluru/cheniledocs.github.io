@@ -59,11 +59,12 @@ div.navbar-collapse .dropdown-menu > li > a:hover {
 }
 
 .navbar-inverse .navbar-nav>li>a, .navbar-inverse .navbar-brand {
-    color: white;
+    color: #222222;
+    font-size: 16px;
 }
 
 .navbar-inverse .navbar-nav>li>a:hover, a.fa.fa-home.fa-lg.navbar-brand:hover {
-     color: #f0f0f0;
+     color: #f1f1f1;
 }
 
 .nav li.thirdlevel > a {
@@ -88,12 +89,12 @@ a[data-toggle] {
 }
 
 .navbar-inverse .navbar-nav > .open > a, .navbar-inverse .navbar-nav > .open > a:hover, .navbar-inverse .navbar-nav > .open > a:focus {
-    color: #b2b2b2;
+    color: #333333;
 }
 
 .navbar-inverse .navbar-nav > .open > a, .navbar-inverse .navbar-nav > .open > a:hover, .navbar-inverse .navbar-nav > .open > a:focus {
     background-color: #b2b2b2;
-    color: #ffffff;
+    color: #333333;
 }
 
 /* not sure if using this ...*/

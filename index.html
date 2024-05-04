@@ -112,7 +112,7 @@ summary: An introduction to the Chenile framework, its purpose and users.
             <ul id="myTab" class="nav nav-tabs nav-justified">
                 <li class="active"><a href="#basics" data-toggle="tab"><i class="fa fa-question"></i>Basics</a>
                 </li>
-                <li class=""><a href="#who" data-toggle="tab"><i class="fa fa-user"></i> User base</a>
+                <li class=""><a href="#who" data-toggle="tab"><i class="fa fa-user"></i> Users</a>
                 </li>
                 <li class=""><a href="#patterns" data-toggle="tab"><i class="fa fa-object-ungroup"></i> Patterns</a>
                 </li>
@@ -128,9 +128,9 @@ summary: An introduction to the Chenile framework, its purpose and users.
                 <div class="tab-pane fade active in" id="basics">
                     <h4>Basics</h4>
             
-                    <p>Chenile is a Rapid Application Development (RAD) framework to build Microservices using a unique Modulith architecture in Java using Spring Boot. Chenile establishes standards, conventions and provides common services to get developers immediately productive. It enables developers to focus on functionality.</p>
+                    <p>Chenile is a Rapid Application Development (RAD) framework to build Microservices using a unique industrial strength Modulith architecture in Java using Spring Boot. Chenile establishes standards, conventions and provides common services to get developers immediately productive. It enables developers to focus on functionality.</p>
                     <p>Chenile can also be viewed as a mini ESB. It decouples services from transports. You don't write code that can work only with HTTP. The same code can be accessed via multiple transports such as MQ, Kafka, batch file processing and even via MQTT for IoT devices! This makes the framework unique. We would call it as a happy amalgamation of a domain model and a message model. You come up with the domain model for your field of work. Chenile comes up with a message model that is truly transport agnostic. Now - that is teamwork! </p>
-                    <p>Chenile is like a fabric. You can use it to stitch Micro services. You can write services without worrying about transports, middlewares, horizontal services, transformations etc. Chenile allows these to seamlessly incorporated by framework architects whilst allowing developers to write functional code.</p>
+                    <p>Chenile is like a fabric. You can use it to stitch Micro services. You can write services without worrying about transports, middlewares, horizontal services, transformations etc. Chenile allows these to be seamlessly incorporated by framework architects whilst allowing developers to write functional code. Chenile de-couples deployment packages from code modules. (See [Chenile Development Model](/chenile-development.html) for more details)</p>
                     <p>Chenile is a Java Library that contains framework code. But the framework code is just the tip of the iceberg. Chenile comes bundled with a code generator that generates typical boiler plate code that conforms to a blue print. (such as a HTTP over JSON Micro Service for example). This juxtaposition of blue prints makes it incredibly powerful and productive.</p>
                     <p>Chenile separates the developers from architects. It allows architects to focus on central concerns such as:
                     <ol>
@@ -138,20 +138,20 @@ summary: An introduction to the Chenile framework, its purpose and users.
                     <li>Enforcing modular development</li>
                     <li>De-couple horizontal concerns from functionality</li>
                     <li>Design test harnesses to enable extensive testing</li>
-                    <li>Enable automatic logging and observability</li>
+                    <li>Enable automatic logging, observability, caching etc. for some or all services without touching service code!</li>
                     <li>Enable internationalization from day One</li>
                     <li>Introduce a service registry where all the service metadata is stored in one place. Chenile needs to know about all the services since it knows how to intercept them and invoke them.</li>
                     <li>Design message formats, generic responses, exception handling etc.</li>
                     <li>Design the structure of code repositories, devOps and build practices etc.</li>
                     </ol></p>
-                    <p>Best of all Chenile ships with a code generator that generates code that complies to these blue prints. This code can give you a huge jumpstart.</p>
                 </div>
                 <div class="tab-pane fade" id="who">
-                    <h4>Who ?</h4>
+                    <h4>Users</h4>
                     <p>Are you an early stage startup who wants to focus on developing industrial strength services using well established patterns without wasting time to research on the optimal tech stack or browsing through reams of documentation? If yes, Chenile can help you there</p>
                     <p>Are you a Spring Boot developer who is able to write code but struggle with best practices? Chenile can recommend specific frameworks and tell you to integrate them into your application. It generates stub code that you can use to write your functionality.</p>
-                    <p>Are you a big enterprise who finds it hard to standardize the tech stack or patterns? Chenile can help you with that. Chenile can be completely customized as well which makes it a great framework to build all standardization efforts. </p>
+                    <p>Are you a big enterprise who finds it hard to standardize the tech stack or patterns? Chenile can help you with that. Chenile can be completely customized and made to integrate seamlessly with in-house frameworks as well which makes it a great framework to build all standardization efforts. </p>
                     <p> Are you a software developer who would like to leverage multi-module maven builds? Chenile has you covered!</p>
+                    <p>Are you looking for an offline solution - for example an ecommerce POS(Point of Sale)? Chenile has patterns to develop this solution.</p>
                     <p></p>
                 </div>
                 <div class="tab-pane fade" id="patterns">
@@ -163,19 +163,17 @@ summary: An introduction to the Chenile framework, its purpose and users.
                 </div>
                 <div class="tab-pane fade" id="extensible">
                     <h4>Extensible</h4>
-                    <p>Chenile encourages customization. An org can override any part of Chenile for its specific needs. Chenile provides multiple extension points - at the org level, at the service level and even at the service method (operation) level.</p>
-                    <p>We love SOLID principles. The framework is built to be extensible. Every part of Chenile is designed to be extensible. It is possible to change the request processing of Chenile. It is trivial to write new blue prints and integrate with chenile. The code generator can be customized to generate code compliant to these blue prints. </p>
-                    <p>The Chenile Interceptor Framework can be customized to your organization and even at the service or operation level!</p>
-                    <p>Chenile also ships with configurable options for most of its features. These can be used to extend the framework and customize the services. </p>
+                    <p>The central core of Chenile is tiny. All the features are created as a customization of the tiny core. An org can override any part of Chenile for its specific needs. Chenile provides multiple extension points - at the org level, at the service level and even at the service method (operation) level.</p>
+                    <p>We love SOLID principles. The framework is built to be extensible. Every part of Chenile is designed to be extensible. It is possible to change the request processing of Chenile. It is trivial to write new blue prints and integrate with chenile. It is easy to introduce new transports. It is the simplest to write new interceptors. Best of all, the code generator can be customized to generate code compliant to these blue prints. </p>
+                    <p>Chenile also ships with configurable options for most of its features. These can be used to extend the framework and customize the services. The whole of the framework is metadata driven. The metadata model is extensible. This means that you can add to the metadata without tampering with chenile-core.</p>
                 </div>
                 <div class="tab-pane fade" id="pipeline">
                     <h4>Lightweight ESB (Enterprise Service Bus)</h4>
                     <p>Chenile started out as an embedded Enterprise Service Bus (ESB). The idea was to de-couple service functionality from transports. Services implement functionality. Trasports merely expose the services to the outside world. Our services can be invoked via HTTP, Kafka, MQ, MQ-TT etc. without any changes to the central infrastructure code. 
-                    Chenile provides an ability to do last-mile interception. This de-couples horizontal concerns from functionality. Last mile interception allows orgs to push a lot of horizontal functionality (such as routing, caching, logging, auditing etc.) into services without needing to invest in expensive customization in the API Gateway layer. 
-                    Chenile does recommend a robust API Gateway as an excellent upstream interception layer before the services. However, it is hard to customize API Gateways. Certain concerns such as transformation must be handled close to the services and therefore make an excellent concern that could be implemented in the last mile.</p>
-                    <p>We wanted to make this last-mile interception work in a transport agnostic manner i.e. it should work across HTTP, KAFKA, message queues etc. By doing so, we wanted to re-use the pipeline across transports.</p>
-                    <p>Chenile ships with interceptors that could implement important horizontal concerns such as transformation, caching, exception handling etc. It integrates with myriads of different frameworks that facilitate logging, auditing, i18n etc.</p>
-                    <p>The pipeline code is super extensible. Chenile supports a Domain Specific Language (DSL) to customize the pipeline. </p>
+                    Chenile provides an ability to do last-mile interception. This de-couples horizontal concerns from functionality. Last mile interception allows orgs to push a lot of horizontal functionality (such as routing, caching, logging, auditing etc.) out of services without needing to invest in expensive customization in the API Gateway layer. 
+                    Chenile does recommend a robust API Gateway as an excellent upstream interception layer for HTTP requests to access the services. However, it is hard to customize API Gateways. Further, API Gatewys are mostly fine-tuned for HTTP. What if you want to implement caching across transports? In addition to that, certain concerns such as transformation must be handled close to the services and therefore make an excellent concern that could be implemented in the last mile.We wanted to make this last-mile interception work in a transport agnostic manner i.e. it should work across HTTP, KAFKA, message queues etc. By doing so, we wanted to re-use the pipeline across transports.</p>
+                    <p>Chenile ships with interceptors that could implement important horizontal concerns such as transformation, caching, exception handling etc. Integrting new frameworks is a cinch. It is completely modularized and is true plug and play. So it becomes trivial to introduce Chenile extensions to integrate with any in-house or open source or even COTS (Commercial off the Shelf) offerings.</p>
+                    <p>The pipeline code is super extensible. Chenile supports a Domain Specific Language (DSL) to customize the pipeline.  </p>
                     <p>Chenile also supports its own super-flexible exchange object. It also introduces a Generic Response object that could communicate errors, warnings etc. back from the service layer </p>
                     <p>See <a href="/chenile-request-processing.html">for more information about request processing.</a></p>
             </div>
@@ -204,11 +202,11 @@ summary: An introduction to the Chenile framework, its purpose and users.
                 <div class="pull-left">
                     <span class="fa-stack fa-2x">
                           <i class="fa fa-circle fa-stack-2x text-primary"></i>
-                          <i class="fa fa-percent fa-stack-1x fa-inverse"></i>
+                          <i class="fa fa-location-pin fa-stack-1x fa-inverse"></i>
                     </span>
                 </div>
                 <div class="media-body">
-                    <h4 class="media-heading">Availability Concerns</h4>
+                    <h4 class="media-heading">Last Mile </h4>
                     <p>Implement horizontal services in the last mile.</p>
                 </div>
             </div>
@@ -228,6 +226,20 @@ summary: An introduction to the Chenile framework, its purpose and users.
                 <div class="pull-left">
                     <span class="fa-stack fa-2x">
                           <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                          <i class="fa fa-link fa-stack-1x fa-inverse"></i>
+                    </span>
+                </div>
+                <div class="media-body">
+                    <h4 class="media-heading">Chain of Responsibility</h4>
+                    <p>Flexible, highly configurable, modular command framework that implements a chain of responsibility </p>
+                </div>
+            </div>           
+        </div>
+        <div class="col-md-4">
+            <div class="media">
+                <div class="pull-left">
+                    <span class="fa-stack fa-2x">
+                          <i class="fa fa-circle fa-stack-2x text-primary"></i>
                           <i class="fa fa-bug fa-stack-1x fa-inverse"></i>
                     </span>
                 </div>
@@ -236,18 +248,17 @@ summary: An introduction to the Chenile framework, its purpose and users.
                     <p>Internationalized error messages. Support for Warnings. </p>
                 </div>
             </div>
-        </div>
-        <div class="col-md-4">
+        
             <div class="media">
                 <div class="pull-left">
                     <span class="fa-stack fa-2x">
                           <i class="fa fa-circle fa-stack-2x text-primary"></i>
-                          <i class="fa fa-wrench fa-stack-1x fa-inverse"></i>
+                          <i class="fa fa-car fa-stack-1x fa-inverse"></i>
                     </span>
                 </div>
                 <div class="media-body">
-                    <h4 class="media-heading">Configuration Management</h4>
-                    <p>Cascading configurations with environment specific overrides </p>
+                    <h4 class="media-heading">Transport Agnostic</h4>
+                    <p>Introducing a new transport for Chenile is trivial. Enabling a service for a new transport needs nothing more than a configuration update!</p>
                 </div>
             </div>
             <div class="media">
@@ -258,22 +269,11 @@ summary: An introduction to the Chenile framework, its purpose and users.
                     </span>
                 </div>
                 <div class="media-body">
-                    <h4 class="media-heading">Service Registry</h4>
-                    <p>Chenile is a service registry since it knows about all the services.</p>
+                    <h4 class="media-heading">Externalized Service Configuration</h4>
+                    <p>Chenile acts like a service registry.It stores service metadata that drives behavior.</p>
                 </div>
             </div>
-            <div class="media">
-                <div class="pull-left">
-                    <span class="fa-stack fa-2x">
-                          <i class="fa fa-circle fa-stack-2x text-primary"></i>
-                          <i class="fa fa-link fa-stack-1x fa-inverse"></i>
-                    </span>
-                </div>
-                <div class="media-body">
-                    <h4 class="media-heading">Chain of Responsibility</h4>
-                    <p>Chenile provides a flexible command framework that allows a complex task to be decomposed into a chain of commands - each command implementing a slice of work. </p>
-                </div>
-            </div>
+            
         </div>
         <div class="col-md-4">
             <div class="media">
@@ -284,20 +284,20 @@ summary: An introduction to the Chenile framework, its purpose and users.
                     </span>
                 </div>
                 <div class="media-body">
-                    <h4 class="media-heading">Version Management</h4>
-                    <p>Version control management for Micro services integrated</p>
+                    <h4 class="media-heading">Builds + Version Management</h4>
+                    <p>Version control management, Docker builds. Default makefiles</p>
                 </div>
             </div>
             <div class="media">
                 <div class="pull-left">
                     <span class="fa-stack fa-2x">
                           <i class="fa fa-circle fa-stack-2x text-primary"></i>
-                          <i class="fa fa-space-shuttle fa-stack-1x fa-inverse"></i>
+                          <i class="fa fa-file fa-stack-1x fa-inverse"></i>
                     </span>
                 </div>
                 <div class="media-body">
-                    <h4 class="media-heading">Sophisticated DevOps</h4>
-                    <p>Docker integration. Default Makefiles.</p>
+                    <h4 class="media-heading">Message Model</h4>
+                    <p>Generic response. Transport agnostic exchange object</p>
                 </div>
             </div>
             <div class="media">
@@ -309,7 +309,7 @@ summary: An introduction to the Chenile framework, its purpose and users.
                 </div>
                 <div class="media-body">
                     <h4 class="media-heading">BDD</h4>
-                    <p>Cucumber integrated. BDD & full  HTTP black box testing supported out of the box</p>
+                    <p>Cucumber integrated. BDD & full  HTTP black box testing supported out of the box. Customized Gherkin.</p>
                 </div>
             </div>
         </div>
