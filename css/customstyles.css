@@ -5,6 +5,26 @@ body {
     font-family: "Josefin Sans";
 }
 
+.div-hero-img{
+    justify-content: center;
+    align-items: center;
+    display:flex;
+    padding: 0,0,0,0;
+}
+.hero-img{
+    transition: transform .2s;
+    width:50px;
+    height:50px;
+    margin:0 auto;
+    background-color: rgb(173, 173, 237);
+    border-radius: 10px;
+    border: 1px solid black;
+    object-fit: contain;
+}
+.hero-img:hover{
+    transform:scale(1.5);
+}
+
 .bs-callout {
     padding: 20px;
     margin: 20px 0;
