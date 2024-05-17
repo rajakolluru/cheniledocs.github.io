@@ -154,6 +154,16 @@ entries:
       url: /chenile-mybatis-query-service.html
       output: web, pdf
 
+  - title: MQTT Support
+    output: web, pdf
+    folderitems:
+      
+    - title: Cloud Edge Switch
+      url: /cloud-edge-switch.html
+      output: web, pdf
+
+  
+
 
       
 
