@@ -8,29 +8,55 @@ folder: chenile
 summary: Reuse the same service in the cloud and the edge. Handle internet being down at the edge using MQ-TT
 ---
 
-When we write services, we want to focus on business logic. We don't want to make any assumptions on where the service is running. It can be running in the cloud or the edge. Chenile is all about enabling developers to focus on business logic and not be boggled with these kinds of concerns. The cloud edge switch was developed for some of our users keeping this in mind. 
+When we write services, we want to focus on business logic. We don't want to make any assumptions on where the service is running. It can be running in the cloud or the edge. Chenile is all about enabling developers to focus on business logic and not be boggled with these kinds of concerns. The cloud edge switch was developed keeping this in mind. 
 
 ## The Scenario
-One of our customers has an Order Service. The order service's intent is of course to capture orders fulfill orders. They deplopyed this in the cloud. When the internet connection goes down, things got manual. They have to key these manual orders into the cloud when the internet connection restores itself. In this day and age, this does not obviously work. 
+One of our customers has an Order Service. The order service's intent is of course to capture and fulfill orders. They deployed this in the cloud. When the internet connection goes down, things got manual. They have to key in these manual orders into the cloud when the internet connection restores itself. In this day and age, this does not obviously work. How does the store cecome more available? 
 
 ## The Solution Outline
-The first rule of avaiability is redundancy. To make the order service more available we decided to run the same Order Service on the edge which in this case is the store. The store order service must handle the following:
+The first rule of availability is redundancy. To make the order service more available we decided to run the same Order Service on the edge which in this case is the store. The store order service must handle the following:
 1. When the internet connection is UP, delegate control to the cloud so that the cloud order service can handle the request.
 2. When internet is DOWN, capture and fulfill orders locally.
 3. Set up a queue so that these orders will eventually flow to the cloud order service when the internet connection is restored.
-4. Since orders needed to be retrieved locally, all stores must have a copy of all the orders that were captured in the cloud. 
+4. Since orders needed to be retrieved locally even if the internet connection is DOWN, all stores must have a copy of all the orders that were captured in the cloud. 
 
-As can be seen, this will sadlle the Order Service with a lot of synchronization logic - logic that has nothing to do with Order Management. Also the same logic needs to be replicated for all services. This makes it quite difficult to implement. 
+As can be seen, this will sadlle the Order Service with a lot of synchronization logic - logic that has nothing to do with Order Management. Also the same logic needs to be replicated for all services such as product service, user service etc. This makes it quite painful to implement. We want the solution to be generic and work for all services. 
 
-Chenile jumps to the rescue. We will first discuss some technical patterns in the impementation before jumping into the Chenile solution.
+Chenile jumps to the rescue. We will first discuss some technical patterns in the implementation before jumping into the Chenile solution.
 
 ## Implementation using MQ-TT
-As we have seen above, we will have two instances of the service one in the store and one in the cloud. The store service talks to the cloud service. The cloud service is not aware of specific stores. However, all the stores are aware of the cloud. We will also need a queue to store messages when the store is offline. Since the connection between store and cloud is unreliable we will need a message service that can handle this. MQ-TT (Message Queue Telemetry Transport) protocol is gaining traction to take care of unreliable message delivery. It is especially useful for IoT (Internet of Things). What works for IoT will definitely work for us. So we chose MQ-TT for storing and forwarding messages. 
+As we have seen above, we will have two instances of the service one in the store and one in the cloud. The store service talks to the cloud service. The cloud service is not aware of specific stores. However, all the stores are aware of the cloud. We will also need a queue to store messages when the store is offline. Since the connection between store and cloud is unreliable we will need a message service that can handle this. MQ-TT (Message Queue Telemetry Transport) protocol is gaining traction to take care of unreliable message delivery. It is especially useful for IoT (Internet of Things). What works for IoT will definitely work for us. But is MQ-TT reliable? We found that MQ-TT providers have to provide for a certain Quality of Service (QoS). At QoS = 2, MQ-TT provides for guaranteed delivery wherein each subscriber gets every message once and only once. This made MQ-TT a good choice to implement our Order Management solution. 
+
+We want to use MQ-TT only for asynchronous requests not for LIVE requests i.e. if we want the Cloud to immediately process an Order, we don't use MQ-TT. We instead use HTTP which we know works reliably for synchronous communication. 
+
+So here is the outline of the solution using HTTP and MQ-TT.
+1. All devices (such as POS terminals) talk only to a Store Order Service. They don't talk to the cloud. The Store order service exists in the same Wifi network and hence is expected to be available throughout the time the store is open. 
+2. When the internet is UP, the Store Order Service communicates to the Cloud Order Service using HTTP. It passes the Order there. The cloud order service will persist the Order if it is valid. If the Order is invalid, it fails. The store order service communicates the error back to the POS. 
+3. In case the Cloud Order Service succeeds, it sends an MQ-TT message with source=cloud. All subscribers will receive this message including the cloud itself. However, when the message is received, the cloud order service recognizes that the source is the cloud itself and hence does not create a duplicate request for the service. The other stores update themselves. 
+4. When the internet is DOWN then the cloud service cannot be contacted. The store service will locally store the order. Upon successful execution, a message will be sent via MQ-TT to the cloud (target = cloud, source = storename). This will ensure that only the cloud will update itself when it receives the MQ-TT message. (after the internet connection gets re-established)
+5. After the internet gets UP the message will be sent. The cloud receives this message and updates itself. It sends the MQ-TT message to everyone else with source=cloud and target = !source store name so that the cloud itself and the origin store do not update themselves again. All the other stores update themselves. 
+[![Edge cloud activity](/images/chenile/edge-cloud-activity.png)](/images/chenile/edge-cloud-activity.png)
+
 
 ## Chenile Support for MQ-TT
-Chenile supports MQ-TT as a transport end point. What this means is that Chenile can receive messages from MQ-TT by subscribing to specific MQ-TT topics and trigger Chenile services using the content of these messages. It requires no changes on the service to avail this facility. All the service has to do is to register itself as an MQTT end point. It does so in the Spring HTTP Controller using a special annotation. Once it does this, Chenile listens to a topic and forwards messages to the service. Look Mom... no transport specific protocols in the service!
+Chenile supports MQ-TT as a transport end point. What this means is that Chenile can receive messages from MQ-TT by subscribing to specific MQ-TT topics and trigger Chenile services using the content of these messages. 
+The content of this message consists of the payload which is the payload of the request. Header parametes are derived from User Properties that are supported by MQ-TT. Each user property consists of a name-value pair that acts as a header name and header value.
 
-However, there is an additional problem. The service must still implement all the synchronization logic that we mentioned in the section above. That is where the Cloud-Edge-Switch comes into its own.
+Chenile MQ-TT requires no changes on the service. All the service has to do is to register itself as an MQTT end point. It does so in the Spring HTTP Controller using a special annotation. Once it does this, Chenile listens to a topic and forwards messages to the service. Look Mom... no transport specific protocols in the service! 
+
+Chenile also supports the source and target headers to avoid duplicate messages as discussed in the previous section. They are summarized in the table below:
+
+|Header name| Possible Values | Description|
+|-----------|-----------------|------------|
+|source | the MQTT client ID for the source of the message | Since the source of the message might have also subscribed to the same topic, this header will prevent the source from updating itself again thereby creating unnecessary database duplicates|
+|target | the MQTT client ID of the target of the message| If this header is set, then only the target will consume this message. Others will not consume this message even though they might have subscribed to the same topic|
+|target| ! followed by the MQTT client ID| This is the client that should not consume this message. Everyone else can consume this message |
+
+Thus, the MQTT module allows Chenile services to consume MQ-TT messages seamlessly without requiring any code changes. 
+
+## Who implements the Synchronization Logic
+
+The service must still implement all the synchronization logic that we mentioned in the section above. This can lead to the services becoming extremely complex. We wanted to avoid this. That is where the Cloud-Edge-Switch comes into its own.
 
 ## Chenile Cloud-Edge-Switch
 Chenile __cloud-edge-switch__ is implemented as a Chenile interceptor. It is called before the service is called. It calls the underlying service and implements the logic that we discussed above. We will see how it does this now.
