@@ -11,7 +11,7 @@ summary: Reuse the same service in the cloud and the edge. Handle internet being
 When we write services, we want to focus on business logic. We don't want to make any assumptions on where the service is running. It can be running in the cloud or the edge. Chenile is all about enabling developers to focus on business logic and not be boggled with these kinds of concerns. The cloud edge switch was developed keeping this in mind. 
 
 ## The Scenario
-One of our customers has an Order Service. The order service's intent is of course to capture and fulfill orders. They deployed this in the cloud. When the internet connection goes down, things got manual. They have to key in these manual orders into the cloud when the internet connection restores itself. In this day and age, this does not obviously work. How does the store cecome more available? 
+One of our customers has an Order Service. The order service's intent is of course to capture and fulfill orders. They deployed this in the cloud. When the internet connection goes down, things got manual. They have to key in these manual orders into the cloud when the internet connection restores itself. In this day and age, this does not obviously work. How does the store become more available? 
 
 ## The Solution Outline
 The first rule of availability is redundancy. To make the order service more available we decided to run the same Order Service on the edge which in this case is the store. The store order service must handle the following:
@@ -29,6 +29,44 @@ As we have seen above, we will have two instances of the service one in the stor
 
 We want to use MQ-TT only for asynchronous requests not for LIVE requests i.e. if we want the Cloud to immediately process an Order, we don't use MQ-TT. We instead use HTTP which we know works reliably for synchronous communication. 
 
+## Design Principles
+1. The cloud service is well-known i.e. all the store services know how to reach the cloud.
+2. The cloud service does not know about the different edges. It communicates with the edges using messages that are sent to the MQ-TT broker. The broker in turn, sends the requests to all the edges that have subscribed to that type of message. 
+3. All end devices (such as UI, apps etc.) talk to edge services only. They only communicate to the cloud in the absence of an edge service that is close to them. Devices that interact with the cloud directly are prone to be DOWN if the internet connectivity is down.
+4. If the edge can communicate with the cloud, then it delegates all its requests to the cloud. It does not even process them. It expects the cloud to notify it later if the cloud has successfully processed the message. This ensures that all requests are processed by the cloud which is assumed to be running the current version of the software and has all the current validations.
+5. The cloud, upon successful completion, notifies all the edges by sending a message (as mentioned in point 2 above). 
+6. If the edge cannot communicate with the cloud, then it handles the request locally and only notifies the cloud. All other edges are supposed to ignore this request that emanated from the store. They only process the message if it comes from the cloud. 
+7. When the cloud gets an MQ-TT request from the store (as opposed to a HTTP request), it processes it regularly. But, when it notifies all the stores, it makes sure that the store that emanated the request does not process it. 
+
+## Design Implementation
+Each topic in MQ-TT services a service and an operation. The topic name is formatted as follows: {base-topic-name}/{service name}/{operation name}. The base topic name can be thought of as a constant (such as "chenile") for the purpose of this article. There are nuances that will be discussed in another article. Service name and operation name will be replaced by the name of the chenile service and operation.
+
+If a service "foo" with operation "bar" needs to be serviced at both the cloud and the edge, then both the cloud and edge will subscribe to {base-topic-name}/foo/bar. 
+
+### The Source and Target headers
+There are special headers that will be used additionally. These go as user properties as part of the MQ-TT message. The names of the headers are "source" and "target". These headers are set to the client ID of the MQ-TT client. "source" will be set to the client ID of the publisher of the message. "target" will be set to the client ID of the intended target subscriber of the message. If the "target" header begins with "!" then it means that every subscriber other than the subscriber with the client ID specified, must process this target. 
+
+### Interactions
+#### Type 1: Cloud notifying all the edges to update themselves
+In this case, the cloud sends a message with no "target" and source = "cloud client ID". This will prevent the cloud from updating itself (remember the cloud has subscribed to the same topic and hence will get its own message as well). The cloud will spot the "source" header and compares it to its own client ID. Since they will match it will not update itself. However, all the edges will update themselves since the target is not specified. (hence all subscribers must update themselves)
+
+#### Type 2: Edge notifying the cloud to update itself
+Edge sends a message to the topic with source = "edge name" and target = "cloud client ID". When this message is received the cloud (and only the cloud) will update itself since the target matches its client ID. All the edges will ignore this message.
+
+### Type 3: Cloud notifying all the edges to update themselves (except the edge that sent the message to the cloud)
+When the cloud updates itself due to an MQ-TT message from the edge, it sends the same message to the topic. The source will be "cloud client ID" and the target will be "!original-source-of the message". All the edges will update themselves by seeing this message except the edge which sent the original message. In this way, the message would have propagated itself fully. 
+
+## Scenarios
+The following scenarios cover how a message is propagated everywhere:
+
+|Scenario|Trigger|What happens?|
+|--------|------|--------------|
+|1|Message comes to the cloud|Cloud sends Type 1 message. All edges update themselves|
+|2|Message comes to an edge. Internet is UP|Edge deflects the message to the cloud via HTTP. Scenario 1 is effectively replayed|
+|3|Message comes to an edge. Internet is DOWN|Edge updates itself. Sends interaction type 2 message to the cloud. Cloud updates itself and sends interaction type 3 message to all the edges. All edges except the originating edge update themselves|
+
+
+## Detailed Implementation - A recap
 So here is the outline of the solution using HTTP and MQ-TT.
 1. All devices (such as POS terminals) talk only to a Store Order Service. They don't talk to the cloud. The Store order service exists in the same Wifi network and hence is expected to be available throughout the time the store is open. 
 2. When the internet is UP, the Store Order Service communicates to the Cloud Order Service using HTTP. It passes the Order there. The cloud order service will persist the Order if it is valid. If the Order is invalid, it fails. The store order service communicates the error back to the POS. 
