@@ -162,6 +162,10 @@ entries:
       url: /cloud-edge-switch.html
       output: web, pdf
 
+    - title: Multi Tenancy
+      url: /mqtt-multi-tenancy.html
+      output: web,pdf
+
   
 
 
