@@ -157,7 +157,11 @@ entries:
   - title: MQTT Support
     output: web, pdf
     folderitems:
-      
+    
+    - title: Setup
+      url: /chenile-mqtt.html
+      output: web, pdf
+
     - title: Cloud Edge Switch
       url: /cloud-edge-switch.html
       output: web, pdf

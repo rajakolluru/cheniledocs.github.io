@@ -8,7 +8,11 @@ permalink: /chenile-service-design.html
 folder: chenile
 summary: Chenile - Service Design
 ---
-Chenile Services comply to certain design patterns. They are designed and registered in a special way so as to enable them to be discovered and treated by Chenile. We will look into these considerations in this article.
+Chenile Services comply to certain design patterns. They are designed and registered in a special way so as to enable them to be discovered and treated by Chenile. 
+
+The most important thing to know about Chenile services is that they are transport agnostic. Chenile supports new transports and protocols seamlessly. This is due to the fact that all Chenile service implementations are plain POJOs that are completely agnostic to transport specific objects. For example, a service does not need to rely on HttpServletRequest or HttpServletResponse. 
+
+Chenile provides all the requisite context without relying on transport specific objects. It copies the transport specific entities to protocol agnostic domain objects. With that said, support natively supports HTTP since it relies on Spring Boot which has firm support for HTTP. Spring controllers are extended to define services. They are more than the entry point for HTTP interactions. They are service definitions in Chenile. We will look into these considerations in this article. 
 
 ## Service Specification
 First and foremost, every service has a name. The name identifies it uniquely in the ecosystem. There is no notion of a namespace for the service. Hence service names must contain the necessary qualifiers to uniquely identify them in the ecosystem. For example UserCommandService may be a valid name for a service. 
