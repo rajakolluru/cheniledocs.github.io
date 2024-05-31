@@ -35,6 +35,7 @@ Here is a table that describes these properties along with some references to th
 
 ### General properties
 All properities are prefixed with "mqtt."
+
 |Property name| Recommended Values| What does it do?| 
 |-------------|--------------|-----------------|
 |clientID||The client ID of the connection. Cloud will have its own Client ID whilst each edge will have its unique client ID|
@@ -81,7 +82,7 @@ The following properties allow Chenile to configure these. These belong to the M
 |-------------|--------------|-----------------|
 |payload||The payload of the last will message|
 |qos||The qos of the last will message. |
-|retained||Is the last will message retained? Read about message retention [here]()|
+|retained||Is the last will message retained? Read about message retention [here](https://www.hivemq.com/blog/mqtt-essentials-part-8-retained-messages/)|
 |topic||The topic at which the last will message will be published.|
 
 ## Declare Individual Services as Triggerable via Chenile MQTT
