@@ -55,7 +55,7 @@ All the properties below are prefixed with 'mqtt.connection".
 |session.expiry||Read more on MQ-TT sessions [here](https://www.hivemq.com/blog/mqtt5-essentials-part4-session-and-message-expiry/).|
 
 ### MQTT Publish Properties
-The properties below are used as defaults for publishing messages into MQ-TT. Remember that these properties are over-ridden based on individual services. Individual services can define their own properties. See section on [declaring individual services](#declare)
+The properties below are used as defaults for publishing messages into MQ-TT. Remember that these properties are over-ridden based on individual services. Individual services can define their own properties. See section on [declaring individual services](#declare-individual-services-as-triggerable-via-chenile-mqtt)
 All the properties are prepended with "mqtt.publish."
 
 |Property name| Recommended Values| What does it do?| 
