@@ -170,6 +170,14 @@ entries:
       url: /mqtt-multi-tenancy.html
       output: web,pdf
 
+  - title: Security
+    output: web, pdf
+    folderitems:
+
+      - title: OAuth2, OIDC and Keycloak
+        url: /oauth2.html
+        output: web,pdf
+
   
 
 
