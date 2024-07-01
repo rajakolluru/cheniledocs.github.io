@@ -79,9 +79,9 @@ To recap, here is the service structure that was generated:
 
 # Service Parent
 The parent _pom.xml_ contains the service configuration. It has a few features of interest:
-1. It inherits from chenile-parent. We need to make a commitment here for the appropriate Chenile version that the service depends on. The rest of the versions flow from there. (currently it is 1.2.3)
+1. It inherits from chenile-parent. We need to make a commitment here for the appropriate Chenile version that the service depends on. The rest of the versions flow from there. Look at [mvnrepository.com](http://mvnrepository.com) for finding the current chenile version.
 2. The service pom also executes the other poms under it. In this case, it execures both s1-api and s1-service which are registered as maven modules.
-3. The service pom initializes the version to ${revision}. This de-couples the version from the GIT. However GIT repository will be used to store the latest version (in the form of the tag). We sill discuss this later in the [dev ops part](devops)
+3. The service pom initializes the version to ${revision}. This de-couples the version from the GIT. However GIT repository will be used to store the latest version (in the form of the tag). We sill discuss this later in the [dev ops part](/chenile-devops.html)
 4. The service pom also initializes a variable called s1.version to the version of the service.
 5. s1.version is used to define dependency management for s1-api and s1-service. This ensures that the s1-api and s1-service modules can seamlessly depend on each other without stipulating the version. Foe example, in s1-service/pom.xml, we don't need to define the version for s1-api. 
 
@@ -161,7 +161,7 @@ public class S1Controller extends ControllerSupport{
 	}
 }
 ```
-In the above, the @ChenileController targets the service as a Chenile Service with a unique ID(as mentioned in the value attribute), a serviceName for doing a look up in Spring and a health checker service name that can be invoked when the health checker is invoked. A mock service name can also be used if you desire to run the service in a "mock mode" where it might not implement functionality but returns expected results.
+In the above, the @ChenileController defines a Chenile Service with a unique ID(as mentioned in the value attribute), a serviceName for doing a look up in Spring and a health checker service name that can be invoked when the health checker is invoked. A mock service name can also be used if you desire to run the service in a "mock mode" where it might not implement functionality but returns expected results.
 
 All Chenile Controllers can inherit from ControllerSupport. ControllerSupport provides the necessary plumbing to invoke the Chenile interception framework. 
 
@@ -170,10 +170,10 @@ All the methods in the Controller class must mirror the methods in the correspon
 Finally, all controller methods must call the var-args process method. The first parameter is the name of the method, the second one is the http request and the rest of the parameters are the same as what was received by the controller method. 
 
 # Service Registry
-Chenile internally hosts a mini service registry. The registry contains the information about all the Chenile services that are hosted within the current mini monolith. This information is stored using Java structures. It can easily be rendered in a custom JSON format and an Open API format. These will be discussed as part of the [mini monolith tutorial](mini-monolith). 
+Chenile internally hosts a mini service registry. The registry contains the information about all the Chenile services that are hosted within the current mini monolith. This information is stored using Java structures. It can easily be rendered in a custom JSON format and an Open API format. These will be discussed as part of the [mini monolith tutorial](/chenile-generating-minimonolith.html). 
 
 # The Testing packages
-Chenile testing packages will be discussed in the [Chenile testing framework tutorial](testing)
+Chenile testing packages will be discussed in the [Chenile testing framework tutorial](chenile-testing-tutorial.html)
 
 
 

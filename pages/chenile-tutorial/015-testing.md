@@ -68,7 +68,7 @@ The TestService-chenile.properties is the file that is used to configure chenile
 ```
 version=unittest 
 ```
-This will be discussed more in [the devops](devops) option.
+This will be discussed more in [the devops](/chenile-devops.html) option.
 
 # The Cucumber Features file
 The cucumber features file gives a typical test case. Look at the test case:
@@ -86,6 +86,6 @@ Feature: Tests the s1 Service using a REST client.
 	Then the REST response key "id" is "S1ServiceImpl"
 ```
 
-This test case is typical of the BDD tests that are supported by cucumber-utils. A brief summary of then assertions applicable can be found [here](../chenile/testing)
+This test case is typical of the BDD tests that are supported by cucumber-utils. A brief summary of then assertions applicable can be found [here](/chenile-testing.html)
 
 This is how, we get the service set up. Next let us discuss the mini monolith structure

@@ -8,13 +8,13 @@ folder: chenile-tutorial
 summary: Getting started on Chenile code generator
 ---
 # Repositories
-* [Chenile](https://github.com/rajakolluru/chenile)
+* [Chenile Gen Repo](https://github.com/rajakolluru/chenile-gen)
 * [Chenile Samples](https://github.com/rajakolluru/chenile-samples)
 
 # Chenile app-gen
 __app-gen__ is a Command Line Interface (CLI) that allows for generation of the basic scaffolding for a Chenile application. _app-gen_ has been developed in shell using mustache templates.
 
-app-gen can be downloaded and run from (https://github.com/rajakolluru/chenile). Use the app-gen folder. app-gen is already updated with the latest code in the bin folder. To build app-gen, do the following:
+app-gen can be downloaded and run from (https://github.com/rajakolluru/chenile-gen). Use the app-gen folder. app-gen is already updated with the latest code in the bin folder. To build app-gen, do the following:
 ```bash
 cd {chenile-folder}/app-gen
 make # installs app-gen scripts into a bin folder. Installs mustache if required
