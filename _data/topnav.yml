@@ -22,4 +22,6 @@ topnav_dropdowns:
           external_url:  https://github.com/rajakolluru/chenile-samples
         - title: Documentation GitHub
           external_url: https://github.com/rajakolluru/cheniledocs.github.io
+        - title: Chenile Code Generator
+          external_url: https://github.com/rajakolluru/chenile-gen
         

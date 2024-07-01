@@ -7,9 +7,8 @@ permalink: app-gen-landing-page.html
 folder: chenile-tutorial
 summary: An introduction to app-gen -  the code generator for Chenile
 ---
-
 ## What is app-gen
-app-gen is a framework that is used to generate a Chenile module. Chenile recommends multiple types of modules:
+[app-gen](https://github.com/rajakolluru/chenile-gen) is a framework that is used to generate a Chenile module. Chenile recommends multiple types of modules:
 1. Service Modules - both API and service which are used to expose a service via HTTP
 2. Workflow modules - which support a workflow oriented service via HTTP
 3. Deploy modules (Or Mini Monoliths)- that support  a deployment. The service modules contain code for  one service whilst the deploy modules package multiple service modules and generate a Spring Boot deployment that can be executed. 

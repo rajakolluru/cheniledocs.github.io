@@ -25,7 +25,7 @@ Comments are given below each instruction preceded by #
 {% highlight bash %}
 $ mkdir code; cd code # wherever you want to create these folders
 $ # Hence forth all references will be with respect to this folder
-$ git clone https://github.com/rajakolluru/chenile.git
+$ git clone https://github.com/rajakolluru/chenile-gen.git
 $ cd app-gen
 $ make 
 $ # this will compile all the programs to app-gen/bin. It also downloads mustache
