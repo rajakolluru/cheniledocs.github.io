@@ -50,7 +50,9 @@ It must be remembered that OAuth2 is a **delegation** flow. This means that _res
 Every Chenile service call must have an access token. Without access tokens, the requests will be denied. If the HTTP Accept header is HTML (i.e. the call came from a browser) then a 302 (Redirection) HTTP status code is sent to redirect the user to an authorization server. The authorization server accepts User ID and password from the user in a HTML form. It might even do things like Two Factor Authorization or can delegated authentication to an Open ID provider. If the user successfully signs in, then the authorization server will redirect the user back to the service with an authorization code which will be exchanged for an access token. Please see the OAuth2 documentation [^1]. We have too many videos on the subject as well [^2]. There is an excellent article [^3] by Okta - the creators of Auth0 on the subject as well. Auth0 has some nice ebooks as well.
 
 ## Modular approach to Security
-Chenile is obsessed with modularization. We think of security as a feature that can be turned on and off by the inclusion of suitable modules and interceptors. In the absence of these modules, security must not be there. Accordingly, we have a couple of modules for security called "chenile-security" and "security-interceptor". chenile-security defines basic security contracts whilst the interceptor module builds on top of them to construct a Security interceptor that implements authorization. 
+Chenile is obsessed with modularization. We think of security as a feature that can be turned on and off by the inclusion of suitable modules and interceptors. In the absence of these modules, security must not be there. Accordingly, we have modules for security called "chenile-security-api", chenile-security" and "security-interceptor". chenile-security defines basic security contracts whilst the interceptor module builds on top of them to construct a Security interceptor that implements authorization. 
+
+Packaging of security interfaces will be discussed in a separate chapter.
 
 While we understand that HTTP is central to OAuth2 and OIDC flows, it is also true that services must be secured irrespective of the way they are invoked. So we want security to be implemented not just in the HTTP path (by using a Http Filter) but as a generic Chenile interceptor. 
 
@@ -90,13 +92,12 @@ Keeping security in mind, we will discuss the architecture of a Chenile secured 
 
 The application architecture is shown above. The chief components are explained here. At startup, the BFF enrolls itself as a client to the authorization server and obtains a client secret. 
 
-The user's browser accesses the front end application that is hosted in the assets folder via a reverse proxy. The reverse proxy provides a common entry point to both the APIs and assets.
-The APIs are accessed via a BFF (Backend for front end). 
+The user's browser accesses the front end application that is hosted in the assets folder (via an optional reverse proxy). The reverse proxy provides a common entry point to both the APIs and assets.
+The APIs are accessed via a BFF (Backend for front end). BFF provides and secures all static assets using the spring boot static controller. The user will be forced to authenticate using keycloak before accessing the static assets. 
 
-Upon first request, the BFF deflects the browser (via a 302 Redirection) to the authorization server. The authorization server validates the user's credentials and generates an authorization code. It then returns a response to the browser and automatically submits the authorization code to the BFF. The BFF uses the authorization code to obtain an access token which it stores in the session. It returns the session ID as a secure cookie back to the browser. 
+Upon first request, the BFF deflects the browser (via a 302 Redirection) to the authorization server. The authorization server validates the user's credentials and generates an authorization code. It then returns a response to the browser and automatically submits the authorization code to the BFF. The BFF uses the authorization code to obtain an access token which it stores in the session. It returns the session ID as a secure cookie back to the browser along with any static asset that has been requested.
 
-From then on, the BFF interacts with the browser using the cookie. It uses the access token that is shared in the session to access the resource server (i.e servcices). The resource server can validate the token with the authorization server as required.
-
+From then on, the BFF interacts with the browser using the cookie. It uses the access token that is shared in the session to access the resource server (i.e services). The resource server can validate the token with the authorization server as required.
 
 
 ## References
