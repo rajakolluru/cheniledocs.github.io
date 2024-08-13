@@ -4,7 +4,7 @@ topnav:
 - title: Topnav
   items:
     - title: Javadoc
-      url: http://javadoc.chenile.org
+      url: https://javadoc.chenile.org
     - title: Documentation
       url: /index.html
     - title: Tutorial
