@@ -5,7 +5,7 @@ topnav:
   items:
     - title: Javadoc
       external_url: https://javadoc.chenile.org
-    - title: Documentation
+    - title: Home
       url: /index.html
     - title: Tutorial
       url: /app-gen-landing-page.html
