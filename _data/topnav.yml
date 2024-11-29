@@ -16,8 +16,18 @@ topnav_dropdowns:
   folders:
     - title: GitHubs
       folderitems:
-        - title: Chenile Source
-          external_url: https://github.com/rajakolluru/chenile
+        - title: Chenile Core Source
+          external_url: https://github.com/ajapros/chenile-core
+        - title: Chenile Security Source
+          external_url: https://github.com/ajapros/chenile-security
+        - title: Chenile Query Workflow Blueprints Source
+          external_url: https://github.com/ajapros/chenile-query-workflow-blueprints
+        - title: Chenile Mqtt source
+          external_url: https://github.com/ajapros/chenile-mqtt
+        - title: Chenile BDD Integration test support
+          external_url: https://github.com/ajapros/chenile-bdd
+        - title: Chenile Other Modules
+          external_url: https://github.com/ajapros/chenile-others
         - title: Chenile Samples
           external_url:  https://github.com/rajakolluru/chenile-samples
         - title: Documentation GitHub
