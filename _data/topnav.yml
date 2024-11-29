@@ -29,7 +29,7 @@ topnav_dropdowns:
         - title: Chenile Other Modules
           external_url: https://github.com/ajapros/chenile-others
         - title: Chenile Samples
-          external_url:  https://github.com/rajakolluru/chenile-samples
+          external_url:  https://github.com/ajapros/chenile-samples
         - title: Documentation GitHub
           external_url: https://github.com/rajakolluru/cheniledocs.github.io
         - title: Chenile Code Generator
