@@ -36,6 +36,10 @@ entries:
     - title: On Modulith Architecture
       url: /on-modulith-architecture.html
       output: web, pdf
+
+    - title: Domain Driven Design
+      output: web,pdf
+      url: /domain-definition.html
       
     - title: Design Principles
       output: web,pdf

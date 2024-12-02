@@ -366,6 +366,12 @@ a.accordion-toggle, a.accordion-collapsed {
     text-decoration: none;
 }
 
+.nav li  a.mainItem  {
+    font-size: 15px;
+    font-weight: bolder;
+    color: black;
+}
+
 .nav li > a > span {
     float: right;
     font-size: 19px;

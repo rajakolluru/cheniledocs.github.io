@@ -1,5 +1,5 @@
 ---
-title: The Autonomy Conundrum
+title: The Autonomy Pyramid
 keywords: homepage
 tags: [autonomy introduction modulith chenile]
 sidebar: chenile_sidebar
