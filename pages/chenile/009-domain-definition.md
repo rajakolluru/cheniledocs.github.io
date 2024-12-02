@@ -39,4 +39,16 @@ NFRs are implemented as horizontal services. They span across multiple bounded c
 implemented as a service in their own bounded contexts. However, they are also available as either
 SDKs or common libraries that can be called from other bounded contexts. E.g., Security 
 
+Typically, NFRs have an interceptor that can be used by other services to implement the NFR. For example
+we have Security interceptors that are available as Servlet Filters, Aspect Oriented Programming (AOP)
+advices etc. 
+
+## Features of a Bounded Context
+All bounded contexts in a domains have the following traits:
+1. Bounded contexts map to real-world entities and features. Hence, they should be mappable to real world entities without an elaborate mapping exercise.
+2. Bounded contexts are cohesive. They contain entities that depend on each other to solve a bigger problem.
+3. Bounded Contexts are 'atomic'. If a domain is split further, then the problem that gets solved will be so negligible as to be practically useless.
+4. Bounded contexts are about "nouns" and seldom about verbs. For example, a real world workflow progressively enhances an entity (or a set of related entities that might represent an Aggregate). Hence the entity (and not the workflow) would be the subject of the bounded context.
+
+
 
