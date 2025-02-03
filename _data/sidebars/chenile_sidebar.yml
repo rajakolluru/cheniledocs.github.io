@@ -146,6 +146,10 @@ entries:
       url: /chenile-stm.html
       output: web, pdf
 
+    - title: Chenile STM - Details
+      url: /chenile-stm-details.html
+      output: web, pdf
+
   - title: Chenile Query
     output: web, pdf
     folderitems:

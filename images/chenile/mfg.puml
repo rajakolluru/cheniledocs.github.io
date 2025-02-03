@@ -1,0 +1,47 @@
+@startuml
+skinparam handwritten true
+<style>
+     diamond {
+     BackgroundColor #palegreen
+     LineColor #green
+     LineThickness 2.5
+     }
+  </style>
+  skinparam state  {
+   BorderThickness<<MAIN_PATH>> 4
+   BorderColor<<MAIN_PATH>> Peru
+   BackgroundColor<<MAIN_PATH>> Bisque
+  }
+  skinparam state {
+     BackgroundColor<<orphaned>> OrangeRed
+  }
+state AreOutOfAssemblyLineActivitiesComplete <<choice>> 
+note right of AreOutOfAssemblyLineActivitiesComplete : **AreOutOfAssemblyLineActivitiesComplete**\n**descriptorClass:**org.chenile.stm.model.AutomaticStateDescriptor\n**tag:**auto-state
+state READY <<MAIN_PATH>> 
+state OUT_OF_ASSEMBLY_LINE <<MAIN_PATH>> 
+state SOLD <<MAIN_PATH>> 
+state AreSalesActivitiesComplete <<choice>> 
+note right of AreSalesActivitiesComplete : **AreSalesActivitiesComplete**\n**tag:**sales-activities-completion-check\n**whichStateId:**READY
+state IN_ASSEMBLY_LINE <<MAIN_PATH>> 
+state INITIATED <<MAIN_PATH>> 
+AreOutOfAssemblyLineActivitiesComplete --> OUT_OF_ASSEMBLY_LINE : no
+AreOutOfAssemblyLineActivitiesComplete -[thickness=4,#Peru]-> READY : <color:Peru>**yes**
+READY -[thickness=3,#blue]-> AreSalesActivitiesComplete : pickUp
+READY -[thickness=3,#blue]-> AreSalesActivitiesComplete : invoice
+OUT_OF_ASSEMBLY_LINE -[thickness=3,#blue]-> AreOutOfAssemblyLineActivitiesComplete : testByExperts
+OUT_OF_ASSEMBLY_LINE -[thickness=3,#blue]-> AreOutOfAssemblyLineActivitiesComplete : testByEndUsers
+OUT_OF_ASSEMBLY_LINE -[thickness=3,#LightBlue]-> AreOutOfAssemblyLineActivitiesComplete : checkIfPaintOk
+SOLD -[thickness=4,#Peru]-> [*]
+AreSalesActivitiesComplete --> READY : no
+AreSalesActivitiesComplete -[thickness=4,#Peru]-> SOLD : <color:Peru>**yes**
+IN_ASSEMBLY_LINE -[thickness=4,#Peru]-> OUT_OF_ASSEMBLY_LINE : <color:Peru>**finishManufacturing**
+[*] -[thickness=4,#Peru]-> INITIATED
+INITIATED -[thickness=4,#Peru]-> IN_ASSEMBLY_LINE : <color:Peru>**putInAssemblyLine**
+legend right
+<#GhostWhite,#GhostWhite>|        |= __Legend__ |
+|<#OrangeRed>   | Orphaned State|
+|<#Peru>   | Main Path|
+|<#LightBlue> |Transitions without state change|
+|<#PaleGreen> |Automatic State Computations|
+endlegend
+@enduml

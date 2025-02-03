@@ -1,0 +1,11 @@
+<states>
+    <flow id="OrderFlow" default="true">
+        <manual-state id="Placed" initialState="true" meta-mainPath="true">
+            <on eventId="shipIt" newStateId="Shipped"/>
+        </manual-state>
+        <manual-state id="Shipped"  meta-mainPath="true">
+            <on eventId="fulfillIt" newStateId="Fulfilled"  meta-mainPath="true"/>
+        </manual-state>
+        <manual-state id="Fulfilled"  meta-mainPath="true"/>
+    </flow>
+</states>

@@ -1,0 +1,31 @@
+@startuml
+<style>
+     diamond {
+     BackgroundColor #palegreen
+     LineColor #green
+     LineThickness 2.5
+     }
+  </style>
+  skinparam state  {
+   BorderThickness<<MAIN_PATH>> 4
+   BorderColor<<MAIN_PATH>> Peru
+   BackgroundColor<<MAIN_PATH>> Bisque
+  }
+  skinparam state {
+     BackgroundColor<<orphaned>> OrangeRed
+  }
+state Fulfilled <<MAIN_PATH>> 
+state Shipped <<MAIN_PATH>> 
+state Placed <<MAIN_PATH>> 
+Fulfilled -[thickness=4,#Peru]-> [*]
+Shipped -[thickness=4,#Peru]-> Fulfilled : <color:Peru>**fulfillIt**
+[*] -[thickness=4,#Peru]-> Placed
+Placed -[thickness=4,#Peru]-> Shipped : <color:Peru>**shipIt**
+legend right
+<#GhostWhite,#GhostWhite>|        |= __Legend__ |
+|<#OrangeRed>   | Orphaned State|
+|<#Peru>   | Main Path|
+|<#LightBlue> |Transitions without state change|
+|<#PaleGreen> |Automatic State Computations|
+endlegend
+@enduml
