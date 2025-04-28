@@ -7,8 +7,19 @@ permalink: app-gen-landing-page.html
 folder: chenile-tutorial
 summary: An introduction to app-gen -  the code generator for Chenile
 ---
+
+Use jgen.sh which is the upgraded version of app-gen written in Java
 ## What is app-gen
-[app-gen](https://github.com/rajakolluru/chenile-gen) is a framework that is used to generate a Chenile module. Chenile recommends multiple types of modules:
+[app-gen](https://github.com/rajakolluru/chenile-gen) is a general purpose code generator. app-gen can be used to generate all kinds of code. 
+Specifically, it is used to generate chenile code. 
+
+app-gen is a set of code generation utilities. They use the concept of blueprints. Blue prints contain a 
+template for code along with code naming conventions etc. 
+app-gen can be used as a framework to generate a Chenile module. app-gen can also be used to do code 
+generation outside of Chenile. 
+
+
+Chenile recommends multiple types of modules:
 1. Service Modules - both API and service which are used to expose a service via HTTP
 2. Workflow modules - which support a workflow oriented service via HTTP
 3. Deploy modules (Or Mini Monoliths)- that support  a deployment. The service modules contain code for  one service whilst the deploy modules package multiple service modules and generate a Spring Boot deployment that can be executed. 
