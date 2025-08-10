@@ -4,7 +4,7 @@
 entries:
 - title: Sidebar
   product: Documentation
-  version: 2.0.25
+  version: 2.0.36
   folders:
 
   - title:
@@ -104,6 +104,14 @@ entries:
     - title: Chenile Proxy Framework
       url: /chenile-proxy.html
       output: web, pdf
+
+  - title: Location Transparency
+    output: web,pdf
+    folderitems:
+
+      - title: Inter process communication
+        url: /chenile-ipc.html
+        output: web,pdf
 
   - title: Some viewpoints
     output: web,pdf
