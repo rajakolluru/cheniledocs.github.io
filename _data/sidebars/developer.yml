@@ -1,0 +1,30 @@
+# This is your sidebar TOC. The sidebar code loops through sections here and provides the appropriate formatting.
+
+
+entries:
+- title: Sidebar
+  product: Documentation
+  version: 2.1.11
+  folders:
+
+  - title:
+    output: pdf
+    type: frontmatter
+    folderitems:
+    - title: Start
+      url: /developer-start.html
+      output: pdf
+      type: frontmatter
+
+  - title: Start
+    output: web, pdf
+    folderitems:
+
+      - title:  Start
+        url: /developer-start.html
+        output: web,pdf
+        type: homepage
+
+      
+
+    

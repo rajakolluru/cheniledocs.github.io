@@ -5,10 +5,7 @@ topnav:
   items:
     - title: Javadoc
       external_url: https://javadoc.chenile.org
-    - title: Home
-      url: /index.html
-    - title: Tutorial
-      url: /app-gen-landing-page.html
+
 
 #Topnav dropdowns
 topnav_dropdowns:
@@ -34,4 +31,12 @@ topnav_dropdowns:
           external_url: https://github.com/rajakolluru/cheniledocs.github.io
         - title: Chenile Code Generator
           external_url: https://github.com/rajakolluru/chenile-gen
+    - title: Doc Types
+      folderitems:
+        - title: Home
+          url: /index.html
+        - title: Tutorial
+          url: /app-gen-landing-page.html
+        - title: Developer Docs
+          url: /developer-start.html
         

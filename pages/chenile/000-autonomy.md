@@ -23,7 +23,7 @@ However, there are two important overarching principles that need to be imposed 
 
 So it is a delicate balance - between autonomy on one side and cohesion/governance on the other. We want a framework and development platform that caters to these dual (but conflicting) concerns. How do we make sure that a bounded context is given the requisite autonomy without compromising the overall cohesion that is required to build a stable and sustainable ecosystem? 
 
-## The Autonomy Pyramid
+## The Autonomy Py ramid
 
 The pyramid shown below illustrates this dichotomy between the two conflicting forces of autonomy and governance/cohesion. 
 
