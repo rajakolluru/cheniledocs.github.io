@@ -1041,6 +1041,32 @@ span.label.label-primary {
     color: black;
     }
 
+/* Explicit visual hierarchy for nested sidebar navigation */
+#mysidebar > li > ul > li > a {
+    font-weight: 600;
+}
+
+#mysidebar li.subfolders > a.subfoldersTitle {
+    padding-left: 22px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .2px;
+    border-left: 3px solid #347DBE;
+    background-color: #eef4fb;
+}
+
+#mysidebar li.subfolders > ul {
+    border-left: 1px solid #d7e3f3;
+    margin-left: 12px;
+}
+
+#mysidebar li.subfolders > ul > li > a.subfolderitemLink {
+    padding-left: 30px;
+    font-size: 11.5px;
+    color: #333;
+    background-color: #fff;
+}
+
 a code {
     color: #248EC2;
 }

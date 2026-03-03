@@ -16,15 +16,116 @@ entries:
       output: pdf
       type: frontmatter
 
-  - title: Start
+  - title: Developer Docs
     output: web, pdf
     folderitems:
 
-      - title:  Start
+      - title: Overview
         url: /developer-start.html
         output: web,pdf
         type: homepage
 
-      
+      - title: Workspace Guides
+        url: /developer-ajapro-framework-guide.html
+        output: web,pdf
+        subfolders:
+          - title: Ajapro
+            output: web,pdf
+            subfolderitems:
+              - title: Framework Guide
+                url: /developer-ajapro-framework-guide.html
+                output: web,pdf
 
-    
+      - title: Chenile Core
+        url: /developer-chenile-core.html
+        output: web,pdf
+        subfolders:
+          - title: Deep Dives
+            output: web,pdf
+            subfolderitems:
+              - title: Core Guide
+                url: /developer-chenile-core.html
+                output: web,pdf
+              - title: multi-datasource-utils
+                url: /developer-chenile-core-multi-datasource-utils.html
+                output: web,pdf
+              - title: cucumber-utils
+                url: /developer-chenile-core-cucumber-utils.html
+                output: web,pdf
+              - title: custom-id-generator
+                url: /developer-chenile-core-custom-id-generator.html
+                output: web,pdf
+          - title: Module Reference
+            output: web,pdf
+            subfolderitems:
+              - title: chenile-base
+                url: /developer-chenile-core.html#chenile-base
+                output: web,pdf
+              - title: owiz
+                url: /developer-chenile-core.html#owiz
+                output: web,pdf
+              - title: chenile-core
+                url: /developer-chenile-core.html#chenile-core-module
+                output: web,pdf
+              - title: chenile-http
+                url: /developer-chenile-core.html#chenile-http
+                output: web,pdf
+              - title: stm
+                url: /developer-chenile-core.html#stm
+                output: web,pdf
+              - title: utils
+                url: /developer-chenile-core.html#utils
+                output: web,pdf
+              - title: jpa-utils
+                url: /developer-chenile-core.html#jpa-utils
+                output: web,pdf
+
+      - title: Chenile Messaging
+        url: /developer-chenile-mqtt.html
+        output: web,pdf
+        subfolders:
+          - title: Deep Dives
+            output: web,pdf
+            subfolderitems:
+              - title: Messaging Guide
+                url: /developer-chenile-mqtt.html
+                output: web,pdf
+              - title: mqtt transport
+                url: /developer-chenile-mqtt-transport.html
+                output: web,pdf
+              - title: kafka transport
+                url: /developer-chenile-mqtt-kafka.html
+                output: web,pdf
+              - title: azure eventhub
+                url: /developer-chenile-mqtt-azure.html
+                output: web,pdf
+              - title: cloud-edge-switch
+                url: /developer-chenile-mqtt-cloud-edge-switch.html
+                output: web,pdf
+              - title: chenile-jvm-pub-sub
+                url: /developer-chenile-mqtt-jvm-pub-sub.html
+                output: web,pdf
+          - title: Module Reference
+            output: web,pdf
+            subfolderitems:
+              - title: chenile-pub-sub
+                url: /developer-chenile-mqtt.html#chenile-pub-sub
+                output: web,pdf
+              - title: chenile-mqtt
+                url: /developer-chenile-mqtt.html#chenile-mqtt-module
+                output: web,pdf
+              - title: chenile-kafka
+                url: /developer-chenile-mqtt.html#chenile-kafka
+                output: web,pdf
+              - title: chenile-azure
+                url: /developer-chenile-mqtt.html#chenile-azure
+                output: web,pdf
+              - title: chenile-jvm-pub-sub
+                url: /developer-chenile-mqtt.html#chenile-jvm-pub-sub
+                output: web,pdf
+              - title: cloud-edge-switch
+                url: /developer-chenile-mqtt.html#cloud-edge-switch
+                output: web,pdf
+              - title: cucumber-mqtt-utils
+                url: /developer-chenile-mqtt.html#cucumber-mqtt-utils
+                output: web,pdf
