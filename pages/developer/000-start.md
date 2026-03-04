@@ -14,3 +14,4 @@ Welcome to the Developer documents.
 - [Ajapro Framework Developer Guide](/developer-ajapro-framework-guide.html)
 - [Chenile Core Developer Guide](/developer-chenile-core.html)
 - [Chenile Messaging Developer Guide](/developer-chenile-mqtt.html)
+- [Chenile Samples Developer Guide](/developer-chenile-samples.html)

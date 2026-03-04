@@ -129,3 +129,17 @@ entries:
               - title: cucumber-mqtt-utils
                 url: /developer-chenile-mqtt.html#cucumber-mqtt-utils
                 output: web,pdf
+
+      - title: Chenile Samples
+        url: /developer-chenile-samples.html
+        output: web,pdf
+        subfolders:
+          - title: Deep Dives
+            output: web,pdf
+            subfolderitems:
+              - title: Samples Guide
+                url: /developer-chenile-samples.html
+                output: web,pdf
+              - title: how_to_extend_chenile_service_multitenant_pubsub
+                url: /developer-chenile-samples-how-to-extend-multitenant-pubsub.html
+                output: web,pdf
