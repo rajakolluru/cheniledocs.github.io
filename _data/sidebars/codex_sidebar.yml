@@ -1,0 +1,53 @@
+# Sidebar for Codex-authored Chenile documentation
+
+entries:
+- title: Sidebar
+  product: Codex Docs
+  version: 2.1.14
+  folders:
+
+  - title:
+    output: pdf
+    type: frontmatter
+    folderitems:
+    - title:
+      url: /titlepage.html
+      output: pdf
+      type: frontmatter
+    - title:
+      url: /tocpage.html
+      output: pdf
+      type: frontmatter
+
+  - title: Codex Docs
+    output: web, pdf
+    folderitems:
+    - title: Index
+      url: /codex-docs-index.html
+      output: web, pdf
+
+  - title: Architecture
+    output: web, pdf
+    folderitems:
+    - title: Modules Overview
+      url: /codex-chenile-modules-overview.html
+      output: web, pdf
+    - title: Architecture and Release
+      url: /codex-chenile-architecture-release.html
+      output: web, pdf
+    - title: Dependency Diagram
+      url: /codex-chenile-dependency-diagram.html
+      output: web, pdf
+
+  - title: Guides
+    output: web, pdf
+    folderitems:
+    - title: Maintainer Handbook
+      url: /codex-chenile-maintainer-handbook.html
+      output: web, pdf
+    - title: Chenile Gen Getting Started
+      url: /codex-chenile-gen-getting-started.html
+      output: web, pdf
+    - title: Repository Guides
+      url: /codex-chenile-repository-guides.html
+      output: web, pdf
