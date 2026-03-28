@@ -22,6 +22,7 @@ This section contains the Codex-authored documentation set for Chenile. It is ai
 - [Chenile Config Guide](/codex-chenile-config-guide.html)
 - [Chenile Gen Getting Started](/codex-chenile-gen-getting-started.html)
 - [Chenile Repository Guides](/codex-chenile-repository-guides.html)
+- [Chenile 2.1.17 Release Notes](/codex-chenile-2-1-17-release-notes.html)
 
 ## When to read what
 

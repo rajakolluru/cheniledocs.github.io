@@ -3,7 +3,7 @@
 entries:
 - title: Sidebar
   product: Codex Docs
-  version: 2.1.16
+  version: 2.1.17
   folders:
 
   - title:
@@ -53,4 +53,7 @@ entries:
       output: web, pdf
     - title: Repository Guides
       url: /codex-chenile-repository-guides.html
+      output: web, pdf
+    - title: 2.1.17 Release Notes
+      url: /codex-chenile-2-1-17-release-notes.html
       output: web, pdf
