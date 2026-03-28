@@ -3,7 +3,7 @@
 entries:
 - title: Sidebar
   product: Codex Docs
-  version: 2.1.14
+  version: 2.1.16
   folders:
 
   - title:
@@ -44,6 +44,9 @@ entries:
     folderitems:
     - title: Maintainer Handbook
       url: /codex-chenile-maintainer-handbook.html
+      output: web, pdf
+    - title: Chenile Config Guide
+      url: /codex-chenile-config-guide.html
       output: web, pdf
     - title: Chenile Gen Getting Started
       url: /codex-chenile-gen-getting-started.html
