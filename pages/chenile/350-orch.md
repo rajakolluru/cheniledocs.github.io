@@ -67,6 +67,14 @@ Router
 By combining these attachable command, it is possible to create extremely complex orchestrations. 
 
 ## Support for a DSL 
-Chenile orchestration supports the creation of a domain specific language (DSL). The Spring names for the created beans allow for a flexible tagging support. New tags can be created and registered into OWIZ. The spring bean names can also be used as Owiz tags. For example, an owiz tag &lt;abc-def&gt; will look for a bean name abcDef in Spring. This bean is used in an orchestration. 
+Chenile orchestration supports the creation of a domain specific language (DSL). The Spring names for the created beans allow for flexible tagging support. New tags can still be created and registered into OWIZ, but that is not required for normal Spring-managed commands. The Spring bean names can be used directly as OWIZ tags by converting camel case to hyphenated XML. For example, an OWIZ tag `&lt;abc-def&gt;` will look for a Spring bean named `abcDef`. This bean is then used in the orchestration.
+
+In practice, this means that a bean such as `jsonBasedCconfigRetriever` can be referenced directly as:
+
+{% highlight xml %}
+<json-based-cconfig-retriever/>
+{% endhighlight %}
+
+No `add-command-tag` entry is needed for that case. `add-command-tag` is useful only when you want a tag name that does not naturally map to an existing bean name, or when you want a tag to map to a class or bean with a completely different name.
 
 For a tutorial on owiz [please see this link](../chenile-tutorial/owiz-tut)

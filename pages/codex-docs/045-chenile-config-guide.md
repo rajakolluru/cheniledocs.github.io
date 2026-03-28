@@ -1,56 +1,62 @@
 ---
 title: Chenile Config Guide
-keywords: chenile cconfig config retriever factory overrides
+keywords: chenile cconfig config owiz overrides
 tags: [chenile cconfig config]
 sidebar: codex_sidebar
 permalink: /codex-chenile-config-guide.html
 folder: codex-docs
-summary: How Chenile Config works, how the current retriever SPI is structured, and how JSON, DB, and environment override sources are applied in order.
+summary: How Chenile Config works today with OWIZ orchestration, ConfigContext, resource-aware loaders, and the built-in JSON, DB, properties, message-bundle, and environment config commands.
 ---
 
-This guide documents `cconfig`, the Chenile modular configuration system, with emphasis on the current retriever SPI, runtime flow, and built-in override sources.
+This guide documents `cconfig`, the Chenile modular configuration system, with emphasis on the current OWIZ-based runtime flow, the built-in configuration commands, and the file/resource lookup conventions.
 
 ## What `cconfig` does
 
-`cconfig` lets a Chenile application define configuration as module JSON on the classpath and then override that configuration at runtime.
+`cconfig` lets a Chenile application define configuration as module JSON on the classpath and then progressively enrich or override that configuration at runtime.
 
 The main ideas are:
 
 - each configuration belongs to a module such as `payments`, `payments.rules`, or `ctest`
-- base values come from a JSON file on the classpath
-- runtime overrides can replace a full key or mutate a nested path inside a JSON value
+- base values usually come from a JSON file on the classpath
+- later sources can replace a full key or mutate a nested path inside a JSON value
 - overrides can be selected by a custom attribute, which defaults to the Chenile tenant id header
+- the orchestration of those sources is explicit in OWIZ XML instead of being hardcoded into retriever ordering logic
 
 ## Repository structure
 
 The repository contains two modules:
 
-- `cconfig-api`
-- `cconfig-service`
+- `chenile-config`
+- `cconfig-db`
 
-`cconfig-api` holds the public SPI, SDK client implementation, and built-in API-level retrievers. `cconfig-service` provides the service-side database retriever and runtime wiring.
+`chenile-config` holds the SDK client implementation, the OWIZ command types used for config loading, and utility classes. `cconfig-db` provides the database-backed config command and the production OWIZ orchestration.
 
 ## Current package layout
 
-The current design is split into three layers:
+The current design is split into four main packages:
 
 - `org.chenile.cconfig.spi`
 - `org.chenile.cconfig.sdk.impl`
+- `org.chenile.cconfig.util`
 - `org.chenile.cconfig.service.impl`
 
 The SPI package contains:
 
 - `ConfigContext`
-- `CconfigRetriever`
-- `CconfigRetrieverFactory`
 - `KeyManipulatingConfigRetriever`
 
 The SDK implementation package contains:
 
 - `CconfigClientImpl`
-- `CconfigRetrieverFactoryImpl`
 - `JsonBasedCconfigRetriever`
+- `PropertiesBasedCconfigRetriever`
 - `EnvBasedCconfigRetriever`
+- `MessageBundleConfigRetriever`
+
+The utility package contains:
+
+- `ExpressionSupport`
+- `ResourceSupport`
 
 The service implementation package contains:
 
@@ -58,72 +64,142 @@ The service implementation package contains:
 
 ## Runtime flow
 
-`CconfigClientImpl` now resolves a configuration value through `ConfigContext`.
+`CconfigClientImpl` resolves a configuration value through `ConfigContext` and an OWIZ orchestration.
 
 The flow is:
 
 1. Build a `ConfigContext(module, customAttribute)`.
 2. Look in `MemoryCache` for the resolved module map.
-3. Ask `CconfigRetrieverFactory` for all registered retrievers in `order()` sequence.
-4. Call `augmentKeys(configContext)` on each retriever.
-5. Cache `configContext.allKeys`.
+3. Execute an `OrchExecutor<ConfigContext>`.
+4. Let each OWIZ command mutate or enrich `configContext.allKeys`.
+5. Cache the resulting `configContext.allKeys`.
 6. Return either the full module map or the selected key.
 
 The default customization attribute comes from `chenile-tenant-id`, which is read from the Chenile request context.
 
-## Retriever factory model
+## OWIZ orchestration model
 
-`cconfig` now uses a shared `CconfigRetrieverFactory` instead of assuming there is exactly one retriever.
+`cconfig` no longer uses a retriever factory or an `order()` contract. The composition is now defined in OWIZ XML.
 
-The design is:
+The production orchestration in `cconfig-db` is:
 
-- `CconfigRetrieverFactory` registers retriever instances
-- retrievers register themselves with the factory at startup
-- `CconfigClientImpl` asks the factory for all retrievers and invokes them in order
-- retrievers are sorted by `order()`
+```xml
+<flows>
+    <flow>
+        <chain>
+            <json-based-cconfig-retriever/>
+            <db-based-cconfig-retriever/>
+            <properties-based-cconfig-retriever/>
+            <message-bundle-config-retriever/>
+            <env-based-cconfig-retriever/>
+        </chain>
+    </flow>
+</flows>
+```
 
-Lower `order()` means lower precedence. Higher `order()` retrievers run later and can override values established by earlier retrievers.
+This keeps orchestration concerns outside the individual config commands. If the sequence changes, the XML changes, not the command API.
 
-## Built-in retrievers
+## OWIZ tag convention
+
+OWIZ supports a useful Spring bean naming convention:
+
+- a Spring bean named `jsonBasedCconfigRetriever` can be used in OWIZ XML as `<json-based-cconfig-retriever/>`
+- a Spring bean named `messageBundleConfigRetriever` can be used as `<message-bundle-config-retriever/>`
+
+This means normal Spring bean names can be referenced directly in OWIZ XML without `add-command-tag`, as long as the XML tag is the hyphenated form of the camel-case bean name.
+
+## Built-in config commands
 
 ### `JsonBasedCconfigRetriever`
 
-- lives in `cconfig-api`
-- is the baseline retriever
-- loads the module JSON from the configured classpath path
+- lives in `chenile-config`
+- is the baseline config loader
+- loads module JSON from a configured classpath folder
+- uses `ResourceSupport.resourceLoader(...)` so it first checks a customization-specific JSON path and then falls back to the base JSON path
+- maps module names to JSON resources
+  - `ctest` -> `.../ctest.json`
+  - `ctest1.ctest1` -> `.../ctest1/ctest1.json`
 - replaces `configContext.allKeys` with the parsed module map
-- runs first with `order() == -1`
 
-This retriever establishes the initial config map for the module.
+This command establishes the starting key set for the module.
+
+### `PropertiesBasedCconfigRetriever`
+
+This command lives in `chenile-config` and extends `KeyManipulatingConfigRetriever`.
+
+It:
+
+- treats the configured `propertiesPath` as a folder, not a file
+- derives the actual properties file name from the module
+  - module `m1` -> `m1.properties`
+- uses `ResourceSupport`
+- first checks `<propertiesPath>/<customAttribute>/<module>.properties`
+- then falls back to `<propertiesPath>/<module>.properties`
+- reads entries of the form `module.key=value`
+- also supports nested-path overrides in the form `module.key.path.to.node=value`
+- converts matching entries for the current module into `Cconfig` records
+- relies on `KeyManipulatingConfigRetriever` and `ExpressionSupport` to apply those records
+
+This is useful for file-based overrides that should behave like database `Cconfig` rows without requiring a database.
 
 ### `DbBasedCconfigRetriever`
 
-This is the service-side retriever and extends `KeyManipulatingConfigRetriever`.
+This is the service-side command and extends `KeyManipulatingConfigRetriever`.
 
 It:
 
 - queries runtime overrides from the database
 - includes both `__GLOBAL__` and the request-specific customization attribute
-- self-registers with the factory in `@PostConstruct`
 - returns `List<Cconfig>` from `retrieveCconfigs(...)`
 - relies on `KeyManipulatingConfigRetriever` and `ExpressionSupport` to apply those overrides to `configContext.allKeys`
 
-This is the right pattern when a retriever naturally returns `Cconfig` rows rather than directly mutating the resolved map.
+This is the right pattern when a source naturally returns `Cconfig` rows rather than directly mutating the resolved map.
 
-### `EnvBasedCconfigRetriever`
+### `MessageBundleConfigRetriever`
 
-This retriever lives in `cconfig-api` and directly mutates `configContext.allKeys`.
+This command lives in `chenile-config` and augments keys from Spring message bundles.
 
 It:
 
-- scans the current keys already present in `configContext.allKeys`
-- looks for an environment entry named `{customAttribute}_{module}_{key}`
-- if present, fully replaces that key value
-- does not add brand new keys
-- does not perform path-level mutation
-- runs late with `order() == 10`
+- scans configured message bundle property files
+- looks for keys in the forms `module.key`, `__GLOBAL__.module.key`, and `customAttribute.module.key`
+- builds locale-aware maps from those bundle entries
+- treats `module.key` as the default message key
+- lets `__GLOBAL__.module.key` override that default
+- lets `customAttribute.module.key` override both
+- adds those values into `configContext.allKeys` without replacing existing non-bundle values
 
-This makes environment overrides the highest-precedence built-in source in the current chain.
+This is intended for i18n-style configuration values where the resolved value is a locale map rather than a single scalar.
+
+### `EnvBasedCconfigRetriever`
+
+This command lives in `chenile-config` and reads overrides from environment variables.
+
+It:
+
+- uses the key combinations already known in `ConfigContext`
+- looks for environment entries named `{customAttribute}_{module}_{key}`
+- also checks `__GLOBAL___{module}_{key}`
+- emits pathless `Cconfig` values so the normal merge logic applies
+- overrides known keys rather than inventing arbitrary new ones
+
+This makes environment overrides a late-stage source in the default orchestration.
+
+### `ResourceSupport`
+
+`ResourceSupport` is the shared classpath lookup utility used by commands that read resources from the classpath.
+
+Its static method:
+
+- `resourceLoader(basePath, resourceName, customAttribute)`
+
+behaves like this:
+
+1. try `<basePath>/<customAttribute>/<resourceName>`
+2. if not found, try `<basePath>/<resourceName>`
+3. if neither exists, return `null`
+
+This gives JSON and properties loaders a consistent customization-aware classpath lookup path.
 
 ## Override semantics
 
@@ -131,11 +207,11 @@ This makes environment overrides the highest-precedence built-in source in the c
 
 ### Full-value overrides
 
-If a retriever applies or returns a record with no `path`, the full key value is replaced.
+If a command applies or returns a record with no `path`, the full key value is replaced.
 
 ### Path-based overrides
 
-If a retriever returns a `Cconfig` with a `path`, the existing expression-based logic updates only that nested location.
+If a command returns a `Cconfig` with a `path`, the existing expression-based logic updates only that nested location.
 
 Example:
 
@@ -143,31 +219,34 @@ Example:
 - runtime override can add or replace `fields.field2`
 - runtime override can replace a scalar like `abc`
 
-In the current implementation:
+In the current default orchestration:
 
 - `JsonBasedCconfigRetriever` establishes the starting key set
 - `DbBasedCconfigRetriever` can replace existing values, add new values, or mutate nested paths
-- `EnvBasedCconfigRetriever` only overrides keys that already exist in `configContext.allKeys`
+- `PropertiesBasedCconfigRetriever` can add or override keys from classpath properties files and can apply nested path updates
+- `MessageBundleConfigRetriever` can add locale-aware values for message-driven keys
+- `EnvBasedCconfigRetriever` overrides known keys from the environment
 
-## How to add a new retriever
+## How to add a new config source
 
 To add another override source:
 
-1. Choose the retriever style.
-2. If the source directly mutates the resolved map, implement `CconfigRetriever` and update `ConfigContext` in `augmentKeys(...)`.
-3. If the source naturally produces `List<Cconfig>`, extend `KeyManipulatingConfigRetriever` and implement `retrieveCconfigs(...)`.
-4. Provide an `order()` if the retriever should run above or below existing retrievers.
-5. Register the retriever with `CconfigRetrieverFactory` during startup.
+1. Implement a normal OWIZ `Command<ConfigContext>`.
+2. If the source naturally produces `List<Cconfig>`, extend `KeyManipulatingConfigRetriever` and implement `retrieveCconfigs(...)`.
+3. If the source directly mutates the resolved map, update `configContext.allKeys` in `execute(...)`.
+4. Register the command as a Spring bean.
+5. Place it in the desired sequence in the OWIZ XML.
 
-This keeps the client orchestration simple while allowing multiple override sources such as database, remote config, file-based overlays, or environment-specific adapters.
+This keeps the orchestration explicit and decoupled from the individual config commands.
 
 ## Testing approach
 
-The retriever flow is covered by unit tests in `cconfig-service`:
+The current flow is covered by tests in both modules:
 
-- one test proves multiple retrievers apply in precedence order
-- one test proves the single-retriever path still behaves the same
-- one test proves the JSON retriever sorts first
-- one test proves the env retriever overrides lower-precedence sources for known keys
+- OWIZ-based orchestration tests verify the multi-command merge flow
+- `ResourceSupport` tests verify customization-specific resource lookup with fallback
+- properties tests verify that module-derived `*.properties` files map correctly into `Cconfig` records
+- message-bundle tests verify locale-aware config extraction
+- env tests verify environment overrides over already-discovered keys
 
-The tests use the existing `ctest.json` fixture so the behavior is validated against both scalar replacement and nested JSON path mutation.
+The OWIZ tests also verify that the XML bean-tag DSL works with hyphenated Spring bean names such as `<json-based-cconfig-retriever/>`.

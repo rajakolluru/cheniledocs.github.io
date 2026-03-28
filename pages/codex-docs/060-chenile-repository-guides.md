@@ -132,5 +132,5 @@ Role:
 - Modular configuration system for Chenile applications
 
 Modules:
-- `cconfig-api`
-- `cconfig-service`
+- `chenile-config`
+- `cconfig-db`

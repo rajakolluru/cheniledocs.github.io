@@ -156,7 +156,7 @@ We call the obtainOrchExecutor() with different files. Then we initialize the Ba
 The orchestration is composed of multiple flows. (each with a unique ID). Each flow can have multiple commands. In this case we are invoking "simpleCommand1" and expect that the key "simpleCommand1" has been set to "owiz". The "first" attribute in the command states that the simpleCommand1 must be the first command in the orchestration. In this case, it also happens to be the only command in the orchestration.
 
 ## Simplifying the XML further
-The above XML is needlessly verbose. It can even be reduced by skipping "command" tag and the attributes that can be inferred such as "first". We can write a new XML file - orch2.xml as follows;
+The above XML is needlessly verbose. In normal Spring-backed OWIZ usage, you can usually skip the `command` tag and refer to the Spring bean directly. We can write a new XML file - orch2.xml as follows;
 orch2.xml
 {% highlight xml %}
 <flows>
@@ -168,7 +168,7 @@ orch2.xml
 The orchestration for orch2.xml is identical to that of "orch1.xml"
 
 ## Avoiding Camel Case
-XML puritans will not like camel case in XML tags. They can instead use "orch3.xml" which looks like this:
+XML puritans will not like camel case in XML tags. OWIZ supports the Spring bean naming convention directly, so a bean named `simpleCommand1` can also be written as `simple-command1`. "orch3.xml" looks like this:
 orch3.xml
 {% highlight xml %}
 <flows>
@@ -253,7 +253,7 @@ The OgnlRouter has been configured here to use an expression called "myRoute". T
 
 :::tip
 ### Using a custom command tag
-It is completely possible to avoid verbosity by using a custom tag. For example, in orch5.xml above, the unweildy command tag can be replaced with a switch tag. In the above case here is the XML snippet.
+Custom tags are optional. If a Spring bean name already maps cleanly to the hyphenated XML tag you want, OWIZ will resolve it automatically and you do not need `add-command-tag`. Use a custom tag only when you want a different DSL shape from the bean name or class name. For example, in orch5.xml above, the unwieldy command tag can be replaced with a switch tag. In that case here is the XML snippet.
 {% highlight xml %}
 orch6.xml
 <flows>
