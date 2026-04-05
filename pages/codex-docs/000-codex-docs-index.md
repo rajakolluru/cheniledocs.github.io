@@ -20,6 +20,7 @@ This section contains the Codex-authored documentation set for Chenile. It is ai
 - [Chenile Dependency Diagram](/codex-chenile-dependency-diagram.html)
 - [Chenile Maintainer Handbook](/codex-chenile-maintainer-handbook.html)
 - [Chenile Config Guide](/codex-chenile-config-guide.html)
+- [Chenile Service Registry And Proxies Guide](/codex-chenile-service-registry-and-proxies-guide.html)
 - [Chenile Gen Getting Started](/codex-chenile-gen-getting-started.html)
 - [Chenile Repository Guides](/codex-chenile-repository-guides.html)
 - [Chenile 2.1.17 Release Notes](/codex-chenile-2-1-17-release-notes.html)
@@ -30,5 +31,6 @@ This section contains the Codex-authored documentation set for Chenile. It is ai
 - Read the architecture and dependency pages for cross-repository structure.
 - Use the maintainer handbook for version upgrades, tagging, `git describe`, deploy, and Maven Central verification.
 - Use the config guide when working on `cconfig`, runtime overrides, or retriever composition.
+- Use the service registry and proxies guide when replacing direct HTTP clients with Chenile interface-based invocation.
 - Use the Chenile Gen guide when generating application code from blueprints.
 - Use the repository guides page when narrowing down where a change belongs.

@@ -48,6 +48,9 @@ entries:
     - title: Chenile Config Guide
       url: /codex-chenile-config-guide.html
       output: web, pdf
+    - title: Service Registry And Proxies
+      url: /codex-chenile-service-registry-and-proxies-guide.html
+      output: web, pdf
     - title: Chenile Gen Getting Started
       url: /codex-chenile-gen-getting-started.html
       output: web, pdf
