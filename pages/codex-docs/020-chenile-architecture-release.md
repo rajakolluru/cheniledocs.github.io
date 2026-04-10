@@ -83,6 +83,18 @@ Chenile normalizes incoming work into a `ChenileExchange`. That exchange carries
 - resolved target bean and method
 - response and exception state
 
+### Request-scoped context
+
+`chenile-core` also uses `ContextContainer` as a request-scoped metadata holder for framework headers and request metadata.
+
+Key constraint:
+
+- `ContextContainer` is backed by `ThreadLocal`
+- it is populated during interceptor execution
+- it is cleared when the request finishes
+
+So it is safe for normal synchronous request handling, but it is not a general cross-thread context propagation mechanism. If work moves to another thread, the new thread will not automatically see the original request context.
+
 ### Interceptor highway
 
 The typical execution path is:
@@ -93,6 +105,8 @@ The typical execution path is:
 4. transform the payload into target Java types
 5. invoke the service method
 6. build the response
+
+Several runtime features depend on `ContextContainer`, including tenant-aware datasource routing and request-aware utility code. That makes its thread-local behavior an architectural consideration when using executors, async code, or reactive flows.
 
 ## Dependency Direction Across Repositories
 

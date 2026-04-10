@@ -35,6 +35,11 @@ Modules:
 - `multi-datasource-utils`
 - `chenile-mcp`
 
+Context note:
+- `chenile-core` owns `ContextContainer`, the request-scoped thread-local metadata holder used by interceptors, tenant routing, ID generation, and related helpers.
+- It is safe for synchronous same-thread request handling, but it should not be relied on for implicit async or reactive context propagation.
+- The core tests include an executor-based isolation test proving that two concurrent requests do not leak `ContextContainer` headers into each other when each request stays on its own thread.
+
 ## `chenile-query-workflow-blueprints`
 
 Role:
