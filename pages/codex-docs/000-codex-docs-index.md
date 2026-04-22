@@ -23,7 +23,7 @@ This section contains the Codex-authored documentation set for Chenile. It is ai
 - [Chenile Service Registry And Proxies Guide](/codex-chenile-service-registry-and-proxies-guide.html)
 - [Chenile Gen Getting Started](/codex-chenile-gen-getting-started.html)
 - [Chenile Repository Guides](/codex-chenile-repository-guides.html)
-- [Chenile 2.1.18 Release Notes](/codex-chenile-2-1-18-release-notes.html)
+- [Chenile 2.1.19 Release Notes](/codex-chenile-2-1-19-release-notes.html)
 
 ## When to read what
 
