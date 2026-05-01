@@ -42,6 +42,7 @@ For blueprint-based Chenile application generation, the most important ones are:
 - `wfservice`
 - `wfcustom`
 - `mybatisQuery`
+- `minimonolith`
 
 ## How the generated code uses Chenile
 
@@ -129,3 +130,61 @@ Use this when you already have workflow XML and want generation to derive wiring
 ### `mybatisQuery`
 
 Use this when you need query endpoints backed by metadata JSON and MyBatis XML.
+
+### `minimonolith`
+
+Use this when you want one bootable package that hosts multiple Chenile service modules and you want optional MCP, service-registry, query-controller, or H2-console support without immediately hand-editing the generated templates.
+
+Important `minimonolith` options now include:
+
+- `enableMCP`
+- `mcpServerName`
+- `mcpInstructions`
+- `enableServiceRegistry`
+- `enableServiceRegistryDelegate`
+- `serviceRegistryUrl`
+- `enableQueryController`
+- `enableH2Console`
+- `dependencies`
+
+`enableServiceRegistry` hosts `service-registry-service` inside the generated monolith. `enableServiceRegistryDelegate` instead adds `service-registry-delegate` and expects `serviceRegistryUrl` so the generated `application.yml` can point to a remote registry.
+
+## Structured input maps and record arrays
+
+`jgen` now supports structured array inputs through `RECORD_ARRAY`. This is used in `minimonolith` for extra Maven dependencies.
+
+Example:
+
+```json
+{
+  "blueprint": "minimonolith",
+  "monolith": "agent",
+  "dependencies": [
+    {
+      "dependencyName": "service-registry-delegate",
+      "dependencyGroup": "org.chenile",
+      "dependencyVersion": "2.1.20"
+    },
+    {
+      "dependencyName": "chenile-query-controller",
+      "dependencyGroup": "org.chenile"
+    }
+  ]
+}
+```
+
+The generated package `pom.xml` iterates over these records and emits Maven `<dependency>` entries.
+
+For the built-in `dependencies` field:
+
+- `dependencyName` is the anchor field
+- `dependencyGroup` and `dependencyVersion` are not accepted if `dependencyName` is blank
+- `dependencyVersion` is optional when `dependencyName` is present
+
+`jgen` also now resolves `${...}` placeholders against earlier captured input values, so defaults such as `${monolith}` work in interactive and input-file mode.
+
+Generate a sample `minimonolith` input file with:
+
+```bash
+chenile-gen/jgen/jgen-cli/bin/jgen.sh -g minimonolith -o minimonolith-input.json
+```
