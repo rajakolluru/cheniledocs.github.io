@@ -40,6 +40,8 @@ This is the runtime substrate that the rest of the framework builds on. Its main
 - state machine support
 - persistence and utility helpers
 
+The core runtime also now owns Chenile's multi-version metadata model. Instead of assuming one global version string, it aggregates every classpath `*version.txt` resource into a version map and allows each service to resolve its reported version from a named `versionProperty`.
+
 ### Layer 3: Application blueprints
 
 Repositories:
@@ -107,6 +109,29 @@ The typical execution path is:
 6. build the response
 
 Several runtime features depend on `ContextContainer`, including tenant-aware datasource routing and request-aware utility code. That makes its thread-local behavior an architectural consideration when using executors, async code, or reactive flows.
+
+### Runtime version metadata
+
+Chenile no longer treats runtime versioning as a single flat value.
+
+What happens now:
+
+- every classpath resource ending in `version.txt` is loaded
+- all discovered key/value pairs are merged into an in-memory version map
+- `getVersion("xxx")` resolves `xxx.version`
+- service definitions can declare `versionProperty` to choose which version key represents that service
+
+Defaulting rule:
+
+- if `versionProperty` is declared, that named key is used
+- if it is omitted, the runtime defaults it from the service id
+
+Architectural impact:
+
+- one monolith can host services that belong to different release families
+- shared libraries can contribute framework-wide version keys such as `chenile.version`
+- platform-level modules can contribute their own family keys such as `agentServer.version`
+- `/info` can expose a full version map instead of only one scalar version
 
 ## Dependency Direction Across Repositories
 
