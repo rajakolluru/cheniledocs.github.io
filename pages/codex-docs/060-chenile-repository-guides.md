@@ -40,6 +40,15 @@ Context note:
 - It is safe for synchronous same-thread request handling, but it should not be relied on for implicit async or reactive context propagation.
 - The core tests include an executor-based isolation test proving that two concurrent requests do not leak `ContextContainer` headers into each other when each request stays on its own thread.
 
+Version note:
+- `chenile-core` now aggregates every classpath `*version.txt` resource into a runtime version map.
+- Services can declare `versionProperty` and resolve their service version from a named `xxx.version` entry rather than only from the default service id mapping.
+- `/info` exposes the aggregated version map.
+
+Admin UI note:
+- `chenile-core` now includes `chenile-admin-ui`, a standalone React frontend for inspecting running Chenile monoliths.
+- It supports both local service inspection through `/info` and `/service-info/{service}`, and ecosystem-wide inspection through `GET /serviceregistry` when the target monolith hosts `serviceregistryService`.
+
 ## `chenile-query-workflow-blueprints`
 
 Role:
