@@ -40,7 +40,7 @@ This is the runtime substrate that the rest of the framework builds on. Its main
 - state machine support
 - persistence and utility helpers
 
-The core runtime also now owns Chenile's multi-version metadata model. Instead of assuming one global version string, it aggregates every classpath `*version.txt` resource into a version map and allows each service to resolve its reported version from a named `versionProperty`.
+The core runtime also now owns Chenile's multi-version metadata model. Instead of assuming one global version string, it aggregates every classpath `*version.txt` resource into a version map and allows each service to resolve its reported version from a named `serviceModule`.
 
 ### Layer 3: Application blueprints
 
@@ -119,11 +119,12 @@ What happens now:
 - every classpath resource ending in `version.txt` is loaded
 - all discovered key/value pairs are merged into an in-memory version map
 - `getVersion("xxx")` resolves `xxx.version`
-- service definitions can declare `versionProperty` to choose which version key represents that service
+- service definitions can declare `serviceModule` to choose which version key represents that service
 
 Defaulting rule:
 
-- if `versionProperty` is declared, that named key is used
+- if `serviceModule` is declared, that named key is used
+- `versionProperty` remains available as a deprecated compatibility alias
 - if it is omitted, the runtime defaults it from the service id
 
 Architectural impact:

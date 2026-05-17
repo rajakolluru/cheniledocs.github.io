@@ -42,10 +42,11 @@ Context note:
 
 Version note:
 - `chenile-core` now aggregates every classpath `*version.txt` resource into a runtime version map.
-- Services can declare `versionProperty` and resolve their service version from a named `xxx.version` entry rather than only from the default service id mapping.
+- Services can declare `serviceModule` and resolve their service version from a named `xxx.version` entry rather than only from the default service id mapping.
 - `/info` exposes the aggregated version map.
 - `getVersion("xxx")` resolves `xxx.version`, which makes multi-family versioning practical inside one running monolith.
-- `versionProperty` is optional in both service JSON and `@ChenileController`, and defaults from the service id when omitted.
+- `serviceModule` is optional in both service JSON and `@ChenileController`, and defaults from the service id when omitted.
+- `versionProperty` remains available as a deprecated compatibility alias.
 - This lets framework-level services resolve from keys such as `chenile.version`, while platform or application service families can resolve from their own shared version keys.
 
 Admin UI note:

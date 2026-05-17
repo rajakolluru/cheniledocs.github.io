@@ -36,8 +36,9 @@ Chenile `2.1.21` rolls the framework family forward from `2.1.20` and captures t
 
 - `chenile-core` now aggregates version properties from every classpath resource ending in `version.txt` instead of keeping only one version value in memory.
 - `ChenileConfiguration` now supports `getVersion("xxx")`, which resolves `xxx.version`.
-- Services can now declare an optional `versionProperty`, both in service JSON and in `@ChenileController`.
-- `versionProperty` now defaults from the service ID when it is not declared explicitly.
+- Services can now declare an optional `serviceModule`, both in service JSON and in `@ChenileController`.
+- `serviceModule` now defaults from the service ID when it is not declared explicitly.
+- `versionProperty` remains accepted as a deprecated compatibility alias.
 - The built-in `infoService` now resolves its service version from `chenile.version`.
 
 ### Monolith naming transition
