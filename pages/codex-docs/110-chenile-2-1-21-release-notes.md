@@ -40,6 +40,15 @@ Chenile `2.1.21` rolls the framework family forward from `2.1.20` and captures t
 - `versionProperty` now defaults from the service ID when it is not declared explicitly.
 - The built-in `infoService` now resolves its service version from `chenile.version`.
 
+### Monolith naming transition
+
+- `chenile.monolith.name` is now the primary runtime property for monolith identity.
+- `chenile.module.name` still works as a deprecated compatibility fallback.
+- `chenile-gen` templates and framework test resources now generate and validate `chenile.monolith.name` by default.
+- Core runtime APIs now expose `getMonolithName()` while keeping `getModuleName()` as a compatibility alias.
+- Public JSON payloads emitted by `chenile-core` and `chenile-service-registry` now use `monolithName`.
+- Incoming JSON that still sends `moduleName` is accepted for compatibility during the transition window.
+
 ### Chenile Admin UI
 
 - `chenile-core` now contains `chenile-admin-ui`, a standalone React frontend for inspecting running Chenile systems.
@@ -58,6 +67,8 @@ Chenile `2.1.21` rolls the framework family forward from `2.1.20` and captures t
 - The main Chenile repositories now resolve to `2.1.21` through `chenile-parent`.
 - `git describe --tags` should return `2.1.21` across the standard tagged release repositories after the annotated tags are created and pushed.
 - `chenile-gen` remains a release follow-up repository rather than part of the standard 11, but its generated defaults should stay aligned with the active Chenile baseline.
+- Applications should start moving their `chenile.properties` files from `chenile.module.name` to `chenile.monolith.name`.
+- Consumers of `/info`, `/service-info`, and service-registry payloads should switch to `monolithName`. `moduleName` remains accepted on input, but new output now prefers `monolithName`.
 
 ## Documentation updates
 
@@ -69,3 +80,4 @@ The Chenile docs were updated to reflect:
 - the current release baseline in the architecture and modules overview pages
 - the `chenile-admin-ui` guide and its ecosystem mode
 - the current `chenile-gen` example dependency version
+- the `chenile.monolith.name` transition and `monolithName` payload shape
