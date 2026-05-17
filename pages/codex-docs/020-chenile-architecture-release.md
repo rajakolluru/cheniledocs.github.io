@@ -124,7 +124,6 @@ What happens now:
 Defaulting rule:
 
 - if `serviceModule` is declared, that named key is used
-- `versionProperty` remains available as a deprecated compatibility alias
 - if it is omitted, the runtime defaults it from the service id
 
 Architectural impact:

@@ -46,7 +46,6 @@ Version note:
 - `/info` exposes the aggregated version map.
 - `getVersion("xxx")` resolves `xxx.version`, which makes multi-family versioning practical inside one running monolith.
 - `serviceModule` is optional in both service JSON and `@ChenileController`, and defaults from the service id when omitted.
-- `versionProperty` remains available as a deprecated compatibility alias.
 - This lets framework-level services resolve from keys such as `chenile.version`, while platform or application service families can resolve from their own shared version keys.
 
 Admin UI note:
