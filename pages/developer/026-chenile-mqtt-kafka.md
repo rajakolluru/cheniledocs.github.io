@@ -39,7 +39,7 @@ chenile.properties=org/chenile/pubsub/kafka/TestKafka-chenile.properties
 Core Chenile keys:
 
 ```properties
-chenile.module.name=chenile-kafka
+chenile.monolith.name=chenile-kafka
 chenile.service.json.package=classpath*:org/chenile/core/service/*.json
 chenile.event.json.package=classpath*:org/chenile/core/*.json
 chenile.interceptors.path=org/chenile/core/chenile-core.xml

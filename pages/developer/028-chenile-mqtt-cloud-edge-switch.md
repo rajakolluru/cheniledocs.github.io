@@ -39,7 +39,7 @@ chenile.properties=org/chenile/cloudedgeswitch/test/TestCloudEdgeSwitch-chenile.
 Core Chenile keys:
 
 ```properties
-chenile.module.name=cloud-edge-switch
+chenile.monolith.name=cloud-edge-switch
 chenile.service.json.package=classpath*:org/chenile/core/service/*.json
 chenile.event.json.package=classpath*:org/chenile/core/*.json
 chenile.interceptors.path=org/chenile/core/chenile-core.xml

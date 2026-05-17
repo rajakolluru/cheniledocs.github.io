@@ -38,7 +38,7 @@ chenile.properties=org/chenile/pubsub/azure/TestKafka-chenile.properties
 Core Chenile keys:
 
 ```properties
-chenile.module.name=chenile-azure
+chenile.monolith.name=chenile-azure
 chenile.service.json.package=classpath*:org/chenile/core/service/*.json
 chenile.event.json.package=classpath*:org/chenile/core/*.json
 chenile.interceptors.path=org/chenile/core/chenile-core.xml

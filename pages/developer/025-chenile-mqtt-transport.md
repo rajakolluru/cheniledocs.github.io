@@ -44,7 +44,7 @@ chenile.properties=org/chenile/mqtt/test/TestMqtt-chenile.properties
 Core Chenile keys:
 
 ```properties
-chenile.module.name=chenile-mqtt
+chenile.monolith.name=chenile-mqtt
 chenile.service.json.package=classpath*:org/chenile/core/service/*.json
 chenile.event.json.package=classpath*:org/chenile/core/*.json
 chenile.interceptors.path=org/chenile/core/chenile-core.xml

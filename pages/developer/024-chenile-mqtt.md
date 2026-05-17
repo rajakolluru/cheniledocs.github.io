@@ -100,13 +100,15 @@ Inside `*-chenile.properties`, the minimum Chenile runtime keys are:
 
 ```properties
 chenile.base.url=
-chenile.module.name=<module-name>
+chenile.monolith.name=<monolith-name>
 chenile.pre.processors=
 chenile.post.processors=
 chenile.service.json.package=classpath*:org/chenile/core/service/*.json
 chenile.event.json.package=classpath*:org/chenile/core/*.json
 chenile.interceptors.path=org/chenile/core/chenile-core.xml
 ```
+
+`chenile.module.name` is still accepted as a deprecated fallback, but new configurations should use `chenile.monolith.name`.
 
 ## Specialized Guides
 

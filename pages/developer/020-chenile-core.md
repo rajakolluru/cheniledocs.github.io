@@ -120,14 +120,15 @@ A practical baseline (from sample configurations):
 chenile.service.json.package=classpath*:org/chenile/samples/**/service/*.json,classpath*:org/chenile/**/service/*.json
 chenile.event.json.package=classpath*:org/chenile/samples/**/event/*.json
 chenile.interceptors.path=org/chenile/core/chenile-core.xml
-chenile.module.name=m1
+chenile.monolith.name=m1
 chenile.pre.processors=populateContextContainer
 chenile.post.processors=
 ```
 
 Important keys:
 
-- `chenile.module.name`: Module identity in Chenile configuration.
+- `chenile.monolith.name`: Monolith identity in Chenile configuration.
+- `chenile.module.name`: Deprecated compatibility alias for `chenile.monolith.name`.
 - `chenile.service.json.package`: JSON service definition scan path.
 - `chenile.event.json.package`: Event definition scan path.
 - `chenile.interceptors.path`: Interceptor chain XML.
