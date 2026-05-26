@@ -170,6 +170,14 @@ entries:
       url: /chenile-mybatis-query-service.html
       output: web, pdf
 
+    - title: Query Provider Extension
+      url: /query-provider-extension.html
+      output: web, pdf
+
+    - title: Query Framework Migration Guide
+      url: /query-framework-migration-guide.html
+      output: web, pdf
+
   - title: MQTT Support
     output: web, pdf
     folderitems:
