@@ -71,7 +71,9 @@ First let us look at the JSON.
 
 As you see , the query meta data is not tied to Mybatis. You can use this to configure any query in Chenile. We will support other types of queries in the future using the same meta data. Here we will use the id to map the query to mybatis. The name will be visible to the user. All requests to the getAll query would be made to /q/students. This would internally map it to the Mybatis Srudents.getAll query that will be defined in the mapper file. The column meta data is useful and will be passed verbatim in SearchResponse so that the UI can use this information to display the screen as stated in the [page on query framework](/chenile-mybatis-query-service.html)
 
-It is important to explicitly enable pagination and sorting at the query level. Once the query is defined we can write the corresponding Mybatis mapper file. 
+	It is important to explicitly enable pagination and sorting at the query level. Once the query is defined we can write the corresponding Mybatis mapper file.
+
+	For paginated queries, Chenile runs the `<queryId>-count` mapper by default. If this query is expensive for a specific query, add `"countQueryEnabled": false` to that query definition. If the service disables count queries globally but this query still needs exact totals, add `"countQueryEnabled": true`. When this property is absent, the query follows the global `query.pagination.countQueryEnabled` setting.
 
 ### The Mapper file
 {% highlight xml %}
@@ -146,7 +148,7 @@ Make sure that sortable and paginated are set to true in the corresponding query
 {% endhighlight %}
 
 Here we define the getALl query in the student namespace. A few observations:
-1. getAll is a paginated query. Since paginated queries need to explicitly return maxPages and maxCount it is important to define a "count query" as well. The count query is called getAll-count by convention. This allows Chenile to know where to look for it. 
+	1. getAll is a paginated query. Since paginated queries need to explicitly return maxPages and maxCount by default, it is important to define a "count query" as well. The count query is called getAll-count by convention. This allows Chenile to know where to look for it. A query can opt out by setting `"countQueryEnabled": false`; in that case Chenile uses no-count pagination and returns `pagination.nextPageAvailable`.
 2. The orderby and pagination variables need to be added verbatim at the end of the getAll query (not the count query). This allows pagination and sorting. The paginated and sortable fields in the query meta data (in the JSON) must be set to true. 
 3. The count query has exactly the same where clause as the getAll query. 
 4. like filters are treated using the key word like as shown above
@@ -154,6 +156,5 @@ Here we define the getALl query in the student namespace. A few observations:
 6. contains filters must have the foreach loop as shown above 
 
 With these two files in place, you are all set. Please see the src/test/ for the testcases and feature files. 
-
 
 

@@ -92,7 +92,20 @@ public class ColumnMetadata {
 	private boolean betweenQuery;
 }
 {% endhighlight %}
-The pagination parameters are in response to what was requested. It returns the actual number of rows returned, the current page (which should be the pageNum but can be lesser if the number of pages is less than the pageNum passed), numRowsInPage (which is the same as what was passed), maxPages that specifies how many pages exist in the resultset. maxRows is the total count. 
+The pagination parameters are in response to what was requested. It returns the actual number of rows returned, the current page (which should be the pageNum but can be lesser if the number of pages is less than the pageNum passed), numRowsInPage (which is the same as what was passed), maxPages that specifies how many pages exist in the resultset. maxRows is the total count.
+
+For paginated queries, Chenile runs the `<queryId>-count` mapper by default. Count execution can be disabled globally with `query.pagination.countQueryEnabled=false`. Individual query definitions can override the global setting by adding `countQueryEnabled`:
+
+{% highlight json %}
+{
+  "id": "Student.getAll",
+  "name": "students",
+  "paginated": true,
+  "countQueryEnabled": false
+}
+{% endhighlight %}
+
+If `countQueryEnabled` is absent in the query definition, Chenile uses the global setting. If it is `false`, Chenile fetches one extra row and returns `pagination.nextPageAvailable` instead of exact `maxRows` and `maxPages`. If it is `true`, Chenile runs the count query even when the global flag is disabled.
 
 The List of response rows gives the data back (in the row field) along with a list of AllowedActionInfo that specifies what actions are available for the row. Label specifies what should be the label that must be displayed in the UI (perhaps in a button). link specifies the link to be called when the button is pressed. isCombinable specifies if the action can be combined if multiple rows are highlighted by the user. For example, can we highlight multiple Orders and close them all in one shot. 
 
@@ -102,4 +115,3 @@ Chenile provides a Mybatis Service that implements SearchService. This is expose
 The only task remaining is to write the Mybatis queries and define the query meta data. 
 
 That will be discussed as part of the Chenile tutorial.
-

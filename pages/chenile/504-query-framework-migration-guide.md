@@ -107,6 +107,29 @@ Response behavior changes in no-count mode:
 
 Use `pagination.nextPageAvailable` instead of `maxPages` when count query is disabled.
 
+## Query-Level Count Override
+
+The global `query.pagination.countQueryEnabled` flag can be overridden by an individual query definition. Add `countQueryEnabled` to the query JSON:
+
+```json
+{
+  "id": "Student.getAll",
+  "name": "students",
+  "paginated": true,
+  "countQueryEnabled": false
+}
+```
+
+Precedence:
+
+| Query metadata value | Behavior |
+|----------------------|----------|
+| `true` | Run `<queryId>-count` even if the global flag is disabled |
+| `false` | Use no-count pagination even if the global flag is enabled |
+| absent / `null` | Follow `query.pagination.countQueryEnabled` |
+
+This is useful when most queries should use one strategy, but a few high-volume queries need no-count pagination or a few important queries still need exact totals.
+
 ## Response Contract Change
 
 `SearchResponse` now has an additional nullable field:
@@ -199,4 +222,3 @@ See [Query Provider Extension](/query-provider-extension.html) for complete prov
 - Existing multi-tenant routing: compatible.
 - New provider extension: optional.
 - New no-count pagination mode: optional.
-
