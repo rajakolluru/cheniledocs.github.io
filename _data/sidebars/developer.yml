@@ -55,6 +55,9 @@ entries:
               - title: custom-id-generator
                 url: /developer-chenile-core-custom-id-generator.html
                 output: web,pdf
+              - title: external-api-logging
+                url: /developer-chenile-core-external-api-logging.html
+                output: web,pdf
           - title: Module Reference
             output: web,pdf
             subfolderitems:
