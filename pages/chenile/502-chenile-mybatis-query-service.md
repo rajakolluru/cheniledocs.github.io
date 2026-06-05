@@ -107,6 +107,26 @@ For paginated queries, Chenile runs the `<queryId>-count` mapper by default. Cou
 
 If `countQueryEnabled` is absent in the query definition, Chenile uses the global setting. If it is `false`, Chenile fetches one extra row and returns `pagination.nextPageAvailable` instead of exact `maxRows` and `maxPages`. If it is `true`, Chenile runs the count query even when the global flag is disabled.
 
+Truth table:
+
+| Query JSON `countQueryEnabled` | Global `query.pagination.countQueryEnabled` | Effective behavior |
+| --- | --- | --- |
+| `true` | `true` | Count query runs |
+| `true` | `false` | Count query runs |
+| `true` | absent | Count query runs |
+| `false` | `true` | Count query does not run |
+| `false` | `false` | Count query does not run |
+| `false` | absent | Count query does not run |
+| absent | `true` | Count query runs |
+| absent | `false` | Count query does not run |
+| absent | absent | Count query runs |
+
+So the priority is:
+
+1. Query JSON `countQueryEnabled`, if present
+2. Global `query.pagination.countQueryEnabled`, if present
+3. Framework default `true`
+
 The List of response rows gives the data back (in the row field) along with a list of AllowedActionInfo that specifies what actions are available for the row. Label specifies what should be the label that must be displayed in the UI (perhaps in a button). link specifies the link to be called when the button is pressed. isCombinable specifies if the action can be combined if multiple rows are highlighted by the user. For example, can we highlight multiple Orders and close them all in one shot. 
 
 Finally, SearchResponse gives back metadata about each column that has been returned. Name, columnName and ColumnType are obvious. Is the column sortable or filterable. If the column type is drop down the drop down values are also returned. It also specifies if a column can be used for a containsQuery or betweenQuery or likeQuery. This is useful to construct search filters.

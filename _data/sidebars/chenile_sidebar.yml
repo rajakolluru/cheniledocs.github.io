@@ -162,6 +162,10 @@ entries:
       url: /chenile-stm-details.html
       output: web, pdf
 
+    - title: Workflow MCP Support
+      url: /workflow-mcp.html
+      output: web, pdf
+
   - title: Chenile Query
     output: web, pdf
     folderitems:

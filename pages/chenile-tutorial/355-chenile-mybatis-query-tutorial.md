@@ -75,6 +75,20 @@ As you see , the query meta data is not tied to Mybatis. You can use this to con
 
 	For paginated queries, Chenile runs the `<queryId>-count` mapper by default. If this query is expensive for a specific query, add `"countQueryEnabled": false` to that query definition. If the service disables count queries globally but this query still needs exact totals, add `"countQueryEnabled": true`. When this property is absent, the query follows the global `query.pagination.countQueryEnabled` setting.
 
+	Truth table:
+
+	| Query JSON `countQueryEnabled` | Global `query.pagination.countQueryEnabled` | Effective behavior |
+	| --- | --- | --- |
+	| `true` | `true` | Count query runs |
+	| `true` | `false` | Count query runs |
+	| `true` | absent | Count query runs |
+	| `false` | `true` | Count query does not run |
+	| `false` | `false` | Count query does not run |
+	| `false` | absent | Count query does not run |
+	| absent | `true` | Count query runs |
+	| absent | `false` | Count query does not run |
+	| absent | absent | Count query runs |
+
 ### The Mapper file
 {% highlight xml %}
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">	
@@ -156,5 +170,4 @@ Here we define the getALl query in the student namespace. A few observations:
 6. contains filters must have the foreach loop as shown above 
 
 With these two files in place, you are all set. Please see the src/test/ for the testcases and feature files. 
-
 

@@ -123,10 +123,30 @@ The global `query.pagination.countQueryEnabled` flag can be overridden by an ind
 Precedence:
 
 | Query metadata value | Behavior |
-|----------------------|----------|
+| --- | --- |
 | `true` | Run `<queryId>-count` even if the global flag is disabled |
 | `false` | Use no-count pagination even if the global flag is enabled |
 | absent / `null` | Follow `query.pagination.countQueryEnabled` |
+
+Truth table:
+
+| Query JSON `countQueryEnabled` | Global `query.pagination.countQueryEnabled` | Effective behavior |
+| --- | --- | --- |
+| `true` | `true` | Count query runs |
+| `true` | `false` | Count query runs |
+| `true` | absent | Count query runs |
+| `false` | `true` | Count query does not run |
+| `false` | `false` | Count query does not run |
+| `false` | absent | Count query does not run |
+| absent | `true` | Count query runs |
+| absent | `false` | Count query does not run |
+| absent | absent | Count query runs |
+
+Priority order:
+
+1. Query JSON `countQueryEnabled`, if present
+2. Global `query.pagination.countQueryEnabled`, if present
+3. Framework default `true`
 
 This is useful when most queries should use one strategy, but a few high-volume queries need no-count pagination or a few important queries still need exact totals.
 

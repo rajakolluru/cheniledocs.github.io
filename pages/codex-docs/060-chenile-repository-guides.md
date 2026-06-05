@@ -64,9 +64,15 @@ Modules:
 - `chenile-query-controller`
 - `workflow-api`
 - `workflow-service`
+- `workflow-mcp`
 - `cucumber-workflow-utils`
 - `workflow-utils`
 - `stm-generate-puml`
+
+Workflow MCP note:
+- `workflow-service` is the base runtime dependency.
+- `workflow-mcp` is an optional add-on for services that expose workflow MCP metadata.
+- The optional module keeps the `chenile-mcp` dependency out of normal workflow runtime services.
 
 ## `chenile-service-registry`
 
