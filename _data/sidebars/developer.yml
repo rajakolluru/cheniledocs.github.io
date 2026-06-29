@@ -146,3 +146,6 @@ entries:
               - title: how_to_extend_chenile_service_multitenant_pubsub
                 url: /developer-chenile-samples-how-to-extend-multitenant-pubsub.html
                 output: web,pdf
+              - title: security-auth-sample
+                url: /developer-chenile-samples-security-auth.html
+                output: web,pdf

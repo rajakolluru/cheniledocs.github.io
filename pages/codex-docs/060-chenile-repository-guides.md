@@ -51,7 +51,8 @@ Version note:
 
 Admin UI note:
 - `chenile-core` now includes `chenile-admin-ui`, a standalone React frontend for inspecting running Chenile monoliths.
-- It supports both local service inspection through `/info` and `/service-info/{service}`, and ecosystem-wide inspection through `GET /serviceregistry` when the target monolith hosts `serviceregistryService`.
+- It is also published as a Maven module and can be embedded into a server at `/chenile/admin`.
+- It supports both local service inspection through `/info` and `/service-info/{service}`, and ecosystem-wide inspection through `GET /serviceregistry` plus `GET /serviceregistry/diagnostics` when the target monolith hosts `serviceregistryService`.
 
 ## `chenile-query-workflow-blueprints`
 

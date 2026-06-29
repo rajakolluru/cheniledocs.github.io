@@ -4,7 +4,7 @@
 entries:
 - title: Sidebar
   product: Documentation
-  version: 2.1.21
+  version: 2.1.24
   folders:
 
   - title:
@@ -127,6 +127,10 @@ entries:
 
     - title: Deployment
       url: /chenile-deployment.html
+      output: web,pdf
+
+    - title: Scheduler
+      url: /chenile-scheduler.html
       output: web,pdf
 
     - title: Testing

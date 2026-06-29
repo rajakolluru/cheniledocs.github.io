@@ -57,6 +57,8 @@ Key classes:
 
 `ServiceRegistryCache` is a near-cache keyed by `(serviceId, serviceVersion)`, and it also tracks the latest known version for each service id.
 
+From `2.1.24` onward, that cache also uses a shared semantic fingerprint so repeated startup publishing does not multiply logically identical entries in memory.
+
 ### `service-registry-service`
 
 This module hosts the registry as a Chenile service backed by persistence.
@@ -99,6 +101,12 @@ Key class:
 
 That means the registry starts with persisted state and then republishes the local runtime view of the currently hosted services.
 
+From `2.1.24` onward, that republish step is intentionally idempotent:
+
+- republishing the same definition reuses the existing logical service version
+- republishing a changed definition without bumping `serviceVersion` logs a warning and keeps the existing canonical row
+- concurrent inserts for the same service version are resolved by the database uniqueness constraint plus a reload path in the service layer
+
 ### On a remote client
 
 The client includes `service-registry-delegate` and configures:
@@ -139,6 +147,74 @@ The cache also performs a deep equality check before accepting that a definition
 
 This matters because Chenile treats `(serviceId, version)` as immutable, so if a service definition changes without a version bump, the registry should treat it as changed rather than silently assuming equality.
 
+The latest-version cache also now compares dotted numeric versions numerically. This prevents incorrect ordering such as `2.1.9` being treated as newer than `2.1.10`.
+
+## Persistence contract and database upgrade
+
+The hosted registry persists `ChenileRemoteServiceDefinition` rows in `service_definition`.
+
+From `2.1.24`, the persistence model expects:
+
+- `service_id` to be non-null
+- `service_version` to be non-null
+- a unique key on `(service_id, service_version)`
+
+Constraint name:
+
+- `uk_service_definition_service_version`
+
+Why this matters:
+
+- the registry now enforces the immutability of a published service version at the database boundary
+- restarts or redeployments should not generate a second row for the same logical service version
+- accidental same-version mutations are surfaced as warnings instead of being silently stored as a second record
+
+Upgrade guidance for an existing registry database:
+
+1. Deploy the `2.1.24` registry code.
+2. Run `GET /serviceregistry/diagnostics`.
+3. Remove duplicate or invalid rows from `service_definition`.
+4. Only then apply the non-null and unique constraints.
+
+Example duplicate-discovery SQL:
+
+```sql
+select service_id, service_version, count(*) as row_count
+from service_definition
+group by service_id, service_version
+having count(*) > 1;
+```
+
+Example invalid-key SQL:
+
+```sql
+select id, service_id, service_version
+from service_definition
+where service_id is null
+   or trim(service_id) = ''
+   or service_version is null
+   or trim(service_version) = '';
+```
+
+The framework does not auto-delete old duplicates because production cleanup rules depend on your retention and audit requirements.
+
+## Diagnostics endpoint
+
+The hosted registry now exposes:
+
+- `GET /serviceregistry/diagnostics`
+
+The diagnostics payload reports:
+
+- total registered services
+- duplicate `serviceId + serviceVersion` groups
+- groups where the same version was published with changed metadata
+- duplicate operation links
+- duplicate parameter links
+- invalid rows with missing service keys
+
+This endpoint is the safest first step before applying the DB uniqueness constraint in production.
+
 ## Why response metadata matters
 
 Remote Chenile calls return `GenericResponse<T>`, but remote clients often need to reconstruct `T`, including parameterized types like `List<Foo>`.
@@ -166,6 +242,13 @@ and scans:
 - `org.chenile.service.registry.configuration`
 
 This makes the registry itself available as a Chenile service within that application.
+
+If you are hosting the central registry in production, treat `serviceregistryService` as stateful operational infrastructure:
+
+- back it with a real database rather than transient storage
+- monitor `GET /serviceregistry/diagnostics`
+- require version bumps for any remotely visible contract change
+- keep cleanup SQL and uniqueness migration steps under change control
 
 ## Reading from the registry
 

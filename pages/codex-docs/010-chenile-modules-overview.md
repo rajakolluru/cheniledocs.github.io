@@ -53,6 +53,7 @@ Modules:
 - `jpa-utils`
 - `multi-datasource-utils`
 - `chenile-mcp`
+- `chenile-admin-ui`
 
 ### `chenile-query-workflow-blueprints`
 
@@ -133,7 +134,7 @@ Role:
 
 Modules:
 - `chenile-filewatch`
-- `chenile-scheduler`
+- `chenile-scheduler` - cron scheduling for Chenile services with local Quartz execution, Kubernetes Job dispatch, and execution history storage.
 - `chenile-cache`
 - `chenile-config-maven-plugin`
 
@@ -178,4 +179,4 @@ Typical layering:
 
 ## Release Note
 
-These repositories are versioned together through `chenile-parent` and are currently aligned on `2.1.21`.
+These repositories are versioned together through `chenile-parent` and are currently aligned on `2.1.24`.

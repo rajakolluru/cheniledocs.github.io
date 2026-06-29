@@ -20,14 +20,17 @@ Repository path:
 This section currently documents only:
 
 - `how_to_extend_chenile_service_multitenant_pubsub`
+- `security-auth-sample`
 
 ## Module Guide
 
 - [How To Extend Chenile Service (Multi-Tenant PubSub)](/developer-chenile-samples-how-to-extend-multitenant-pubsub.html)
+- [Security Auth Sample](/developer-chenile-samples-security-auth.html)
 
 ## Source Code
 
 - https://github.com/ajapros/chenile-samples/tree/main/how_to_extend_chenile_service_multitenant_pubsub
+- https://github.com/ajapros/chenile-samples/tree/main/security-auth-sample
 
 ## Related Docs
 
