@@ -96,13 +96,21 @@ Modules:
 ### `chenile-security`
 
 Role:
-- Security-specific support for the Chenile ecosystem.
+- Security-specific support for the Chenile ecosystem, including the existing security modules and the newer auth server/gateway framework.
 
 Modules:
 - `chenile-security`
 - `chenile-security-api`
 - `cucumber-sec-utils`
 - `security-interceptor`
+- `auth-framework/core`
+- `auth-framework/auth-server`
+- `auth-framework/gateway`
+- `auth-framework/starters/auth-server`
+- `auth-framework/starters/gateway`
+- `auth-framework/starters/resource-server`
+
+The auth framework modules are contract-first. Application repositories provide tenant, user, provider, client, and MFA persistence implementations through framework interfaces.
 
 ### `chenile-messaging`
 

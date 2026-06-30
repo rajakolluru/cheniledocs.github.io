@@ -26,6 +26,7 @@ This section currently documents only:
 
 - [How To Extend Chenile Service (Multi-Tenant PubSub)](/developer-chenile-samples-how-to-extend-multitenant-pubsub.html)
 - [Security Auth Sample](/developer-chenile-samples-security-auth.html)
+- [Chenile Security Auth Framework](/developer-chenile-security-auth-framework.html)
 
 ## Source Code
 

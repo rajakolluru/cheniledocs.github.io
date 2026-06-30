@@ -149,3 +149,6 @@ entries:
               - title: security-auth-sample
                 url: /developer-chenile-samples-security-auth.html
                 output: web,pdf
+              - title: security-auth-framework
+                url: /developer-chenile-security-auth-framework.html
+                output: web,pdf

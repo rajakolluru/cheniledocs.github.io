@@ -27,6 +27,7 @@ This section contains the Codex-authored documentation set for Chenile. It is ai
 - [Chenile Repository Guides](/codex-chenile-repository-guides.html)
 - [Chenile 2.1.21 Release Notes](/codex-chenile-2-1-21-release-notes.html)
 - [Chenile 2.1.24 Release Notes](/codex-chenile-2-1-24-release-notes.html)
+- [Chenile 2.1.25 Release Notes](/codex-chenile-2-1-25-release-notes.html)
 
 ## When to read what
 
@@ -39,3 +40,4 @@ This section contains the Codex-authored documentation set for Chenile. It is ai
 - Use the admin UI guide when inspecting deployed services, central registry contents, or health-check exposure from the browser.
 - Use the Chenile Gen guide when generating application code from blueprints.
 - Use the repository guides page when narrowing down where a change belongs.
+- Use the 2.1.25 release notes when adopting the auth framework, tenant MFA, or security auth sample changes.

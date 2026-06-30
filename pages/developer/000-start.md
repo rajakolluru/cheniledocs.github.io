@@ -15,3 +15,4 @@ Welcome to the Developer documents.
 - [Chenile Core Developer Guide](/developer-chenile-core.html)
 - [Chenile Messaging Developer Guide](/developer-chenile-mqtt.html)
 - [Chenile Samples Developer Guide](/developer-chenile-samples.html)
+- [Chenile Security Auth Framework](/developer-chenile-security-auth-framework.html)
