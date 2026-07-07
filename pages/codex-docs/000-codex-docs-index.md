@@ -27,7 +27,7 @@ This section contains the Codex-authored documentation set for Chenile. It is ai
 - [Chenile Repository Guides](/codex-chenile-repository-guides.html)
 - [Chenile 2.1.21 Release Notes](/codex-chenile-2-1-21-release-notes.html)
 - [Chenile 2.1.24 Release Notes](/codex-chenile-2-1-24-release-notes.html)
-- [Chenile 2.1.26 Release Notes](/codex-chenile-2-1-26-release-notes.html)
+- [Chenile 2.1.27 Release Notes](/codex-chenile-2-1-27-release-notes.html)
 
 ## When to read what
 
