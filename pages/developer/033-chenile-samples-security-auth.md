@@ -194,6 +194,38 @@ sample:
 
 This separation is intentional. Teams should not add application-specific properties under `chenile.security.*` unless they are extending the framework contract.
 
+## External Runtime Configuration
+
+The sample deliberately does not package `src/main/resources/application.yml` or `src/main/resources/application.yaml` in runnable modules. This is the production pattern: application jars should not carry local ports, database URLs, issuer URLs, demo hints, or environment-specific route definitions.
+
+Runtime configuration lives under:
+
+```text
+security-auth-sample/runtime/config/
+```
+
+The files are:
+
+- `auth-server-config.yml`: auth-server port, issuer, JPA/Liquibase, token audiences, and demo metadata.
+- `gateway-config.yml`: gateway port, issuer/JWK URLs, relay headers, and backend routes.
+- `service-a-config.yml`: service A port, service B URL, issuer, and JWK endpoint.
+- `service-b-config.yml`: service B port, issuer, and JWK endpoint.
+
+Docker Compose mounts these files and sets:
+
+```text
+SPRING_CONFIG_ADDITIONAL_LOCATION=file:/config/<module-config>.yml
+```
+
+For Kubernetes, use the same model with ConfigMaps for non-secret config and Secrets for database passwords, OAuth client secrets, signing material, and third-party MFA credentials.
+
+For local command-line runs, pass the external config explicitly:
+
+```bash
+java -jar auth-server-app/target/*.jar \
+  --spring.config.additional-location=file:runtime/config/auth-server-config.yml
+```
+
 ## Run Locally
 
 Install the framework and run the sample:
@@ -204,6 +236,8 @@ cd /ajapro/chenile-samples/security-auth-sample
 ```
 
 The script builds local `chenile-security` artifacts, packages the sample modules, and starts Docker Compose.
+
+The Compose stack also mounts the external config files. If a service starts on the wrong port, first verify the module has no packaged `application.yaml` and that the correct `SPRING_CONFIG_ADDITIONAL_LOCATION` value is present.
 
 Local endpoints:
 

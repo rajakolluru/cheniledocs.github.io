@@ -48,6 +48,19 @@ The queryName specifies the actual query that will be executed to return the res
 
 Filters specify the where clause. 
 
+If the client only needs the matching row count, set `countOnly` to `true` in the request. Chenile will execute only the `<queryId>-count` mapper, skip the main list query, return no rows, and populate `maxRows` and `maxPages` from the count result. This request-level flag takes precedence over global and query-level count settings, so it still runs the count query even when `query.pagination.countQueryEnabled=false`.
+
+{% highlight json %}
+{
+  "countOnly": true,
+  "filters": {
+    "branch": ["Bangalore"]
+  },
+  "pageNum": 1,
+  "numRowsInPage": 25
+}
+{% endhighlight %}
+
 The SearchResponse looks like below:
 {% highlight java %}
 public class SearchResponse {
@@ -121,11 +134,14 @@ Truth table:
 | absent | `false` | Count query does not run |
 | absent | absent | Count query runs |
 
+If `SearchRequest.countOnly=true`, Chenile runs the count query regardless of the table above and bypasses the list query.
+
 So the priority is:
 
-1. Query JSON `countQueryEnabled`, if present
-2. Global `query.pagination.countQueryEnabled`, if present
-3. Framework default `true`
+1. Request `countOnly=true`
+2. Query JSON `countQueryEnabled`, if present
+3. Global `query.pagination.countQueryEnabled`, if present
+4. Framework default `true`
 
 The List of response rows gives the data back (in the row field) along with a list of AllowedActionInfo that specifies what actions are available for the row. Label specifies what should be the label that must be displayed in the UI (perhaps in a button). link specifies the link to be called when the button is pressed. isCombinable specifies if the action can be combined if multiple rows are highlighted by the user. For example, can we highlight multiple Orders and close them all in one shot. 
 
@@ -133,5 +149,99 @@ Finally, SearchResponse gives back metadata about each column that has been retu
 
 Chenile provides a Mybatis Service that implements SearchService. This is exposed using a controller at the URL /q/{queryName}. Thus Chenile includes all the code to not only define the service but also to execute it using Mybatis against a database. No code is necessary for executing anything. 
 The only task remaining is to write the Mybatis queries and define the query meta data. 
+
+## Multi-Tenant Query Routing
+
+Chenile query services are tenant aware. The active tenant is read from the Chenile context, normally populated from the `x-chenile-tenant-id` request header.
+
+Configure query datasources under `query.datasources`:
+
+{% highlight yaml %}
+query:
+  defaultTenantId: tenant1
+  mapperFiles: classpath*:org/example/query/mapper/*.xml
+  definitionFiles: classpath*:org/example/query/mapper/*.json
+  datasources:
+    tenant1:
+      type: com.zaxxer.hikari.HikariDataSource
+      jdbcUrl: jdbc:postgresql://localhost:5433/query_tenant1
+      username: query_user
+      password: query_password
+    tenant2:
+      type: com.zaxxer.hikari.HikariDataSource
+      jdbcUrl: jdbc:postgresql://localhost:5433/query_tenant2
+      username: query_user
+      password: query_password
+{% endhighlight %}
+
+Tenant resolution rules are strict:
+
+| Request tenant | `query.defaultTenantId` | Behavior |
+| --- | --- | --- |
+| present and configured | any | route to that tenant datasource |
+| missing or blank | configured | route to default tenant and log a warning |
+| missing or blank | absent or blank | reject the request with `Q723` |
+| present but not configured | any | fail; Chenile does not silently fall back to default |
+| default configured but not present in `query.datasources` | any | fail at startup/configuration time |
+
+This prevents accidental cross-tenant reads. If the service is intended to be strictly header-driven, do not configure `query.defaultTenantId`.
+
+## Tenant-Specific Query Overrides
+
+Products can override a base query for a specific tenant/client without changing the public URL. The client still calls the same endpoint:
+
+{% highlight text %}
+POST /q/students
+x-chenile-tenant-id: tenant1
+{% endhighlight %}
+
+The framework resolves metadata in this order:
+
+1. Query definition with matching `tenantId` and `name`
+2. Base query definition with matching `name`
+3. `Q700` if neither exists
+
+Base query definition:
+
+{% highlight json %}
+{
+  "id": "Student.getAll",
+  "name": "students",
+  "paginated": true,
+  "sortable": true,
+  "columnMetadata": {}
+}
+{% endhighlight %}
+
+Tenant override definition:
+
+{% highlight json %}
+{
+  "tenantId": "tenant1",
+  "id": "tenant1.Student.getAll",
+  "name": "students",
+  "paginated": true,
+  "sortable": true,
+  "columnMetadata": {}
+}
+{% endhighlight %}
+
+The override is a full metadata replacement, not a merge. Put the full column metadata, ACLs, pagination flags, workflow metadata, and dropdown query metadata in the tenant definition.
+
+For MyBatis, the tenant mapper namespace must match the tenant query id:
+
+{% highlight xml %}
+<mapper namespace="tenant1.Student">
+  <select id="getAll-count" resultType="int">
+    select count(*) from student where tenant_segment = 'premium'
+  </select>
+
+  <select id="getAll" resultType="map">
+    select * from student where tenant_segment = 'premium' ${orderby} ${pagination}
+  </select>
+</mapper>
+{% endhighlight %}
+
+For the example above, Chenile executes `tenant1.Student.getAll` and `tenant1.Student.getAll-count`. A tenant without an override uses `Student.getAll` and `Student.getAll-count`.
 
 That will be discussed as part of the Chenile tutorial.

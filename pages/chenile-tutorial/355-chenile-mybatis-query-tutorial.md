@@ -89,6 +89,21 @@ As you see , the query meta data is not tied to Mybatis. You can use this to con
 	| absent | `false` | Count query does not run |
 	| absent | absent | Count query runs |
 
+	When a UI or client needs only the total number of matching rows, pass `"countOnly": true` in the search request:
+
+	{% highlight json %}
+	{
+	  "countOnly": true,
+	  "filters": {
+	    "branch": ["Bangalore"]
+	  },
+	  "pageNum": 1,
+	  "numRowsInPage": 25
+	}
+	{% endhighlight %}
+
+	In this mode Chenile runs only the `getAll-count` query, skips the `getAll` list query, returns no rows, and fills `maxRows` and `maxPages`. This request flag overrides `countQueryEnabled`, so it still works when count queries are disabled for normal list requests.
+
 ### The Mapper file
 {% highlight xml %}
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">	
@@ -171,3 +186,90 @@ Here we define the getALl query in the student namespace. A few observations:
 
 With these two files in place, you are all set. Please see the src/test/ for the testcases and feature files. 
 
+## Adding a tenant-specific query override
+
+In a multi-tenant product, a client/tenant may need a different query while the UI and API contract remain the same. Do not create a tenant-specific URL. Keep the same external query name and add a tenant-specific metadata entry.
+
+Base definition:
+
+{% highlight json %}
+{
+  "id": "Student.getAll",
+  "name": "students",
+  "paginated": true,
+  "sortable": true,
+  "columnMetadata": {
+    "id": {
+      "name": "id",
+      "filterable": true,
+      "columnType": "Text"
+    }
+  }
+}
+{% endhighlight %}
+
+Tenant override:
+
+{% highlight json %}
+{
+  "tenantId": "tenant1",
+  "id": "tenant1.Student.getAll",
+  "name": "students",
+  "paginated": true,
+  "sortable": true,
+  "columnMetadata": {
+    "id": {
+      "name": "id",
+      "filterable": true,
+      "columnType": "Text"
+    }
+  }
+}
+{% endhighlight %}
+
+The public request remains:
+
+{% highlight bash %}
+curl -X POST http://localhost:8080/q/students \
+  -H 'Content-Type: application/json' \
+  -H 'x-chenile-tenant-id: tenant1' \
+  -d '{"pageNum":1,"numRowsInPage":20}'
+{% endhighlight %}
+
+For tenant1, Chenile executes the tenant-specific mapper id `tenant1.Student.getAll`. For another tenant with no override, Chenile falls back to the base mapper id `Student.getAll`.
+
+The MyBatis mapper namespace must match the metadata id prefix:
+
+{% highlight xml %}
+<mapper namespace="tenant1.Student">
+  <select id="getAll-count" resultType="int">
+    select count(*) from student where id > 20
+  </select>
+
+  <select id="getAll" resultMap="result">
+    select * from student where id > 20 ${orderby} ${pagination}
+  </select>
+</mapper>
+{% endhighlight %}
+
+For paginated tenant overrides, remember that the count query follows the resolved query id. If metadata resolves to `tenant1.Student.getAll`, the count mapper is `tenant1.Student.getAll-count`.
+
+Configure tenant datasources in `application.yml`:
+
+{% highlight yaml %}
+query:
+  defaultTenantId: tenant1
+  datasources:
+    tenant1:
+      type: com.zaxxer.hikari.HikariDataSource
+      jdbcUrl: jdbc:postgresql://localhost:5433/query_tenant1
+      username: query_user
+      password: query_password
+    tenant2:
+      type: com.zaxxer.hikari.HikariDataSource
+      jdbcUrl: jdbc:postgresql://localhost:5433/query_tenant2
+      username: query_user
+      password: query_password
+{% endhighlight %}
+
+If `query.defaultTenantId` is configured, missing or blank tenant headers use the default and log a warning. If it is not configured, missing or blank tenant information fails with `Q723`. If a tenant header is present but not configured, Chenile does not fall back to the default tenant.

@@ -51,6 +51,50 @@ query:
 
 You also do not need to set `query.mybatis.enabled`. It defaults to `true`.
 
+## Multi-Tenant Query Migration
+
+Existing query definitions continue to work as base definitions. No change is required if all tenants use the same query metadata and mapper SQL.
+
+If one tenant/client needs a different query, add another query definition with the same external `name` and a `tenantId`:
+
+```json
+[
+  {
+    "id": "Student.getAll",
+    "name": "students",
+    "paginated": true
+  },
+  {
+    "tenantId": "tenant1",
+    "id": "tenant1.Student.getAll",
+    "name": "students",
+    "paginated": true
+  }
+]
+```
+
+The public URL remains `/q/students`. The framework resolves the active tenant from `x-chenile-tenant-id`, tries the tenant-specific definition first, and falls back to the base definition when no tenant override exists.
+
+Tenant overrides are full metadata replacements. They do not merge with the base definition. Copy all required `columnMetadata`, ACLs, pagination flags, workflow fields, dropdown query metadata, and count settings into the tenant definition.
+
+For MyBatis, add a mapper namespace matching the tenant id prefix:
+
+```xml
+<mapper namespace="tenant1.Student">
+  <select id="getAll-count" resultType="int">...</select>
+  <select id="getAll" resultType="map">...</select>
+</mapper>
+```
+
+Do not expose tenant-prefixed query names to clients. The query name in the URL should remain stable across tenants.
+
+Tenant routing is intentionally strict:
+
+- missing or blank tenant uses `query.defaultTenantId` only when it is configured
+- missing or blank tenant without a default fails with `Q723`
+- unknown tenant does not fall back to the default tenant
+- an invalid `query.defaultTenantId` fails at startup/configuration time
+
 ## Count Query Behavior
 
 Old behavior remains the default. If a query is marked as paginated, the framework runs:
@@ -107,6 +151,31 @@ Response behavior changes in no-count mode:
 
 Use `pagination.nextPageAvailable` instead of `maxPages` when count query is disabled.
 
+## Request-Level Count Only
+
+Clients can request only the total count by setting `countOnly` to `true` in `SearchRequest`:
+
+```json
+{
+  "countOnly": true,
+  "filters": {
+    "branch": ["Bangalore"]
+  },
+  "pageNum": 1,
+  "numRowsInPage": 25
+}
+```
+
+For a paginated query, the framework executes only:
+
+```text
+<queryId>-count
+```
+
+The main list query is bypassed. The response returns an empty `list`, `numRowsReturned=0`, and exact `maxRows` / `maxPages`.
+
+`countOnly=true` is a request-level override. It forces the count query even when the query definition or global `query.pagination.countQueryEnabled` disables normal count execution.
+
 ## Query-Level Count Override
 
 The global `query.pagination.countQueryEnabled` flag can be overridden by an individual query definition. Add `countQueryEnabled` to the query JSON:
@@ -144,9 +213,10 @@ Truth table:
 
 Priority order:
 
-1. Query JSON `countQueryEnabled`, if present
-2. Global `query.pagination.countQueryEnabled`, if present
-3. Framework default `true`
+1. Request `countOnly=true`
+2. Query JSON `countQueryEnabled`, if present
+3. Global `query.pagination.countQueryEnabled`, if present
+4. Framework default `true`
 
 This is useful when most queries should use one strategy, but a few high-volume queries need no-count pagination or a few important queries still need exact totals.
 

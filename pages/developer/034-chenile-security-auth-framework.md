@@ -162,6 +162,17 @@ Do not put sensitive OTP values in logs, UI hints, or token claims. Sample seed 
 
 For high-risk services, check both `mfa=true` and `amr` contents instead of trusting only that a token exists.
 
+Do not package environment-specific `application.yml` or `application.yaml` files inside framework or application jars. Framework modules should provide code, contracts, auto-configuration, and defaults inside typed configuration classes only. Applications should provide runtime values through environment variables, mounted config files, ConfigMaps, Secrets, or another deployment-time configuration source.
+
+Recommended production configuration pattern:
+
+- Put non-secret runtime config in deployment-managed files, for example gateway routes, issuer URLs, JWK URLs, service ports, and audience maps.
+- Put secrets in a secret manager or Kubernetes Secret, for example datasource passwords, OAuth client secrets, signing keys, and third-party MFA credentials.
+- Load mounted config with `SPRING_CONFIG_ADDITIONAL_LOCATION`.
+- Keep tests deterministic with `@SpringBootTest(properties = ...)`, `@DynamicPropertySource`, or `src/test/resources/application.yaml`; test resources are not production runtime defaults.
+
+This keeps the framework reusable and prevents one sample application's local defaults from becoming hidden behavior for every adopter.
+
 ## Testing Strategy
 
 Framework tests should cover the contract behavior without tying to one database schema:
