@@ -41,4 +41,6 @@ topnav_dropdowns:
           url: /developer-start.html
         - title: Codex Docs
           url: /codex-docs-index.html
+        - title: Videos
+          url: /videos-index.html
         

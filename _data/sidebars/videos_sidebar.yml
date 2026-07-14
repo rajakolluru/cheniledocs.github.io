@@ -1,0 +1,34 @@
+# This is your sidebar TOC. The sidebar code loops through sections here and provides the appropriate formatting.
+
+entries:
+- title: sidebar
+  product: Videos
+  version: 2.1.27
+  folders:
+
+  - title:
+    output: pdf
+    type: frontmatter
+    folderitems:
+    - title:
+      url: /titlepage.html
+      output: pdf
+      type: frontmatter
+    - title:
+      url: /tocpage.html
+      output: pdf
+      type: frontmatter
+
+  - title: Video Series
+    output: web, pdf
+    folderitems:
+
+    - title: Videos Index
+      url: /videos-index.html
+      output: web,pdf
+      type: homepage
+
+    - title: Introduction to Chenile
+      url: /video-introduction-to-chenile.html
+      output: web,pdf
+

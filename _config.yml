@@ -104,6 +104,7 @@ defaults:
 sidebars:
 - chenile_sidebar
 - codex_sidebar
+- videos_sidebar
 - home_sidebar
 - mydoc_sidebar
 - product1_sidebar
