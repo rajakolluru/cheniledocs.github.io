@@ -152,3 +152,6 @@ entries:
               - title: security-auth-framework
                 url: /developer-chenile-security-auth-framework.html
                 output: web,pdf
+              - title: chenile-filewatch
+                url: /developer-chenile-filewatch.html
+                output: web,pdf
