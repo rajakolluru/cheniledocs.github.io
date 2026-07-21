@@ -187,4 +187,4 @@ Typical layering:
 
 ## Release Note
 
-These repositories are versioned together through `chenile-parent` and are currently aligned on `2.1.27`.
+These repositories are versioned together through `chenile-parent` and are currently aligned on `2.1.28`.
