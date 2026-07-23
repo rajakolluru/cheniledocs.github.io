@@ -163,7 +163,7 @@ Example:
     {
       "dependencyName": "service-registry-delegate",
       "dependencyGroup": "org.chenile",
-      "dependencyVersion": "2.1.27"
+      "dependencyVersion": "2.1.29"
     },
     {
       "dependencyName": "chenile-query-controller",
