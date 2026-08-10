@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 560" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="Chenile cconfig: a modular JSON config resolved through layered overrides and per-tenant custom attributes, from pluggable sources.">
+  <defs>
+    <linearGradient id="cg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#e0801e"/><stop offset="0.5" stop-color="#f89038"/><stop offset="1" stop-color="#ffab52"/>
+    </linearGradient>
+    <marker id="ca" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#f89038"/></marker>
+    <filter id="csh" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#0d0d0d" flood-opacity="0.16"/></filter>
+    <style>.h{font-weight:800;fill:#141414}.wh{fill:#fff}.mut{fill:#857f76}.mono{font-family:ui-monospace,Menlo,Consolas,monospace}.chip{font-weight:600;font-size:12px}</style>
+  </defs>
+
+  <text x="530" y="38" text-anchor="middle" font-size="24" class="h">Modular config, overridable down to the <tspan fill="#e0801e">path</tspan> — per tenant, at runtime</text>
+  <text x="530" y="64" text-anchor="middle" font-size="14" class="mut">Each module owns a JSON file. Any value — or a nested path inside it — can be overridden for all requests or a specific tenant.</text>
+
+  <!-- base module json -->
+  <g filter="url(#csh)"><rect x="40" y="98" width="330" height="238" rx="16" fill="#0d0d0d"/></g>
+  <rect x="40" y="98" width="330" height="30" rx="16" fill="url(#cg)"/><rect x="40" y="114" width="330" height="14" fill="#161616"/>
+  <text x="58" y="118" font-size="12.5" class="wh" font-weight="700">📄 ctest.json · module base config</text>
+  <text x="58" y="150" class="mono" font-size="11.5" fill="#efe6d8">{</text>
+  <text x="72" y="170" class="mono" font-size="11.5" fill="#ffd9ad">"key1": "value1",</text>
+  <text x="72" y="190" class="mono" font-size="11.5" fill="#ffd9ad">"key2": {</text>
+  <text x="86" y="210" class="mono" font-size="11.5" fill="#efe6d8">"abc": "123",</text>
+  <text x="86" y="230" class="mono" font-size="11.5" fill="#efe6d8">"fields": {</text>
+  <text x="100" y="250" class="mono" font-size="11.5" fill="#efe6d8">"field1": { "range": [1, 100] }</text>
+  <text x="86" y="270" class="mono" font-size="11.5" fill="#efe6d8">}</text>
+  <text x="72" y="290" class="mono" font-size="11.5" fill="#ffd9ad">}</text>
+  <text x="58" y="310" class="mono" font-size="11.5" fill="#efe6d8">}</text>
+
+  <!-- overrides -->
+  <line x1="370" y1="217" x2="410" y2="217" stroke="#f89038" stroke-width="2.5" marker-end="url(#ca)"/>
+  <g filter="url(#csh)"><rect x="416" y="110" width="300" height="214" rx="16" fill="#fff" stroke="#ece6dd"/></g>
+  <rect x="416" y="110" width="300" height="28" rx="16" fill="#fff1e2"/><rect x="416" y="124" width="300" height="14" fill="#fff1e2"/>
+  <text x="436" y="129" class="h" font-size="13">🎛️ runtime overrides</text>
+  <rect x="436" y="150" width="260" height="28" rx="7" fill="#fff1e2" stroke="#ffd9b3"/><text x="446" y="168" class="mono" font-size="10.5" fill="#c8611a">key1 → "override" (all or per tenant)</text>
+  <rect x="436" y="184" width="260" height="28" rx="7" fill="#fff1e2" stroke="#ffd9b3"/><text x="446" y="202" class="mono" font-size="10.5" fill="#c8611a">key2.abc → "999"</text>
+  <rect x="436" y="218" width="260" height="28" rx="7" fill="#fff1e2" stroke="#ffd9b3"/><text x="446" y="236" class="mono" font-size="10.5" fill="#c8611a">key2…range[1]: 100 → 101</text>
+  <rect x="436" y="252" width="260" height="28" rx="7" fill="#fff1e2" stroke="#ffd9b3"/><text x="446" y="270" class="mono" font-size="10.5" fill="#c8611a">+ add field2 (whole JSON snippet)</text>
+  <text x="436" y="300" class="mut" font-size="10.5">keyed by a customAttribute — e.g. tenant ID</text>
+
+  <!-- effective result -->
+  <line x1="716" y1="217" x2="756" y2="217" stroke="#f89038" stroke-width="2.5" marker-end="url(#ca)"/>
+  <g filter="url(#csh)"><rect x="762" y="150" width="270" height="134" rx="14" fill="url(#cg)"/></g>
+  <text x="897" y="182" text-anchor="middle" class="wh h" font-size="14">Effective config</text>
+  <text x="897" y="208" text-anchor="middle" class="wh" font-size="12">resolved per request,</text>
+  <text x="897" y="228" text-anchor="middle" class="wh" font-size="12">per tenant</text>
+  <text x="897" y="256" text-anchor="middle" class="mono wh" font-size="11">CconfigClient.get(key)</text>
+
+  <!-- sources row -->
+  <text x="40" y="384" font-size="12" class="mono mut">PLUGGABLE RETRIEVERS — one client interface, many sources</text>
+  <g font-size="12">
+    <g filter="url(#csh)"><rect x="40" y="396" width="188" height="70" rx="12" fill="#fff" stroke="#ece6dd"/></g>
+    <text x="134" y="426" text-anchor="middle" class="h" font-size="13">Properties</text><text x="134" y="448" text-anchor="middle" class="mut" font-size="11">PropertiesBased…</text>
+    <g filter="url(#csh)"><rect x="244" y="396" width="188" height="70" rx="12" fill="#fff" stroke="#ece6dd"/></g>
+    <text x="338" y="426" text-anchor="middle" class="h" font-size="13">JSON</text><text x="338" y="448" text-anchor="middle" class="mut" font-size="11">JsonBased…</text>
+    <g filter="url(#csh)"><rect x="448" y="396" width="188" height="70" rx="12" fill="#fff" stroke="#ece6dd"/></g>
+    <text x="542" y="426" text-anchor="middle" class="h" font-size="13">Environment</text><text x="542" y="448" text-anchor="middle" class="mut" font-size="11">EnvBased…</text>
+    <g filter="url(#csh)"><rect x="652" y="396" width="188" height="70" rx="12" fill="#fff" stroke="#ece6dd"/></g>
+    <text x="746" y="426" text-anchor="middle" class="h" font-size="13">Database</text><text x="746" y="448" text-anchor="middle" class="mut" font-size="11">cconfig-db · runtime</text>
+    <g filter="url(#csh)"><rect x="856" y="396" width="176" height="70" rx="12" fill="#0d0d0d"/></g>
+    <text x="944" y="426" text-anchor="middle" class="wh" font-size="13" font-weight="700">+ Memory cache</text><text x="944" y="448" text-anchor="middle" fill="#a89f92" font-size="11">fast repeated reads</text>
+  </g>
+
+  <rect x="40" y="486" width="992" height="40" rx="10" fill="#faf7f2" stroke="#ece6dd"/>
+  <text x="536" y="511" text-anchor="middle" font-size="12.5" class="mut">Same discipline as the rest of Chenile: depend on the <tspan class="mono" font-size="11" fill="#c8611a">CconfigClient</tspan> interface; the source is an implementation you choose. Ships in <tspan class="mono" font-size="11" fill="#c8611a">cconfig</tspan>.</text>
+</svg>

@@ -1,6 +1,6 @@
 ---
 title: "Putting it together: a tour of a governed system"
-order: 9
+order: 12
 duration: "8–10 min"
 summary: "The finale. Walk the layered architecture and the 11 repositories, and recap the five moves that make business logic pure and governance consistent."
 ---
@@ -25,6 +25,12 @@ summary: "The finale. Walk the layered architecture and the 11 repositories, and
 
   <div class="beat k">And testing</div>
   <div class="beat v"><strong>Voiceover:</strong> “The same discipline covers testing. One Gherkin spec runs as a MockMvc unit test and a REST Assured integration test — behaviour written once, placement chosen by configuration.”</div>
+
+  <div class="beat k">And messaging</div>
+  <div class="beat v"><strong>Voiceover:</strong> “And events. Services depend on the <code>chenile-pub-sub</code> interface; MQTT, Kafka, Azure and in-JVM are swappable behind it — and every message runs the same pipeline, so the same policies apply.”</div>
+
+  <div class="beat k">Config &amp; the client side</div>
+  <div class="beat v"><strong>Voiceover:</strong> “Even configuration follows the pattern — <code>cconfig</code> gives modular, per-tenant, runtime overrides behind one client. And the interception idea reaches the client side: the proxy framework and service registry let you call any service through its interface, local or remote, with a client-side interceptor chain on the way out.”</div>
 
   <div class="beat k">The thesis</div>
   <div class="beat v"><strong>Lower third:</strong> “Business logic stays pure. Governance stays consistent. Placement is configuration — not a rewrite.”</div>

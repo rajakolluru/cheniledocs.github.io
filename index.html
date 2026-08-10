@@ -39,7 +39,7 @@ permalink: /
 <section class="bg-soft">
   <div class="wrap">
     <div class="section-head">
-      <span class="eyebrow">The idea in five steps</span>
+      <span class="eyebrow">The idea, step by step</span>
       <h2>The Chenile story</h2>
       <p class="lead">The website and the video series both follow the same arc — from a plain question about microservices to a concrete way of governing them.</p>
     </div>
@@ -90,6 +90,30 @@ permalink: /
           <h3>Test once, run everywhere: BDD across unit &amp; integration</h3>
           <p>The same idea, applied to testing. One Gherkin <code>.feature</code> file runs as a fast in-process unit test over Spring MockMvc <em>and</em> as a full integration test over REST Assured. Write the behaviour once; swap the glue, not the spec.</p>
           <span>Read part 6 →</span>
+        </div>
+      </a>
+      <a class="story" href="{{ '/concepts/07-messaging-abstraction/' | relative_url }}">
+        <div class="step">7</div>
+        <div>
+          <h3>Messaging: one interface, many transports</h3>
+          <p>The same move, applied to events. Services depend on the <code>chenile-pub-sub</code> interface while MQTT, Kafka, Azure and in-JVM are swappable implementations — and every message runs the same interception pipeline as an HTTP call, so your policies just work.</p>
+          <span>Read part 7 →</span>
+        </div>
+      </a>
+      <a class="story" href="{{ '/concepts/08-configuration-management/' | relative_url }}">
+        <div class="step">8</div>
+        <div>
+          <h3>Configuration management with cconfig</h3>
+          <p>Every module owns a JSON config that can be overridden at runtime — down to a nested path — and resolved per tenant via a custom attribute. Sources (properties, JSON, env, database) are pluggable behind one <code>CconfigClient</code>.</p>
+          <span>Read part 8 →</span>
+        </div>
+      </a>
+      <a class="story" href="{{ '/concepts/09-registry-and-proxies/' | relative_url }}">
+        <div class="step">9</div>
+        <div>
+          <h3>Service registry &amp; proxies — with client-side interception</h3>
+          <p>Chenile ships its own service registry and a proxy framework: call another service through its interface, routed locally or remotely without code changes, while a configurable client-side interceptor chain handles headers, auth, retries and responses on the way out.</p>
+          <span>Read part 9 →</span>
         </div>
       </a>
     </div>

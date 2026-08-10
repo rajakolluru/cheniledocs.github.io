@@ -14,7 +14,7 @@ email: raja@thekollurus.com
 
 # When deployed to GitHub Pages at https://<user>.github.io/chenile-site
 # set baseurl to "/chenile-site". For a user/org root or custom domain, leave "".
-url: ""
+url: "https://chenile.org"
 baseurl: ""
 
 github_repo: "https://github.com/rajakolluru"
