@@ -54,11 +54,11 @@ Because a policy is configuration-driven and orchestration-unaware, the *same* a
 
 <div class="callout">
   <div class="t">The five moves, in one breath</div>
-  <strong>1.</strong> We adopt microservices (or moduliths) for deployability, ownership and blast-radius control — and pay a hidden tax in duplicated plumbing.
-  <strong>2.</strong> So we split each service into a <em>definition</em> (<code>api</code>) that consumers depend on and an <em>implementation</em> (<code>service</code>) that nobody depends on.
-  <strong>3.</strong> The horizontal concerns become named <em>policies</em> — single-responsibility, configuration-driven interceptors — instead of inline code.
-  <strong>4.</strong> Policies must run in two places: the <em>API gateway</em> for early, coarse, high-leverage decisions, and the <em>last mile</em> for context-rich ones.
-  <strong>5.</strong> Chenile uses <em>one interceptor abstraction for both</em>, with the service registry choosing placement — so you write a policy once and govern every entry point consistently.
+  <strong>1.</strong> We adopt microservices (or moduliths) for deployability, ownership and blast-radius control — and pay a hidden tax in duplicated plumbing.<br/>
+  <strong>2.</strong> So we split each service into a <em>definition</em> (<code>api</code>) that consumers depend on and an <em>implementation</em> (<code>service</code>) that nobody depends on.<br/>
+  <strong>3.</strong> The horizontal concerns become named <em>policies</em> — single-responsibility, configuration-driven interceptors — instead of inline code.<br/>
+  <strong>4.</strong> Policies must run in two places: the <em>API gateway</em> for early, coarse, high-leverage decisions, and the <em>last mile</em> for context-rich ones.<br/>
+  <strong>5.</strong> Chenile uses <em>one interceptor abstraction for both</em>, with the service registry choosing placement — so you write a policy once and govern every entry point consistently.<br/>
 </div>
 
 That is Chenile: **business logic stays pure, governance stays consistent, and where each policy runs is a decision you make in configuration — not a rewrite.**
