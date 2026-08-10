@@ -1,0 +1,49 @@
+@startuml chenile-architecture
+' One policy model — the API gateway AND the last mile.
+' Render:  plantuml -tsvg chenile-architecture.puml
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam defaultFontName Inter
+skinparam rectangle {
+  BorderColor #ECE8F2
+  FontColor #16121F
+}
+skinparam ArrowColor #D81878
+
+title One policy model — the gateway **and** the last mile
+
+actor Client as client
+
+rectangle "API GATEWAY (the edge)\n<size:11><color:#7d7891>chenile-security · auth gateway</color></size>" as gw #16121F {
+  rectangle "Authenticate" as gw1 #332A48
+  rectangle "Rate-limit / quota" as gw2 #332A48
+  rectangle "Coarse authz" as gw3 #332A48
+  rectangle "Normalize" as gw4 #332A48
+}
+
+rectangle "SERVICE (the last mile)" as svc {
+  rectangle "ChenileExchange" as ex #F2EDFA
+  rectangle "Interception pipeline — your service policies" as pipe {
+    rectangle "Authorize this resource" as p1 #FDE7F1
+    rectangle "Multi-tenancy" as p2 #FDE7F1
+    rectangle "i18n" as p3 #FDE7F1
+    rectangle "Idempotency" as p4 #FDE7F1
+    rectangle "Audit / logging" as p5 #FDE7F1
+  }
+  rectangle "Service implementation\n(pure business logic)" as impl #D81878
+}
+
+client --> gw
+gw --> ex : trusted
+ex --> pipe
+pipe --> impl
+
+note bottom of svc
+  **Same interceptor contract in both boxes.**
+  The service registry decides whether a policy runs at
+  the gateway, the last mile, or both — config, not a rewrite.
+end note
+
+' Layer ribbon
+rectangle "chenile-parent → chenile-core → query·workflow·process → registry·proxies·security·messaging → bdd·others·cconfig" as layers #16121F
+@enduml

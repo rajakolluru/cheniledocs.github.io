@@ -1,344 +1,266 @@
 ---
-title: Chenile Moduliths -  Microservices done right!
-keywords: Chenile
-sidebar: chenile_sidebar
-toc: false
-permalink: /index.html
-folder: chenile
-summary: An introduction to the Chenile framework, its purpose and users.
+layout: home
+title: "Chenile — Microservices done right"
+permalink: /
 ---
-{% include note.html content="An introduction to Chenile. Want to use it right away? Go to <a href='app-gen-landing-page.html'>set up page</a>" %}
 
-<div class="row">
-    <div class="col-lg-12">
-        <h2 class="page-header">Chenile - An introduction</h2>
+<!-- ===================== HERO ===================== -->
+<header class="hero">
+  <div class="hero-inner wrap">
+    <span class="eyebrow">Open-source Java framework · Moduliths &amp; microservices</span>
+    <h1>Separate <span class="grad-text">what a service does</span> from how it is governed.</h1>
+    <p class="lead">Chenile lets you write plain-Java services that hold nothing but business logic — then apply security, logging, tenancy, i18n and retries as reusable <em>service policies</em>, consistently at the API gateway <em>and</em> the last mile.</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="{{ '/get-started/' | relative_url }}">Get started →</a>
+      <a class="btn btn-light" href="{{ '/concepts/01-why-microservices/' | relative_url }}">Read the story</a>
+      <a class="btn btn-light" href="{{ '/video-series/' | relative_url }}">▶ Watch the series</a>
     </div>
-    <div class="col-lg-12 div-hero-img">
-        <a href='/images/chenile/chenile-esb.png' title='click to view in a new tab' target='hero-img'><img class='hero-img'  src='/images/chenile/chenile-esb.png' /></a>
-    </div>
-    <div class="col-md-2 col-sm-6">
-        <div class="panel panel-default text-center">
-            <div class="panel-heading">
-                <span class="fa-stack fa-2x">
-                      <i class="fa fa-circle fa-stack-2x text-primary"></i>
-                      <i class="fa fa-question fa-stack-1x fa-inverse"></i>
-                </span>
-            </div>
-            <div class="panel-body">
-                <h4>Basics</h4>
-                <p>What is Chenile?</p>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-2 col-sm-6">
-        <div class="panel panel-default text-center">
-            <div class="panel-heading">
-                <span class="fa-stack fa-2x">
-                      <i class="fa fa-circle fa-stack-2x text-primary"></i>
-                      <i class="fa fa-user fa-stack-1x fa-inverse"></i>
-                </span>
-            </div>
-            <div class="panel-body">
-                <h4>Who</h4>
-                <p>Intended Users</p>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-2 col-sm-6">
-        <div class="panel panel-default text-center">
-            <div class="panel-heading">
-                <span class="fa-stack fa-2x">
-                      <i class="fa fa-circle fa-stack-2x text-primary"></i>
-                      <i class="fa fa-object-ungroup fa-stack-1x fa-inverse"></i>
-                </span>
-            </div>
-            <div class="panel-body">
-                <h4>Patterns</h4>
-                <p>Patterns/blue prints</p>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-2 col-sm-6">
-        <div class="panel panel-default text-center">
-            <div class="panel-heading">
-                <span class="fa-stack fa-2x">
-                      <i class="fa fa-circle fa-stack-2x text-primary"></i>
-                      <i class="fa fa-plug fa-stack-1x fa-inverse"></i>
-                </span>
-            </div>
-            <div class="panel-body">
-                <h4>Extensible</h4>
-                <p>Extending Chenile </p>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-2 col-sm-6">
-        <div class="panel panel-default text-center">
-            <div class="panel-heading">
-                <span class="fa-stack fa-2x">
-                      <i class="fa fa-circle fa-stack-2x text-primary"></i>
-                      <i class="fa fa-xmarks-lines fa-stack-1x fa-inverse"></i>
-                </span>
-            </div>
-            <div class="panel-body">
-                <h4>ESB</h4>
-                <p>Request Pipeline</p>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-2 col-sm-6">
-        <div class="panel panel-default text-center">
-            <div class="panel-heading">
-                <span class="fa-stack fa-2x">
-                      <i class="fa fa-circle fa-stack-2x text-primary"></i>
-                      <i class="fa fa-arrows-split-up-and-left fa-stack-1x fa-inverse"></i>
-                </span>
-            </div>
-            <div class="panel-body">
-                <h4>Workflows</h4>
-                <p>State Management</p>
-            </div>
-        </div>
-    </div>
-</div>
+    <div class="hero-note">org.chenile · v{{ site.maven_version }} · 11 repositories, one release train</div>
+  </div>
+</header>
 
-    <!-- Service Tabs -->
-    <div class="row">
-        <div class="col-lg-12">
-            <h2 class="page-header">Details</h2>
-        </div>
-        <div class="col-lg-12">
-
-            <ul id="myTab" class="nav nav-tabs nav-justified">
-                <li class="active"><a href="#basics" data-toggle="tab"><i class="fa fa-question"></i>Basics</a>
-                </li>
-                <li class=""><a href="#who" data-toggle="tab"><i class="fa fa-user"></i> Users</a>
-                </li>
-                <li class=""><a href="#patterns" data-toggle="tab"><i class="fa fa-object-ungroup"></i> Patterns</a>
-                </li>
-                <li class=""><a href="#extensible" data-toggle="tab"><i class="fa fa-plug"></i>Extensibility</a>
-                </li>
-                <li class=""><a href="#pipeline" data-toggle="tab"><i class="fa fa-xmarks-lines"></i>ESB</a>
-                </li>
-                <li class=""><a href="#workflow" data-toggle="tab"><i class="fa fa-arrows-split-up-and-left"></i>Workflow</a>
-                </li>
-            </ul>
-
-            <div id="myTabContent" class="tab-content">
-                <div class="tab-pane fade active in" id="basics">
-                    <h4>Basics</h4>
-            
-                    <p>Chenile is a Rapid Application Development (RAD) framework to build Microservices using a unique industrial strength Modulith architecture in Java using Spring Boot. Chenile establishes standards, conventions and provides common services to get developers immediately productive. It enables developers to focus on functionality.</p>
-                    <p>Chenile can also be viewed as a mini ESB. It decouples services from transports. You don't write code that can work only with HTTP. The same code can be accessed via multiple transports such as MQ, Kafka, batch file processing and even via MQTT for IoT devices! This makes the framework unique. We would call it as a happy amalgamation of a domain model and a message model. You come up with the domain model for your field of work. Chenile comes up with a message model that is truly transport agnostic. Now - that is teamwork! </p>
-                    <p>Chenile is like a fabric. You can use it to stitch Micro services. You can write services without worrying about transports, middlewares, horizontal services, transformations etc. Chenile allows these to be seamlessly incorporated by framework architects whilst allowing developers to write functional code. Chenile de-couples deployment packages from code modules. (See [Chenile Development Model](/chenile-development.html) for more details)</p>
-                    <p>Chenile is a Java Library that contains framework code. But the framework code is just the tip of the iceberg. Chenile comes bundled with a code generator that generates typical boiler plate code that conforms to a blue print. (such as a HTTP over JSON Micro Service for example). This juxtaposition of blue prints makes it incredibly powerful and productive.</p>
-                    <p>Chenile separates the developers from architects. It allows architects to focus on central concerns such as:
-                    <ol>
-                    <li>Standardization - standardize tech stacks (both the framework and the version to be used)</li>
-                    <li>Enforcing modular development</li>
-                    <li>De-couple horizontal concerns from functionality</li>
-                    <li>Design test harnesses to enable extensive testing</li>
-                    <li>Enable automatic logging, observability, caching etc. for some or all services without touching service code!</li>
-                    <li>Enable internationalization from day One</li>
-                    <li>Introduce a service registry where all the service metadata is stored in one place. Chenile needs to know about all the services since it knows how to intercept them and invoke them.</li>
-                    <li>Design message formats, generic responses, exception handling etc.</li>
-                    <li>Design the structure of code repositories, devOps and build practices etc.</li>
-                    </ol></p>
-                </div>
-                <div class="tab-pane fade" id="who">
-                    <h4>Users</h4>
-                    <p>Are you an early stage startup who wants to focus on developing industrial strength services using well established patterns without wasting time to research on the optimal tech stack or browsing through reams of documentation? If yes, Chenile can help you there</p>
-                    <p>Are you a Spring Boot developer who is able to write code but struggle with best practices? Chenile can recommend specific frameworks and tell you to integrate them into your application. It generates stub code that you can use to write your functionality.</p>
-                    <p>Are you a big enterprise who finds it hard to standardize the tech stack or patterns? Chenile can help you with that. Chenile can be completely customized and made to integrate seamlessly with in-house frameworks as well which makes it a great framework to build all standardization efforts. </p>
-                    <p> Are you a software developer who would like to leverage multi-module maven builds? Chenile has you covered!</p>
-                    <p>Are you looking for an offline solution - for example an ecommerce POS(Point of Sale)? Chenile has patterns to develop this solution.</p>
-                    <p></p>
-                </div>
-                <div class="tab-pane fade" id="patterns">
-                    <h4>Patterns & Blue Prints</h4>
-                    <p>Chenile encapsulates our learning from multiple projects from many years. It distills this knowledge into established patterns. We wrote supporting code to allow developers to implement these patterns. We wrote code generators that create stubs that developers can then use to implement functionality. By using Chenile documentation, libraries, patterns and code generators, developers can produce industrial strength code on day one. Not on day 180! </p>
-                    <p>Chenile  identifies common usecases that can be solved - eg. developing microservices, creating 'mini-monoliths' (more on this later) etc. These use cases become Chenile blue prints. Code generators help in generating code that conforms to these blue prints. Chenile is first and foremost an accelerator to design a complete micro services ecosystem using Modulith principles.</p>
-                    <p>Do you want to use CQRS? Chenile has its own blue print to develop modulith services using the CQRS pattern.</p>
-                    <p>Our workflow , query and interceptor blue prints are easy to understand and ship with documentation. These are generated by the code generator</p> 
-                </div>
-                <div class="tab-pane fade" id="extensible">
-                    <h4>Extensible</h4>
-                    <p>The central core of Chenile is tiny. All the features are created as a customization of the tiny core. An org can override any part of Chenile for its specific needs. Chenile provides multiple extension points - at the org level, at the service level and even at the service method (operation) level.</p>
-                    <p>We love SOLID principles. The framework is built to be extensible. Every part of Chenile is designed to be extensible. It is possible to change the request processing of Chenile. It is trivial to write new blue prints and integrate with chenile. It is easy to introduce new transports. It is the simplest to write new interceptors. Best of all, the code generator can be customized to generate code compliant to these blue prints. </p>
-                    <p>Chenile also ships with configurable options for most of its features. These can be used to extend the framework and customize the services. The whole of the framework is metadata driven. The metadata model is extensible. This means that you can add to the metadata without tampering with chenile-core.</p>
-                </div>
-                <div class="tab-pane fade" id="pipeline">
-                    <h4>Lightweight ESB (Enterprise Service Bus)</h4>
-                    <p>Chenile started out as an embedded Enterprise Service Bus (ESB). The idea was to de-couple service functionality from transports. Services implement functionality. Trasports merely expose the services to the outside world. Our services can be invoked via HTTP, Kafka, MQ, MQ-TT etc. without any changes to the central infrastructure code. 
-                    Chenile provides an ability to do last-mile interception. This de-couples horizontal concerns from functionality. Last mile interception allows orgs to push a lot of horizontal functionality (such as routing, caching, logging, auditing etc.) out of services without needing to invest in expensive customization in the API Gateway layer. 
-                    Chenile does recommend a robust API Gateway as an excellent upstream interception layer for HTTP requests to access the services. However, it is hard to customize API Gateways. Further, API Gatewys are mostly fine-tuned for HTTP. What if you want to implement caching across transports? In addition to that, certain concerns such as transformation must be handled close to the services and therefore make an excellent concern that could be implemented in the last mile.We wanted to make this last-mile interception work in a transport agnostic manner i.e. it should work across HTTP, KAFKA, message queues etc. By doing so, we wanted to re-use the pipeline across transports.</p>
-                    <p>Chenile ships with interceptors that could implement important horizontal concerns such as transformation, caching, exception handling etc. Integrting new frameworks is a cinch. It is completely modularized and is true plug and play. So it becomes trivial to introduce Chenile extensions to integrate with any in-house or open source or even COTS (Commercial off the Shelf) offerings.</p>
-                    <p>The pipeline code is super extensible. Chenile supports a Domain Specific Language (DSL) to customize the pipeline.  </p>
-                    <p>Chenile also supports its own super-flexible exchange object. It also introduces a Generic Response object that could communicate errors, warnings etc. back from the service layer </p>
-                    <p>See <a href="/chenile-request-processing.html">for more information about request processing.</a></p>
-            </div>
-            <div class="tab-pane fade" id="workflow">
-                    <h4>Chenile State Machine</h4>
-                     <p>Chenile supports a state machine to automate workflows and event sourcing</p>
-                     <p>State machines can be attached to <i>stateful entities</i> i.e. entities that contain a state field. The state field determines what events (which often translate into UI actions) are applicable to these entities in that state.It is possible to store additional metadata for the state. This can be used in the program. </p>
-                     <p>For example, an order can transition from an Opened to "In Process" to "Fulfilled" to "Closed" states. As it marches through these states, the order can be mutated in interesting ways using "events". These events depend on the state of the order. Upon receipt of an event, the order can transition to another state or stay in the same state. </p>
-                     <p>The Chenile state transition machine (STM) allows these states and transitions to be configured externally using a State Transition Diagram (STD). A workflow engine navigates through the STD and calls registered handlers for every event that occurs to the state entity. In the Order example, the STM calls appropriate handlers when the order transitions from the Opened to the the "In Process" state for example.</p>
-                     <p>The STM supports event sourcing as well.<p>
-                    <p>See <a href='/chenile-stm.html'>state transition machine</a> for more information.</p>
-
-            </div>
-
-        </div>
+<!-- ===================== STATS ===================== -->
+<section style="padding-top:64px;padding-bottom:64px">
+  <div class="wrap">
+    <div class="stats">
+      {% for s in site.data.stats %}
+      <div class="stat">
+        <div class="num" data-target="{{ s.value }}" data-suffix="{{ s.suffix }}">0{{ s.suffix }}</div>
+        <div class="lbl">{{ s.label }}</div>
+        <div class="note">{{ s.note }}</div>
+      </div>
+      {% endfor %}
     </div>
+    <p style="text-align:center;color:var(--muted);font-size:.82rem;margin-top:18px;font-family:var(--mono)">* Figures marked as placeholders are illustrative — replace with your own measured numbers.</p>
+  </div>
+</section>
 
-    <!-- Service List -->
-    <!-- The circle icons use Font Awesome's stacked icon classes. For more information, visit http://fontawesome.io/examples/ -->
-    <div class="row">
-        <div class="col-lg-12">
-            <h2 class="page-header">Features</h2>
-        </div>
-        <div class="col-md-4">
-            <div class="media">
-                <div class="pull-left">
-                    <span class="fa-stack fa-2x">
-                          <i class="fa fa-circle fa-stack-2x text-primary"></i>
-                          <i class="fa fa-location-pin fa-stack-1x fa-inverse"></i>
-                    </span>
-                </div>
-                <div class="media-body">
-                    <h4 class="media-heading">Last Mile </h4>
-                    <p>Implement horizontal services in the last mile.</p>
-                </div>
-            </div>
-            <div class="media">
-                <div class="pull-left">
-                    <span class="fa-stack fa-2x">
-                          <i class="fa fa-circle fa-stack-2x text-primary"></i>
-                          <i class="fa fa-language fa-stack-1x fa-inverse"></i>
-                    </span>
-                </div>
-                <div class="media-body">
-                    <h4 class="media-heading">i18n</h4>
-                    <p>Integrated and enforced out of the box.</p>
-                </div>
-            </div>
-            <div class="media">
-                <div class="pull-left">
-                    <span class="fa-stack fa-2x">
-                          <i class="fa fa-circle fa-stack-2x text-primary"></i>
-                          <i class="fa fa-link fa-stack-1x fa-inverse"></i>
-                    </span>
-                </div>
-                <div class="media-body">
-                    <h4 class="media-heading">Chain of Responsibility</h4>
-                    <p>Flexible, highly configurable, modular command framework that implements a chain of responsibility </p>
-                </div>
-            </div>           
-        </div>
-        <div class="col-md-4">
-            <div class="media">
-                <div class="pull-left">
-                    <span class="fa-stack fa-2x">
-                          <i class="fa fa-circle fa-stack-2x text-primary"></i>
-                          <i class="fa fa-bug fa-stack-1x fa-inverse"></i>
-                    </span>
-                </div>
-                <div class="media-body">
-                    <h4 class="media-heading">Error Handling</h4>
-                    <p>Internationalized error messages. Support for Warnings. </p>
-                </div>
-            </div>
-        
-            <div class="media">
-                <div class="pull-left">
-                    <span class="fa-stack fa-2x">
-                          <i class="fa fa-circle fa-stack-2x text-primary"></i>
-                          <i class="fa fa-car fa-stack-1x fa-inverse"></i>
-                    </span>
-                </div>
-                <div class="media-body">
-                    <h4 class="media-heading">Transport Agnostic</h4>
-                    <p>Introducing a new transport for Chenile is trivial. Enabling a service for a new transport needs nothing more than a configuration update!</p>
-                </div>
-            </div>
-            <div class="media">
-                <div class="pull-left">
-                    <span class="fa-stack fa-2x">
-                          <i class="fa fa-circle fa-stack-2x text-primary"></i>
-                          <i class="fa fa-database fa-stack-1x fa-inverse"></i>
-                    </span>
-                </div>
-                <div class="media-body">
-                    <h4 class="media-heading">Externalized Service Configuration</h4>
-                    <p>Chenile acts like a service registry.It stores service metadata that drives behavior.</p>
-                </div>
-            </div>
-            
-        </div>
-        <div class="col-md-4">
-            <div class="media">
-                <div class="pull-left">
-                    <span class="fa-stack fa-2x">
-                          <i class="fa fa-circle fa-stack-2x text-primary"></i>
-                          <i class="fa fa-code-branch fa-stack-1x fa-inverse"></i>
-                    </span>
-                </div>
-                <div class="media-body">
-                    <h4 class="media-heading">Builds + Version Management</h4>
-                    <p>Version control management, Docker builds. Default makefiles</p>
-                </div>
-            </div>
-            <div class="media">
-                <div class="pull-left">
-                    <span class="fa-stack fa-2x">
-                          <i class="fa fa-circle fa-stack-2x text-primary"></i>
-                          <i class="fa fa-file fa-stack-1x fa-inverse"></i>
-                    </span>
-                </div>
-                <div class="media-body">
-                    <h4 class="media-heading">Message Model</h4>
-                    <p>Generic response. Transport agnostic exchange object</p>
-                </div>
-            </div>
-            <div class="media">
-                <div class="pull-left">
-                    <span class="fa-stack fa-2x">
-                          <i class="fa fa-circle fa-stack-2x text-primary"></i>
-                          <i class="fa fa-vial fa-stack-1x fa-inverse"></i>
-                    </span>
-                </div>
-                <div class="media-body">
-                    <h4 class="media-heading">BDD</h4>
-                    <p>Cucumber integrated. BDD & full  HTTP black box testing supported out of the box. Customized Gherkin.</p>
-                </div>
-            </div>
-        </div>
+<!-- ===================== THE STORY ===================== -->
+<section class="bg-soft">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">The idea in five steps</span>
+      <h2>The Chenile story</h2>
+      <p class="lead">The website and the video series both follow the same arc — from a plain question about microservices to a concrete way of governing them.</p>
     </div>
-    <div class='row'>
-        <div class="col-lg-12">
-            <h2 class="page-header">Why another framework?</h2>
+    <div class="rail">
+      <a class="story" href="{{ '/concepts/01-why-microservices/' | relative_url }}">
+        <div class="step">1</div>
+        <div>
+          <h3>Why microservices?</h3>
+          <p>What we actually want from microservices — independent deployability, clear ownership, blast-radius control — and the tax we pay when every team re-implements the same plumbing.</p>
+          <span>Read part 1 →</span>
         </div>
-        <div class="col-lg-12">
-            <p>This is all cool.. but doesn't Spring Boot already provide these ?</p>
-            <p>We agree that Spring Boot is an awesome ecosystem. In fact, we like it so much that we built Chenile on top of Spring Boot! Spring Boot is not opinionated. This is good because it caters to different use cases. Chenile seeks to impose certain opinionated standards on Spring Boot development. These standards cover a gamut of things - from simple naming conventions to recommending certain design paradigms to standardizing how Maven must be used etc. </p>
-            <p>These standards are automatically incorporated in Chenile Micro services if the Chenile code generator is used. For example, it takes less than 5 minutes to generate a Spring Boot micro service that does the following:
-            <ul>
-                <li>Have a multi module Maven project which separates development concerns from deployment and implements the Dependency inversion principle (DIP) of SOLID</li>
-                <li>Supports multiple transports - HTTP being one of them</li>
-                <li>Adheres to established naming conventions</li>
-                <li>Generates Swagger docs and other files that allow us to document this service in a service registry</li>
-                <li>Adheres to established ways of implementing a work flow or CQRS or any of the other Chenile blue prints</li>
-                <li>Incorporates horizontal concerns seamlessly</li>
-                <li>Uses standardized exception handling</li>
-                <li>emits a response in one standard format with provision to return exceptions, errors and warnings</li>
-                <li>Uses international message bundles</li>
-                <li>Implements test cases with a sophisticated Cucumber test harness and a standardized Gherkin language</li>
-                <li>Facilitates versioning strategies and builds a CI/CD pipeline</li>
-                <li>incorporates observability </li>
-                <li>and much much more. </li>
-            </ul>
-            <p> This obviates the need for developers to wade through endless documentation, stack overflow pages and sift through multiple opinions. In short, you have more time to implement functionality without worrying about semantics, best practices etc. (which you will also eventually learn by looking at Chenile's documentation)</p>
-            <p>In short, Chenile makes you productive on day one instead of waiting for months!</p>
-            <p>&lt;EOF&gt; END of hard sell. Phew! Now let us take a deep breath and get back to writing some cool programs using Chenile!</p>
+      </a>
+      <a class="story" href="{{ '/concepts/02-definition-vs-implementation/' | relative_url }}">
+        <div class="step">2</div>
+        <div>
+          <h3>Separate service <em>definition</em> from <em>implementation</em></h3>
+          <p>A service is a contract, not a codebase. Chenile puts the interface and model in an <code>api</code> module that consumers depend on, and the logic in a <code>service</code> module nobody depends on. That's the Dependency Inversion Principle, made physical.</p>
+          <span>Read part 2 →</span>
         </div>
+      </a>
+      <a class="story" href="{{ '/concepts/03-service-policies/' | relative_url }}">
+        <div class="step">3</div>
+        <div>
+          <h3>Service policies are part of the division</h3>
+          <p>Authentication, authorization, logging, i18n, multi-tenancy, retries — these are <em>horizontal</em> requirements that cut across every service. They belong to the definition side, not tangled into business code. Chenile expresses each as a single-responsibility interceptor.</p>
+          <span>Read part 3 →</span>
+        </div>
+      </a>
+      <a class="story" href="{{ '/concepts/04-policy-placement/' | relative_url }}">
+        <div class="step">4</div>
+        <div>
+          <h3>Where do policies live? Gateway <em>and</em> last mile</h3>
+          <p>Some policies belong at the edge — the API gateway — where you terminate auth and shed load early. Others must run at the last mile, right next to the service, where the business context lives. Most real systems need both.</p>
+          <span>Read part 4 →</span>
+        </div>
+      </a>
+      <a class="story" href="{{ '/concepts/05-how-chenile-helps/' | relative_url }}">
+        <div class="step">5</div>
+        <div>
+          <h3>How Chenile implements policies in both places</h3>
+          <p>The same interceptor abstraction runs in Chenile's gateway and inside each service's interception pipeline. Write a policy once; deploy it at the edge, at the last mile, or both — driven by service-registry configuration, not by rewriting code.</p>
+          <span>Read part 5 →</span>
+        </div>
+      </a>
+      <a class="story" href="{{ '/concepts/06-bdd-testing/' | relative_url }}">
+        <div class="step">6</div>
+        <div>
+          <h3>Test once, run everywhere: BDD across unit &amp; integration</h3>
+          <p>The same idea, applied to testing. One Gherkin <code>.feature</code> file runs as a fast in-process unit test over Spring MockMvc <em>and</em> as a full integration test over REST Assured. Write the behaviour once; swap the glue, not the spec.</p>
+          <span>Read part 6 →</span>
+        </div>
+      </a>
     </div>
+  </div>
+</section>
+
+<!-- ===================== DEFINITION vs IMPLEMENTATION SPLIT ===================== -->
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">The core move</span>
+      <h2>Business logic in one module. Everything else, out.</h2>
+    </div>
+    <div class="split">
+      <div class="panel good">
+        <h3>✅ <code>s1-api</code> — the definition</h3>
+        <p style="color:var(--slate)">What consumers depend on. Pure contract.</p>
+        <ul>
+          <li>The service <strong>interface</strong> (<code>S1Service</code>)</li>
+          <li>The <strong>model</strong> objects</li>
+          <li>No implementation, no transport, no Spring</li>
+          <li>Packaged as a library — never deployed alone</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h3>⚙️ <code>s1-service</code> — the implementation</h3>
+        <p style="color:var(--slate)">What nobody depends on. Swappable.</p>
+        <ul>
+          <li>A plain <strong>POJO</strong> implementing the interface</li>
+          <li>A health checker for deep readiness probes</li>
+          <li>Wired through a Chenile controller</li>
+          <li>Horizontal concerns handled by <strong>policies</strong>, not code</li>
+        </ul>
+      </div>
+    </div>
+    <div style="margin-top:26px">
+{% highlight java %}
+// The whole service. Business logic and nothing else —
+// no auth, no logging, no tenancy checks tangled in here.
+public class S1ServiceImpl implements S1Service {
+    @Override
+    public S1Entity op1(S1Entity s1Entity) {
+        s1Entity.id = "S1ServiceImpl";
+        return s1Entity;               // policies run around this, not inside it
+    }
+}
+{% endhighlight %}
+    </div>
+  </div>
+</section>
+
+<!-- ===================== POLICY PLACEMENT ===================== -->
+<section class="bg-ink">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow" style="background:rgba(255,255,255,.12);color:#ffc98a">Write once, run in two places</span>
+      <h2>One policy model — the gateway and the last mile</h2>
+      <p class="lead">Chenile's interceptor abstraction is the same whether it runs at the edge or beside the service. The service registry decides where each policy applies.</p>
+    </div>
+    <div style="background:#fff;border-radius:18px;padding:22px;margin-bottom:34px;box-shadow:var(--shadow-lg)">
+      <img src="{{ '/assets/img/chenile-architecture.svg' | relative_url }}" alt="Chenile runtime diagram: a request flows through the API gateway into a service, becomes a ChenileExchange, and runs through the interception pipeline of policies before reaching pure business logic — the same interceptor contract at the gateway and the last mile." style="width:100%;height:auto;display:block">
+    </div>
+    <div class="grid-2">
+      <div class="card" style="background:var(--ink-2);border-color:rgba(255,255,255,.12)">
+        <div class="ic">🛡️</div>
+        <h3 style="color:#fff">At the API gateway</h3>
+        <p style="color:#cabfb0">Terminate authentication, coarse authorization, rate-limiting and request normalization at the edge — so bad traffic never reaches your services. Chenile ships an auth gateway and resource-server starters in <code style="background:rgba(255,255,255,.1);color:#ffc98a">chenile-security</code>.</p>
+      </div>
+      <div class="card" style="background:var(--ink-2);border-color:rgba(255,255,255,.12)">
+        <div class="ic">🎯</div>
+        <h3 style="color:#fff">At the last mile</h3>
+        <p style="color:#cabfb0">Fine-grained authorization, multi-tenancy, i18n, idempotency and business-aware logging run inside each service's interception pipeline — where the domain context actually exists. Same interceptor contract, different deployment.</p>
+      </div>
+    </div>
+    <p style="text-align:center;margin-top:34px">
+      <a class="btn btn-light" href="{{ '/concepts/04-policy-placement/' | relative_url }}">See how placement works →</a>
+    </p>
+  </div>
+</section>
+
+<!-- ===================== BDD TESTING ===================== -->
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Testing, the same way</span>
+      <h2>One Gherkin spec. A unit test <em>and</em> an integration test.</h2>
+      <p class="lead">Chenile ships the same step vocabulary in two libraries — so a single <code>.feature</code> file runs in-process over Spring MockMvc and against a live server over REST Assured.</p>
+    </div>
+    <div style="background:var(--soft);border-radius:18px;padding:22px;margin-bottom:30px;box-shadow:var(--shadow-sm)">
+      <img src="{{ '/assets/img/chenile-bdd-reuse.svg' | relative_url }}" alt="One Gherkin feature file branches to a unit test using cucumber-utils over Spring MockMvc and an integration test using it-cucumber-utils over REST Assured. Swap the glue, not the spec." style="width:100%;height:auto;display:block">
+    </div>
+    <div class="grid-2">
+      <div class="card">
+        <div class="ic">🧪</div>
+        <h3>Unit / component — <code>cucumber-utils</code></h3>
+        <p>Spring MockMvc stands the service up in an ephemeral in-process instance and drives it from the outside. Because the request passes through the real Chenile pipeline, it exercises the service <strong>and its interceptors</strong> — governance is under test. Fast enough for every build.</p>
+      </div>
+      <div class="card">
+        <div class="ic">🌐</div>
+        <h3>Integration — <code>it-cucumber-utils</code> · <code>chenile-bdd</code></h3>
+        <p>The identical scenarios run over REST Assured against a really deployed server, verifying the wire, packaging, config and environment. <code>it-cucumber-sec-utils</code> does the same for secured endpoints. Same spec, run against staging.</p>
+      </div>
+    </div>
+    <p style="text-align:center;margin-top:34px"><a class="btn btn-ghost" href="{{ '/concepts/06-bdd-testing/' | relative_url }}">How BDD reuse works →</a></p>
+  </div>
+</section>
+
+<!-- ===================== REPOSITORIES ===================== -->
+<section class="bg-soft">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">One framework, cleanly split</span>
+      <h2>The 11 Chenile repositories</h2>
+      <p class="lead">Versioned together under <code>chenile-parent</code> and currently aligned on v{{ site.maven_version }}.</p>
+    </div>
+    <div class="repo-grid">
+      {% for r in site.data.repos %}
+      <div class="repo">
+        <div class="top">
+          <span class="ic">{{ r.icon }}</span>
+          <code>{{ r.name }}</code>
+          <span class="tag layer">{{ r.layer }}</span>
+        </div>
+        <p>{{ r.blurb }}</p>
+        <div class="mods">
+          {% for m in r.modules limit: 5 %}<span>{{ m }}</span>{% endfor %}
+          {% assign extra = r.modules | size | minus: 5 %}
+          {% if extra > 0 %}<span>+{{ extra }} more</span>{% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    <p style="text-align:center;margin-top:34px"><a class="btn btn-ghost" href="{{ '/repositories/' | relative_url }}">Explore all repositories →</a></p>
+  </div>
+</section>
+
+<!-- ===================== REVIEWS ===================== -->
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">What teams say</span>
+      <h2>Loved by the engineers who maintain it</h2>
+      <p class="lead" style="color:var(--muted);font-family:var(--mono);font-size:.9rem">↓ Placeholder testimonials — swap in real, attributable quotes before publishing.</p>
+    </div>
+    <div class="reviews">
+      {% for rv in site.data.reviews %}
+      <div class="review">
+        <p class="quote">{{ rv.quote }}</p>
+        <div class="who">
+          <div class="avatar">{{ rv.avatar_initials }}</div>
+          <div>
+            <div class="name">{{ rv.name }}</div>
+            <div class="role">{{ rv.role }} · {{ rv.company }}</div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CTA ===================== -->
+<section class="cta">
+  <div class="wrap">
+    <div class="cta-box">
+      <h2>Generate your first Chenile service in minutes</h2>
+      <p>Scaffold an <code style="background:rgba(255,255,255,.18);color:#fff">api</code> + <code style="background:rgba(255,255,255,.18);color:#fff">service</code> pair, get a deployable monolith, and start attaching policies.</p>
+      <div class="hero-actions">
+        <a class="btn btn-ghost" href="{{ '/get-started/' | relative_url }}">Read the quickstart</a>
+        <a class="btn btn-light" href="{{ site.docs_url }}">Full documentation</a>
+      </div>
+    </div>
+  </div>
+</section>

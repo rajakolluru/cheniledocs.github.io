@@ -1,8 +1,13 @@
 source "https://rubygems.org"
 
-# to publish on github page
-gem 'github-pages', group: :jekyll_plugins
+# Use the github-pages gem so the site builds identically to GitHub Pages.
+gem "github-pages", group: :jekyll_plugins
 
-# to publich without github page
-#gem "jekyll"
-gem 'webrick'
+# If you prefer a plain Jekyll build instead, comment the line above and use:
+# gem "jekyll", "~> 4.3"
+
+group :jekyll_plugins do
+  gem "jekyll-feed"
+end
+
+gem "webrick", "~> 1.8"

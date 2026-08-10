@@ -1,0 +1,36 @@
+# ------------------------------------------------------------------
+# PLACEHOLDER TESTIMONIALS — replace with real, attributable quotes.
+# Do NOT publish these as-is; they are illustrative samples only.
+# ------------------------------------------------------------------
+- quote: >-
+    We deleted three internal 'framework' libraries after adopting Chenile.
+    Our services now contain business logic and almost nothing else.
+  name: "A. Rao"
+  role: "Principal Engineer"
+  company: "Placeholder Fintech"      # PLACEHOLDER
+  avatar_initials: "AR"
+
+- quote: >-
+    The split between the api module and the service module finally made our
+    dependency graph honest. New engineers understand a service in minutes.
+  name: "M. Chen"
+  role: "Staff Architect"
+  company: "Placeholder Logistics"    # PLACEHOLDER
+  avatar_initials: "MC"
+
+- quote: >-
+    We moved authentication to the gateway and kept fine-grained authorization
+    at the last mile — same policy code, two places. That used to be a quarter
+    of work.
+  name: "S. Iyer"
+  role: "Platform Lead"
+  company: "Placeholder Health"       # PLACEHOLDER
+  avatar_initials: "SI"
+
+- quote: >-
+    Chenile's interceptor model gave us a single, testable place for
+    multi-tenancy. BDD tests came almost for free.
+  name: "J. Okafor"
+  role: "Engineering Manager"
+  company: "Placeholder Retail"       # PLACEHOLDER
+  avatar_initials: "JO"

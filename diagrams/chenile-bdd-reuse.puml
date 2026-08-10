@@ -1,0 +1,25 @@
+@startuml chenile-bdd-reuse
+' One Gherkin feature file, two step libraries: MockMvc unit test + REST Assured integration test.
+' Render:  plantuml -tsvg chenile-bdd-reuse.puml
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam defaultFontName Inter
+skinparam ArrowColor #D81878
+skinparam rectangle { BorderColor #ECE8F2 FontColor #16121F }
+
+title Write the behaviour once. Run it two ways.
+
+rectangle "service.feature (Gherkin)\n<size:11><color:#7d7891>Scenario: op1 sets the id\nWhen I POST a REST request to URL \"/s1/op1\" ...\nThen the REST response key \"id\" is \"S1ServiceImpl\"</color></size>" as feature #16121F
+
+rectangle "Unit / component test\n<b>cucumber-utils</b> (chenile-core)\n• Spring MockMvc + RestCukesSteps\n• in-process, ephemeral — no network\n• tests service AND its interceptors\n• fast; every build" as unit #F2EDFA
+
+rectangle "Integration test\n<b>it-cucumber-utils</b> (chenile-bdd)\n• REST Assured + RestCukesSteps\n• hits a really deployed server over HTTP\n• verifies wire, config & environment\n• same scenarios; run vs staging" as integ #FDE7F1
+
+feature --> unit : same steps
+feature --> integ : same steps
+
+note bottom
+  Swap the glue (runner + steps + config), not the specification.
+  The identical Gherkin scenarios drive both layers of the test pyramid.
+end note
+@enduml

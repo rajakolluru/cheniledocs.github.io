@@ -1,0 +1,28 @@
+<nav class="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="{{ '/' | relative_url }}">
+      <img class="brand-mark" src="{{ '/assets/img/chenile-mark.png' | relative_url }}" alt="Chenile logo">
+      <img class="brand-word-img" src="{{ '/assets/img/chenile-wordmark-dark.png' | relative_url }}" alt="Chenile">
+      <span class="brand-word" hidden>CHENILE</span>
+    </a>
+    <button class="nav-toggle" aria-label="Menu">☰</button>
+    <div class="nav-links">
+      {% for item in site.data.nav %}
+        {% if item.dropdown %}
+          <div class="nav-drop">
+            <a href="{{ '/concepts/' | relative_url }}">{{ item.title }} ▾</a>
+            <div class="nav-drop-menu">
+              {% for sub in item.dropdown %}
+                <a href="{{ sub.url | relative_url }}">{{ sub.title }}</a>
+              {% endfor %}
+            </div>
+          </div>
+        {% elsif item.title == "Get started" %}
+          <a class="nav-cta" href="{{ item.url | relative_url }}">{{ item.title }}</a>
+        {% else %}
+          <a href="{{ item.url | relative_url }}">{{ item.title }}</a>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</nav>

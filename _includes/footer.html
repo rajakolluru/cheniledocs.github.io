@@ -1,9 +1,44 @@
-<footer>
-            <div class="row">
-                <div class="col-lg-12 footer">
-               &copy;{{ site.time | date: "%Y"  }} {{site.company_name}}. All rights reserved. <br />
-{% if page.last_updated %}<span>Page last updated:</span> {{page.last_updated}}<br/>{% endif %} Site last generated: {{ site.time | date: "%b %-d, %Y"  }} <br />
-<p><img src="{{ "images/company_logo.png" }}" alt="Company logo"/></p>
-                </div>
-            </div>
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <a class="brand" href="{{ '/' | relative_url }}">
+          <img class="brand-mark" src="{{ '/assets/img/chenile-mark.png' | relative_url }}" alt="Chenile logo">
+          <img class="brand-word-img" src="{{ '/assets/img/chenile-wordmark-white.png' | relative_url }}" alt="Chenile">
+        </a>
+        <p style="margin-top:14px;max-width:34ch;">An open-source Java framework for moduliths and microservices — separating service definition from implementation, and governing both with consistent policies.</p>
+      </div>
+      <div>
+        <h4>Learn</h4>
+        <ul>
+          <li><a href="{{ '/concepts/01-why-microservices/' | relative_url }}">Why microservices</a></li>
+          <li><a href="{{ '/concepts/02-definition-vs-implementation/' | relative_url }}">Definition vs. implementation</a></li>
+          <li><a href="{{ '/concepts/03-service-policies/' | relative_url }}">Service policies</a></li>
+          <li><a href="{{ '/concepts/04-policy-placement/' | relative_url }}">Where policies live</a></li>
+          <li><a href="{{ '/concepts/05-how-chenile-helps/' | relative_url }}">How Chenile helps</a></li>
+          <li><a href="{{ '/concepts/06-bdd-testing/' | relative_url }}">BDD testing</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Build</h4>
+        <ul>
+          <li><a href="{{ '/architecture/' | relative_url }}">Architecture</a></li>
+          <li><a href="{{ '/repositories/' | relative_url }}">Repositories</a></li>
+          <li><a href="{{ '/get-started/' | relative_url }}">Get started</a></li>
+          <li><a href="{{ site.docs_url }}">Full documentation</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Watch</h4>
+        <ul>
+          <li><a href="{{ '/video-series/' | relative_url }}">Video series</a></li>
+          <li><a href="{{ site.github_repo }}">GitHub</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© {{ site.time | date: '%Y' }} Chenile · The Kollurus. Open source.</span>
+      <span class="placeholder-flag">Stats &amp; testimonials on this site are illustrative placeholders — replace before publishing.</span>
+    </div>
+  </div>
 </footer>

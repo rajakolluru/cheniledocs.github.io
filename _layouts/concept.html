@@ -1,0 +1,42 @@
+---
+layout: default
+---
+{% assign chapters = site.concepts | sort: "order" %}
+<div class="page-hero">
+  <div class="narrow">
+    <div class="kicker">The Chenile story · Part {{ page.order }} of {{ chapters | size }}</div>
+    <h1>{{ page.title }}</h1>
+    {% if page.summary %}<p class="lead">{{ page.summary }}</p>{% endif %}
+  </div>
+</div>
+<article class="doc">
+  <div class="narrow">
+    <div class="toc-mini">
+      <strong>The five-part story</strong>
+      {% for c in chapters %}
+        {% if c.order == page.order %}
+          <div>▸ <strong>{{ c.order }}. {{ c.short | default: c.title }}</strong></div>
+        {% else %}
+          <div><a href="{{ c.url | relative_url }}">{{ c.order }}. {{ c.short | default: c.title }}</a></div>
+        {% endif %}
+      {% endfor %}
+    </div>
+
+    {{ content }}
+
+    <div class="pager">
+      {% assign prev_order = page.order | minus: 1 %}
+      {% assign next_order = page.order | plus: 1 %}
+      <div>
+        {% for c in chapters %}{% if c.order == prev_order %}
+          <a href="{{ c.url | relative_url }}">← {{ c.order }}. {{ c.short | default: c.title }}</a>
+        {% endif %}{% endfor %}
+      </div>
+      <div style="text-align:right">
+        {% for c in chapters %}{% if c.order == next_order %}
+          <a href="{{ c.url | relative_url }}">{{ c.order }}. {{ c.short | default: c.title }} →</a>
+        {% endif %}{% endfor %}
+      </div>
+    </div>
+  </div>
+</article>

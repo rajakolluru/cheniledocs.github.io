@@ -1,0 +1,66 @@
+# The 11 primary Chenile repositories (versioned together under chenile-parent).
+- name: "chenile-parent"
+  layer: "Build baseline"
+  blurb: "Shared Maven super-parent and dependency-management BOM. Standardizes Java, Spring Boot, plugin and Chenile artifact versions for every sibling repo."
+  modules: ["chenile-parent"]
+  icon: "🏗️"
+
+- name: "chenile-core"
+  layer: "Core runtime"
+  blurb: "The execution engine: ChenileExchange model, the interceptor pipeline, service/operation definitions, HTTP binding, state-machine (STM) support and MCP support."
+  modules: ["stm", "chenile-base", "owiz", "chenile-core", "chenile-http", "cucumber-utils", "utils", "jpa-utils", "multi-datasource-utils", "chenile-mcp", "chenile-admin-ui"]
+  icon: "⚙️"
+
+- name: "chenile-query-workflow-blueprints"
+  layer: "Application blueprints"
+  blurb: "Reusable query and workflow patterns on top of core — metadata-driven queries (MyBatis) and workflow-enabled services built on Chenile STM."
+  modules: ["query-api", "chenile-query-service", "chenile-query-controller", "workflow-api", "workflow-service", "workflow-mcp", "cucumber-workflow-utils", "workflow-utils", "stm-generate-puml"]
+  icon: "🔀"
+
+- name: "chenile-process-management"
+  layer: "Application blueprints"
+  blurb: "Orchestration for long-running parent and child processes with sub-process tracking and pluggable process starters."
+  modules: ["process-api", "process-service", "process-delegate", "process-utils", "q-based-process-starter", "invm-process-starter"]
+  icon: "🧭"
+
+- name: "chenile-service-registry"
+  layer: "Integration"
+  blurb: "Registry of services and delegates that lets Chenile discover and resolve service interactions and their policy configuration."
+  modules: ["service-registry-api", "service-registry-service", "service-registry-delegate"]
+  icon: "📇"
+
+- name: "chenile-proxies"
+  layer: "Integration"
+  blurb: "Proxy framework for invoking Chenile services through interfaces rather than hand-written transport code — local and remote."
+  modules: ["chenile-proxy"]
+  icon: "🔌"
+
+- name: "chenile-security"
+  layer: "Integration"
+  blurb: "Security support including the contract-first auth framework: auth-server, gateway and resource-server starters, plus the security interceptor."
+  modules: ["chenile-security", "chenile-security-api", "cucumber-sec-utils", "security-interceptor", "auth-framework/core", "auth-framework/auth-server", "auth-framework/gateway", "auth-framework/starters/*"]
+  icon: "🔐"
+
+- name: "chenile-messaging"
+  layer: "Integration"
+  blurb: "Messaging and pub-sub integrations: MQTT, Kafka, Azure, in-JVM pub-sub and the cloud-edge switch."
+  modules: ["chenile-pub-sub", "cucumber-mqtt-utils", "chenile-mqtt", "cloud-edge-switch", "chenile-kafka", "chenile-azure", "chenile-jvm-pub-sub"]
+  icon: "📨"
+
+- name: "chenile-bdd"
+  layer: "Testing"
+  blurb: "Integration-test and BDD support — Cucumber utilities for services and security so behavior is verified end to end."
+  modules: ["it-cucumber-utils", "it-cucumber-sec-utils"]
+  icon: "🧪"
+
+- name: "chenile-others"
+  layer: "Auxiliary"
+  blurb: "Supporting entry points and integrations: file-watch, a Kubernetes-aware scheduler, cache, and the config maven plugin."
+  modules: ["chenile-filewatch", "chenile-scheduler", "chenile-cache", "chenile-config-maven-plugin"]
+  icon: "🧰"
+
+- name: "cconfig"
+  layer: "Configuration"
+  blurb: "Modular runtime configuration storage and overrides that the rest of the stack can consume."
+  modules: ["chenile-config", "cconfig-db"]
+  icon: "🎛️"

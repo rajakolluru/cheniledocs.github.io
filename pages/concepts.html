@@ -1,0 +1,30 @@
+---
+layout: default
+title: "Why Chenile — the five-part story"
+permalink: /concepts/
+summary: "From a plain question about microservices to a concrete way of governing them."
+---
+<div class="page-hero">
+  <div class="narrow">
+    <div class="kicker">Why Chenile</div>
+    <h1>The five-part story</h1>
+    <p class="lead">The website and the YouTube series share one narrative arc. Read it end to end, or jump to any chapter.</p>
+  </div>
+</div>
+<section>
+  <div class="wrap">
+    <div class="rail">
+      {% assign chapters = site.concepts | sort: "order" %}
+      {% for c in chapters %}
+      <a class="story" href="{{ c.url | relative_url }}">
+        <div class="step">{{ c.order }}</div>
+        <div>
+          <h3>{{ c.title }}</h3>
+          <p>{{ c.summary }}</p>
+          <span>Read part {{ c.order }} →</span>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>

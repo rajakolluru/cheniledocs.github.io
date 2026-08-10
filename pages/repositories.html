@@ -1,0 +1,37 @@
+---
+layout: default
+title: "The 11 repositories"
+permalink: /repositories/
+summary: "One framework, cleanly split across eleven repositories that move together under chenile-parent."
+---
+<div class="page-hero">
+  <div class="narrow">
+    <div class="kicker">Source map</div>
+    <h1>The 11 Chenile repositories</h1>
+    <p class="lead">Versioned together under <code>chenile-parent</code>, currently aligned on v{{ site.maven_version }}. Each repository owns a clear slice of the framework.</p>
+  </div>
+</div>
+<section>
+  <div class="wrap">
+    <div class="repo-grid">
+      {% for r in site.data.repos %}
+      <div class="repo">
+        <div class="top">
+          <span class="ic">{{ r.icon }}</span>
+          <code>{{ r.name }}</code>
+          <span class="tag layer">{{ r.layer }}</span>
+        </div>
+        <p>{{ r.blurb }}</p>
+        <div class="mods">
+          {% for m in r.modules %}<span>{{ m }}</span>{% endfor %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="callout" style="margin-top:40px">
+      <div class="t">How they layer</div>
+      <code>chenile-parent</code> defines versions → <code>chenile-core</code> provides the runtime → <code>chenile-query-workflow-blueprints</code> and <code>chenile-process-management</code> add application patterns → <code>chenile-service-registry</code>, <code>chenile-proxies</code>, <code>chenile-security</code> and <code>chenile-messaging</code> add integration → <code>chenile-bdd</code> and <code>chenile-others</code> add testing and operations → <code>cconfig</code> supplies runtime configuration.
+    </div>
+    <p style="text-align:center;margin-top:34px"><a class="btn btn-ghost" href="{{ site.github_repo }}">Browse the source on GitHub →</a></p>
+  </div>
+</section>

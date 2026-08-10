@@ -1,0 +1,35 @@
+---
+layout: default
+title: "The Chenile video series"
+permalink: /video-series/
+summary: "A YouTube series that tells the Chenile story from first principles — from why microservices, to governing them with one policy model."
+---
+<div class="page-hero">
+  <div class="narrow">
+    <div class="kicker">Watch &amp; learn</div>
+    <h1>The Chenile video series</h1>
+    <p class="lead">Eight short episodes that follow the same arc as this site: why microservices, separating definition from implementation, service policies, and governing them at the gateway and the last mile. Each episode below includes a full narration script and demo cues, ready to record.</p>
+  </div>
+</div>
+<section>
+  <div class="wrap">
+    <div class="ep-list">
+      {% assign eps = site.episodes | sort: "order" %}
+      {% for e in eps %}
+      <a class="ep" href="{{ e.url | relative_url }}">
+        <div class="n">{% if e.order < 10 %}0{% endif %}{{ e.order }}</div>
+        <div>
+          <h3>{{ e.title }}</h3>
+          <p>{{ e.summary }}</p>
+        </div>
+        <div class="dur">{{ e.duration }}</div>
+      </a>
+      {% endfor %}
+    </div>
+
+    <div class="callout key" style="margin-top:40px">
+      <div class="t">Production notes for the whole series</div>
+      Keep a consistent cold-open (5–8s brand sting), lower-thirds for terms (<em>service policy</em>, <em>last mile</em>, <em>ChenileExchange</em>), and a recurring on-screen diagram that gains one layer per episode so the architecture literally assembles as the story progresses. Every episode ends with the same one-line recap card and a pointer to the matching page on this site.
+    </div>
+  </div>
+</section>

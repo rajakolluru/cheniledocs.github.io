@@ -1,0 +1,20 @@
+# ------------------------------------------------------------------
+# PLACEHOLDER STATS — replace the `value` fields with real numbers.
+# These are illustrative sample figures, NOT verified metrics.
+# ------------------------------------------------------------------
+- value: 11
+  suffix: ""
+  label: "Modular repositories"
+  note: "One coherent framework, versioned together"
+- value: 90
+  suffix: "%"
+  label: "Less boilerplate"        # PLACEHOLDER
+  note: "Typical horizontal code eliminated per service"
+- value: 40
+  suffix: "+"
+  label: "Built-in service policies" # PLACEHOLDER
+  note: "Security, logging, i18n, retries, tenancy…"
+- value: 1
+  suffix: "×"
+  label: "Write a policy once"
+  note: "Runs at the gateway and the last mile"
