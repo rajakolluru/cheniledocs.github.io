@@ -9,8 +9,8 @@ description: >-
   Chenile is an open-source Java framework that cleanly separates service
   definition from service implementation, and lets you apply service policies
   consistently at the API gateway and the last mile.
-author: "The Kollurus"
-email: raja@thekollurus.com
+author: "Ajapro Software Private Limited"
+email: raja@ajapros.com
 
 # When deployed to GitHub Pages at https://<user>.github.io/chenile-site
 # set baseurl to "/chenile-site". For a user/org root or custom domain, leave "".

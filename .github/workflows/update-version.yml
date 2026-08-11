@@ -1,0 +1,43 @@
+# Keeps `maven_version` in _config.yml pointed at the latest released Chenile
+# version, automatically. The whole site prints {{ site.maven_version }}, so when
+# this commits a change, the classic GitHub Pages build republishes with the new
+# "latest release vX.Y.Z" everywhere.
+name: Update latest version
+
+on:
+  schedule:
+    - cron: "0 6 * * *"     # daily at 06:00 UTC
+  workflow_dispatch:         # allow manual runs
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-version
+  cancel-in-progress: false
+
+jobs:
+  bump:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Update maven_version from Maven Central
+        run: |
+          chmod +x scripts/update-version.sh
+          scripts/update-version.sh
+
+      - name: Commit if changed
+        run: |
+          if [[ -n "$(git status --porcelain _config.yml)" ]]; then
+            git config user.name  "chenile-bot"
+            git config user.email "actions@users.noreply.github.com"
+            NEW=$(sed -n 's/^maven_version:[[:space:]]*"\{0,1\}\([^"]*\)"\{0,1\}.*/\1/p' _config.yml)
+            git add _config.yml
+            git commit -m "chore: bump maven_version to ${NEW}"
+            git push
+            echo "Bumped to ${NEW}."
+          else
+            echo "No version change."
+          fi

@@ -398,3 +398,8 @@ pre code { background: none; color: inherit; padding: 0; }
 @keyframes trajpulse{0%{transform:scale(1)}45%{transform:scale(1.04);box-shadow:var(--shadow-md)}100%{transform:scale(1)}}
 .jsx-mini .fallback{font-family:var(--font);font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);background:var(--soft);border:1px solid var(--line);padding:1px 6px;border-radius:999px;margin-left:6px}
 @media(prefers-reduced-motion:reduce){.jsx-mini.changed{animation:none}}
+
+/* latest-version badge (footer) */
+.ver-badge{display:inline-flex;align-items:center;gap:7px;font-size:.82rem;color:#d8cfc0;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);padding:5px 12px;border-radius:999px;font-family:var(--mono)}
+.ver-badge b{color:#fff;font-weight:700}
+.ver-badge .dot{width:8px;height:8px;border-radius:50%;background:#3fbf6a;box-shadow:0 0 0 3px rgba(63,191,106,.25)}
