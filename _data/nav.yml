@@ -29,6 +29,8 @@
       url: "/concepts/12-jgen/"
     - title: "13 · Multi-tenant SaaS"
       url: "/concepts/13-multi-tenant-saas/"
+    - title: "14 · Trajectories"
+      url: "/concepts/14-trajectories/"
 - title: "Architecture"
   url: "/architecture/"
 - title: "Repositories"

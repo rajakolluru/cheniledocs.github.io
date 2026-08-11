@@ -148,6 +148,14 @@ permalink: /
           <span>Read part 13 →</span>
         </div>
       </a>
+      <a class="story" href="{{ '/concepts/14-trajectories/' | relative_url }}">
+        <div class="step">14</div>
+        <div>
+          <h3>Trajectories — alternate behaviour, no branching</h3>
+          <p>Set the header <code>x-chenile-trajectory-id</code> and Chenile swaps in a different service implementation, workflow action or config value for that request — great for A/B tests, canaries and migrations, with nothing to untangle later.</p>
+          <span>Read part 14 →</span>
+        </div>
+      </a>
     </div>
   </div>
 </section>
@@ -226,18 +234,24 @@ public class S1ServiceImpl implements S1Service {
   </div>
 </section>
 
-<!-- ===================== INTERACTIVE PIPELINE ===================== -->
+<!-- ===================== ANIMATED SCHEMATICS ===================== -->
 <section class="bg-soft">
   <div class="wrap">
     <div class="section-head">
       <span class="eyebrow">See it move</span>
-      <h2>Step a request through the pipeline</h2>
-      <p class="lead">Every request runs through an Owiz-powered chain of policy interceptors before your business logic. Press <b>Step</b> to walk it through.</p>
+      <h2>Watch a request — and an entity — flow</h2>
+      <p class="lead">Two animations that run on their own: a request travelling the Owiz-powered interception pipeline, and an entity walking its state machine as events fire.</p>
     </div>
-    <div style="max-width:820px;margin:0 auto">
+    <div style="max-width:860px;margin:0 auto">
+      <h3 style="margin:0 0 10px">The request-processing pipeline</h3>
       <div class="jsx" data-jsx="pipeline"></div>
+      <h3 style="margin:34px 0 10px">A state machine in motion</h3>
+      <div class="jsx" data-jsx="statemachine"></div>
     </div>
-    <p style="text-align:center;margin-top:22px"><a class="btn btn-ghost" href="{{ '/concepts/10-owiz/' | relative_url }}">How Owiz powers this →</a></p>
+    <p style="text-align:center;margin-top:26px">
+      <a class="btn btn-ghost" href="{{ '/concepts/10-owiz/' | relative_url }}">How Owiz powers the pipeline →</a>
+      &nbsp; <a class="btn btn-ghost" href="https://thefinito.org">Meet Finito, the state machine ↗</a>
+    </p>
   </div>
 </section>
 

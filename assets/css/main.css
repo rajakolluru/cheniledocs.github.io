@@ -348,3 +348,51 @@ pre code { background: none; color: inherit; padding: 0; }
 .jsx-bp-d{color:var(--slate);margin:0 0 12px}
 .jsx-bp .jsx-flow2{background:var(--soft);border:1px solid var(--line);border-radius:12px;padding:16px}
 @media(max-width:680px){.jsx-2col,.jsx-cards{grid-template-columns:1fr}}
+
+/* ============================================================
+   Animated schematics (state machine + flowing pipeline)
+   ============================================================ */
+.anim{position:relative}
+.anim-track{position:relative;display:flex;align-items:center;gap:0;min-width:max-content;padding:14px 6px 8px}
+.anim-state{position:relative;flex:none;min-width:112px;text-align:center;padding:14px 16px;border-radius:14px;font-weight:750;font-size:.9rem;
+  background:#fff;border:2px solid var(--line);color:var(--muted);box-shadow:var(--shadow-sm);transition:all .45s ease}
+.anim-state .k{display:block;font-size:.62rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin-bottom:3px}
+.anim-state.active{border-color:transparent;background:var(--grad);color:#fff;transform:translateY(-4px) scale(1.05);box-shadow:var(--shadow-lg)}
+.anim-state.active .k{color:rgba(255,255,255,.85)}
+.anim-state.auto{border-style:dashed;border-color:#22c55e}
+.anim-state.auto.active{background:linear-gradient(135deg,#16a34a,#22c55e);border-style:solid}
+.anim-state.visited{border-color:var(--rose);color:var(--ink)}
+.anim-conn{flex:none;width:74px;height:3px;background:var(--line);position:relative;align-self:center;margin-top:6px;border-radius:2px;transition:background .3s}
+.anim-conn .elbl{position:absolute;top:-20px;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:.66rem;color:var(--muted);white-space:nowrap;background:var(--soft);padding:0 5px;border-radius:5px;transition:all .3s}
+.anim-conn.lit{background:var(--rose)}
+.anim-conn.lit .elbl{color:#fff;background:var(--rose-deep)}
+.anim-conn .spark{position:absolute;top:50%;left:0;width:12px;height:12px;border-radius:50%;background:var(--rose);transform:translate(-50%,-50%) scale(0);box-shadow:0 0 12px 3px rgba(216,120,30,.5)}
+.anim-conn.lit .spark{animation:spark 0.55s ease forwards}
+@keyframes spark{0%{left:0;transform:translate(-50%,-50%) scale(1)}100%{left:100%;transform:translate(-50%,-50%) scale(1)}}
+.anim-cap{margin-top:16px;background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:12px 16px;font-size:.95rem;color:var(--slate);min-height:1.5em;text-align:center}
+.anim-cap b{color:var(--ink)}
+.anim-cap .ev{font-family:var(--mono);color:var(--rose-deep);font-weight:700}
+.anim-bar{margin-top:14px;display:flex;gap:10px;justify-content:center;align-items:center}
+.anim-scroll{overflow-x:auto}
+
+/* flowing pipeline token */
+.flow{position:relative}
+.flow .jsx-token{position:absolute;top:0;left:0;width:16px;height:16px;border-radius:50%;background:var(--rose);
+  box-shadow:0 0 0 5px rgba(216,120,30,.18),0 4px 12px rgba(216,120,30,.5);transition:transform .6s cubic-bezier(.5,.05,.3,1);z-index:3;pointer-events:none;opacity:0}
+.flow.playing .jsx-token{opacity:1}
+.jsx-chip{transition:all .35s ease}
+.jsx-chip.pulse{animation:chippulse .5s ease}
+@keyframes chippulse{0%{transform:translateY(0)}40%{transform:translateY(-6px) scale(1.04)}100%{transform:translateY(0)}}
+@media(prefers-reduced-motion:reduce){
+  .anim-conn.lit .spark{animation:none}
+  .anim-state{transition:none}
+  .flow .jsx-token{transition:none}
+  .jsx-chip.pulse{animation:none}
+}
+
+/* trajectory widget accents */
+.jsx-mini.hot{border-color:var(--rose);box-shadow:0 0 0 3px rgba(216,120,30,.12)}
+.jsx-mini.changed{animation:trajpulse .6s ease}
+@keyframes trajpulse{0%{transform:scale(1)}45%{transform:scale(1.04);box-shadow:var(--shadow-md)}100%{transform:scale(1)}}
+.jsx-mini .fallback{font-family:var(--font);font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);background:var(--soft);border:1px solid var(--line);padding:1px 6px;border-radius:999px;margin-left:6px}
+@media(prefers-reduced-motion:reduce){.jsx-mini.changed{animation:none}}
