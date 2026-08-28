@@ -10,7 +10,7 @@
       {% for item in site.data.nav %}
         {% if item.dropdown %}
           <div class="nav-drop">
-            <a href="{{ '/concepts/' | relative_url }}">{{ item.title }} ▾</a>
+            <a href="{{ item.url | relative_url }}">{{ item.title }} ▾</a>
             <div class="nav-drop-menu">
               {% for sub in item.dropdown %}
                 <a href="{{ sub.url | relative_url }}">{{ sub.title }}</a>
