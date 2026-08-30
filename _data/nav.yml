@@ -31,6 +31,8 @@
       url: "/concepts/13-multi-tenant-saas/"
     - title: "14 · Trajectories"
       url: "/concepts/14-trajectories/"
+    - title: "15 · Writing blueprints"
+      url: "/concepts/15-blueprints/"
 - title: "Architecture"
   url: "/architecture/"
 - title: "Developer docs"

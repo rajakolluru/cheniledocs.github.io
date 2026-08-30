@@ -59,3 +59,5 @@ jgen ships sample inputs and templates with each blueprint, so you can generate 
 
 <div class="callout key"><div class="t">Why this matters</div>
 Blueprints encode Chenile's conventions as executable templates. New services start correct — consistent structure, the right dependencies, tests and diagrams in place — so teams spend their time on business logic, not scaffolding.</div>
+
+<p style="margin-top:1.4em">Want to build your own? The next chapter is a full authoring guide — the anatomy of a blueprint and how to scaffold a new one. <a href="/concepts/15-blueprints/"><b>Writing blueprints →</b></a></p>

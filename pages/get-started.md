@@ -2,77 +2,103 @@
 title: "Get started"
 kicker: "Quickstart"
 permalink: /get-started/
-summary: "Generate an api + service pair, build a deployable monolith, and start attaching policies. Under ten minutes on a machine with Node, Make and Maven."
+summary: "Scaffold a Chenile service with jgen, build a deployable mini-monolith, and start attaching policies — in about ten minutes with Java, Maven and git."
 ---
+
+<div class="callout" style="margin-bottom:1.6em">
+  <div class="t">Heads up — use <code>jgen</code>, not <code>app-gen</code></div>
+  The older Node-based <code>app-gen</code> / <code>gen.sh</code> generator is <strong>deprecated</strong>. The current, supported generator is <strong>jgen</strong> — a pure-Java, blueprint-driven tool. Everything below uses jgen. See <a href="/concepts/12-jgen/">jgen in depth</a> and <a href="/concepts/15-blueprints/">writing blueprints</a>.
+</div>
 
 ## What you'll need
 
-- **Node** — the generator uses Mustache (downloaded automatically).
-- **GNU/UNIX `make`** — to build the generator the first time.
-- **Maven (`mvn`)** — to build the generated service.
-- A shell — `bash` or PowerShell.
+- **Java 17+** — jgen and the generated services are Java/Spring Boot.
+- **Maven (`mvn`)** — to build jgen and the generated project.
+- **git** and a shell — `bash`, `zsh` or PowerShell.
 
-## 1 · Set up the generator
+(No Node required — jgen is a Java program.)
+
+## 1 · Install jgen
 
 ```bash
-mkdir code && cd code
 git clone https://github.com/rajakolluru/chenile-gen.git
-cd chenile-gen/app-gen
-make                       # compiles the generator into ./bin, downloads Mustache
-export PATH=$PATH:$(pwd)/bin
+cd chenile-gen
+make clean all            # builds jgen (and stm-cli) and the CLI wrapper scripts
+source setpath.sh         # puts `jgen` and `stm-cli` on your PATH
 ```
 
-## 2 · Create your local config
+`make all` builds the multi-module jgen project and prepares the launcher at `jgen/jgen-cli/bin/jgen.sh`. `source setpath.sh` adds that (and `stm-cli`) to your `PATH` for the session — add the same line to your `~/.zshrc` / `~/.bashrc` to make it permanent.
+
+## 2 · (Optional) create a local config
+
+jgen ships sensible defaults (package `com.mycompany.myorg`, version `0.0.1-SNAPSHOT`, output `./output`). To customise them for your company:
 
 ```bash
-cd            # run gen.sh from a stable folder such as $HOME
-gen.sh        # choose "create a local config"
+jgen -e                   # emits the default config into ./config
 ```
 
-This creates a `config/` folder containing `setenv.sh`. Edit it to set your **company** and **org** (product) names — these drive the Java package structure of the code you generate.
+Edit `config/config.json` — set `company`, `org` and the Chenile version. jgen offers any file in `config/` as a choice at startup, and resolves placeholders like `${defaultVersion}` from it.
 
-## 3 · Generate a service and a deployable
+## 3 · Generate a service
+
+Run jgen with no arguments for the interactive flow:
 
 ```bash
-cd
-gen.sh        # choose "create a normal service and monolith"
-# service name:   stringdemo
-# monolith name:  stringdemodeploy
-# accept the defaults for version and output folder (./output)
+jgen
+# 1) pick your config (or the bundled default)
+# 2) choose the blueprint:  chenile-service
+# 3) service name:          orders
+#    accept the defaults for version (0.0.1-SNAPSHOT) and output (./output)
+#    jpa: y   security: n   cloudSwitch: n   MCP: n
 ```
 
-You now have two folders:
+You now have **`output/orders/`** — the service, split into `orders-api` (the definition) and `orders-service` (the implementation).
 
-- **`stringdemo/`** — the service, split into `stringdemo-api` (definition) and `stringdemo-service` (implementation).
-- **`stringdemodeploy/`** — a deployable **monolith** that hosts the service.
+> Prefer scripted/non-interactive generation? `jgen -g chenile-service -o orders.json` writes a sample input file showing exactly which fields the blueprint expects; edit it, then run `jgen -f orders.json`.
 
-## 4 · Build
+## 4 · Generate a mini-monolith to host it
+
+A service module is a library — it's deployed by a **mini-monolith**. Generate one and add your service as a dependency:
 
 ```bash
-cd output/stringdemo       && make build   # builds the api + service libraries
-cd ../stringdemodeploy     && make build   # builds the runnable deployable
+jgen
+# choose the blueprint:  minimonolith
+# monolith name:         ordersdeploy
+# add "orders" under the dependencies prompt (and enable H2 console / query controller if you like)
 ```
 
-## 5 · Where to go next
+This produces **`output/ordersdeploy/`** — a runnable Spring Boot deployable that hosts one or more Chenile services.
+
+## 5 · Build &amp; run
+
+```bash
+cd output/orders       && make build     # builds the api + service libraries (mvn install)
+cd ../ordersdeploy     && make build     # builds the deployable
+cd ../ordersdeploy     && make run       # starts it — call your endpoint with the scripts in scripts/
+```
+
+## More blueprints
+
+`jgen` ships a blueprint for almost every kind of Chenile module — a workflow service, a MyBatis query, an interceptor, a batch job, integration tests, even a blueprint that generates blueprints. Explore them all:
 
 <div class="grid-2" style="margin-top:1.4em">
   <div class="card">
+    <div class="ic">🧬</div>
+    <h3>jgen in depth</h3>
+    <p>Every built-in blueprint, the interactive vs. file-driven flows, config and template mechanics — with a live blueprint picker.</p>
+    <p style="margin-top:10px"><a href="/concepts/12-jgen/">jgen code generation →</a></p>
+  </div>
+  <div class="card">
+    <div class="ic">📐</div>
+    <h3>Write your own blueprint</h3>
+    <p>The anatomy of a blueprint and how to scaffold a new one with the <code>jgen-blueprint</code> blueprint.</p>
+    <p style="margin-top:10px"><a href="/concepts/15-blueprints/">Blueprints →</a></p>
+  </div>
+  <div class="card">
     <div class="ic">🧩</div>
     <h3>Understand the split</h3>
-    <p>See exactly what lives in the <code>api</code> vs <code>service</code> module and why consumers only ever depend on the <code>api</code>.</p>
+    <p>What lives in the <code>api</code> vs <code>service</code> module, and why consumers only ever depend on the <code>api</code>.</p>
     <p style="margin-top:10px"><a href="/concepts/02-definition-vs-implementation/">Definition vs. implementation →</a></p>
-  </div>
-  <div class="card">
-    <div class="ic">🛡️</div>
-    <h3>Attach a policy</h3>
-    <p>Add a cross-cutting concern as an interceptor and choose whether it runs at the gateway, the last mile, or both.</p>
-    <p style="margin-top:10px"><a href="/concepts/05-how-chenile-helps/">How Chenile helps →</a></p>
-  </div>
-  <div class="card">
-    <div class="ic">📚</div>
-    <h3>Full documentation</h3>
-    <p>Tutorials, developer guides and release notes for every module.</p>
-    <p style="margin-top:10px"><a href="{{ site.docs_url }}">cheniledocs →</a></p>
   </div>
   <div class="card">
     <div class="ic">▶️</div>
@@ -84,5 +110,5 @@ cd ../stringdemodeploy     && make build   # builds the runnable deployable
 
 <div class="callout" style="margin-top:2em">
   <div class="t">Note</div>
-  Command names and repository paths above follow the current Chenile tutorial. If your generated layout differs, check the <a href="{{ site.docs_url }}">documentation</a> for your version.
+  Chenile artifacts are on Maven Central, so generated projects build without compiling the framework from source. If a prompt or generated path differs on your version, run <code>jgen -g &lt;blueprint&gt;</code> to see that blueprint's exact fields.
 </div>
