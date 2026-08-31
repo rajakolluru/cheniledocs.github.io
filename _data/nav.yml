@@ -42,6 +42,8 @@
       url: "/developer-docs/"
     - title: "Extending STM workflows"
       url: "/developer/stm-workflow-extension/"
+    - title: "Chenile Query and Query Catalog"
+      url: "/developer/query-catalog/"
     - title: "Multi-tenant workflow extension sample"
       url: "/developer/multitenant-workflow-extension/"
 - title: "Repositories"
