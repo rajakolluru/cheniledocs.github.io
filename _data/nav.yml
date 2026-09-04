@@ -42,6 +42,8 @@
       url: "/developer-docs/"
     - title: "Extending STM workflows"
       url: "/developer/stm-workflow-extension/"
+    - title: "Numeric JPA identifiers"
+      url: "/developer/jpa-numeric-ids/"
     - title: "Chenile Query and Query Catalog"
       url: "/developer/query-catalog/"
     - title: "Multi-tenant workflow extension sample"
