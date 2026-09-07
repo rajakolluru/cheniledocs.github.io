@@ -48,6 +48,13 @@
       url: "/developer/query-catalog/"
     - title: "Multi-tenant workflow extension sample"
       url: "/developer/multitenant-workflow-extension/"
+- title: "Release notes"
+  url: "/release-notes/2.1.30/"
+  dropdown:
+    - title: "2.1.30"
+      url: "/release-notes/2.1.30/"
+    - title: "2.1.29"
+      url: "/release-notes/2.1.29/"
 - title: "Repositories"
   url: "/repositories/"
 - title: "Video series"
