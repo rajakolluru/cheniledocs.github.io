@@ -19,7 +19,7 @@ baseurl: ""
 
 github_repo: "https://github.com/rajakolluru"
 docs_url: "https://cheniledocs.github.io"
-maven_version: "2.1.29"
+maven_version: "2.1.30"
 
 # Build settings
 markdown: kramdown
