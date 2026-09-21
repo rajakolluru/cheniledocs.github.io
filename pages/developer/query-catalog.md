@@ -1,4 +1,5 @@
 ---
+layout: doc
 title: Chenile Query and JDBC Query Catalog
 description: Configure metadata-driven MyBatis queries, tenant routing, and the startup-loaded JDBC Query Catalog.
 permalink: /developer/query-catalog/

@@ -1,4 +1,5 @@
 ---
+layout: doc
 title: Extending STM workflows
 description: Choose and implement XML-overlay or properties-based extensions for Chenile STM workflows.
 permalink: /developer/stm-workflow-extension/

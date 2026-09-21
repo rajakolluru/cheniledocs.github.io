@@ -1,4 +1,5 @@
 ---
+layout: doc
 title: Numeric JPA identifiers
 description: Use Long or Integer primary keys in ordinary Chenile JPA entities without changing workflow APIs.
 permalink: /developer/jpa-numeric-ids/

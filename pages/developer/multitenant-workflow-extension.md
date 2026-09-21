@@ -1,4 +1,5 @@
 ---
+layout: doc
 title: Multi-tenant workflow extension sample
 description: A Chenile sample that combines reusable workflows with tenant-specific actions and models.
 permalink: /developer/multitenant-workflow-extension/
