@@ -1,20 +1,22 @@
 ---
 layout: default
 ---
+{% assign docs_sidebar = site.data.developer_docsnav %}
+{% if page.docs_section == "release-notes" %}
+  {% assign docs_sidebar = site.data.release_notes_nav %}
+{% endif %}
 <div class="docwrap wrap">
-  <aside class="docside">
+  <aside class="docside" aria-label="{{ docs_sidebar.section }} navigation">
     <button class="docside-toggle" aria-label="Toggle section menu">☰ On this section</button>
     <nav class="docside-nav">
-      {% for grp in site.data.docsnav %}
       <div class="docside-group">
-        <div class="docside-title">{{ grp.section }}</div>
+        <div class="docside-title">{{ docs_sidebar.section }}</div>
         <ul>
-          {% for item in grp.items %}
+          {% for item in docs_sidebar.items %}
           <li><a href="{{ item.url | relative_url }}"{% if page.url == item.url %} class="active" aria-current="page"{% endif %}>{{ item.title }}</a></li>
           {% endfor %}
         </ul>
       </div>
-      {% endfor %}
     </nav>
   </aside>
   <article class="doccontent doc">

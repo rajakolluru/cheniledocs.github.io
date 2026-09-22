@@ -1,0 +1,10 @@
+section: "Release notes"
+items:
+  - title: "Release notes home"
+    url: "/release-notes/"
+  - title: "2.1.31 (WIP)"
+    url: "/release-notes/2.1.31/"
+  - title: "2.1.30"
+    url: "/release-notes/2.1.30/"
+  - title: "2.1.29"
+    url: "/release-notes/2.1.29/"

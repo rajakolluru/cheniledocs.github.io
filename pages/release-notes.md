@@ -1,5 +1,6 @@
 ---
 layout: doc
+docs_section: release-notes
 title: Release notes
 description: Per-version notes across recent Chenile releases. The 11 repositories move together under chenile-parent on one version.
 permalink: /release-notes/
@@ -11,7 +12,7 @@ Chenile's repositories are versioned together under `chenile-parent` and release
 
 ## By version
 
-- [**2.1.31**]({{ '/release-notes/2.1.31/' | relative_url }}) — *(work in progress)* annotation-based services decoupled from the REST controller; optional service-registry registration.
+- [**2.1.31**]({{ '/release-notes/2.1.31/' | relative_url }}) — *(work in progress)* transport-neutral services, service-registry controls, JGen compatibility, and Spring MVC mapping simplification.
 - [**2.1.30**]({{ '/release-notes/2.1.30/' | relative_url }}) — numeric JPA id support; release-train alignment.
 - [**2.1.29**]({{ '/release-notes/2.1.29/' | relative_url }}) — release alignment across the 11 repositories and documentation refresh.
 

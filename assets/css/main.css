@@ -259,6 +259,20 @@ pre code { background: none; color: inherit; padding: 0; }
 .toc-mini { background: var(--soft); border: 1px solid var(--line); border-radius: 12px; padding: 18px 22px; margin-bottom: 30px; }
 .toc-mini strong { display: block; margin-bottom: 8px; font-size: .85rem; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); }
 
+/* ---------- Documentation sections ---------- */
+.docwrap { display: grid; grid-template-columns: 248px minmax(0, 1fr); gap: 44px; align-items: start; padding-top: 48px; padding-bottom: 80px; }
+.docside { position: sticky; top: 86px; max-height: calc(100vh - 104px); overflow-y: auto; padding: 4px 0 12px; }
+.docside-nav { border-left: 1px solid var(--line); padding-left: 18px; }
+.docside-group + .docside-group { margin-top: 24px; }
+.docside-title { color: var(--ink); font-family: var(--display); font-size: .94rem; font-weight: 800; letter-spacing: .01em; margin: 0 0 10px; }
+.docside ul { list-style: none; margin: 0; padding: 0; }
+.docside li { margin: 0; }
+.docside a { display: block; color: var(--slate); font-size: .9rem; font-weight: 600; line-height: 1.35; margin: 2px 0; padding: 7px 9px; border-radius: 7px; }
+.docside a:hover { color: var(--ink); background: var(--soft); text-decoration: none; }
+.docside a.active { color: var(--rose-deep); background: var(--soft-2); font-weight: 750; }
+.doccontent.doc { min-width: 0; padding: 0; }
+.docside-toggle { display: none; width: 100%; border: 1px solid var(--line); border-radius: 9px; background: var(--soft); color: var(--ink); font: 700 .9rem var(--font); padding: 10px 12px; text-align: left; cursor: pointer; }
+
 /* ---------- Episodes ---------- */
 .ep-list { display: grid; gap: 18px; }
 .ep {
@@ -285,6 +299,7 @@ pre code { background: none; color: inherit; padding: 0; }
   .grid-3, .repo-grid { grid-template-columns: repeat(2,1fr); }
   .split, .grid-2, .reviews { grid-template-columns: 1fr; }
   .footer-grid { grid-template-columns: 1fr 1fr; }
+  .docwrap { gap: 28px; grid-template-columns: 220px minmax(0, 1fr); }
 }
 @media (max-width: 680px) {
   section { padding: 62px 0; }
@@ -301,6 +316,11 @@ pre code { background: none; color: inherit; padding: 0; }
   .beat.k { padding-top: 14px; border-top: 1px solid var(--line); }
   .beat.v { border-top: 0; padding-top: 2px; }
   .footer-grid { grid-template-columns: 1fr; }
+  .docwrap { display: block; padding-top: 30px; }
+  .docside { position: static; max-height: none; overflow: visible; margin-bottom: 28px; }
+  .docside-toggle { display: block; }
+  .docside-nav { display: none; margin-top: 8px; padding: 14px 0 0 14px; }
+  .docside-nav.open { display: block; }
 }
 
 /* ============================================================

@@ -1,5 +1,6 @@
 ---
 layout: doc
+docs_section: developer
 title: Developer documentation
 description: Practical Chenile guides for building, securing, scaling and extending services.
 permalink: /developer-docs/
@@ -7,7 +8,7 @@ permalink: /developer-docs/
 
 # Developer documentation
 
-These guides focus on implementing Chenile services and safely extending their runtime behavior. Use the sidebar to move between them and the release notes.
+These guides focus on implementing Chenile services and safely extending their runtime behavior. Use the Developer docs sidebar to move between guides, or the Docs menu to switch to release notes.
 
 ## Services &amp; security
 

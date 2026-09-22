@@ -43,6 +43,10 @@ defaults:
     values: { layout: "concept" }
   - scope: { path: "", type: "episodes" }
     values: { layout: "episode" }
+  - scope: { path: "pages/developer" }
+    values: { layout: "doc", docs_section: "developer" }
+  - scope: { path: "pages/release-notes" }
+    values: { layout: "doc", docs_section: "release-notes" }
   - scope: { path: "" }
     values: { layout: "page" }
 
