@@ -1,0 +1,157 @@
+WEBVTT
+
+1
+00:00:03.800 --> 00:00:06.010
+Last episode's problem was drift:
+
+2
+00:00:06.010 --> 00:00:09.680
+the same policy, written twice, in two tech stacks.
+
+3
+00:00:09.780 --> 00:00:12.520
+Chenile's answer is almost annoyingly simple.
+
+4
+00:00:12.520 --> 00:00:14.720
+There's only one kind of policy.
+
+5
+00:00:15.370 --> 00:00:17.860
+A policy is a Chenile interceptor.
+
+6
+00:00:17.960 --> 00:00:23.660
+The exact same interceptor contract runs inside the auth gateway from chenile-security,
+
+7
+00:00:23.660 --> 00:00:27.450
+and inside every service's pipeline, at the last mile.
+
+8
+00:00:27.550 --> 00:00:29.030
+You don't write two versions.
+
+9
+00:00:29.030 --> 00:00:29.690
+You write one
+
+10
+00:00:29.690 --> 00:00:31.320
+— and choose where it runs.
+
+11
+00:00:31.970 --> 00:00:34.490
+At the last mile, attach an authorization
+
+12
+00:00:34.490 --> 00:00:37.570
+policy to the operation with an extension key.
+
+13
+00:00:37.670 --> 00:00:39.250
+Call the service directly:
+
+14
+00:00:39.250 --> 00:00:42.100
+the policy runs with full resource context.
+
+15
+00:00:42.750 --> 00:00:45.860
+At the edge, bring up the Chenile gateway starter.
+
+16
+00:00:45.860 --> 00:00:48.600
+It validates the token, resolves the tenant,
+
+17
+00:00:48.600 --> 00:00:51.470
+and relays trusted claims to the services.
+
+18
+00:00:51.570 --> 00:00:53.340
+An unauthenticated request?
+
+19
+00:00:53.340 --> 00:00:53.870
+Rejected
+
+20
+00:00:53.870 --> 00:00:56.410
+— before it ever reaches a service.
+
+21
+00:00:57.060 --> 00:00:57.840
+Now run both.
+
+22
+00:00:57.840 --> 00:01:00.830
+A valid user asks for an order they don't own.
+
+23
+00:01:00.930 --> 00:01:02.290
+The edge lets them in.
+
+24
+00:01:02.290 --> 00:01:03.770
+The last mile blocks it.
+
+25
+00:01:03.770 --> 00:01:04.760
+Defence in depth
+
+26
+00:01:04.760 --> 00:01:06.490
+— with one policy model.
+
+27
+00:01:07.140 --> 00:01:10.460
+Moving a policy from the last mile to the gateway,
+
+28
+00:01:10.460 --> 00:01:13.320
+or running it in both, is a registry change
+
+29
+00:01:13.320 --> 00:01:14.450
+— not a refactor.
+
+30
+00:01:14.450 --> 00:01:16.500
+Placement is configuration.
+
+31
+00:01:17.150 --> 00:01:18.710
+And it's not just HTTP.
+
+32
+00:01:18.710 --> 00:01:21.630
+With chenile-proxies and chenile-messaging,
+
+33
+00:01:21.630 --> 00:01:27.110
+the same policy guards an internal interface call, and a message off a queue.
+
+34
+00:01:27.760 --> 00:01:29.090
+Write a policy once.
+
+35
+00:01:29.090 --> 00:01:32.070
+Run it at the gateway, the last mile, or both
+
+36
+00:01:32.070 --> 00:01:34.050
+— chosen by configuration.
+
+37
+00:01:34.700 --> 00:01:35.530
+Next episode:
+
+38
+00:01:35.530 --> 00:01:37.120
+test once, run everywhere
+
+39
+00:01:37.120 --> 00:01:39.790
+— behaviour-driven testing in Chenile.

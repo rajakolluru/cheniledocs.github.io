@@ -5,7 +5,7 @@ duration: "10–12 min"
 video: "/assets/video/ep07.mp4"
 poster: "/assets/video/ep07.jpg"
 captions: "/assets/video/ep07.vtt"
-video_length: ""
+video_length: "1:47"
 youtube_id: ""   # paste the YouTube video id here once uploaded; the page then embeds YouTube
 summary: "The payoff. The same interceptor abstraction runs in Chenile's auth gateway and in each service's pipeline, with the service registry choosing placement."
 ---
