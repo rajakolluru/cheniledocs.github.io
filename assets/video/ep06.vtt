@@ -1,0 +1,185 @@
+WEBVTT
+
+1
+00:00:03.800 --> 00:00:06.020
+A request crosses two very different
+
+2
+00:00:06.020 --> 00:00:08.790
+places on its way to your business logic.
+
+3
+00:00:08.890 --> 00:00:11.590
+Where a policy runs changes what it can do.
+
+4
+00:00:12.240 --> 00:00:14.580
+First, the API gateway, at the edge.
+
+5
+00:00:14.580 --> 00:00:15.750
+Then the last mile
+
+6
+00:00:15.750 --> 00:00:18.270
+— the pipeline inside each service.
+
+7
+00:00:18.920 --> 00:00:21.580
+The gateway sees traffic before it fans out.
+
+8
+00:00:21.580 --> 00:00:25.700
+That makes it perfect for early, coarse, high-leverage policies.
+
+9
+00:00:25.800 --> 00:00:26.850
+Authentication.
+
+10
+00:00:26.850 --> 00:00:27.830
+Rate limiting.
+
+11
+00:00:27.830 --> 00:00:30.490
+Can this caller reach this API family?
+
+12
+00:00:30.490 --> 00:00:32.280
+Request normalization.
+
+13
+00:00:32.380 --> 00:00:34.040
+Its superpower is leverage:
+
+14
+00:00:34.040 --> 00:00:36.810
+one config protects everything behind it.
+
+15
+00:00:36.910 --> 00:00:39.220
+But the gateway has no domain context.
+
+16
+00:00:39.220 --> 00:00:42.250
+It doesn't know this order belongs to that tenant,
+
+17
+00:00:42.250 --> 00:00:45.350
+or that a user may edit only their own records.
+
+18
+00:00:46.000 --> 00:00:48.230
+The last mile runs inside the service,
+
+19
+00:00:48.230 --> 00:00:50.470
+where the model and the data live.
+
+20
+00:00:50.570 --> 00:00:53.700
+That's where context-rich policies belong:
+
+21
+00:00:53.700 --> 00:00:56.830
+fine-grained authorization, multi-tenancy,
+
+22
+00:00:56.830 --> 00:01:00.510
+idempotency, business-aware logging, and i18n.
+
+23
+00:01:00.610 --> 00:01:02.260
+Its superpower is context.
+
+24
+00:01:02.260 --> 00:01:05.050
+But a last-mile-only policy does nothing for
+
+25
+00:01:05.050 --> 00:01:08.030
+traffic the service should never have received.
+
+26
+00:01:08.030 --> 00:01:09.480
+Reach is the trade.
+
+27
+00:01:10.130 --> 00:01:11.720
+Here's the rule of thumb.
+
+28
+00:01:11.720 --> 00:01:13.820
+Decidable from the request alone?
+
+29
+00:01:13.820 --> 00:01:14.330
+Gateway.
+
+30
+00:01:14.330 --> 00:01:15.530
+Needs the resource?
+
+31
+00:01:15.530 --> 00:01:16.420
+Last mile.
+
+32
+00:01:17.070 --> 00:01:18.410
+Real systems do both.
+
+33
+00:01:18.410 --> 00:01:21.930
+Authenticate at the edge, to keep junk out cheaply.
+
+34
+00:01:22.030 --> 00:01:25.070
+Authorize the specific resource at the last mile
+
+35
+00:01:25.070 --> 00:01:28.290
+— so it's safe even if traffic arrives another way:
+
+36
+00:01:28.290 --> 00:01:31.450
+an internal call, a message, a future gateway.
+
+37
+00:01:31.550 --> 00:01:33.840
+That redundancy is defence in depth
+
+38
+00:01:33.840 --> 00:01:34.870
+— not waste.
+
+39
+00:01:35.520 --> 00:01:37.470
+So why don't teams do this cleanly?
+
+40
+00:01:37.470 --> 00:01:40.860
+The gateway and the service are usually different technology,
+
+41
+00:01:40.860 --> 00:01:43.000
+with different programming models.
+
+42
+00:01:43.100 --> 00:01:45.810
+So you write authorization twice, in two styles
+
+43
+00:01:45.810 --> 00:01:47.040
+— and they drift.
+
+44
+00:01:47.690 --> 00:01:50.710
+What if the same policy could run in both places
+
+45
+00:01:50.710 --> 00:01:52.840
+— and configuration decided where?
+
+46
+00:01:52.840 --> 00:01:54.600
+That's the next episode.

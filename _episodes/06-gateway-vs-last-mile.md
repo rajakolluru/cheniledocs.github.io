@@ -2,6 +2,11 @@
 title: "Where policies live: the gateway and the last mile"
 order: 6
 duration: "8–10 min"
+video: "/assets/video/ep06.mp4"
+poster: "/assets/video/ep06.jpg"
+captions: "/assets/video/ep06.vtt"
+video_length: "2:02"
+youtube_id: ""   # paste the YouTube video id here once uploaded; the page then embeds YouTube
 summary: "Two checkpoints, two strengths. The gateway gives leverage; the last mile gives context. Why serious systems apply policies at both — defence in depth."
 ---
 
