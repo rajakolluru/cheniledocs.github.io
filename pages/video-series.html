@@ -13,7 +13,7 @@ summary: "A YouTube series that tells the Chenile story from first principles â€
 </div>
 <section>
   <div class="wrap">
-    {% assign featured = site.episodes | where_exp: "e", "e.video" | sort: "order" | first %}
+    {% assign featured = site.episodes | where_exp: "e", "e.video" | sort: "order" | last %}
     {% if featured %}
     <div class="ep-feature">
       <div class="video-frame">
@@ -27,7 +27,7 @@ summary: "A YouTube series that tells the Chenile story from first principles â€
         {% endif %}
       </div>
       <div class="ep-feature-text">
-        <div class="kicker">Now playing Â· Episode {{ featured.order }}</div>
+        <div class="kicker">Latest Â· Episode {{ featured.order }}</div>
         <h2>{{ featured.title }}</h2>
         <p>{{ featured.summary }}</p>
         <a class="btn" href="{{ featured.url | relative_url }}">Episode page &amp; script â†’</a>

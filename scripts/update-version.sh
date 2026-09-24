@@ -37,6 +37,16 @@ if [[ "$CURRENT" == "$VERSION" ]]; then
   exit 0
 fi
 
+# never downgrade: a WIP version set by hand (e.g. 2.1.31 before it is published)
+# must survive the daily run when Maven Central still reports an older release
+if [[ -n "$CURRENT" && "${FORCE:-}" != "1" ]]; then
+  HIGHEST="$(printf '%s\n%s\n' "$CURRENT" "$VERSION" | sort -V | tail -n1)"
+  if [[ "$HIGHEST" == "$CURRENT" ]]; then
+    echo "maven_version is $CURRENT (ahead of released $VERSION) — not downgrading."
+    exit 0
+  fi
+fi
+
 # portable in-place edit (GNU or BSD sed)
 tmp="$(mktemp)"
 sed "s/^maven_version:.*/maven_version: \"${VERSION}\"/" "$CONFIG" > "$tmp" && mv "$tmp" "$CONFIG"
