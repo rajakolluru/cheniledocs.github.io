@@ -5,7 +5,7 @@ duration: "10–12 min"
 video: "/assets/video/ep08.mp4"
 poster: "/assets/video/ep08.jpg"
 captions: "/assets/video/ep08.vtt"
-video_length: ""
+video_length: "1:46"
 youtube_id: ""   # paste the YouTube video id here once uploaded; the page then embeds YouTube
 summary: "The same Gherkin feature file as both a fast MockMvc unit test and a full REST Assured integration test. Write the behaviour once; choose where it runs."
 ---
