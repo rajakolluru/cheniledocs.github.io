@@ -2,6 +2,11 @@
 title: "What are microservices actually for?"
 order: 1
 duration: "6–8 min"
+video: "/assets/video/ep01.mp4"
+poster: "/assets/video/ep01.jpg"
+captions: "/assets/video/ep01.vtt"
+video_length: "1:26"
+youtube_id: ""   # paste the YouTube video id here once uploaded; the page then embeds YouTube
 summary: "Reset the conversation: microservices are a means, not a goal. The five properties we really want — and why a modulith counts too."
 ---
 

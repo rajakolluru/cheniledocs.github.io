@@ -12,6 +12,19 @@ layout: default
 </div>
 <article class="doc">
   <div class="narrow">
+    {% if page.youtube_id and page.youtube_id != "" %}
+    <div class="video-frame">
+      <iframe src="https://www.youtube-nocookie.com/embed/{{ page.youtube_id }}?rel=0" title="{{ page.title }}" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen loading="lazy"></iframe>
+    </div>
+    {% elsif page.video %}
+    <div class="video-frame">
+      <video controls playsinline preload="metadata" poster="{{ page.poster | relative_url }}">
+        <source src="{{ page.video | relative_url }}" type="video/mp4">
+        {% if page.captions %}<track kind="captions" src="{{ page.captions | relative_url }}" srclang="en" label="English">{% endif %}
+      </video>
+    </div>
+    <p class="video-meta">▶ Narrated short · {{ page.video_length }} · the full episode script follows below.</p>
+    {% endif %}
     {{ content }}
 
     <div class="pager">

@@ -8,21 +8,42 @@ summary: "A YouTube series that tells the Chenile story from first principles �
   <div class="narrow">
     <div class="kicker">Watch &amp; learn</div>
     <h1>The Chenile video series</h1>
-    <p class="lead">Eight short episodes that follow the same arc as this site: why microservices, separating definition from implementation, service policies, and governing them at the gateway and the last mile. Each episode below includes a full narration script and demo cues, ready to record.</p>
+    <p class="lead">Twelve short episodes that follow the same arc as this site: why microservices, separating definition from implementation, service policies, and governing them at the gateway and the last mile. Episodes marked ▶ Watch are live; every episode page also carries its full narration script and demo cues.</p>
   </div>
 </div>
 <section>
   <div class="wrap">
+    {% assign featured = site.episodes | where_exp: "e", "e.video" | sort: "order" | first %}
+    {% if featured %}
+    <div class="ep-feature">
+      <div class="video-frame">
+        {% if featured.youtube_id and featured.youtube_id != "" %}
+        <iframe src="https://www.youtube-nocookie.com/embed/{{ featured.youtube_id }}?rel=0" title="{{ featured.title }}" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen loading="lazy"></iframe>
+        {% else %}
+        <video controls playsinline preload="metadata" poster="{{ featured.poster | relative_url }}">
+          <source src="{{ featured.video | relative_url }}" type="video/mp4">
+          {% if featured.captions %}<track kind="captions" src="{{ featured.captions | relative_url }}" srclang="en" label="English">{% endif %}
+        </video>
+        {% endif %}
+      </div>
+      <div class="ep-feature-text">
+        <div class="kicker">Now playing · Episode {{ featured.order }}</div>
+        <h2>{{ featured.title }}</h2>
+        <p>{{ featured.summary }}</p>
+        <a class="btn" href="{{ featured.url | relative_url }}">Episode page &amp; script →</a>
+      </div>
+    </div>
+    {% endif %}
     <div class="ep-list">
       {% assign eps = site.episodes | sort: "order" %}
       {% for e in eps %}
       <a class="ep" href="{{ e.url | relative_url }}">
         <div class="n">{% if e.order < 10 %}0{% endif %}{{ e.order }}</div>
         <div>
-          <h3>{{ e.title }}</h3>
+          <h3>{{ e.title }}{% if e.video %} <span class="watch-badge">▶ Watch</span>{% endif %}</h3>
           <p>{{ e.summary }}</p>
         </div>
-        <div class="dur">{{ e.duration }}</div>
+        <div class="dur">{% if e.video %}{{ e.video_length }} short{% else %}{{ e.duration }}{% endif %}</div>
       </a>
       {% endfor %}
     </div>

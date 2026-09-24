@@ -423,3 +423,14 @@ pre code { background: none; color: inherit; padding: 0; }
 .ver-badge{display:inline-flex;align-items:center;gap:7px;font-size:.82rem;color:#d8cfc0;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);padding:5px 12px;border-radius:999px;font-family:var(--mono)}
 .ver-badge b{color:#fff;font-weight:700}
 .ver-badge .dot{width:8px;height:8px;border-radius:50%;background:#3fbf6a;box-shadow:0 0 0 3px rgba(63,191,106,.25)}
+
+/* ---------- Video series player ---------- */
+.video-frame { position: relative; aspect-ratio: 16 / 9; background: #0d0d0d; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-md); border: 1px solid var(--line); margin: 0 0 14px; }
+.video-frame video, .video-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; display: block; }
+.video-meta { color: var(--muted); font-family: var(--mono); font-size: .82rem; margin: 0 0 34px; }
+.ep-feature { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: 34px; align-items: center; margin-bottom: 46px; }
+.ep-feature .video-frame { margin: 0; }
+.ep-feature-text h2 { margin: 6px 0 10px; }
+.ep-feature-text p { color: var(--slate); margin: 0 0 18px; }
+.watch-badge { display: inline-block; vertical-align: middle; margin-left: 8px; font-size: .72rem; font-weight: 700; letter-spacing: .04em; color: #fff; background: var(--grad); padding: 3px 10px; border-radius: 999px; }
+@media (max-width: 860px) { .ep-feature { grid-template-columns: 1fr; } }
