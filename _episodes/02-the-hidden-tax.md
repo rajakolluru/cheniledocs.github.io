@@ -5,7 +5,7 @@ duration: "6–8 min"
 video: "/assets/video/ep02.mp4"
 poster: "/assets/video/ep02.jpg"
 captions: "/assets/video/ep02.vtt"
-video_length: ""
+video_length: "1:18"
 youtube_id: ""   # paste the YouTube video id here once uploaded; the page then embeds YouTube
 summary: "Why the tenth service feels worse than the first. Cross-cutting concerns, re-implemented service by service, are the real cost of microservices."
 ---

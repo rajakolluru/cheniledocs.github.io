@@ -1,0 +1,129 @@
+WEBVTT
+
+1
+00:00:03.800 --> 00:00:06.140
+Your first microservice is a joy.
+
+2
+00:00:06.240 --> 00:00:07.740
+Your tenth is a warning.
+
+3
+00:00:07.740 --> 00:00:09.050
+So, what changed?
+
+4
+00:00:09.700 --> 00:00:12.740
+Every service needs the same non-business things.
+
+5
+00:00:12.840 --> 00:00:14.270
+Knowing who's calling.
+
+6
+00:00:14.270 --> 00:00:15.630
+Logging the same way.
+
+7
+00:00:15.630 --> 00:00:16.670
+Retrying safely.
+
+8
+00:00:16.670 --> 00:00:18.040
+Resolving the tenant.
+
+9
+00:00:18.040 --> 00:00:20.300
+Returning the same error shape.
+
+10
+00:00:20.400 --> 00:00:22.140
+None of that is your product.
+
+11
+00:00:22.140 --> 00:00:23.530
+All of it is horizontal
+
+12
+00:00:23.530 --> 00:00:25.640
+— it cuts across every service.
+
+13
+00:00:26.290 --> 00:00:30.020
+Now copy that right-hand column into ten repositories.
+
+14
+00:00:30.120 --> 00:00:32.260
+Written ten slightly different ways,
+
+15
+00:00:32.260 --> 00:00:34.300
+by ten people, over two years.
+
+16
+00:00:34.400 --> 00:00:35.840
+That's not architecture.
+
+17
+00:00:35.840 --> 00:00:37.470
+That's ten liabilities.
+
+18
+00:00:38.120 --> 00:00:39.190
+Take one concept:
+
+19
+00:00:39.190 --> 00:00:41.020
+reading the current user.
+
+20
+00:00:41.120 --> 00:00:42.340
+Three repositories.
+
+21
+00:00:42.340 --> 00:00:44.270
+Three near-identical versions.
+
+22
+00:00:44.270 --> 00:00:46.450
+Every one of them has drifted.
+
+23
+00:00:47.100 --> 00:00:50.810
+A security fix becomes a ten-repository pull request.
+
+24
+00:00:50.910 --> 00:00:52.180
+That's the tax.
+
+25
+00:00:52.830 --> 00:00:55.930
+The cost of microservices is rarely the services.
+
+26
+00:00:55.930 --> 00:00:59.160
+It's the duplication of everything around them.
+
+27
+00:00:59.260 --> 00:01:01.050
+Fixing that needs two ideas:
+
+28
+00:01:01.050 --> 00:01:03.730
+a cleaner definition of what a service is,
+
+29
+00:01:03.730 --> 00:01:06.530
+and a home for all the horizontal stuff.
+
+30
+00:01:07.180 --> 00:01:07.510
+Next:
+
+31
+00:01:07.510 --> 00:01:08.430
+the first idea
+
+32
+00:01:08.430 --> 00:01:11.440
+— a service is a contract, not a codebase.
