@@ -1,0 +1,209 @@
+WEBVTT
+
+1
+00:00:03.800 --> 00:00:05.360
+We started with a question:
+
+2
+00:00:05.360 --> 00:00:07.700
+what are microservices actually for?
+
+3
+00:00:07.800 --> 00:00:09.620
+We end with a way to govern them.
+
+4
+00:00:09.620 --> 00:00:11.680
+Let's assemble the whole picture.
+
+5
+00:00:12.330 --> 00:00:13.620
+Here's the runtime.
+
+6
+00:00:13.620 --> 00:00:16.060
+A request becomes a ChenileExchange,
+
+7
+00:00:16.060 --> 00:00:18.630
+runs through the interception pipeline
+
+8
+00:00:18.630 --> 00:00:19.650
+— your policies
+
+9
+00:00:19.650 --> 00:00:23.420
+— reaches pure business logic, and travels back out.
+
+10
+00:00:23.520 --> 00:00:27.190
+The same model runs in the gateway and in every service.
+
+11
+00:00:27.190 --> 00:00:29.290
+That single fact lets one policy
+
+12
+00:00:29.290 --> 00:00:32.820
+abstraction serve both the edge and the last mile.
+
+13
+00:00:33.470 --> 00:00:34.760
+Chenile is layered.
+
+14
+00:00:34.760 --> 00:00:37.010
+chenile-parent sets the versions.
+
+15
+00:00:37.010 --> 00:00:38.910
+chenile-core is the runtime.
+
+16
+00:00:38.910 --> 00:00:39.930
+Then blueprints
+
+17
+00:00:39.930 --> 00:00:42.830
+— for queries, workflows and processes.
+
+18
+00:00:42.930 --> 00:00:44.130
+Then integration:
+
+19
+00:00:44.130 --> 00:00:47.370
+the registry, proxies, security and messaging.
+
+20
+00:00:47.370 --> 00:00:51.140
+And finally testing, auxiliary tools, and cconfig.
+
+21
+00:00:51.790 --> 00:00:53.150
+Eleven repositories.
+
+22
+00:00:53.150 --> 00:00:54.620
+One release train.
+
+23
+00:00:55.270 --> 00:00:57.140
+Five moves, in one breath.
+
+24
+00:00:57.240 --> 00:00:57.500
+One:
+
+25
+00:00:57.500 --> 00:01:00.840
+adopt services, for deployability and ownership.
+
+26
+00:01:00.940 --> 00:01:01.170
+Two:
+
+27
+00:01:01.170 --> 00:01:03.980
+split the definition from the implementation.
+
+28
+00:01:04.080 --> 00:01:04.470
+Three:
+
+29
+00:01:04.470 --> 00:01:07.250
+turn horizontal concerns into policies.
+
+30
+00:01:07.350 --> 00:01:07.640
+Four:
+
+31
+00:01:07.640 --> 00:01:10.860
+place policies at the gateway, and at the last mile.
+
+32
+00:01:10.960 --> 00:01:11.270
+Five:
+
+33
+00:01:11.270 --> 00:01:12.990
+use one abstraction for both
+
+34
+00:01:12.990 --> 00:01:15.630
+— with the registry choosing placement.
+
+35
+00:01:16.280 --> 00:01:18.840
+The same discipline reaches everywhere.
+
+36
+00:01:18.840 --> 00:01:23.020
+One Gherkin spec, run as a unit test or an integration test.
+
+37
+00:01:23.120 --> 00:01:27.690
+One pub-sub interface over MQTT, Kafka, Azure or in-JVM
+
+38
+00:01:27.690 --> 00:01:31.430
+— every message through the same pipeline.
+
+39
+00:01:31.530 --> 00:01:33.270
+Configuration with cconfig
+
+40
+00:01:33.270 --> 00:01:36.360
+— modular, per tenant, overridable at runtime.
+
+41
+00:01:36.360 --> 00:01:40.110
+And proxies that call any service through its interface,
+
+42
+00:01:40.110 --> 00:01:42.570
+with interception on the way out.
+
+43
+00:01:43.220 --> 00:01:45.040
+Business logic stays pure.
+
+44
+00:01:45.040 --> 00:01:47.000
+Governance stays consistent.
+
+45
+00:01:47.000 --> 00:01:48.820
+Placement is configuration
+
+46
+00:01:48.820 --> 00:01:50.190
+— not a rewrite.
+
+47
+00:01:50.840 --> 00:01:52.660
+Generate your first service
+
+48
+00:01:52.660 --> 00:01:55.030
+— episode four shows every command.
+
+49
+00:01:55.030 --> 00:01:58.660
+Read the story on chenile.org, and star the repos.
+
+50
+00:01:58.760 --> 00:01:59.190
+Chenile:
+
+51
+00:01:59.190 --> 00:02:01.920
+separate what a service does from how it's governed
+
+52
+00:02:01.920 --> 00:02:03.300
+— everywhere it runs.

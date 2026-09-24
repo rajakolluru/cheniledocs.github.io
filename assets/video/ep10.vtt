@@ -1,0 +1,153 @@
+WEBVTT
+
+1
+00:00:03.800 --> 00:00:05.660
+A service is logic, policies
+
+2
+00:00:05.660 --> 00:00:07.000
+— and configuration.
+
+3
+00:00:07.000 --> 00:00:10.640
+Most teams treat that third one as an afterthought.
+
+4
+00:00:10.740 --> 00:00:11.930
+Chenile doesn't.
+
+5
+00:00:11.930 --> 00:00:13.140
+Meet cconfig.
+
+6
+00:00:13.790 --> 00:00:17.060
+Every module owns a JSON file, named after it.
+
+7
+00:00:17.060 --> 00:00:21.440
+A value can be a simple string, or a deeply nested object.
+
+8
+00:00:21.540 --> 00:00:25.350
+Configuration lives right next to the module that owns it.
+
+9
+00:00:26.000 --> 00:00:27.290
+The headline feature:
+
+10
+00:00:27.290 --> 00:00:28.390
+override any value
+
+11
+00:00:28.390 --> 00:00:29.490
+— down to the path
+
+12
+00:00:29.490 --> 00:00:30.540
+— at runtime.
+
+13
+00:00:30.640 --> 00:00:32.130
+Override key1.
+
+14
+00:00:32.230 --> 00:00:33.890
+Override just key2.abc
+
+15
+00:00:33.890 --> 00:00:36.260
+— and leave the rest intact.
+
+16
+00:00:36.360 --> 00:00:40.880
+Change the range inside field1, from 100 to 101.
+
+17
+00:00:40.980 --> 00:00:42.790
+Or add a whole new field2.
+
+18
+00:00:42.790 --> 00:00:44.530
+No editing the base file.
+
+19
+00:00:44.530 --> 00:00:45.620
+No redeploy.
+
+20
+00:00:46.270 --> 00:00:48.760
+Overrides can apply to every request
+
+21
+00:00:48.760 --> 00:00:51.670
+— or only when a custom attribute matches.
+
+22
+00:00:51.670 --> 00:00:53.990
+In SaaS, that's the tenant ID.
+
+23
+00:00:54.090 --> 00:00:57.190
+Same request, two tenants, two effective values.
+
+24
+00:00:57.190 --> 00:00:59.950
+The base config stays shared and clean.
+
+25
+00:01:00.600 --> 00:01:03.640
+Your code reads config through one client:
+
+26
+00:01:03.640 --> 00:01:04.650
+CconfigClient.
+
+27
+00:01:04.650 --> 00:01:05.370
+Behind it:
+
+28
+00:01:05.370 --> 00:01:08.560
+properties, JSON, environment, or a database
+
+29
+00:01:08.560 --> 00:01:11.050
+— with a memory cache in front.
+
+30
+00:01:11.150 --> 00:01:12.670
+Start with JSON files.
+
+31
+00:01:12.670 --> 00:01:16.600
+Later, move overrides into a database for a live admin UI
+
+32
+00:01:16.600 --> 00:01:20.020
+— without touching the code that reads config.
+
+33
+00:01:20.670 --> 00:01:21.900
+Same move as always:
+
+34
+00:01:21.900 --> 00:01:23.820
+depend on the client interface,
+
+35
+00:01:23.820 --> 00:01:26.470
+and choose the source by configuration.
+
+36
+00:01:27.120 --> 00:01:27.990
+Next episode:
+
+37
+00:01:27.990 --> 00:01:30.120
+the service registry and proxies
+
+38
+00:01:30.120 --> 00:01:32.170
+— client-side interception.

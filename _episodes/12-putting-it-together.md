@@ -2,6 +2,11 @@
 title: "Putting it together: a tour of a governed system"
 order: 12
 duration: "8–10 min"
+video: "/assets/video/ep12.mp4"
+poster: "/assets/video/ep12.jpg"
+captions: "/assets/video/ep12.vtt"
+video_length: "2:10"
+youtube_id: ""   # paste the YouTube video id here once uploaded; the page then embeds YouTube
 summary: "The finale. Walk the layered architecture and the 11 repositories, and recap the five moves that make business logic pure and governance consistent."
 ---
 

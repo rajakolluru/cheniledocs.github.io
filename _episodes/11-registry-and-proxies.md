@@ -2,6 +2,11 @@
 title: "Service registry & proxies: client-side interception"
 order: 11
 duration: "10–12 min"
+video: "/assets/video/ep11.mp4"
+poster: "/assets/video/ep11.jpg"
+captions: "/assets/video/ep11.vtt"
+video_length: "1:50"
+youtube_id: ""   # paste the YouTube video id here once uploaded; the page then embeds YouTube
 summary: "Chenile ships its own registry and a proxy framework: call a service through its interface, routed locally or remotely, with a configurable client-side interceptor chain on the way out."
 ---
 
