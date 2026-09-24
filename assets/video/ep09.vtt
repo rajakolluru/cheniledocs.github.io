@@ -1,0 +1,161 @@
+WEBVTT
+
+1
+00:00:03.800 --> 00:00:07.550
+We've separated interface from implementation for services,
+
+2
+00:00:07.550 --> 00:00:09.580
+for policies, and for tests.
+
+3
+00:00:09.680 --> 00:00:10.450
+Last stop:
+
+4
+00:00:10.450 --> 00:00:11.210
+messaging.
+
+5
+00:00:11.210 --> 00:00:15.280
+Your code shouldn't know whether an event rides MQTT,
+
+6
+00:00:15.280 --> 00:00:16.200
+Kafka, Azure
+
+7
+00:00:16.200 --> 00:00:18.440
+— or never leaves the JVM.
+
+8
+00:00:19.090 --> 00:00:22.060
+This is the entire contract a service sees:
+
+9
+00:00:22.060 --> 00:00:24.890
+publish, asyncPublish, publishToOperation
+
+10
+00:00:24.890 --> 00:00:26.340
+— and messageArrived.
+
+11
+00:00:26.340 --> 00:00:28.320
+No broker types anywhere.
+
+12
+00:00:28.420 --> 00:00:31.540
+publishToOperation targets a service operation,
+
+13
+00:00:31.540 --> 00:00:36.120
+resolved through the same service registry that carries its policies.
+
+14
+00:00:36.120 --> 00:00:38.640
+Messaging is a first-class entry point
+
+15
+00:00:38.640 --> 00:00:40.280
+— not a side channel.
+
+16
+00:00:40.930 --> 00:00:42.090
+One interface.
+
+17
+00:00:42.090 --> 00:00:43.830
+Four implementations:
+
+18
+00:00:43.830 --> 00:00:46.150
+chenile-mqtt, chenile-kafka,
+
+19
+00:00:46.150 --> 00:00:49.630
+chenile-azure, and chenile-jvm-pub-sub.
+
+20
+00:00:50.280 --> 00:00:53.020
+Run the publisher on the in-JVM bus:
+
+21
+00:00:53.020 --> 00:00:56.010
+no broker, messages flow in-process.
+
+22
+00:00:56.110 --> 00:00:58.860
+Now swap the dependency to chenile-kafka,
+
+23
+00:00:58.860 --> 00:01:01.820
+and run the same code against a real broker.
+
+24
+00:01:01.820 --> 00:01:04.620
+Not one line of business code changed.
+
+25
+00:01:05.270 --> 00:01:08.110
+Here's why it matters beyond portability.
+
+26
+00:01:08.110 --> 00:01:11.230
+An inbound message becomes a ChenileExchange,
+
+27
+00:01:11.230 --> 00:01:15.910
+and runs through the same interception pipeline as an HTTP call.
+
+28
+00:01:16.010 --> 00:01:17.610
+So security, tenancy,
+
+29
+00:01:17.610 --> 00:01:21.200
+i18n and logging apply to events automatically.
+
+30
+00:01:21.200 --> 00:01:24.810
+You never write a second authorization path.
+
+31
+00:01:25.460 --> 00:01:27.160
+With the cloud-edge switch,
+
+32
+00:01:27.160 --> 00:01:31.130
+the same messages route between edge devices and a cloud broker
+
+33
+00:01:31.130 --> 00:01:32.710
+— originated at the edge,
+
+34
+00:01:32.710 --> 00:01:35.480
+handled centrally, with identical logic.
+
+35
+00:01:36.130 --> 00:01:38.690
+Same philosophy as everything else:
+
+36
+00:01:38.690 --> 00:01:40.450
+depend on the interface,
+
+37
+00:01:40.450 --> 00:01:43.890
+and choose the implementation by configuration.
+
+38
+00:01:43.890 --> 00:01:48.090
+Chenile is an in-VM message bus that also speaks HTTP.
+
+39
+00:01:48.740 --> 00:01:49.670
+Next episode:
+
+40
+00:01:49.670 --> 00:01:52.720
+configuration management, with cconfig.

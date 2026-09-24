@@ -2,6 +2,11 @@
 title: "Configuration management with cconfig"
 order: 10
 duration: "8–10 min"
+video: "/assets/video/ep10.mp4"
+poster: "/assets/video/ep10.jpg"
+captions: "/assets/video/ep10.vtt"
+video_length: ""
+youtube_id: ""   # paste the YouTube video id here once uploaded; the page then embeds YouTube
 summary: "cconfig gives each module its own JSON config, overridable down to a nested path at runtime, resolved per tenant, from pluggable sources behind one client."
 ---
 

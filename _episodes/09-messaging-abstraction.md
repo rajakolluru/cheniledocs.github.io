@@ -5,7 +5,7 @@ duration: "9–11 min"
 video: "/assets/video/ep09.mp4"
 poster: "/assets/video/ep09.jpg"
 captions: "/assets/video/ep09.vtt"
-video_length: ""
+video_length: "1:60"
 youtube_id: ""   # paste the YouTube video id here once uploaded; the page then embeds YouTube
 summary: "chenile-messaging applies the whole series' move to events — a tiny ChenilePub/ChenileSub interface with MQTT, Kafka, Azure and in-JVM implementations, all feeding the same pipeline."
 ---
