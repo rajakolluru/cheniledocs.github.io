@@ -1,0 +1,133 @@
+WEBVTT
+
+1
+00:00:03.800 --> 00:00:04.600
+Enough theory.
+
+2
+00:00:04.600 --> 00:00:08.340
+Let's generate a real Chenile service, build it, and call it.
+
+3
+00:00:08.440 --> 00:00:10.130
+And watch the definition and
+
+4
+00:00:10.130 --> 00:00:12.550
+implementation split appear on disk.
+
+5
+00:00:13.200 --> 00:00:14.640
+You need four things:
+
+6
+00:00:14.640 --> 00:00:17.780
+Java 17 or later, Maven, git, and a shell.
+
+7
+00:00:17.880 --> 00:00:19.180
+jgen is pure Java
+
+8
+00:00:19.180 --> 00:00:20.630
+— no Node required.
+
+9
+00:00:20.630 --> 00:00:23.930
+The old app-gen generator is deprecated.
+
+10
+00:00:24.580 --> 00:00:25.600
+One-time setup:
+
+11
+00:00:25.600 --> 00:00:28.870
+clone chenile-gen, run make, and source setpath.
+
+12
+00:00:28.870 --> 00:00:31.020
+That puts jgen on your PATH.
+
+13
+00:00:31.670 --> 00:00:34.910
+Run jgen, pick the chenile-service blueprint,
+
+14
+00:00:34.910 --> 00:00:37.680
+name it orders, and say yes to JPA.
+
+15
+00:00:37.780 --> 00:00:38.620
+There it is:
+
+16
+00:00:38.620 --> 00:00:40.710
+orders-api and orders-service.
+
+17
+00:00:40.710 --> 00:00:43.010
+The exact split from last episode
+
+18
+00:00:43.010 --> 00:00:44.660
+— generated for you.
+
+19
+00:00:45.310 --> 00:00:46.920
+A service is a library.
+
+20
+00:00:46.920 --> 00:00:49.360
+To run it, generate a mini-monolith
+
+21
+00:00:49.360 --> 00:00:50.340
+— ordersdeploy
+
+22
+00:00:50.340 --> 00:00:52.900
+— and add orders as a dependency.
+
+23
+00:00:53.550 --> 00:00:56.490
+Build the service, then the deployable, and start it.
+
+24
+00:00:56.590 --> 00:00:59.230
+Call the generated endpoint with the curl script
+
+25
+00:00:59.230 --> 00:01:00.960
+— and there's the response.
+
+26
+00:01:01.610 --> 00:01:04.860
+Business logic, a health probe, and an HTTP binding.
+
+27
+00:01:04.860 --> 00:01:07.240
+And we wrote none of the plumbing.
+
+28
+00:01:07.340 --> 00:01:09.250
+Look at the implementation again:
+
+29
+00:01:09.250 --> 00:01:10.760
+still just business logic.
+
+30
+00:01:10.760 --> 00:01:13.330
+Everything else came from the framework.
+
+31
+00:01:13.980 --> 00:01:14.850
+Next episode:
+
+32
+00:01:14.850 --> 00:01:17.480
+we start adding the horizontal behavior
+
+33
+00:01:17.480 --> 00:01:18.670
+— as policies.
