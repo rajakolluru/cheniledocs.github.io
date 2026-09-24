@@ -2,6 +2,11 @@
 title: "A service is a contract: definition vs. implementation"
 order: 3
 duration: "8–10 min"
+video: "/assets/video/ep03.mp4"
+poster: "/assets/video/ep03.jpg"
+captions: "/assets/video/ep03.vtt"
+video_length: "1:35"
+youtube_id: ""   # paste the YouTube video id here once uploaded; the page then embeds YouTube
 summary: "The core move. Split each service into an api module consumers depend on and a service module nobody depends on — the Dependency Inversion Principle, made physical."
 ---
 

@@ -1,0 +1,141 @@
+WEBVTT
+
+1
+00:00:03.800 --> 00:00:06.000
+Ask five engineers what a service is,
+
+2
+00:00:06.000 --> 00:00:07.910
+and you'll get five answers.
+
+3
+00:00:08.010 --> 00:00:11.320
+Here's the one that makes everything else fall into place:
+
+4
+00:00:11.320 --> 00:00:13.850
+a service is a contract, not a codebase.
+
+5
+00:00:14.500 --> 00:00:17.340
+Consumers should depend on what a service promises
+
+6
+00:00:17.340 --> 00:00:19.700
+— never on how it keeps that promise.
+
+7
+00:00:19.800 --> 00:00:22.130
+That's the Dependency Inversion Principle.
+
+8
+00:00:22.130 --> 00:00:25.600
+Chenile makes it something you can see in the file system.
+
+9
+00:00:26.250 --> 00:00:28.720
+Every Chenile service is two modules.
+
+10
+00:00:28.820 --> 00:00:31.050
+The api module is pure contract
+
+11
+00:00:31.050 --> 00:00:33.210
+— the interface and the model.
+
+12
+00:00:33.210 --> 00:00:36.770
+No implementation, no transport, no framework.
+
+13
+00:00:36.870 --> 00:00:39.560
+The service module implements that interface.
+
+14
+00:00:39.560 --> 00:00:41.300
+And nobody depends on it.
+
+15
+00:00:41.950 --> 00:00:43.210
+Open the interface:
+
+16
+00:00:43.210 --> 00:00:45.120
+one operation, one model.
+
+17
+00:00:45.220 --> 00:00:46.790
+Now the implementation.
+
+18
+00:00:46.790 --> 00:00:47.950
+It's almost empty
+
+19
+00:00:47.950 --> 00:00:49.650
+— just the business line.
+
+20
+00:00:49.650 --> 00:00:50.200
+No auth.
+
+21
+00:00:50.200 --> 00:00:50.940
+No logging.
+
+22
+00:00:50.940 --> 00:00:52.100
+No tenant lookup.
+
+23
+00:00:52.100 --> 00:00:53.580
+That's deliberate.
+
+24
+00:00:54.230 --> 00:00:57.410
+Every Chenile service also ships a deep health check,
+
+25
+00:00:57.410 --> 00:01:01.930
+so an orchestrator knows when to route traffic, or recycle an instance.
+
+26
+00:01:02.580 --> 00:01:04.750
+Chenile customizes the controller,
+
+27
+00:01:04.750 --> 00:01:07.360
+so a service is declared to the framework
+
+28
+00:01:07.360 --> 00:01:08.820
+— not just exposed.
+
+29
+00:01:08.920 --> 00:01:12.390
+That declaration creates a seam around every operation.
+
+30
+00:01:12.390 --> 00:01:16.420
+And that seam is where all the horizontal stuff will attach.
+
+31
+00:01:17.070 --> 00:01:18.640
+Depend on s1-api.
+
+32
+00:01:18.640 --> 00:01:20.730
+Never on s1-service.
+
+33
+00:01:21.380 --> 00:01:22.190
+Next episode:
+
+34
+00:01:22.190 --> 00:01:24.820
+we generate this from scratch, and run it.
+
+35
+00:01:24.820 --> 00:01:27.940
+Then we start filling that seam with policies.
