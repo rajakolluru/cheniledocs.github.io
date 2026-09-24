@@ -1,0 +1,173 @@
+WEBVTT
+
+1
+00:00:03.800 --> 00:00:07.420
+Last episode, our service was pure business logic.
+
+2
+00:00:07.520 --> 00:00:10.820
+But the auth, logging and tenancy have to live somewhere.
+
+3
+00:00:10.820 --> 00:00:13.100
+That somewhere is a service policy.
+
+4
+00:00:13.750 --> 00:00:16.470
+A service policy is an implementation of a
+
+5
+00:00:16.470 --> 00:00:19.890
+horizontal requirement that cuts across services.
+
+6
+00:00:19.990 --> 00:00:22.450
+In Chenile, a policy is an interceptor
+
+7
+00:00:22.450 --> 00:00:25.100
+that runs around a service operation.
+
+8
+00:00:25.750 --> 00:00:29.010
+A request comes in and becomes a ChenileExchange.
+
+9
+00:00:29.110 --> 00:00:31.550
+It passes through the interceptors
+
+10
+00:00:31.550 --> 00:00:33.990
+— security, tenancy, i18n, logging
+
+11
+00:00:33.990 --> 00:00:38.830
+— reaches the implementation, and travels back out the same way.
+
+12
+00:00:39.480 --> 00:00:41.820
+Every interceptor follows three rules.
+
+13
+00:00:41.920 --> 00:00:42.190
+One:
+
+14
+00:00:42.190 --> 00:00:43.340
+one and only one.
+
+15
+00:00:43.340 --> 00:00:46.310
+Each interceptor implements a single policy,
+
+16
+00:00:46.310 --> 00:00:48.470
+and only one interceptor owns it
+
+17
+00:00:48.470 --> 00:00:51.490
+— so there's exactly one place to fix it.
+
+18
+00:00:51.590 --> 00:00:51.860
+Two:
+
+19
+00:00:51.860 --> 00:00:53.310
+configuration-driven.
+
+20
+00:00:53.310 --> 00:00:57.500
+It's steered by typed extension keys, supplied at deploy time
+
+21
+00:00:57.500 --> 00:00:58.920
+— not hard-coded.
+
+22
+00:00:59.020 --> 00:00:59.410
+Three:
+
+23
+00:00:59.410 --> 00:01:00.830
+orchestration-unaware.
+
+24
+00:01:00.830 --> 00:01:02.760
+It never assumes its position.
+
+25
+00:01:02.760 --> 00:01:05.210
+It may say before or after the payload
+
+26
+00:01:05.210 --> 00:01:07.780
+— but it never hard-wires the order.
+
+27
+00:01:08.430 --> 00:01:11.650
+Those rules make a policy testable in isolation,
+
+28
+00:01:11.650 --> 00:01:15.530
+reusable across services, and changeable in one place.
+
+29
+00:01:15.630 --> 00:01:19.590
+The exact opposite of the duplicated plumbing from episode two.
+
+30
+00:01:20.240 --> 00:01:20.940
+Here's one:
+
+31
+00:01:20.940 --> 00:01:22.840
+a request-logging interceptor.
+
+32
+00:01:22.840 --> 00:01:26.510
+It extends BaseChenileInterceptor, and does one thing.
+
+33
+00:01:26.610 --> 00:01:28.320
+Attach it by configuration
+
+34
+00:01:28.320 --> 00:01:31.610
+— in the service registry, or with one annotation.
+
+35
+00:01:31.610 --> 00:01:34.630
+The service implementation doesn't change.
+
+36
+00:01:35.280 --> 00:01:36.890
+Same behavior, two ways.
+
+37
+00:01:36.890 --> 00:01:39.500
+One is tangled into the business logic.
+
+38
+00:01:39.500 --> 00:01:43.310
+The other is a clean implementation plus one interceptor.
+
+39
+00:01:43.310 --> 00:01:45.640
+Only one of them you can reuse.
+
+40
+00:01:46.290 --> 00:01:48.760
+So if a policy isn't welded to a service
+
+41
+00:01:48.760 --> 00:01:50.120
+— where should it run?
+
+42
+00:01:50.120 --> 00:01:50.430
+Next:
+
+43
+00:01:50.430 --> 00:01:52.600
+the gateway, and the last mile.

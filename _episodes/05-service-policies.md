@@ -2,6 +2,11 @@
 title: "Service policies: interceptors that do one thing"
 order: 5
 duration: "8–10 min"
+video: "/assets/video/ep05.mp4"
+poster: "/assets/video/ep05.jpg"
+captions: "/assets/video/ep05.vtt"
+video_length: "1:60"
+youtube_id: ""   # paste the YouTube video id here once uploaded; the page then embeds YouTube
 summary: "Give the horizontal concerns a home. A service policy is a single-responsibility, configuration-driven, order-agnostic interceptor in the Chenile pipeline."
 ---
 
