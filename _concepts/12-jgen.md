@@ -44,8 +44,10 @@ in the primary monolith, a headless service with its own monolith, and a MyBatis
 query service with a query-controller monolith.
 
 The generator composes the existing blueprints rather than maintaining a second
-set of templates. Generated projects are sibling directories under the chosen
-destination. Generate an input contract with
+set of templates. It creates one folder named for the ecosystem under the
+chosen destination. Its `pom.xml` is the Maven reactor parent for every
+generated project, so run `mvn install` from that folder to build the complete
+ecosystem. Generate an input contract with
 `jgen.sh -g chenile-ecosystem -o ecosystem-input.json`, choose `y` or `n` for
 the optional components, and run it with `jgen.sh -f ecosystem-input.json`.
 If multiple mini monoliths run locally, give them distinct server ports.
