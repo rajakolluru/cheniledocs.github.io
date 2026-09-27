@@ -15,6 +15,23 @@ A **process orchestrator** breaks a problem into smaller problems, kicks off a s
 
 The repo is organized as `process-api`, `process-service`, `process-delegate`, `process-utils`, plus the pluggable **starters** below.
 
+## Store definitions in a database
+
+The standard process-definition JSON can also be stored in a database. Set
+`chenile.process.configurator=database` to make `process-service` resolve each
+process type from `process_definition` rather than from a classpath JSON file.
+The table has a `process_type` primary key and a `definition` text column. The
+text is the same JSON object normally held under that type in `processMap`:
+
+```sql
+insert into process_definition (process_type, definition) values
+('chunk', '{"leaf":true,"executorConfig":{"batchSize":"100"}}');
+```
+
+The definition is looked up on each process operation, so an updated database
+row is used without restarting the application. With no property set, the
+existing classpath JSON configuration remains the compatibility default.
+
 ## Choose how workers run
 
 The framework supports three worker launch modes — the same process definition, different execution substrate:
