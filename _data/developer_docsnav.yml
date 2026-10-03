@@ -8,6 +8,8 @@ items:
     url: "/developer/security/"
   - title: "Process management"
     url: "/developer/process-management/"
+  - title: "Trigger framework architecture"
+    url: "/developer/trigger-framework/"
   - title: "Beyond HTTP — entry points"
     url: "/developer/entry-points/"
   - title: "MCP — services as AI tools"

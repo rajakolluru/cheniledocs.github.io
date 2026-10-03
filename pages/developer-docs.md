@@ -18,6 +18,7 @@ These guides focus on implementing Chenile services and safely extending their r
 ## Scaling &amp; integration
 
 - [Process management]({{ '/developer/process-management/' | relative_url }}) — orchestrate long-running parent/child processes, map-reduce style, with in-VM, queue-based or JDBC/KEDA worker modes.
+- [Trigger framework architecture]({{ '/developer/trigger-framework/' | relative_url }}) — the accepted design for mapping HTTP and Quartz input through CConfig into audited in-JVM events and process starts.
 - [Beyond HTTP — alternate entry points]({{ '/developer/entry-points/' | relative_url }}) — trigger the same service from an event, a cron schedule (scheduler) or a dropped file (file-watch), plus caching.
 - [Messaging transports]({{ '/developer/messaging-transports/' | relative_url }}) — configure MQTT, Kafka, Azure Event Hubs, in-JVM pub/sub and the cloud-edge switch behind the one pub/sub interface.
 - [MCP — services as AI tools]({{ '/developer/mcp/' | relative_url }}) — expose services, workflows and queries to AI agents over the Model Context Protocol.
