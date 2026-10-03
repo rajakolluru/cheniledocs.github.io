@@ -71,6 +71,25 @@ public class SpringTestConfig extends SpringBootServletInitializer {}
 
 Most of the steps you need already live in `org.chenile.cucumber.rest.RestCukesSteps`, so `CukesSteps` is usually just a hook for a handful of service-specific additions.
 
+### Asserting on collections <span class="pill">2.1.31</span>
+
+`RestCukesSteps` in `cucumber-utils` adds three collection assertions, so a scenario can check a list in the response without depending on item order:
+
+```gherkin
+Then the rest response key "tags" collection has an item "urgent"
+
+And the rest response key "tags" collection has an item with values:
+  | urgent   |
+  | billing  |
+
+And the rest response key "items" collection has an item with keys and values:
+  | key  | value  |
+  | sku  | SKU-42 |
+  | qty  | 2      |
+```
+
+The first checks that a list contains one value; the second that it contains every listed value; the third that some element of a list of objects has all the given key/value pairs. Keys are resolved under `payload`; table values may use `${variables}` stored earlier in the scenario.
+
 ## Level 2 — integration tests over REST Assured
 
 When you want to verify a **really deployed** service — the wire protocol, the packaging, the environment and config — Chenile's **`it-cucumber-utils`** (in the **`chenile-bdd`** repository) implements *the same step vocabulary* on top of **[REST Assured](https://rest-assured.io/)**. Instead of a MockMvc call, `I POST a REST request to URL …` now issues a real HTTP request against a running server:

@@ -14,13 +14,13 @@
 - name: "chenile-query-workflow-blueprints"
   layer: "Application blueprints"
   blurb: "Reusable query and workflow patterns on top of core — metadata-driven queries (MyBatis) and workflow-enabled services built on Chenile STM."
-  modules: ["query-api", "chenile-query-service", "chenile-query-controller", "workflow-api", "workflow-service", "workflow-mcp", "cucumber-workflow-utils", "workflow-utils", "stm-generate-puml"]
+  modules: ["query-api", "chenile-query-service", "chenile-query-controller", "query-mcp", "workflow-api", "workflow-service", "workflow-info", "workflow-mcp", "cucumber-workflow-utils", "workflow-utils", "stm-generate-puml"]
   icon: "🔀"
 
 - name: "chenile-process-management"
   layer: "Application blueprints"
-  blurb: "Orchestration for long-running parent and child processes with sub-process tracking and pluggable process starters."
-  modules: ["process-api", "process-service", "process-delegate", "process-utils", "q-based-process-starter", "invm-process-starter"]
+  blurb: "Orchestration for long-running parent and child processes: splitter/aggregator trees, pluggable worker starters, trigger ingress with cron schedules, an optional durable outbox, and an administrator API with a React dashboard."
+  modules: ["process-api", "process-service", "process-delegate", "process-utils", "invm-process-starter", "q-based-process-starter", "jdbc-process-starter", "process-outbox", "chenile-trigger", "process-admin-server", "process-ui"]
   icon: "🧭"
 
 - name: "chenile-service-registry"

@@ -18,6 +18,9 @@ These guides focus on implementing Chenile services and safely extending their r
 ## Scaling &amp; integration
 
 - [Process management]({{ '/developer/process-management/' | relative_url }}) — orchestrate long-running parent/child processes, map-reduce style, with in-VM, queue-based or JDBC/KEDA worker modes.
+- [Durable process outbox]({{ '/developer/process-outbox/' | relative_url }}) — make every consequence of a process transition survive a crash: receipts, lease fencing, retries, dead-letter and replay. *(2.1.31)*
+- [Process administration, API &amp; dashboard]({{ '/developer/process-admin/' | relative_url }}) — crons, manual triggers, definitions, process trees and end-to-end traces from a React console and a runnable admin server. *(2.1.31)*
+- [Process management vs. Temporal]({{ '/developer/process-vs-temporal/' | relative_url }}) — orchestration as data in your database, or as replayed code on a cluster.
 - [Trigger framework architecture]({{ '/developer/trigger-framework/' | relative_url }}) — the accepted design for mapping HTTP and Quartz input through CConfig into audited in-JVM events and process starts.
 - [Beyond HTTP — alternate entry points]({{ '/developer/entry-points/' | relative_url }}) — trigger the same service from an event, a cron schedule (scheduler) or a dropped file (file-watch), plus caching.
 - [Messaging transports]({{ '/developer/messaging-transports/' | relative_url }}) — configure MQTT, Kafka, Azure Event Hubs, in-JVM pub/sub and the cloud-edge switch behind the one pub/sub interface.
@@ -38,6 +41,8 @@ These guides focus on implementing Chenile services and safely extending their r
 
 - [Admin UI]({{ '/developer/admin-ui/' | relative_url }}) — a drop-in React console at `/chenile/admin` for inspecting services, definitions, health, workflow diagrams and the service registry.
 - [Config Maven plugin]({{ '/developer/config-maven-plugin/' | relative_url }}) — generate the service-registry JSON of a deployable at build time.
+- [JGen blueprint reference]({{ '/developer/jgen-blueprints/' | relative_url }}) — every built-in blueprint and its prompts, including the 2.1.31 headless-service, ecosystem and process-management generators.
+- [Chenile by the numbers]({{ '/by-the-numbers/' | relative_url }}) — how much code, tests and documentation make up the 11 repositories.
 
 ## Releases
 

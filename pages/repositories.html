@@ -25,6 +25,8 @@ summary: "One framework, cleanly split across eleven repositories that move toge
         <div class="mods">
           {% for m in r.modules %}<span>{{ m }}</span>{% endfor %}
         </div>
+        {% assign cs = site.data.codebase.repos | where: "name", r.name | first %}
+        {% if cs and cs.main_loc > 0 %}<p class="repo-size" style="margin:10px 0 0;font-family:var(--mono);font-size:.78rem;color:var(--muted)">{{ cs.main_loc }} production · {{ cs.test_loc }} test lines of Java · {{ cs.modules }} modules</p>{% endif %}
       </div>
       {% endfor %}
     </div>
@@ -32,6 +34,6 @@ summary: "One framework, cleanly split across eleven repositories that move toge
       <div class="t">How they layer</div>
       <code>chenile-parent</code> defines versions → <code>chenile-core</code> provides the runtime → <code>chenile-query-workflow-blueprints</code> and <code>chenile-process-management</code> add application patterns → <code>chenile-service-registry</code>, <code>chenile-proxies</code>, <code>chenile-security</code> and <code>chenile-messaging</code> add integration → <code>chenile-bdd</code> and <code>chenile-others</code> add testing and operations → <code>cconfig</code> supplies runtime configuration.
     </div>
-    <p style="text-align:center;margin-top:34px"><a class="btn btn-ghost" href="{{ site.github_repo }}">Browse the source on GitHub →</a></p>
+    <p style="text-align:center;margin-top:34px"><a class="btn btn-ghost" href="{{ '/by-the-numbers/' | relative_url }}">Chenile by the numbers →</a> &nbsp; <a class="btn btn-ghost" href="{{ site.github_repo }}">Browse the source on GitHub →</a></p>
   </div>
 </section>

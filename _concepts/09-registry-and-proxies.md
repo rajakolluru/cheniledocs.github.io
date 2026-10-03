@@ -21,6 +21,13 @@ Chenile provides two pieces that make this work together: its own **service regi
 
 This is the same registry that carries a service's **policy configuration** — so "how to reach a service" and "what policies apply to it" live in one place.
 
+### Controlling what gets published <span class="pill">2.1.31</span>
+
+Not every service belongs in the catalogue. Publication can be switched off per service or for a whole deployable:
+
+- `@ChenileController(registerInServiceRegistry = false)` keeps one service fully wired locally (pipeline, health check, proxies in the same JVM) but never publishes it — see [annotation-based services](/concepts/annotation-based-services/).
+- `chenile.service.registry.read-only=true` makes a deployable a pure **consumer**: it still reads definitions and loads its local cache, but neither publishes at startup nor lets delegate `save(...)` calls reach the registry.
+
 ## The proxy framework: call the interface, not the wire
 
 The proxy framework (`chenile-proxies`) lets one service invoke another **through its Java interface**, with no hand-written transport. You ask Chenile for a proxy of the target interface and just call its methods:

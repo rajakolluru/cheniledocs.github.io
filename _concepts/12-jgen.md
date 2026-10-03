@@ -29,8 +29,10 @@ The most-used ones for building applications are:
 - **`wfcustom`** — a *custom* workflow generated from your own STM XML (the [Finito](https://thefinito.org) blueprint).
 - **`mybatisQuery`** — a metadata-driven [query service](/concepts/11-chenile-query/) that depends on `chenile-query-controller`.
 - **`minimonolith`** — a deployable that hosts one or more services.
+- **`chenile-headless-service`** — a non-HTTP, transport-neutral Chenile service *(2.1.31)*.
 - **`chenile-ecosystem`** — composes the standard blueprints into a complete
-  service ecosystem.
+  service ecosystem *(2.1.31)*.
+- **`chenile-process-management`** — a typed, multi-level [process](/developer/process-management/) application with workers, definitions and cron triggers *(2.1.31)*.
 
 Plus `chenile-interceptor` (a reusable policy), `it` (an integration-test harness), `batch` (bulk processing), and the wonderfully recursive **`jgen-blueprint`** — a blueprint that generates new blueprints.
 
@@ -51,6 +53,8 @@ ecosystem. Generate an input contract with
 `jgen.sh -g chenile-ecosystem -o ecosystem-input.json`, choose `y` or `n` for
 the optional components, and run it with `jgen.sh -f ecosystem-input.json`.
 If multiple mini monoliths run locally, give them distinct server ports.
+
+For every blueprint's prompts and defaults — including the 2.1.31 `chenile-headless-service`, `chenile-ecosystem` and `chenile-process-management` generators — see the [JGen blueprint reference](/developer/jgen-blueprints/).
 
 ## Inside a blueprint
 

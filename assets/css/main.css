@@ -434,3 +434,14 @@ pre code { background: none; color: inherit; padding: 0; }
 .ep-feature-text p { color: var(--slate); margin: 0 0 18px; }
 .watch-badge { display: inline-block; vertical-align: middle; margin-left: 8px; font-size: .72rem; font-weight: 700; letter-spacing: .04em; color: #fff; background: var(--grad); padding: 3px 10px; border-radius: 999px; }
 @media (max-width: 860px) { .ep-feature { grid-template-columns: 1fr; } }
+
+/* small inline badge (e.g. "2.1.31") */
+.pill { display:inline-block; font-size:.72rem; font-weight:700; letter-spacing:.03em; padding:2px 9px; border-radius:999px; background:var(--grad); color:#fff; vertical-align:middle; }
+
+/* ---------- Tables in articles and docs ---------- */
+.doc table { width: 100%; border-collapse: collapse; margin: 1.2em 0 1.6em; font-size: .92rem; }
+.doc th, .doc td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+.doc th { font-weight: 700; background: var(--grad-soft); }
+.doc .num-table td.n, .doc .num-table th.n { text-align: right; font-family: var(--mono); white-space: nowrap; }
+.doc .num-table tr.total td { font-weight: 800; border-top: 2px solid var(--ink, #1e1a14); }
+.doc .table-scroll { overflow-x: auto; }

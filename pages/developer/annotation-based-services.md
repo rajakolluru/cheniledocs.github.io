@@ -43,6 +43,20 @@ There is **no `@RestController`** here and nothing extends `ControllerSupport`. 
   The bean is now a real Chenile service — it runs inside the interception pipeline (security, tenancy, logging, i18n), can be invoked through <a href="/concepts/09-registry-and-proxies/">proxies</a>, driven by <a href="/concepts/07-messaging-abstraction/">messaging</a> or a <a href="/concepts/06-bdd-testing/">workflow</a> — <strong>without any HTTP or Spring-MVC coupling</strong>. HTTP exposure becomes an opt-in layer, not a prerequisite.
 </div>
 
+### Marking the exchange body: `@ChenileBody` <span class="pill">2.1.31</span>
+
+Mark the parameter that receives the body of the `ChenileExchange` with `@ChenileBody` (`org.chenile.core.annotation`). In 2.1.31 `@ChenileController` itself is supplied by `chenile-core` (same package name, so sources compile unchanged), which means a headless service needs **no `chenile-http` dependency at all** — it can serve in-process callers, events and serverless hosts. The [`chenile-headless-service` blueprint](/developer/jgen-blueprints/#headless) generates exactly this shape:
+
+```java
+@ChenileController(value = "ordersService", serviceName = "_ordersService_")
+public class OrdersController {
+    @ChenileOperation("place")
+    public Order place(@ChenileBody Order order) { … }
+}
+```
+
+The annotation-initialization lifecycle now lives in core; the HTTP initializer inherits it and adds only Spring MVC controller selection and route mapping.
+
 ### Want REST as well?
 
 Keep using the HTTP path when you *do* want REST: annotate the class with `@RestController` too. `chenile-http` then adds the Spring-MVC-specific operation metadata and request mappings on top of the same service. The point is that this is now a **choice** — HTTP controllers are handled by `chenile-http`; non-HTTP services are handled by `chenile-core`. One annotation model, two independent responsibilities:
@@ -67,10 +81,24 @@ public class S1ServiceImpl implements S1Service { /* … */ }
 
 `registerInServiceRegistry` defaults to `true` (unchanged behaviour). Set it to `false` and the service is still fully wired into the Chenile runtime — interceptors, health check, operations, everything — but its definition is **not** pushed into `chenile-service-registry`. Both initializers honour the flag by setting `ChenileServiceDefinition.setRegisterInServiceRegistry(...)`.
 
+To make a **whole deployable** a registry *consumer* that publishes nothing, set:
+
+```properties
+chenile.service.registry.read-only=true
+```
+
+Read-only mode keeps registry reads and local cache loading, but blocks both automatic publication at startup and direct delegate `save(...)` calls before any outbound HTTP write. *(2.1.31)*
+
 <div class="callout">
   <div class="t">When to turn it off</div>
   Internal-only services, test doubles / mocks, and services you never intend to reach through a remote proxy are good candidates. Leave it on (the default) for anything other services should be able to discover and call.
 </div>
+
+## 3 · HTTP mapping rules <span class="pill">2.1.31</span>
+
+For HTTP controllers, a single `SpringMvcMappingProducer` now reads all five composed Spring annotations (`@GetMapping`, `@PostMapping`, `@PutMapping`, `@PatchMapping`, `@DeleteMapping`) **and** direct `@RequestMapping` declarations. A Chenile operation must resolve to **exactly one HTTP verb and one route**; an ambiguous mapping (several methods or paths) is now **rejected at startup** instead of being silently reduced to its first value.
+
+When an operation's implementation throws, the `CANNOT_INVOKE_TARGET` error (E509) now names the operation and the exception type and carries the underlying message — so the `description` your client receives in the `GenericResponse` points at the real cause.
 
 ## The annotation, at a glance
 
@@ -83,7 +111,7 @@ public class S1ServiceImpl implements S1Service { /* … */ }
 - `interfaceClass` — the service interface; if left as `Object.class`, Chenile computes it from the operations.
 - `registerInServiceRegistry` — **`true` by default**; set `false` to skip registry publication.
 
-Methods are marked with `@ChenileOperation("<opName>")`.
+Methods are marked with `@ChenileOperation("<opName>")`; the exchange-body parameter with `@ChenileBody`.
 
 <div class="callout"><div class="t">Where to look</div>
 Non-HTTP registration: <code>org.chenile.core.init.AnnotationChenileServiceInitializer</code> ("Registers non-HTTP Chenile controllers"). HTTP registration: <code>org.chenile.http.init.HttpAnnotationChenileServiceInitializer</code>. Annotations: <code>ChenileController</code>, <code>ChenileOperation</code>. Model: <code>ChenileServiceDefinition</code> (<code>registerInServiceRegistry</code>).</div>

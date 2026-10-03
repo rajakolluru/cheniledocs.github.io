@@ -247,6 +247,9 @@
   function blueprint(root) {
     var bp = {
       'chenile-service': { d: 'A plain Chenile service.', mods: ['svc-api', 'svc-service'], dep: 'chenile-core' },
+      'chenile-headless-service': { d: 'A non-HTTP, transport-neutral service (2.1.31).', mods: ['svc-api', 'svc-service'], dep: 'chenile-core' },
+      'chenile-ecosystem': { d: 'Service + mini-monolith, optional registry, cconfig, headless and query projects under one Maven reactor (2.1.31).', mods: ['ecosystem-parent', 'service', 'monolith', '…optional projects'], dep: 'composes the other blueprints' },
+      'chenile-process-management': { d: 'Typed multi-level process workers, definitions and cron triggers in a runnable mini-monolith (2.1.31).', mods: ['app-api', 'app-service', 'app-configurations', 'app-package'], dep: 'process-service · chenile-trigger · process-outbox' },
       'wfservice':       { d: 'A standard workflow service (fixed status model).', mods: ['svc-api', 'svc-service'], dep: 'workflow-api · workflow-service · stm-generate-puml' },
       'wfcustom':        { d: 'A custom workflow from your own STM XML.', mods: ['svc-api', 'svc-service'], dep: 'workflow-api · workflow-service · stm-generate-puml' },
       'mybatisQuery':    { d: 'A metadata-driven query service over MyBatis.', mods: ['query-api', 'query-service'], dep: 'chenile-query-controller' },
