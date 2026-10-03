@@ -7,7 +7,7 @@ permalink: /developer/trigger-framework/
 
 # Trigger framework architecture
 
-> **Release status:** implemented on the 2.1.31 development branch; not yet published to Maven Central.
+> **Release status:** new in 2.1.31 — `chenile-parent:2.1.31` is on Maven Central; the `chenile-process-management` artifacts follow in the [release train](/developer/release-process/).
 
 Chenile's trigger framework normalizes external activation into an existing in-JVM
 Chenile event. It does not create a second event bus: after validation, the framework

@@ -62,6 +62,7 @@ Alongside the Java there are **{{ t.config_files }}** configuration and schema f
 On top of the prose:
 
 - **<span class="fmt" data-n="{{ t.javadoc }}">{{ t.javadoc }}</span> lines of Javadoc** in the source, published as API reference.
+- **791 automated framework tests** (plus 22 in JGen) passing for the 2.1.31 release, with zero failures — see the [release process]({{ '/developer/release-process/' | relative_url }}).
 - **{{ t.features }} executable Gherkin specifications** — documentation that is also a test (see [BDD]({{ '/concepts/06-bdd-testing/' | relative_url }})).
 - **The [video series]({{ '/video-series/' | relative_url }})** — 12 narrated episodes, about 21 minutes in total, with captions and full scripts on each episode page.
 - **Interactive explainers** on the concept pages, and generated workflow diagrams from every state machine.

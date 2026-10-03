@@ -15,6 +15,8 @@ These guides focus on implementing Chenile services and safely extending their r
 - [Security &amp; the auth framework]({{ '/developer/security/' | relative_url }}) — the legacy Keycloak-integrated framework and the new Spring-Security auth-server / gateway / resource-server framework, and the responsibility split between framework and application.
 - [Annotation-based Chenile services]({{ '/concepts/annotation-based-services/' | relative_url }}) — define a service with annotations on a plain bean (no Spring REST controller) and make registry registration optional. *(Lives under Concepts.)*
 
+- [Runtime internals]({{ '/developer/runtime-internals/' | relative_url }}) — the `ChenileExchange`, the `chenile-highway` interceptor chain, body typing, argument binding, JSON service definitions and events.
+
 ## Scaling &amp; integration
 
 - [Process management]({{ '/developer/process-management/' | relative_url }}) — orchestrate long-running parent/child processes, map-reduce style, with in-VM, queue-based or JDBC/KEDA worker modes.
@@ -35,6 +37,7 @@ These guides focus on implementing Chenile services and safely extending their r
 ## Workflow development
 
 - [Extending STM workflows]({{ '/developer/stm-workflow-extension/' | relative_url }}) — XML-overlay vs. configuration properties when a workflow must vary by module, tenant or deployment; plus the per-request `EntityStore` selection contract.
+- [Workflow service internals]({{ '/developer/workflow-internals/' | relative_url }}) — how `PATCH /{svc}/{id}/{event}` becomes typed business logic: payload typing, convention-named actions, hooks, auto-states and event security.
 - [Multi-tenant workflow extension sample]({{ '/developer/multitenant-workflow-extension/' | relative_url }}) — apply the XML-overlay pattern to a reusable vehicle workflow.
 
 ## Operate &amp; build
@@ -42,6 +45,7 @@ These guides focus on implementing Chenile services and safely extending their r
 - [Admin UI]({{ '/developer/admin-ui/' | relative_url }}) — a drop-in React console at `/chenile/admin` for inspecting services, definitions, health, workflow diagrams and the service registry.
 - [Config Maven plugin]({{ '/developer/config-maven-plugin/' | relative_url }}) — generate the service-registry JSON of a deployable at build time.
 - [JGen blueprint reference]({{ '/developer/jgen-blueprints/' | relative_url }}) — every built-in blueprint and its prompts, including the 2.1.31 headless-service, ecosystem and process-management generators.
+- [Releasing Chenile]({{ '/developer/release-process/' | relative_url }}) — the 11-repository release train, annotated tags, and the parent-first Maven Central gate.
 - [Chenile by the numbers]({{ '/by-the-numbers/' | relative_url }}) — how much code, tests and documentation make up the 11 repositories.
 
 ## Releases

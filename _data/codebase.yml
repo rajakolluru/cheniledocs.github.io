@@ -15,7 +15,7 @@ repos:
     templates: 0
     md_files: 2
     md_words: 443
-    commits: 101
+    commits: 102
   - name: "chenile-core"
     modules: 12
     main_files: 313
@@ -60,7 +60,7 @@ repos:
     templates: 0
     md_files: 10
     md_words: 9590
-    commits: 59
+    commits: 60
   - name: "chenile-service-registry"
     modules: 4
     main_files: 20
@@ -180,28 +180,28 @@ totals:
   templates: 1
   md_files: 61
   md_words: 47461
-  commits: 786
+  commits: 788
 tooling:
   - name: "chenile-gen"
     modules: 17
     main_files: 59
     main_loc: 2385
-    test_files: 4
-    test_loc: 342
+    test_files: 5
+    test_loc: 359
     javadoc: 98
     features: 0
     feature_lines: 0
     frontend_loc: 1035
-    config_files: 101
+    config_files: 102
     templates: 388
     md_files: 3
     md_words: 4329
-    commits: 106
+    commits: 107
 docs:
   - { label: "Concept articles", pages: 15, words: 8963 }
-  - { label: "Developer guides", pages: 18, words: 11352 }
-  - { label: "Release notes", pages: 3, words: 3211 }
+  - { label: "Developer guides", pages: 21, words: 13774 }
+  - { label: "Release notes", pages: 3, words: 3315 }
   - { label: "Video episode pages", pages: 12, words: 4094 }
-  - { label: "Other site pages", pages: 5, words: 2090 }
-site_pages: 53
-site_words: 29710
+  - { label: "Other site pages", pages: 5, words: 2176 }
+site_pages: 56
+site_words: 32322

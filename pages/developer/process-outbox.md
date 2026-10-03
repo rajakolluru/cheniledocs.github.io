@@ -7,7 +7,7 @@ permalink: /developer/process-outbox/
 
 # Durable process outbox
 
-> **Release status:** new in 2.1.31 (in development, not yet on Maven Central). Opt-in; the default remains synchronous inline execution.
+> **Release status:** new in 2.1.31 — `chenile-parent:2.1.31` is on Maven Central; the `chenile-process-management` artifacts follow in the [release train](/developer/release-process/). Opt-in; the default remains synchronous inline execution.
 
 When a [process](/developer/process-management/) changes state, things must happen as a consequence: create a child, signal the parent, start a worker, emit completion. By default those run **inline**. For deployments that need every consequence to survive a crash, `process-outbox` writes each one as a row **in the same database transaction that saves the `Process`** — so a state change and its scheduled consequences commit together or not at all — and a dispatcher executes them with at-least-once delivery and exactly-once effects.
 
