@@ -60,3 +60,5 @@ exclude:
 
 plugins:
   - jekyll-feed
+
+youtube_channel: "https://www.youtube.com/@chenile-t1p"

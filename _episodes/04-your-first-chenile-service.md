@@ -2,11 +2,8 @@
 title: "Your first Chenile service (live demo)"
 order: 4
 duration: "10–12 min"
-video: "/assets/video/ep04.mp4"
-poster: "/assets/video/ep04.jpg"
-captions: "/assets/video/ep04.vtt"
 video_length: "1:26"
-youtube_id: ""   # paste the YouTube video id here once uploaded; the page then embeds YouTube
+youtube_id: "8NQEKVFnYgI"
 summary: "Hands-on: generate an api + service pair and a deployable mini-monolith with jgen, build it, and call it. The definition/implementation split, made real."
 ---
 
