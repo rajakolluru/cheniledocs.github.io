@@ -447,22 +447,33 @@ pre code { background: none; color: inherit; padding: 0; }
 .doc .table-scroll { overflow-x: auto; }
 
 /* ===== ChenAIle banner ===== */
-.chenaile{background:var(--ink);color:#fff;padding:72px 0;position:relative;overflow:hidden;border-top:1px solid rgba(248,144,56,.25);border-bottom:1px solid rgba(248,144,56,.25)}
-.chenaile::before{content:"";position:absolute;inset:0;background:radial-gradient(600px 300px at 15% 50%,rgba(248,144,56,.14),transparent 70%);pointer-events:none}
-.chenaile-inner{display:grid;grid-template-columns:minmax(260px,400px) 1fr;gap:48px;align-items:center;position:relative}
-.chenaile-logo img{width:100%;height:auto;display:block}
-.chenaile-tag{display:inline-block;font-family:var(--mono);font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);background:var(--grad);padding:5px 12px;border-radius:999px;font-weight:700}
-.chenaile h2{font-family:var(--display);font-size:clamp(1.7rem,3vw,2.4rem);margin:16px 0 10px;color:#fff;letter-spacing:-.01em}
-
-.chenaile-lead{color:#cfc8bd;font-size:1.06rem;max-width:620px;margin:0 0 26px}
-.chenaile-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
-.chenaile-card{background:#161412;border:1px solid rgba(248,144,56,.22);border-radius:var(--radius-sm);padding:16px 18px;transition:border-color .2s,transform .2s}
-.chenaile-card:hover{border-color:var(--orange);transform:translateY(-2px)}
-.chenaile-card .ic{font-family:var(--mono);font-size:.72rem;color:var(--orange);letter-spacing:.1em}
-.chenaile-card h3{font-family:var(--display);font-size:1.02rem;color:#fff;margin:4px 0 6px}
-.chenaile-card p{color:#a9a196;font-size:.9rem;margin:0;line-height:1.5}
-@media (max-width:860px){.chenaile-inner{grid-template-columns:1fr;gap:28px}.chenaile-logo{max-width:340px;margin:0 auto}.chenaile-grid{grid-template-columns:1fr}}
-
+.chenaile{background:var(--ink);color:#fff;padding:56px 0 60px;position:relative;overflow:hidden;border-bottom:3px solid var(--orange)}
+.chenaile::before{content:"";position:absolute;inset:0;background:radial-gradient(520px 340px at 22% 45%,rgba(248,144,56,.30),transparent 70%),radial-gradient(600px 300px at 90% 0%,rgba(224,128,30,.18),transparent 70%);pointer-events:none}
+.chenaile .wrap{position:relative}
+.chenaile-inner{display:grid;grid-template-columns:minmax(280px,440px) 1fr;gap:48px;align-items:center}
+.chenaile-logo img{width:100%;height:auto;display:block;filter:drop-shadow(0 0 40px rgba(248,144,56,.25))}
+.chenaile-tag{display:inline-block;font-family:var(--mono);font-size:.8rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink);background:var(--grad);padding:6px 14px;border-radius:999px;font-weight:700;box-shadow:0 0 0 0 rgba(248,144,56,.6);animation:chenaile-pulse 2.4s infinite}
+@keyframes chenaile-pulse{0%{box-shadow:0 0 0 0 rgba(248,144,56,.55)}70%{box-shadow:0 0 0 14px rgba(248,144,56,0)}100%{box-shadow:0 0 0 0 rgba(248,144,56,0)}}
+.chenaile h2{font-family:var(--display);font-weight:800;font-size:clamp(2.2rem,4.6vw,3.7rem);line-height:1.05;margin:18px 0 14px;color:#fff;letter-spacing:-.02em}
+.chenaile-sub{display:block;font-family:var(--font);font-weight:600;font-size:clamp(1rem,1.6vw,1.3rem);letter-spacing:.32em;text-transform:uppercase;color:#e9e2d7;margin-top:12px}
+.chenaile-lead{color:#d8d1c6;font-size:1.15rem;max-width:600px;margin:0}
+.chenaile-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:40px}
+.chenaile-card{background:rgba(255,255,255,.04);border:1px solid rgba(248,144,56,.35);border-top:3px solid var(--orange);border-radius:var(--radius-sm);padding:18px 18px 20px;transition:border-color .2s,transform .2s,background .2s}
+.chenaile-card:hover{border-color:var(--orange);background:rgba(248,144,56,.08);transform:translateY(-3px)}
+.chenaile-card .ic{font-family:var(--mono);font-size:.74rem;color:var(--orange);letter-spacing:.1em}
+.chenaile-card h3{font-family:var(--display);font-weight:700;font-size:1.1rem;color:#fff;margin:6px 0 8px}
+.chenaile-card p{color:#b8b0a4;font-size:.92rem;margin:0;line-height:1.5}
+@media (max-width:980px){.chenaile-grid{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:760px){.chenaile{padding:36px 0 40px}.chenaile-inner{grid-template-columns:1fr;gap:20px;text-align:center}.chenaile-logo{max-width:300px;margin:0 auto}.chenaile-lead{margin:0 auto}.chenaile-grid{grid-template-columns:1fr;margin-top:28px}}
+@media (prefers-reduced-motion:reduce){.chenaile-tag{animation:none}}
+/* ChenAIle announcement bar (every page) */
+.announce{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;background:var(--grad);color:var(--ink);padding:9px 16px;font-size:.95rem;text-align:center;line-height:1.3}
+.announce:hover{text-decoration:none;filter:brightness(1.05)}
+.announce strong{font-family:var(--display);font-weight:800;font-size:1.02rem}
+.announce .ai-hl{color:#fff}
+.announce-pill{background:var(--ink);color:var(--orange);font-family:var(--mono);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;padding:3px 9px;border-radius:999px;font-weight:700}
+.announce-go{font-weight:700;text-decoration:underline;text-underline-offset:3px}
+@media (max-width:760px){.announce-long{display:none}}
 .chenaile-card p a{color:var(--orange-light)}
 /* "AI" highlight in every ChenAIle spelling */
 .ai-hl{color:var(--orange)}
