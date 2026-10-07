@@ -8,6 +8,10 @@
   suffix: "K"
   label: "Lines of production Java"
   note: "Plus ~21K lines of tests"
+- value: 791
+  suffix: ""
+  label: "Automated framework tests"
+  note: "Plus 22 in JGen · zero failures on 2.1.31"
 - value: 74
   suffix: ""
   label: "Maven modules"
