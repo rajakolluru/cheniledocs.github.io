@@ -46,5 +46,8 @@
   url: "/repositories/"
 - title: "Video series"
   url: "/video-series/"
+- title: 'Chen<span class="ai-hl">AI</span>le<span class="soon">soon</span>'
+  url: "/#chenaile"
+  class: "nav-soon"
 - title: "Get started"
   url: "/get-started/"

@@ -20,7 +20,7 @@
         {% elsif item.title == "Get started" %}
           <a class="nav-cta" href="{{ item.url | relative_url }}">{{ item.title }}</a>
         {% else %}
-          <a href="{{ item.url | relative_url }}">{{ item.title }}</a>
+          <a{% if item.class %} class="{{ item.class }}"{% endif %} href="{{ item.url | relative_url }}">{{ item.title }}</a>
         {% endif %}
       {% endfor %}
     </div>
