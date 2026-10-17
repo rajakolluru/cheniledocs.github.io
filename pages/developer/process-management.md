@@ -21,8 +21,7 @@ A trigger raises a `ProcessCreate` event that creates a root `Process`. The stat
 |---|---|
 | `process-api` | Shared model: `Process`, `ProcessDto`, `WorkerDto`, `WorkerType`, the `Constants` catalogue of states/events, payloads, `ProcessCompletedEvent`, the `WorkerStarter` interface and configuration abstraction (`IProcessConfigurator`, `ProcessDef`). |
 | `process-service` | The running service: STM definition, transition commands, `ProcessManagerImpl`, `ProcessController`, `ProcessEntryAction`, `PostSaveHook`, the configurators, durable-execution wiring and Spring configuration. |
-| `process-utils` | Worker base classes — `SplitterBase`, `ExecutorBase`, `AggregatorBase`, orchestrated by `BatchServiceBase`. |
-| `process-delegate` | Client for invoking the manager remotely. |
+| `process-delegate` | Remote manager client, worker APIs and helpers, including `SplitterBase`, `ExecutorBase`, `AggregatorBase` and `BatchServiceBase`. |
 | `process-outbox` | Transactional outbox for [durable execution](/developer/process-outbox/) (database-only, no cycle). |
 | `invm-process-starter` · `q-based-process-starter` · `jdbc-process-starter` | The three interchangeable worker launch strategies. |
 | `chenile-trigger` | Activation layer: durable Quartz crontabs and in-JVM trigger events — see the [trigger framework](/developer/trigger-framework/). |
@@ -87,7 +86,7 @@ Trigger (Quartz crontab, HTTP, or any adapter)
 | `EXECUTING` | `EXECUTOR` | `ProcessDef.config` |
 | `AGGREGATION_PENDING` | `AGGREGATOR` | `ProcessDef.config` |
 
-Every worker type receives the **same** `config` map (copied, never mutated). Workers extend the `process-utils` base classes, which handle payload typing, tenant propagation and error reporting.
+Every worker type receives the **same** `config` map (copied, never mutated). Workers extend the `process-delegate` base classes, which handle payload typing, tenant propagation and error reporting.
 
 <div class="grid-3" style="margin:1.4em 0">
   <div class="card">
