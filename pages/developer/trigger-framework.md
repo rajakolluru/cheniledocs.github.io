@@ -1,69 +1,44 @@
 ---
 layout: doc
 title: Trigger framework architecture
-description: Trigger ingress, durable Quartz schedules, idempotency, and separate execution history for Chenile process starts.
+description: Durable trigger acceptance, shared outbox dispatch, status queries, and process correlation.
 permalink: /developer/trigger-framework/
 ---
 
 # Trigger framework architecture
 
-> **Release status:** new in 2.1.31 — `chenile-parent:2.1.31` is on Maven Central; the `chenile-process-management` artifacts follow in the [release train](/developer/release-process/).
+Trigger sources submit event invocations into the shared `chenile-outbox` infrastructure. The
+trigger API remains independent of cron and process management. There is no separate trigger table.
 
-Chenile's trigger framework normalizes external activation into an existing in-JVM
-Chenile event. It does not create a second event bus: after validation, the framework
-invokes the existing `EventProcessor` synchronously.
+## Acceptance and identity
 
-## Common trigger envelope
+POST /trigger accepts eventId, the original payload, x-prefixed headers, generic triggerContext,
+triggerTime and an optional idempotencyKey. It commits acceptance before returning HTTP 202. The
+Chenile response payload contains only `{"triggerId":"<outbox-id>"}`. No event is invoked during submission.
+The Location header and GET /trigger/{id} provide tenant-scoped status queries.
 
-Every source produces a fully formed trigger input: trigger ID, event ID, trigger time, headers,
-and event payload. Quartz adds schedule identity and fire times to the headers. An adapter
-supplies the trigger ID, or the framework generates one when absent. A completed trigger/event
-pair is never dispatched twice.
+The outbox ID is the trigger ID. Dispatch sets x-chenile-trigger-id to this ID, and a resulting process
+records it for correlation. Retry keys are separate: the same tenant/event/key returns the original
+acknowledgement, including after failure. Without a key, every submission is a new trigger.
 
-## Direct events and durable crontabs
+## Execution and recovery
 
-There is no trigger-to-event mapping configuration. A trigger is already an event: its adapter
-supplies the event ID, payload, and headers. The Chenile event definition determines the Java
-type used to construct the event-processor payload. Event consumers validate their own mandatory
-fields; for example, the `ProcessCreate` `ProcessDto` payload contains its ProcessDef name and
-arguments.
+The shared dispatcher claims the command, restores x-headers and tenant context, and passes the
+payload unchanged to EventProcessor. Chenile's transformation pipeline selects the subscriber's
+input type. Invocation output is logged only. Local subscriber changes and DONE acknowledgement
+commit together. A rolled-back attempt may run again; external systems need their own idempotency.
 
-Quartz schedules have a separate durable `chenile_crontab` table. Each row contains its name,
-enabled flag, cron expression, timezone, destination event, optional headers and event-payload
-JSON. The event-payload JSON is the complete payload for the configured event. Thus a
-`ProcessCreate` schedule stores its ProcessDef name and arguments inside that payload, not in
-separate crontab columns. Changing a row registers, reschedules, or removes its Quartz job.
+Status progresses through PENDING, RUNNING, DONE or DEAD. Failures retry with the shared outbox
+lease, fencing and backoff rules. A missing subscriber is a failure. Preserve trigger command
+identities and decodable envelopes so status and duplicate suppression survive retention cleanup.
 
-## Audit and process lineage
+## Cron and process lineage
 
-The trigger-specific `TriggerLog` in `trigger_log` is an idempotency ledger only.
-It does not store process-create audit events or general-purpose category/phase
-columns. Separate trigger-execution history retains start/end times, event payload,
-source attributes, outcomes, and associated process IDs.
+`crontab-trigger` depends only on trigger-api. Quartz schedules remain in chenile_crontab. A firing
+uses schedule ID and Quartz fire identity as a submission key; the acknowledged trigger ID is
+assigned separately. Cron metadata and all configured/generated x-headers are triggerContext JSON.
+The scheduler passes eventPayloadJson unchanged; subscriber conversion validates the event body.
 
-The trigger claim is persisted before synchronous event delivery and later marked completed or
-failed. The standard `ProcessCreate` subscriber creates a root process from a required ProcessDef
-name and arguments, linking its process ID to the trigger ID. The existing process service also
-exposes this same operation at `POST /process`. Processes retain trigger, parent,
-and predecessor lineage; separately persisted completion events connect downstream
-processes. The management API and React dashboard expose these relationships,
-execution timelines, and end-to-end traces. This history is separate from trigger
-idempotency and durable outbox consumer receipts.
-
-Tenant isolation uses the standard `x-chenile-tenant-id` header and the inherited
-`BaseJpaEntity.tenant` column. `Process` does not maintain separate tenant or client fields.
-
-## First-release scope
-
-- `chenile-trigger` in `chenile-process-management`, with a trigger-only ledger;
-- generic direct-event trigger service, with no CConfig mapping dependency;
-- persistent Quartz crontab adapter;
-- ProcessManager `ProcessCreate` subscriber, execution history, and process lineage.
-
-File-watch and broker-message adapters will follow the same contract later.
-
-The original [ADR-0001](https://github.com/rajakolluru/chenile-ppt/blob/main/adr/0001-chenile-trigger-framework.md)
-includes an implementation update explaining the superseded generic logger design.
-See the [2.1.31 release notes]({{ '/release-notes/2.1.31/' | relative_url }}) and
-[runtime guide](https://github.com/ajapros/chenile-process-management/blob/main/docs/process-management.md)
-for current behavior and operational constraints.
+Processes keep trigger, parent and predecessor correlation. Completion and chaining use terminal
+process state and transactional receipts; no separate completion-event snapshot is required.
+The management API and React dashboard read trigger history from DISPATCH_TRIGGER commands.

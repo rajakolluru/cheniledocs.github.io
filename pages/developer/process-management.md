@@ -20,11 +20,11 @@ A trigger raises a `ProcessCreate` event that creates a root `Process`. The stat
 | Module | Role |
 |---|---|
 | `process-api` | Shared model: `Process`, `ProcessDto`, `WorkerDto`, `WorkerType`, the `Constants` catalogue of states/events, payloads, `ProcessCompletedEvent`, the `WorkerStarter` interface and configuration abstraction (`IProcessConfigurator`, `ProcessDef`). |
-| `process-service` | The running service: STM definition, transition commands, `ProcessManagerImpl`, `ProcessController`, `ProcessEntryAction`, `PostSaveHook`, the configurators, durable-execution wiring and Spring configuration. |
+| `process-service` | The running service: STM definition, transition commands, `ProcessManagerImpl`, `ProcessController`, `ProcessEntryAction`, the configurators, durable-execution wiring and Spring configuration. |
 | `process-delegate` | Remote manager client, worker APIs and helpers, including `SplitterBase`, `ExecutorBase`, `AggregatorBase` and `BatchServiceBase`. |
-| `process-outbox` | Transactional outbox for [durable execution](/developer/process-outbox/) (database-only, no cycle). |
+| `chenile-outbox` | Transactional outbox for [durable execution](/developer/process-outbox/) (database-only, no cycle). |
 | `invm-process-starter` · `q-based-process-starter` · `jdbc-process-starter` | The three interchangeable worker launch strategies. |
-| `chenile-trigger` | Activation layer: durable Quartz crontabs and in-JVM trigger events — see the [trigger framework](/developer/trigger-framework/). |
+| `trigger-api` · `trigger-service` · `crontab-trigger` | Durable trigger acceptance, shared outbox dispatch and Quartz schedules — see the [trigger framework](/developer/trigger-framework/). |
 | `process-admin-server` · `process-ui` | Runnable administrator host and React dashboard — see [administration](/developer/process-admin/). |
 
 ## The domain model
@@ -156,3 +156,13 @@ Since [2.1.30](/release-notes/2.1.30/), worker payload failures are **reported t
 
 <div class="callout"><div class="t">Where to look</div>
 Repository <code>ajapros/chenile-process-management</code>: the state machine is <code>process-service/src/main/resources/org/chenile/orchestrator/process/process-states.xml</code>; design decisions live under <code>docs/adr</code>. Integration tests (<code>TestFeeds</code>, <code>TestFile</code>, <code>TestChunks</code>) drive a full feed → file → chunk cascade in synchronous and asynchronous modes.</div>
+
+## Durable trigger acceptance
+
+POST /trigger acknowledges HTTP 202 only after committing a DISPATCH_TRIGGER command. Its payload
+contains only triggerId, the outbox ID. An optional idempotencyKey scopes submission retries by tenant
+and event. GET /trigger/{id} reads PENDING, RUNNING, DONE or DEAD in the caller tenant. The worker
+invokes EventProcessor later; invocation output is logged, not returned. That outbox ID becomes the
+x-chenile-trigger-id and process correlation. There is no trigger_log table. Cron identity, timing
+and x-headers are generic triggerContext JSON. Local subscriber effects and command acknowledgement
+commit together; external effects still need receiver-side idempotency.
