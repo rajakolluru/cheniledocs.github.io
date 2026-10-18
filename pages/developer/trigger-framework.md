@@ -16,6 +16,10 @@ POST /trigger accepts eventId, the original payload, x-prefixed headers, generic
 triggerTime and an optional idempotencyKey. It commits acceptance before returning HTTP 202. The
 Chenile response payload contains only `{"triggerId":"<outbox-id>"}`. No event is invoked during submission.
 The Location header and GET /trigger/{id} provide tenant-scoped status queries.
+`TriggerResult` implements Chenile's `ResponseHeadersAware` contract to expose that header;
+`@ChenileResponseCodes(success = 202, warning = 202)` supplies the status. The controller simply
+calls `process(...)`, with no special header construction or response-body code rewriting.
+The header metadata is excluded from the JSON payload.
 
 The outbox ID is the trigger ID. Dispatch sets x-chenile-trigger-id to this ID, and a resulting process
 records it for correlation. Retry keys are separate: the same tenant/event/key returns the original
