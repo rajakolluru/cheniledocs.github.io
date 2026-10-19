@@ -178,3 +178,20 @@ highway. Every operation delegates to `process(...)`; the service owns validatio
 isolation, and transactions. Successful responses use standard Chenile envelopes with HTTP 200;
 invalid input returns 400 and absent/foreign-tenant records return 404. Quartz changes run after
 commit. See the crontab service README for request examples and BDD coverage.
+
+## Standalone process-definition REST API
+
+The `ProcessDefinitionService` contract is in `process-api`; implementation and Chenile controller
+are in `process-service`. POST `/process-definitions` creates a definition (201), PUT
+`/process-definitions/{processType}` replaces it (200), and GET on those routes lists/retrieves
+definitions (200). Responses use the standard Chenile envelope and `ProcessDef` objects.
+The service is available independently of the optional management dashboard; existing management
+endpoints delegate to the same implementation and retain their response format.
+
+Definitions remain global. Database mode permits transactional writes and clears the local runtime
+cache only after commit; JSON mode supports reads and rejects writes with 409. Validation errors
+return 400, missing definitions return 404, and duplicate creation returns 409. Body/path identities
+must agree. Parent and predecessor cycles are rejected while forward references are allowed for
+incremental graph entry. There is no delete endpoint, cross-replica cache invalidation, or worker
+code generation at runtime. Hosts apply their administrative authorization policy. Cucumber tests
+exercise the highway, real persistence, global visibility, errors, and cache/rollback behavior.
