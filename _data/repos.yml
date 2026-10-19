@@ -20,7 +20,7 @@
 - name: "chenile-process-management"
   layer: "Application blueprints"
   blurb: "Orchestration for long-running parent and child processes: splitter/aggregator trees, pluggable worker starters, trigger ingress with cron schedules, a shared mandatory durable outbox, and an administrator API with a React dashboard."
-  modules: ["process-api", "process-service", "process-delegate", "invm-process-starter", "q-based-process-starter", "jdbc-process-starter", "chenile-outbox", "trigger-api", "trigger-service", "crontab-trigger", "process-admin-server", "process-ui"]
+  modules: ["process-api", "process-service", "process-delegate", "invm-process-starter", "q-based-process-starter", "jdbc-process-starter", "chenile-outbox", "trigger-api", "trigger-service", "crontab-api", "crontab-service", "process-admin-server", "process-ui"]
   icon: "🧭"
 
 - name: "chenile-service-registry"

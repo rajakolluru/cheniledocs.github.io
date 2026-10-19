@@ -13,7 +13,7 @@ Three pieces make [process management](/developer/process-management/) operable 
 
 - a **management API** — an opt-in Spring MVC administration API inside any process host;
 - **`process-ui`** — a React dashboard for schedules, triggers, definitions, process trees and end-to-end traces;
-- **`process-admin-server`** — a runnable Spring Boot host that bundles the API with database definitions, Quartz, the [outbox](/developer/process-outbox/) and JDBC worker delivery.
+- **`process-admin-server`** — a runnable Spring Boot host that bundles the API with database definitions, Quartz, the [outbox](/developer/process-outbox/) and **in-VM** worker delivery (production hosts add a durable starter via the process-deployment blueprint).
 
 It is an **administrator console**, not an end-user application.
 
@@ -35,7 +35,7 @@ PROCESS_API_TARGET=http://127.0.0.1:8080 npm run dev
 
 Open the Vite URL, enter a tenant (e.g. `default`) and the key. The dev proxy forwards only `/process-management/api`. For production, `npm run build` and serve `dist` behind a same-origin reverse proxy that forwards `/process-management/api/*`.
 
-> **What runs the work?** The server enqueues splitter/executor/aggregator jobs into `chenile_process_work_item` but ships **no business workers**. Run your application's JDBC workers (registered `BatchService` implementations) against the same database; a leaf can show `EXECUTING` while its job waits `PENDING` until they do.
+> **What runs the work?** This stock host uses the **in-VM** starter and ships **no business workers**, so a `START_WORKER` no-ops and a leaf can sit in `EXECUTING` while nothing runs it. It is meant to run the engine, management API and scheduler. For real execution, generate a production deployment with the [process-deployment blueprint](/developer/jgen-blueprints/): a server with a durable starter (JDBC or queue-based) plus worker monoliths packaging your splitters/executors/aggregators.
 
 ## Enable the API in your own host
 
@@ -91,8 +91,8 @@ Cron creation and editing, manual `ProcessCreate`, execution history for every t
 
 ## History semantics
 
-`TriggerLog` stays an idempotency store only. `chenile_trigger_execution` records accepted dispatches — source, scheduled/received/start/finish times, event, payload, failure details and cron ID; duplicates add no history. `COMPLETED` means dispatch returned, not that its processes finished. `chenile_process_completion_event` records each `ProcessCompleted` payload with its generation time, transactionally with the process under the outbox. Graph edges use stored IDs, not timestamp guesses; legacy relationships show as `LEGACY_SUCCESSOR`. Choose your own retention policy for argument data and errors.
+Execution history is a filtered view of `DISPATCH_TRIGGER` rows in the shared `chenile_process_outbox` — there is no separate `trigger_log` or `chenile_trigger_execution` table. Each row carries its source, scheduled/received/start/finish times, event, payload, failure details and cron ID; the outbox idempotency key suppresses duplicate acceptances, so duplicates add no history. Status reads `PENDING` / `RUNNING` / `DONE` / `DEAD`; `DONE` means dispatch returned, not that its processes finished. Completion is derived from a process's terminal state and its transactional receipts — there is no `chenile_process_completion_event` snapshot table. Graph edges use stored IDs, not timestamp guesses; legacy relationships show as `LEGACY_SUCCESSOR`. Choose your own retention policy for argument data and errors.
 
 ## Production (PostgreSQL)
 
-Without `dev`, the server needs `PROCESS_DATABASE_URL`, `PROCESS_DATABASE_USERNAME` and `PROCESS_DATABASE_PASSWORD`, validates (never creates) the JPA schema, and checks that delivery tables exist. Provision the process/trigger schema plus `chenile-process-outbox-schema.sql`, `chenile-process-work-schema.sql` and `chenile-process-management-history-schema.sql` with your migration tooling. It binds to loopback by default — expose it only through a secured HTTPS gateway.
+Without `dev`, the server needs `PROCESS_DATABASE_URL`, `PROCESS_DATABASE_USERNAME` and `PROCESS_DATABASE_PASSWORD`, validates (never creates) the JPA schema, and checks that delivery tables exist. Provision the process schema plus `chenile-process-outbox-schema.sql` and `chenile-process-management-history-schema.sql` with your migration tooling (there is no separate trigger schema — triggers live in the outbox table; and this in-VM host needs no `chenile_process_work_item` — a JDBC-starter host adds `chenile-process-work-schema.sql`). It binds to loopback by default — expose it only through a secured HTTPS gateway.

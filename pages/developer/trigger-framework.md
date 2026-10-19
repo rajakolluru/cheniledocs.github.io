@@ -38,7 +38,8 @@ identities and decodable envelopes so status and duplicate suppression survive r
 
 ## Cron and process lineage
 
-`crontab-trigger` depends only on trigger-api. Quartz schedules remain in chenile_crontab. A firing
+`crontab-api` owns schedule models and contracts; `crontab-service` implements them and depends on
+trigger-api for event submission, never trigger-service. Quartz schedules remain in chenile_crontab. A firing
 uses schedule ID and Quartz fire identity as a submission key; the acknowledged trigger ID is
 assigned separately. Cron metadata and all configured/generated x-headers are triggerContext JSON.
 The scheduler passes eventPayloadJson unchanged; subscriber conversion validates the event body.

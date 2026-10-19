@@ -9,7 +9,7 @@ permalink: /developer/process-management/
 
 Some work doesn't fit a single request/response: a long-running job that fans out into many sub-jobs and is only done when **all** of them finish. `chenile-process-management` orchestrates exactly this — the classic **splitter / aggregator (map-reduce)** pattern — on Chenile's [state machine](https://thefinito.org). The flow is declared once as data; the work itself is done by pluggable workers that run outside the state machine and report back by raising events.
 
-> **2.1.31** substantially revamps this module: unified process configuration, predecessor-driven chaining, trigger lineage, an optional [durable outbox](/developer/process-outbox/), a [management API and React dashboard](/developer/process-admin/), and a [JGen blueprint](/developer/jgen-blueprints/#process-management) that generates typed multi-level process applications. See the [2.1.31 release notes](/release-notes/2.1.31/) for migration steps.
+> **2.1.31** substantially revamps this module: unified process configuration, predecessor-driven chaining, trigger lineage, an always-on [durable outbox](/developer/process-outbox/) (shared with the trigger framework), a [management API and React dashboard](/developer/process-admin/), and a [JGen blueprint](/developer/jgen-blueprints/#process-management) that generates typed multi-level process applications. See the [2.1.31 release notes](/release-notes/2.1.31/) for migration steps.
 
 ## At a glance
 
@@ -24,7 +24,7 @@ A trigger raises a `ProcessCreate` event that creates a root `Process`. The stat
 | `process-delegate` | Remote manager client, worker APIs and helpers, including `SplitterBase`, `ExecutorBase`, `AggregatorBase` and `BatchServiceBase`. |
 | `chenile-outbox` | Transactional outbox for [durable execution](/developer/process-outbox/) (database-only, no cycle). |
 | `invm-process-starter` · `q-based-process-starter` · `jdbc-process-starter` | The three interchangeable worker launch strategies. |
-| `trigger-api` · `trigger-service` · `crontab-trigger` | Durable trigger acceptance, shared outbox dispatch and Quartz schedules — see the [trigger framework](/developer/trigger-framework/). |
+| `trigger-api` · `trigger-service` · `crontab-api` · `crontab-service` | Durable trigger acceptance, shared outbox dispatch and Quartz schedules — see the [trigger framework](/developer/trigger-framework/). |
 | `process-admin-server` · `process-ui` | Runnable administrator host and React dashboard — see [administration](/developer/process-admin/). |
 
 ## The domain model
@@ -122,7 +122,7 @@ insert into process_definition (process_type, definition) values
 
 ## Completion and chaining
 
-A terminal process emits a transport-neutral `ProcessCompletedEvent` (it extends `ProcessDto`) carrying `processId`, `processType`, `tenantId`, `triggerId`, `state`, `input`, `output` and `successful`. The process manager subscribes to completion ingress: every definition whose **`predecessorProcessType`** matches the completed type is started as a new process, with **`predecessorArgs`** choosing what it receives — `INPUT`, `OUTPUT` or `BOTH` (default). Processes retain **trigger, parent and predecessor lineage**, and each completion is recorded in `chenile_process_completion_event`, so an execution can be traced end to end. Under durable execution, chaining is part of the completion command's transaction; delivery to arbitrary application subscribers stays best-effort after commit.
+A terminal process emits a transport-neutral `ProcessCompletedEvent` (it extends `ProcessDto`) carrying `processId`, `processType`, `tenantId`, `triggerId`, `state`, `input`, `output` and `successful`. The process manager subscribes to completion ingress: every definition whose **`predecessorProcessType`** matches the completed type is started as a new process, with **`predecessorArgs`** choosing what it receives — `INPUT`, `OUTPUT` or `BOTH` (default). Processes retain **trigger, parent and predecessor lineage**, so an execution can be traced end to end from the stored IDs and each process's terminal state and state-entry time — there is no `chenile_process_completion_event` snapshot table. Chaining is part of the `EMIT_COMPLETED` command's transaction; delivery to arbitrary application subscribers stays best-effort after commit.
 
 ## Multi-tenancy
 
@@ -137,8 +137,7 @@ Since [2.1.30](/release-notes/2.1.30/), worker payload failures are **reported t
 | Property | Default | Meaning |
 |---|---|---|
 | `chenile.process.configurator` | `json` | `json` or `database` definition source |
-| `chenile.process.outbox.enabled` | `false` | enable the [durable transactional outbox](/developer/process-outbox/) |
-| `chenile.process.outbox.run-dispatcher` | `true` | run the draining poller on this instance |
+| `chenile.process.outbox.run-dispatcher` | `true` | run the draining poller on this instance (the [durable outbox](/developer/process-outbox/) itself is always on) |
 | `chenile.process.outbox.poll-interval-millis` | `1000` | poller interval |
 | `chenile.process.outbox.lock-seconds` | `300` | outbox command lease |
 | `chenile.process.outbox.max-attempts` | `5` | retries before a command is `DEAD` |
@@ -166,3 +165,16 @@ invokes EventProcessor later; invocation output is logged, not returned. That ou
 x-chenile-trigger-id and process correlation. There is no trigger_log table. Cron identity, timing
 and x-headers are generic triggerContext JSON. Local subscriber effects and command acknowledgement
 commit together; external effects still need receiver-side idempotency.
+
+## Crontab API and service split
+
+`crontab-api` contains the shared JPA model and service/reader contracts. `crontab-service`
+contains implementations, persistence, validation, Quartz integration, and the Chenile controller.
+Replace the old `crontab-trigger` Maven dependency with `crontab-service` (or only `crontab-api`
+for contract consumers). Public Java packages and database schema are unchanged.
+
+The controller exposes POST/GET `/crontab` and GET/DELETE `/crontab/{id}` through the Chenile
+highway. Every operation delegates to `process(...)`; the service owns validation, tenant
+isolation, and transactions. Successful responses use standard Chenile envelopes with HTTP 200;
+invalid input returns 400 and absent/foreign-tenant records return 404. Quartz changes run after
+commit. See the crontab service README for request examples and BDD coverage.

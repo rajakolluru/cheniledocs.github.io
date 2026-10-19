@@ -164,3 +164,18 @@ The trigger acknowledgement is a concrete example: `TriggerResult` exposes
 `Location: /trigger/<outbox-id>`, and the trigger operation configures HTTP 202. Its controller
 contains no special response-header or status-rewriting logic. Header publication does not change
 the guarantee that durable acceptance commits before the acknowledgement is returned.
+
+## Service blueprint controller pattern
+
+New service controllers follow the `bp-service` blueprint. Put shared models and external
+service/reader interfaces in `name-api`, and implementations, repositories, wiring, and HTTP
+controllers in `name-service`. Use `@RestController`, `@ChenileController`, and `ControllerSupport`;
+each operation delegates to `process(...)` with all bound arguments in service-signature order.
+Controllers do not call implementations/repositories directly or handle validation and transactions.
+Use typed Chenile envelopes, Chenile exceptions, configured response codes, and header-aware result
+objects. Persistence scans belong to the host application rather than library configuration.
+
+BDD uses Cucumber REST steps from `cucumber-utils`, Spring glue, and the real Chenile highway and
+service implementation. Pass tenant headers explicitly and cover persistence, errors, tenant
+isolation, and external effects at the proper transaction boundary. The split `crontab-api` and
+`crontab-service` modules provide an example, including the `/crontab` controller and feature suite.
