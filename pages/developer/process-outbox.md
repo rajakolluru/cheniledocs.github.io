@@ -7,7 +7,7 @@ permalink: /developer/process-outbox/
 
 # Durable process outbox
 
-> **Release status:** `chenile-parent:{{ site.maven_version }}` is on Maven Central; the `chenile-process-management` artifacts follow in the [release train](/developer/release-process/). Durable delivery is **always on** — there is no inline mode and no enable flag.
+> **Release status:** the current source version is `{{ site.maven_version }}`. The 2.1.33 upgrade is built, tested and pushed; Maven Central publication is pending. See the [release status](/developer/release-process/#release-status-2133). Durable delivery is **always on** — there is no inline mode and no enable flag.
 
 When a [process](/developer/process-management/) changes state, things must happen as a consequence: create a child, signal the parent, start a worker, emit completion. Those consequences are **never run inline**: `chenile-outbox` writes each one as a row **in the same database transaction that saves the `Process`** — so a state change and its scheduled consequences commit together or not at all — and a dispatcher executes them with at-least-once delivery and exactly-once effects. The outbox is general-purpose: the [trigger framework](/developer/trigger-framework/) rides the same table and dispatcher via a `DISPATCH_TRIGGER` command.
 

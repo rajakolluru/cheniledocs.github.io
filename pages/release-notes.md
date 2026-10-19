@@ -12,6 +12,8 @@ Chenile's repositories are versioned together under `chenile-parent` and release
 
 ## By version
 
+- [**2.1.33**]({{ '/release-notes/2.1.33/' | relative_url }}) — *(built and tested; publication pending)* shared outbox and split crontab dependency management, server/worker process blueprints, composable generation and declarative input validation.
+
 - [**2.1.31**]({{ '/release-notes/2.1.31/' | relative_url }}) — *(release prepared; parent published, dependent artifacts pending)* transport-neutral services, service-registry controls, durable process commands, trigger history, the React management dashboard, and multi-level JGen process blueprints.
 - [**2.1.30**]({{ '/release-notes/2.1.30/' | relative_url }}) — numeric JPA id support; release-train alignment.
 - [**2.1.29**]({{ '/release-notes/2.1.29/' | relative_url }}) — release alignment across the 11 repositories and documentation refresh.

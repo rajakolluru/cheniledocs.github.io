@@ -59,6 +59,15 @@ done
 - **Javadoc** — bump the parent in `chenile-javadoc/pom.xml`; building the aggregation POM does not publish the Javadoc site by itself.
 - **This website** — `maven_version` in `_config.yml` drives every "latest release" string. A daily workflow (`scripts/update-version.sh`) follows Maven Central but **never downgrades**, so a work-in-progress version set by hand survives. Add release notes under `pages/release-notes/`, and refresh [Chenile by the numbers](/by-the-numbers/) with `python3 scripts/codebase-stats.py ..`.
 
-## Release status: 2.1.31
+## Release status: 2.1.33
 
-As of October 3, 2026 every framework repository builds and passes its tests against `2.1.31` (791 framework tests, plus 22 in JGen, with zero failures), annotated tags mark the verified commits, and **`org.chenile:chenile-parent:2.1.31` is published on Maven Central**. Deployment of the remaining ten repositories, JGen and the Javadoc site follows in the order above. See the [2.1.31 release notes](/release-notes/2.1.31/).
+As of October 20, 2026, all 11 framework repositories build and pass their Maven
+tests against `2.1.33`. JGen, STM CLI and the Javadoc aggregation build also pass;
+the process UI passes its nine tests and production build. The version-alignment
+commits are pushed, and the website and JGen default select `2.1.33`.
+
+**2.1.33 is prepared; no release tags or Maven Central deployment were performed
+in this upgrade.** The published `chenile-parent:2.1.32` predates the shared outbox
+and crontab dependency-management updates now included in 2.1.33. Publish the new
+parent and verify it on Maven Central before publishing dependent artifacts.
+See the [2.1.33 release notes](/release-notes/2.1.33/).

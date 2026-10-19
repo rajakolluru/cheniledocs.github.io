@@ -44,7 +44,7 @@ These guides focus on implementing Chenile services and safely extending their r
 
 - [Admin UI]({{ '/developer/admin-ui/' | relative_url }}) — a drop-in React console at `/chenile/admin` for inspecting services, definitions, health, workflow diagrams and the service registry.
 - [Config Maven plugin]({{ '/developer/config-maven-plugin/' | relative_url }}) — generate the service-registry JSON of a deployable at build time.
-- [JGen blueprint reference]({{ '/developer/jgen-blueprints/' | relative_url }}) — every built-in blueprint and its prompts, including the 2.1.31 headless-service, ecosystem and process-management generators.
+- [JGen blueprint reference]({{ '/developer/jgen-blueprints/' | relative_url }}) — every built-in blueprint and its prompts, including server/worker process deployments, composable and aggregated generation, and declarative validation; aligned to Chenile {{ site.maven_version }}.
 - [Releasing Chenile]({{ '/developer/release-process/' | relative_url }}) — the 11-repository release train, annotated tags, and the parent-first Maven Central gate.
 - [Chenile by the numbers]({{ '/by-the-numbers/' | relative_url }}) — how much code, tests and documentation make up the 11 repositories.
 

@@ -7,7 +7,7 @@ permalink: /developer/process-admin/
 
 # Process administration — API, dashboard &amp; server
 
-> **Release status:** new in 2.1.31 — `chenile-parent:2.1.31` is on Maven Central; the `chenile-process-management` artifacts follow in the [release train](/developer/release-process/).
+> **Release status:** the current source version is `{{ site.maven_version }}`. The 2.1.33 upgrade is built, tested and pushed; Maven Central publication is pending. See the [release status](/developer/release-process/#release-status-2133).
 
 Three pieces make [process management](/developer/process-management/) operable without writing SQL:
 
