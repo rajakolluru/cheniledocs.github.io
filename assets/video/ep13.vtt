@@ -1,0 +1,325 @@
+WEBVTT
+
+1
+00:00:03.800 --> 00:00:06.910
+Some work doesn't fit a single request and response.
+
+2
+00:00:07.010 --> 00:00:09.070
+A long job that fans out into many
+
+3
+00:00:09.070 --> 00:00:11.510
+— done only when all of them finish.
+
+4
+00:00:11.610 --> 00:00:12.720
+Do it the naive way,
+
+5
+00:00:12.720 --> 00:00:15.570
+and a crash halfway through strands everything.
+
+6
+00:00:15.670 --> 00:00:17.320
+Chenile declares it as data,
+
+7
+00:00:17.320 --> 00:00:20.340
+generates the plumbing, and survives the crash.
+
+8
+00:00:20.990 --> 00:00:24.180
+The idea is to split the work into two kinds of thing.
+
+9
+00:00:24.280 --> 00:00:25.840
+A brain that owns the state
+
+10
+00:00:25.840 --> 00:00:28.390
+— what happens next, and never loses it.
+
+11
+00:00:28.490 --> 00:00:30.690
+And a muscle that does the actual work.
+
+12
+00:00:30.690 --> 00:00:33.370
+Stateless, and you run as many as you like.
+
+13
+00:00:33.470 --> 00:00:35.820
+In p1 that's two small deployables.
+
+14
+00:00:35.820 --> 00:00:37.620
+One server, one worker.
+
+15
+00:00:37.720 --> 00:00:40.360
+Between them, one Kafka topic and a callback.
+
+16
+00:00:40.360 --> 00:00:42.130
+That's the whole coupling.
+
+17
+00:00:42.230 --> 00:00:45.250
+And the flow itself is declared once, as data.
+
+18
+00:00:45.900 --> 00:00:47.160
+Here's p1 as data:
+
+19
+00:00:47.160 --> 00:00:48.880
+a batch, and an item.
+
+20
+00:00:48.980 --> 00:00:51.130
+Leaf or not decides the worker.
+
+21
+00:00:51.130 --> 00:00:54.840
+A leaf executes; a non-leaf splits and aggregates.
+
+22
+00:00:54.940 --> 00:00:58.450
+Typed fields become typed input and output objects.
+
+23
+00:00:58.550 --> 00:01:01.870
+Each definition names the topic its work rides on.
+
+24
+00:01:01.970 --> 00:01:03.680
+Schedules live in their own file
+
+25
+00:01:03.680 --> 00:01:05.850
+— seeded off until you turn them on.
+
+26
+00:01:06.500 --> 00:01:08.520
+One JGen blueprint turns those
+
+27
+00:01:08.520 --> 00:01:11.190
+two files into a running deployment.
+
+28
+00:01:11.290 --> 00:01:13.410
+It composes smaller blueprints
+
+29
+00:01:13.410 --> 00:01:16.830
+— a server, a worker, one JAR per definition.
+
+30
+00:01:16.930 --> 00:01:20.470
+The server holds the state and ships no business logic.
+
+31
+00:01:20.570 --> 00:01:23.710
+The worker is a headless Chenile listener on Kafka
+
+32
+00:01:23.710 --> 00:01:25.150
+— itself generated.
+
+33
+00:01:25.250 --> 00:01:29.250
+And one worker module per process type, waiting for your logic.
+
+34
+00:01:29.350 --> 00:01:32.390
+Everything but the domain logic is generated.
+
+35
+00:01:33.040 --> 00:01:35.830
+The splitter turns one batch into many children.
+
+36
+00:01:35.930 --> 00:01:38.110
+For each item, make a typed payload.
+
+37
+00:01:38.110 --> 00:01:40.530
+The base class reports back for you.
+
+38
+00:01:40.630 --> 00:01:42.200
+The executor is the leaf
+
+39
+00:01:42.200 --> 00:01:44.740
+— typed input in, typed output out.
+
+40
+00:01:44.840 --> 00:01:46.120
+Do the real work here.
+
+41
+00:01:46.120 --> 00:01:48.570
+Throw, and it's recorded as a failure.
+
+42
+00:01:48.670 --> 00:01:51.480
+The aggregator folds the children back together.
+
+43
+00:01:51.580 --> 00:01:54.770
+Chenile ships the result type, so you don't invent one.
+
+44
+00:01:54.870 --> 00:01:55.740
+Three methods.
+
+45
+00:01:55.740 --> 00:01:58.300
+No dispatch, no retries, no plumbing.
+
+46
+00:01:58.950 --> 00:02:00.320
+Watch one batch run.
+
+47
+00:02:00.320 --> 00:02:03.130
+A trigger commits durably and returns 202
+
+48
+00:02:03.130 --> 00:02:04.960
+— before any work runs.
+
+49
+00:02:05.060 --> 00:02:06.400
+It replays as a create.
+
+50
+00:02:06.400 --> 00:02:08.680
+The batch enters the state machine.
+
+51
+00:02:08.780 --> 00:02:11.050
+Its next step is written to the outbox,
+
+52
+00:02:11.050 --> 00:02:13.450
+in the same transaction as the state.
+
+53
+00:02:13.550 --> 00:02:17.510
+A poller publishes the work to Kafka, carrying the tenant along.
+
+54
+00:02:17.610 --> 00:02:20.440
+The worker consumes it and routes to your splitter.
+
+55
+00:02:20.540 --> 00:02:21.730
+The splitter calls back
+
+56
+00:02:21.730 --> 00:02:24.140
+— finding the server through the registry.
+
+57
+00:02:24.240 --> 00:02:28.440
+Three items are created, each executed over the very same loop.
+
+58
+00:02:28.540 --> 00:02:29.960
+Then the batch aggregates,
+
+59
+00:02:29.960 --> 00:02:32.400
+reaches processed, and emits completion.
+
+60
+00:02:33.050 --> 00:02:35.350
+Kafka can deliver a message twice.
+
+61
+00:02:35.450 --> 00:02:38.320
+Three guards turn that into exactly-once effects.
+
+62
+00:02:38.420 --> 00:02:40.660
+A replayed child is counted once; a
+
+63
+00:02:40.660 --> 00:02:43.410
+replayed completion makes no duplicate.
+
+64
+00:02:43.510 --> 00:02:44.600
+Crash the worker.
+
+65
+00:02:44.600 --> 00:02:45.560
+Nothing is lost
+
+66
+00:02:45.560 --> 00:02:47.340
+— the work just resumes.
+
+67
+00:02:47.440 --> 00:02:50.980
+State and its consequences commit together, or not at all.
+
+68
+00:02:51.630 --> 00:02:53.530
+Start the server, then the worker.
+
+69
+00:02:53.530 --> 00:02:55.680
+The worker joins a consumer group.
+
+70
+00:02:55.780 --> 00:02:56.720
+Need throughput?
+
+71
+00:02:56.720 --> 00:02:57.720
+Run more workers.
+
+72
+00:02:57.720 --> 00:02:59.550
+The broker shares the load.
+
+73
+00:02:59.650 --> 00:03:01.610
+Kick off a batch with one call.
+
+74
+00:03:01.710 --> 00:03:02.760
+Watch the tree fill
+
+75
+00:03:02.760 --> 00:03:05.010
+— a batch, its items, turning green.
+
+76
+00:03:05.110 --> 00:03:06.970
+Every causal edge is queryable,
+
+77
+00:03:06.970 --> 00:03:09.330
+and you can watch the outbox drain.
+
+78
+00:03:09.980 --> 00:03:12.020
+A brain, a muscle, one topic.
+
+79
+00:03:12.020 --> 00:03:14.880
+Declared as data, durable by default.
+
+80
+00:03:14.980 --> 00:03:18.470
+The full tutorial and the p1 sample are linked below.
+
+81
+00:03:18.570 --> 00:03:19.870
+Go build one.

@@ -12,6 +12,8 @@ items:
     url: "/developer/security/"
   - title: "Process management"
     url: "/developer/process-management/"
+  - title: "Process deployment tutorial (p1)"
+    url: "/developer/process-deployment-tutorial/"
   - title: "Durable process outbox"
     url: "/developer/process-outbox/"
   - title: "Process administration &amp; dashboard"

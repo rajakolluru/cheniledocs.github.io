@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>p1 — Chenile process deployment (animated)</title>
+<style>
+  :root{
+    --bg:#0e1420; --panel:#151d2c; --panel2:#1b2638; --ink:#e7eef7; --muted:#93a4bd;
+    --line:#39506f; --accent:#4cc2ff; --accent2:#7ef0c2; --warn:#ffd166; --pink:#ff7eb6;
+    --server:#2a3b55; --worker:#3a2f52; --kafka:#143a2a; --edge:#54708f; --radius:14px;
+    --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:radial-gradient(1200px 700px at 70% -10%,#17233a 0%,var(--bg) 55%);
+    color:var(--ink);font-family:var(--font);line-height:1.5;}
+  .wrap{max-width:1160px;margin:0 auto;padding:24px 18px 48px;}
+  h1{font-size:23px;margin:0 0 4px}
+  .sub{color:var(--muted);margin:0 0 16px;font-size:14.5px}
+  .stage{background:linear-gradient(180deg,var(--panel) 0%,#121a28 100%);
+    border:1px solid #223049;border-radius:var(--radius);padding:10px;box-shadow:0 18px 44px rgba(0,0,0,.35)}
+  svg{width:100%;height:auto;display:block}
+  .comp{fill:var(--panel2);stroke:var(--line);stroke-width:1.4}
+  .comp.active{stroke:var(--accent);stroke-width:2.6;filter:url(#glow)}
+  .comp.worker.active{stroke:var(--accent2);stroke-width:2.6}
+  .lbl{fill:var(--ink);font-size:12.5px;font-family:var(--font)}
+  .lbl.small{font-size:10.5px;fill:var(--muted)}
+  .zonelbl{fill:var(--muted);font-size:11px;letter-spacing:1.4px;font-weight:600;text-transform:uppercase}
+  .edge{stroke:var(--edge);stroke-width:2;fill:none;opacity:.5}
+  .edge.callback{stroke-dasharray:7 5}
+  .packet{filter:url(#glow)}
+  .tag{fill:var(--muted);font-size:10.5px}
+  .controls{display:flex;flex-wrap:wrap;gap:9px;align-items:center;margin:16px 0 10px}
+  button{background:var(--panel2);color:var(--ink);border:1px solid #2d3f5c;border-radius:10px;
+    padding:9px 15px;font-size:14px;cursor:pointer;font-family:var(--font)}
+  button:hover{border-color:var(--accent);color:#fff}
+  button.primary{background:var(--accent);color:#06243a;border-color:var(--accent);font-weight:700}
+  .speed{margin-left:auto;color:var(--muted);font-size:13px;display:flex;align-items:center;gap:7px}
+  .grid{display:grid;grid-template-columns:1.3fr 1fr;gap:14px;margin-top:12px}
+  @media(max-width:760px){.grid{grid-template-columns:1fr}}
+  .narr{background:var(--panel);border:1px solid #223049;border-radius:var(--radius);padding:16px 18px;display:grid;grid-template-columns:52px 1fr;gap:14px;min-height:118px}
+  .step-no{font-size:34px;font-weight:800;color:var(--accent);line-height:1}
+  .narr h3{margin:0 0 4px;font-size:16px}
+  .narr p{margin:0;color:var(--muted);font-size:14px}
+  .state{background:var(--panel);border:1px solid #223049;border-radius:var(--radius);padding:16px 18px}
+  .state h4{margin:0 0 10px;font-size:12px;letter-spacing:1.3px;text-transform:uppercase;color:var(--muted)}
+  .tree{display:flex;flex-direction:column;gap:10px}
+  .node{display:inline-flex;align-items:center;gap:8px;font-size:13.5px}
+  .badge{display:inline-block;padding:2px 10px;border-radius:999px;font-size:12px;border:1px solid #39506f;background:#1b2638;color:var(--muted)}
+  .badge.split{color:var(--warn);border-color:var(--warn)}
+  .badge.exec{color:var(--accent);border-color:var(--accent)}
+  .badge.agg{color:var(--pink);border-color:var(--pink)}
+  .badge.done{color:var(--accent2);border-color:var(--accent2)}
+  .items{display:flex;gap:8px;margin-left:24px;flex-wrap:wrap}
+  .chip{width:58px;text-align:center;padding:6px 0;border-radius:9px;border:1px solid #2d3f5c;background:#1b2638;color:var(--muted);font-size:12px;transition:.2s;opacity:.45}
+  .chip.show{opacity:1}
+  .chip.run{border-color:var(--accent);color:var(--accent)}
+  .chip.done{border-color:var(--accent2);color:var(--accent2);background:#17332a}
+  .agg{margin-top:12px;font-size:13px;color:var(--muted)}
+  .agg b{color:var(--accent2)}
+  .progress{display:flex;gap:5px;margin-top:12px}
+  .dot{flex:1;height:5px;border-radius:3px;background:#243149;transition:.2s}
+  .dot.done{background:var(--accent2)} .dot.cur{background:var(--accent)}
+  .legend{display:flex;flex-wrap:wrap;gap:15px;margin-top:14px;color:var(--muted);font-size:12.5px}
+  .legend span{display:inline-flex;align-items:center;gap:6px}
+  .sw{width:13px;height:13px;border-radius:4px;display:inline-block}
+  code{background:#1d2740;padding:1px 6px;border-radius:5px;font-size:12px;color:#cfe3ff}
+  footer{margin-top:18px;color:var(--muted);font-size:12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>p1 — a Chenile process deployment, end to end</h1>
+  <p class="sub">A <code>batch</code> process splits into <code>item</code>s, each item executes on a worker, and the results aggregate back. One <b>p1Server</b> (the brain) and one <b>p1Worker</b> (the muscle), decoupled over Kafka. Press <b>Play</b>.</p>
+
+  <div class="stage">
+    <svg viewBox="0 0 1120 540" role="img" aria-label="Animated p1 process deployment">
+      <defs>
+        <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <marker id="arrow" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="strokeWidth">
+          <path d="M0,0 L7,3 L0,6 Z" fill="var(--edge)"/>
+        </marker>
+      </defs>
+
+      <!-- zones -->
+      <rect x="36" y="110" width="400" height="400" rx="16" fill="#223450" fill-opacity=".45" stroke="#3a567c" stroke-width="1.5" stroke-dasharray="5 5"/>
+      <text x="56" y="135" class="zonelbl">p1Server · the brain</text>
+      <rect x="474" y="300" width="140" height="150" rx="14" fill="#123047" fill-opacity=".55" stroke="#2f6186" stroke-width="1.5" stroke-dasharray="5 5"/>
+      <text x="490" y="325" class="zonelbl" font-size="10">Kafka</text>
+      <rect x="652" y="110" width="432" height="400" rx="16" fill="#2f2750" fill-opacity=".45" stroke="#574a86" stroke-width="1.5" stroke-dasharray="5 5"/>
+      <text x="672" y="135" class="zonelbl">p1Worker · the muscle</text>
+
+      <!-- trigger -->
+      <g id="c-trig"><rect class="comp" x="56" y="56" width="168" height="40" rx="11"/>
+        <text class="lbl" x="140" y="81" text-anchor="middle">Cron / POST /trigger</text></g>
+
+      <!-- server components -->
+      <g id="c-ts"><rect class="comp" x="60" y="158" width="168" height="44" rx="11"/>
+        <text class="lbl" x="144" y="179" text-anchor="middle">trigger-service</text>
+        <text class="lbl small" x="144" y="194" text-anchor="middle">DISPATCH_TRIGGER → ProcessCreate</text></g>
+      <g id="c-stm"><rect class="comp" x="60" y="222" width="168" height="44" rx="11"/>
+        <text class="lbl" x="144" y="243" text-anchor="middle">ProcessManager · STM</text>
+        <text class="lbl small" x="144" y="258" text-anchor="middle">batch / item state machine</text></g>
+      <g id="c-outbox"><rect class="comp" x="60" y="286" width="168" height="44" rx="11"/>
+        <text class="lbl" x="144" y="307" text-anchor="middle">durable outbox</text>
+        <text class="lbl small" x="144" y="322" text-anchor="middle">START_WORKER</text></g>
+      <g id="c-starter"><rect class="comp" x="256" y="286" width="160" height="44" rx="11"/>
+        <text class="lbl" x="336" y="307" text-anchor="middle">q-based starter</text>
+        <text class="lbl small" x="336" y="322" text-anchor="middle">publishes WorkerDto</text></g>
+      <g id="c-reg"><rect class="comp" x="256" y="158" width="160" height="44" rx="11"/>
+        <text class="lbl" x="336" y="179" text-anchor="middle">service registry</text>
+        <text class="lbl small" x="336" y="194" text-anchor="middle">advertises processService</text></g>
+      <g id="c-db"><path d="M110 360 a44 9 0 0 1 88 0 v26 a44 9 0 0 1 -88 0 z" class="comp"/>
+        <ellipse cx="154" cy="360" rx="44" ry="9" class="comp"/>
+        <text class="lbl small" x="154" y="392" text-anchor="middle">PostgreSQL</text></g>
+
+      <!-- kafka -->
+      <g id="c-kafka"><rect class="comp" x="490" y="338" width="108" height="86" rx="12"/>
+        <text class="lbl" x="544" y="372" text-anchor="middle">topic</text>
+        <text class="lbl small" x="544" y="390" text-anchor="middle">p1-work</text>
+        <text class="lbl small" x="544" y="406" text-anchor="middle">group p1-workers</text></g>
+
+      <!-- worker components -->
+      <g id="c-listener"><rect class="comp worker" x="676" y="158" width="190" height="44" rx="11"/>
+        <text class="lbl" x="771" y="179" text-anchor="middle">Kafka listener</text>
+        <text class="lbl small" x="771" y="194" text-anchor="middle">ProcessWorkListener (headless)</text></g>
+      <g id="c-split"><rect class="comp worker" x="676" y="226" width="190" height="40" rx="10"/>
+        <text class="lbl" x="771" y="251" text-anchor="middle">BatchSplitter</text></g>
+      <g id="c-exec"><rect class="comp worker" x="676" y="276" width="190" height="40" rx="10"/>
+        <text class="lbl" x="771" y="301" text-anchor="middle">ItemExecutor</text></g>
+      <g id="c-agg"><rect class="comp worker" x="676" y="326" width="190" height="40" rx="10"/>
+        <text class="lbl" x="771" y="351" text-anchor="middle">BatchAggregator</text></g>
+      <g id="c-del"><rect class="comp worker" x="896" y="276" width="172" height="44" rx="11"/>
+        <text class="lbl" x="982" y="297" text-anchor="middle">process-delegate</text>
+        <text class="lbl small" x="982" y="312" text-anchor="middle">callback via registry</text></g>
+
+      <!-- edges -->
+      <path id="e-trig"   class="edge" d="M140,96 L144,158" marker-end="url(#arrow)"/>
+      <path id="e-create" class="edge" d="M144,202 L144,222" marker-end="url(#arrow)"/>
+      <path id="e-ob"     class="edge" d="M144,266 L144,286" marker-end="url(#arrow)"/>
+      <path id="e-start"  class="edge" d="M228,308 L256,308" marker-end="url(#arrow)"/>
+      <path id="e-pub"    class="edge" d="M416,318 C450,330 466,362 490,372" marker-end="url(#arrow)"/>
+      <path id="e-deliver" class="edge" d="M598,360 C630,300 650,210 676,185" marker-end="url(#arrow)"/>
+      <path id="e-disp-s" class="edge" d="M771,202 L771,226" marker-end="url(#arrow)"/>
+      <path id="e-disp-e" class="edge" d="M771,202 L771,276" marker-end="url(#arrow)"/>
+      <path id="e-disp-a" class="edge" d="M771,202 L771,326" marker-end="url(#arrow)"/>
+      <path id="e-toDel"  class="edge" d="M866,300 L896,298" marker-end="url(#arrow)"/>
+      <path id="e-cb"     class="edge callback" d="M896,310 C640,470 360,360 228,250" marker-end="url(#arrow)"/>
+      <text x="300" y="470" class="tag">callback: splitDone / doneSuccessfully / aggregationDone — discovered via service registry</text>
+
+      <circle id="packet" r="8" cx="140" cy="96" opacity="0" class="packet"/>
+      <text id="plabel" class="tag" x="0" y="0" text-anchor="middle" opacity="0"></text>
+    </svg>
+  </div>
+
+  <div class="controls">
+    <button id="play" class="primary">▶ Play</button>
+    <button id="prev">‹ Prev</button>
+    <button id="next">Next ›</button>
+    <button id="reset">↺ Reset</button>
+    <span class="speed">Speed
+      <button data-s="1700" class="sp">0.75×</button>
+      <button data-s="1200" class="sp primary">1×</button>
+      <button data-s="750" class="sp">1.6×</button>
+    </span>
+  </div>
+  <div class="progress" id="progress"></div>
+
+  <div class="grid">
+    <div class="narr">
+      <div class="step-no" id="sno">0</div>
+      <div><h3 id="stitle">Ready</h3><p id="stext">Press Play. A <code>batch</code> process is created, splits into three <code>item</code>s, each item executes on p1Worker, and the batch aggregates the results.</p></div>
+    </div>
+    <div class="state">
+      <h4>Process state</h4>
+      <div class="tree">
+        <div class="node"><b>batch</b> <span class="badge" id="b-batch">—</span></div>
+        <div class="items" id="items">
+          <div class="chip" data-i="0">item 0</div>
+          <div class="chip" data-i="1">item 1</div>
+          <div class="chip" data-i="2">item 2</div>
+        </div>
+      </div>
+      <div class="agg" id="agg">AggregatedResult&lt;ItemOutput&gt;: <b id="aggn">0</b> / 3 collected</div>
+    </div>
+  </div>
+
+  <div class="legend">
+    <span><i class="sw" style="background:#2a3b55"></i>p1Server (STM · outbox · registry · Postgres)</span>
+    <span><i class="sw" style="background:#3a2f52"></i>p1Worker (listener · workers · delegate)</span>
+    <span><i class="sw" style="background:var(--kafka)"></i>Kafka p1-work</span>
+    <span><i class="sw" style="background:var(--accent)"></i>WorkerDto out</span>
+    <span><i class="sw" style="background:var(--accent2)"></i>result callback</span>
+  </div>
+  <footer>Companion to the <b>process deployment tutorial</b> on chenile.org. The server never runs business logic; the worker never touches the process database. Everything between them is one Kafka topic and a registry-discovered callback.</footer>
+</div>
+
+<script>
+const S=[
+ {seg:"e-trig", lit:["c-trig","c-ts"], packet:"", color:"accent",
+  t:"Trigger accepted", x:"Cron or POST /trigger reaches trigger-service. It commits a durable DISPATCH_TRIGGER command and returns 202 Accepted with a Location — no work has run yet.",
+  st:{batch:["RECEIVED","badge"]}},
+ {seg:"e-create", lit:["c-ts","c-stm"], color:"accent",
+  t:"batch created", x:"The dispatcher replays the trigger as a ProcessCreate event. ProcessManager persists the root batch process and enters the state machine.",
+  st:{batch:["SPLIT_PENDING","split"]}},
+ {seg:"e-ob", lit:["c-stm","c-outbox"], color:"accent",
+  t:"Consequence recorded", x:"In the SAME transaction that saves the process, a START_WORKER (SPLITTER) command is written to the durable outbox. State and consequence commit atomically.",
+  st:{batch:["SPLIT_PENDING","split"]}},
+ {seg:"e-start", lit:["c-outbox","c-starter"], color:"accent",
+  t:"Poller drains", x:"The outbox poller hands the WorkerDto to the queue-based starter.",
+  st:{}},
+ {seg:"e-pub", lit:["c-starter","c-kafka"], packet:"WorkerDto · SPLITTER", color:"accent",
+  t:"Publish to Kafka", x:"QueueBasedProcessStarter publishes the WorkerDto to topic p1-work. The tenant rides along as x-chenile-tenant-id.",
+  st:{}},
+ {seg:"e-deliver", lit:["c-kafka","c-listener"], packet:"WorkerDto · SPLITTER", color:"accent",
+  t:"Deliver to worker", x:"p1Worker's Kafka listener (a generated headless Chenile service) consumes the message in group p1-workers.",
+  st:{}},
+ {seg:"e-disp-s", lit:["c-listener","c-split"], color:"accent2",
+  t:"Dispatch to BatchSplitter", x:"ProcessWorkListener → ProcessWorkers validates the tenant and routes to the SPLITTER for 'batch': your BatchSplitter.",
+  st:{}},
+ {seg:"e-cb", lit:["c-split","c-del","c-stm"], packet:"splitDone · 3 items", color:"accent2", callback:true,
+  t:"splitDone callback", x:"BatchSplitter.doStart(BatchIn) returns three ItemIn children (makeSubProcessPayload). process-delegate calls splitDone back on the server, discovered via the service registry.",
+  st:{batch:["SUB_PROCESSES_PENDING","split"], items:[0,1,2], chips:"show"}},
+ {seg:"e-disp-e", lit:["c-stm","c-exec"], color:"accent2",
+  t:"Items execute", x:"The server creates three item children (EXECUTING) and enqueues START_WORKER (EXECUTOR) for each — published to p1-work and dispatched to your ItemExecutor. Each ItemExecutor.doStart(ItemIn) returns an ItemOutput.",
+  st:{run:[0,1,2]}},
+ {seg:"e-cb", lit:["c-exec","c-del","c-stm"], packet:"doneSuccessfully ×3", color:"accent2", callback:true,
+  t:"Children complete", x:"Each item reports doneSuccessfully; SIGNAL_PARENT counts it once (receipt-guarded). When all three are done and the split is finalized, batch advances to AGGREGATION_PENDING.",
+  st:{done:[0,1,2], batch:["AGGREGATION_PENDING","agg"], aggn:3}},
+ {seg:"e-disp-a", lit:["c-stm","c-agg"], color:"accent2",
+  t:"Aggregate", x:"A START_WORKER (AGGREGATOR) goes out over Kafka. Your BatchAggregator folds each child ItemOutput into AggregatedResult<ItemOutput>, collecting outputs and errors.",
+  st:{}},
+ {seg:"e-cb", lit:["c-agg","c-del","c-stm"], packet:"aggregationDone", color:"accent2", callback:true,
+  t:"batch PROCESSED", x:"aggregationDone drives batch to PROCESSED (terminal). EMIT_COMPLETED publishes ProcessCompleted — chaining any configured successor. The whole cascade was durable end to end.",
+  st:{batch:["PROCESSED","done"]}}
+];
+
+const svg=document.querySelector('svg');
+const packet=document.getElementById('packet'), plabel=document.getElementById('plabel');
+const sno=document.getElementById('sno'), stitle=document.getElementById('stitle'), stext=document.getElementById('stext');
+const bBatch=document.getElementById('b-batch'), aggn=document.getElementById('aggn');
+const chips=[...document.querySelectorAll('.chip')];
+const progress=document.getElementById('progress');
+let i=-1, playing=false, speed=1200, raf=null;
+S.forEach(()=>{const d=document.createElement('div');d.className='dot';progress.appendChild(d);});
+const dots=[...progress.children];
+const C={accent:getCssVar('--accent'), accent2:getCssVar('--accent2')};
+function getCssVar(n){return getComputedStyle(document.documentElement).getPropertyValue(n).trim();}
+
+function clearHi(){document.querySelectorAll('.comp').forEach(c=>c.classList.remove('active'));}
+function setProg(){dots.forEach((d,k)=>d.className='dot'+(k<i?' done':k===i?' cur':''));}
+
+function applyState(st){
+  if(!st) return;
+  if(st.batch){ bBatch.textContent=st.batch[0]; bBatch.className='badge '+st.batch[1]; }
+  if(st.items){ st.items.forEach(n=>chips[n].classList.add('show')); }
+  if(st.chips==='show'){ chips.forEach(c=>c.classList.add('show')); }
+  if(st.run){ st.run.forEach(n=>{chips[n].classList.add('show','run');}); }
+  if(st.done){ st.done.forEach(n=>{chips[n].classList.remove('run');chips[n].classList.add('show','done');}); }
+  if(st.aggn!=null){ aggn.textContent=st.aggn; }
+}
+function rebuildStateUpTo(n){
+  // reset then replay states so prev/jump are consistent
+  bBatch.textContent='—'; bBatch.className='badge'; aggn.textContent='0';
+  chips.forEach(c=>c.className='chip');
+  for(let k=0;k<=n;k++) applyState(S[k].st);
+}
+
+function show(n, animate=true){
+  cancelAnimationFrame(raf); i=n; const s=S[n];
+  clearHi(); s.lit.forEach(id=>document.getElementById(id).querySelector('.comp,ellipse,path')?.classList.add('active'));
+  s.lit.forEach(id=>{const g=document.getElementById(id); g.querySelectorAll('.comp').forEach(c=>c.classList.add('active'));});
+  sno.textContent=n+1; stitle.textContent=s.t; stext.textContent=s.x; setProg();
+  rebuildStateUpTo(n);
+  const edge=document.getElementById(s.seg); const len=edge.getTotalLength();
+  const col=s.color==='accent2'?C.accent2:C.accent;
+  packet.setAttribute('fill',col);
+  plabel.textContent=s.packet||''; const showL=!!s.packet;
+  if(!animate){const p=edge.getPointAtLength(len);packet.setAttribute('cx',p.x);packet.setAttribute('cy',p.y);packet.setAttribute('opacity',1);return;}
+  packet.setAttribute('opacity',1); plabel.setAttribute('opacity',showL?1:0);
+  let start=null;
+  function fr(ts){ if(start==null)start=ts; const t=Math.min((ts-start)/speed,1);
+    const e=t<.5?2*t*t:-1+(4-2*t)*t; const p=edge.getPointAtLength(e*len);
+    packet.setAttribute('cx',p.x);packet.setAttribute('cy',p.y);
+    plabel.setAttribute('x',p.x);plabel.setAttribute('y',p.y-13);
+    if(t<1)raf=requestAnimationFrame(fr); else if(playing)raf=requestAnimationFrame(()=>adv()); }
+  raf=requestAnimationFrame(fr);
+}
+function adv(){ if(i>=S.length-1){ if(playing)setTimeout(()=>{if(playing){i=-1;nx();}},900); return;} nx(); }
+function nx(){ show(Math.min(i+1,S.length-1)); }
+function pv(){ if(i>0) show(i-1,false); }
+const playBtn=document.getElementById('play');
+playBtn.onclick=()=>{ playing=!playing; playBtn.textContent=playing?'⏸ Pause':'▶ Play'; playBtn.classList.toggle('primary',!playing);
+  if(playing){ if(i>=S.length-1||i<0)i=-1; show(Math.min(i+1,S.length-1)); } else cancelAnimationFrame(raf); };
+document.getElementById('next').onclick=()=>{playing=false;playBtn.textContent='▶ Play';playBtn.classList.add('primary');nx();};
+document.getElementById('prev').onclick=()=>{playing=false;playBtn.textContent='▶ Play';playBtn.classList.add('primary');pv();};
+document.getElementById('reset').onclick=()=>{playing=false;playBtn.textContent='▶ Play';playBtn.classList.add('primary');
+  cancelAnimationFrame(raf);clearHi();i=-1;setProg();packet.setAttribute('opacity',0);plabel.setAttribute('opacity',0);
+  sno.textContent='0';stitle.textContent='Ready';stext.textContent='Press Play.';rebuildStateUpTo(-1);};
+document.querySelectorAll('.sp').forEach(b=>b.onclick=()=>{speed=+b.dataset.s;document.querySelectorAll('.sp').forEach(x=>x.classList.remove('primary'));b.classList.add('primary');});
+</script>
+</body>
+</html>
