@@ -13,7 +13,7 @@ fill in three methods, and run it durably over Kafka. We build it with the check
 `batch` process that splits into `item`s, executes each item on a worker, and aggregates the results.
 
 Three repositories meet here: the **runtime** (`chenile-process-management`), the **generator**
-(`chenile-gen`, JGen 2.1.33), and the **sample** (`chenile-samples/p1`). You never hand-assemble the
+(`chenile-gen`, JGen 2.1.34), and the **sample** (`chenile-samples/p1`). You never hand-assemble the
 deployment — the generator does — so most of this page is about the two things that are yours: the process
 **definitions** and the worker **implementations**.
 
@@ -82,9 +82,10 @@ Cron schedules live in a **separate** file (`cronSpec`), seeded disabled, read b
 
 ## Part 2 — Generate the deployment
 
-The [`chenile-process-management`](/developer/jgen-blueprints/#process-management) JGen blueprint (2.1.33)
+The [`chenile-process-management`](/developer/jgen-blueprints/#process-management) JGen blueprint (2.1.34)
 turns those two files into a runnable deployment. It is an **aggregated** blueprint: it composes `minimonolith`
-(for the two hosts) and `chenile-process-workers` (one worker JAR per definition).
+(for the two hosts) and [`chenile-process-worker-set`](/developer/jgen-blueprints/#process-worker-set), which in
+turn expands one worker module per process definition.
 
 ```sh
 cd chenile-gen/jgen
@@ -101,13 +102,15 @@ What comes out — the `p1` reactor:
 | `p1-server-service` | typed Chenile HTTP services, process bootstrap, acknowledged Kafka publication; **no** business workers |
 | `p1-batch-workers` | the `batch` worker JAR — its API owns `BatchIn` and `AggregatedResult<ItemOutput>`; its service holds the **splitter + aggregator** |
 | `p1-item-workers` | the `item` worker JAR — its API owns `ItemIn`/`ItemOutput`; its service holds the **executor** |
-| `p1-worker-listener` | a **headless Chenile service** that subscribes to Kafka, validates tenant, and routes a `WorkerDto` to the right worker |
+| `p1-worker-listener` | a **headless Chenile service** that subscribes to Kafka and routes every `WorkerDto` through the shared `BatchServiceBase` to the right worker |
 | `p1Server`, `p1Worker` | the two composed `minimonolith` hosts (the server uses one queue-based Kafka starter) |
 
 The `p1-worker-listener` is itself generated as a headless service (`bluePrintName="chenile-headless-service"`),
 a nice illustration of blueprints composing blueprints. Its `ProcessWorkListener` subscribes to the
-`process-work` event and binds to a `ProcessWorkers` bean (a `BatchServiceBase`) that validates the message
-tenant against the process tenant and routes to the right worker:
+`process-work` event and binds to the shared `_processWorkService_` bean — a single, now-concrete
+`BatchServiceBase` from `process-delegate` wired once in `DelegateConfiguration`; the blueprint no longer
+generates a per-deployment worker service. The listener validates the message tenant against the process
+tenant and routes to the right worker:
 
 ```java
 @ChenileController(value="processWork", serviceName="_processWorkService_",
@@ -185,9 +188,10 @@ durable**, written in the same transaction as the state, and executed after comm
 3. **Consequence recorded.** In the *same transaction* that saves the process, a `START_WORKER (SPLITTER)`
    row is written to the [durable outbox](/developer/process-outbox/).
 4. **Published to Kafka.** The outbox poller hands the `WorkerDto` to the queue-based starter, which publishes
-   it to `p1-work` with the tenant as `x-chenile-tenant-id`.
+   it to `p1-work`, forwarding only the `x-`-prefixed headers (so the tenant rides along as
+   `x-chenile-tenant-id`) and dropping internal transport props.
 5. **Delivered + dispatched.** p1Worker's listener consumes it (group `p1-workers`), validates the tenant, and
-   routes to your `BatchSplitter`.
+   routes it through the shared `BatchServiceBase` to your `BatchSplitter`.
 6. **splitDone callback.** The splitter returns three `ItemIn`s; `process-delegate` discovers `processService`
    through the **service registry** and calls `splitDone` back on the server. `batch` → `SUB_PROCESSES_PENDING`.
 7. **Items execute.** The server creates three `item` children (`EXECUTING`) and enqueues one
@@ -200,6 +204,12 @@ durable**, written in the same transaction as the state, and executed after comm
 Because delivery is at-least-once, a `WorkerDto` can arrive twice — the server's three idempotency guards
 (unique enqueue key, claim-token fencing, and effect-level receipts) make that safe: a replayed child cannot
 be double-counted and a replayed completion cannot create duplicate successors.
+
+**When a worker (or its callback) fails**, the exception propagates out of the listener so Chenile Kafka's
+consumer applies its bounded retry policy; once the attempts are exhausted the message lands on a
+dead-letter topic (default suffix `.DLT`, e.g. `p1-work.DLT`) rather than blocking the partition or being
+lost. There is no separate server-side Kafka publisher to coordinate — the server only publishes through
+the durable outbox, and the worker side owns delivery, retry and dead-lettering.
 
 ## Part 5 — Run it
 
@@ -251,6 +261,6 @@ Everything is visible through the server's [management API and the process-ui co
 - The runtime internals: the [process management guide](/developer/process-management/), the
   [durable outbox](/developer/process-outbox/), and the [trigger framework](/developer/trigger-framework/).
 - The generator: the [JGen blueprint reference](/developer/jgen-blueprints/) — the
-  `chenile-process-management` and `chenile-process-workers` blueprints plus the composition engine.
+  `chenile-process-management`, `chenile-process-worker-set` and `chenile-process-workers` blueprints plus the composition engine.
 - Operating it: the [management API and admin console](/developer/process-admin/).
 - The comparison that frames the design: [Chenile vs Temporal](/developer/process-vs-temporal/).

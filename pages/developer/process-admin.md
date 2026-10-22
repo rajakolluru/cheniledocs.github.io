@@ -7,7 +7,7 @@ permalink: /developer/process-admin/
 
 # Process administration — API, dashboard &amp; server
 
-> **Release status:** the current source version is `{{ site.maven_version }}`. The 2.1.33 upgrade is built, tested and pushed; Maven Central publication is pending. See the [release status](/developer/release-process/#release-status-2133).
+> **Release status:** the current source version is `{{ site.maven_version }}`. The 2.1.34 upgrade is built, tested and pushed; Maven Central publication is pending. See the [release status](/developer/release-process/#release-status-2134).
 
 Three pieces make [process management](/developer/process-management/) operable without writing SQL:
 

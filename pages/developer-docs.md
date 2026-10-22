@@ -20,7 +20,7 @@ These guides focus on implementing Chenile services and safely extending their r
 ## Scaling &amp; integration
 
 - [Process management]({{ '/developer/process-management/' | relative_url }}) — orchestrate long-running parent/child processes, map-reduce style, with in-VM, queue-based or JDBC/KEDA worker modes.
-- [Process deployment tutorial (p1)]({{ '/developer/process-deployment-tutorial/' | relative_url }}) — end to end with the p1 sample: declare the processes, generate the server + worker deployment, implement the splitter/executor/aggregator, and run it over Kafka — with an animated schematic. *(2.1.33)*
+- [Process deployment tutorial (p1)]({{ '/developer/process-deployment-tutorial/' | relative_url }}) — end to end with the p1 sample: declare the processes, generate the server + worker deployment, implement the splitter/executor/aggregator, and run it over Kafka — with an animated schematic. *(2.1.34)*
 - [Durable process outbox]({{ '/developer/process-outbox/' | relative_url }}) — make every consequence of a process transition survive a crash: receipts, lease fencing, retries, dead-letter and replay. *(2.1.31)*
 - [Process administration, API &amp; dashboard]({{ '/developer/process-admin/' | relative_url }}) — crons, manual triggers, definitions, process trees and end-to-end traces from a React console and a runnable admin server. *(2.1.31)*
 - [Process management vs. Temporal]({{ '/developer/process-vs-temporal/' | relative_url }}) — orchestration as data in your database, or as replayed code on a cluster.

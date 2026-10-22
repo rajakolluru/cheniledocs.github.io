@@ -59,15 +59,19 @@ done
 - **Javadoc** — bump the parent in `chenile-javadoc/pom.xml`; building the aggregation POM does not publish the Javadoc site by itself.
 - **This website** — `maven_version` in `_config.yml` drives every "latest release" string. A daily workflow (`scripts/update-version.sh`) follows Maven Central but **never downgrades**, so a work-in-progress version set by hand survives. Add release notes under `pages/release-notes/`, and refresh [Chenile by the numbers](/by-the-numbers/) with `python3 scripts/codebase-stats.py ..`.
 
-## Release status: 2.1.33
+## Release status: 2.1.34
 
-As of October 20, 2026, all 11 framework repositories build and pass their Maven
-tests against `2.1.33`. JGen, STM CLI and the Javadoc aggregation build also pass;
-the process UI passes its nine tests and production build. The version-alignment
-commits are pushed, and the website and JGen default select `2.1.33`.
+As of October 22, 2026, all 11 framework repositories build and pass their Maven
+tests against `2.1.34`. JGen, STM CLI and the Javadoc aggregation build also pass;
+the process UI passes its tests and production build. The version-alignment
+commits are pushed, and the website and JGen default select `2.1.34`. The 11
+framework repositories, `chenile-gen`, and `chenile-javadoc` are tagged and pushed
+as `2.1.34`.
 
-**2.1.33 is prepared; no release tags or Maven Central deployment were performed
-in this upgrade.** The published `chenile-parent:2.1.32` predates the shared outbox
-and crontab dependency-management updates now included in 2.1.33. Publish the new
-parent and verify it on Maven Central before publishing dependent artifacts.
-See the [2.1.33 release notes](/release-notes/2.1.33/).
+**2.1.34 is tagged.** The `chenile-parent:2.1.34` signed bundle was accepted and
+validated by Central Publishing, but Maven Central still returns 404 for the
+artifact. Stop before deploying dependent repositories and wait until the parent
+POM is visible on Maven Central. It refines the 2.1.33 process deployment story — the
+`chenile-process-worker-set` blueprint, a shared concrete worker service, Kafka
+retry and dead-lettering for worker failures, and header-scoped queue
+publication. See the [2.1.34 release notes](/release-notes/2.1.34/).

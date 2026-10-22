@@ -8,8 +8,8 @@ permalink: /developer/jgen-blueprints/
 # JGen blueprint reference
 
 Current source and generator defaults target **Chenile {{ site.maven_version }}**. The
-2.1.33 build is verified; artifact publication is pending. See the
-[release notes](/release-notes/2.1.33/). Version labels below identify when a feature
+2.1.34 build is verified; artifact publication is pending. See the
+[release notes](/release-notes/2.1.34/). Version labels below identify when a feature
 was introduced or its minimum runtime, rather than claiming publication.
 
 [JGen](/concepts/12-jgen/) is Chenile's Java code generator (repository `rajakolluru/chenile-gen`). A **blueprint** is a template tree plus a `META-INF/blueprint.json` that declares its prompts; the engine copies the tree, renders Mustache templates, renames placeholder paths (`__service__`, `__Service__`, `__application__`, …), applies conditional folders (`%%jpa=true%%`), invokes other blueprints through aggregation markers (`{% raw %}%{{minimonolith role=server}}{% endraw %}`), and runs the blueprint's init hook. Every blueprint also accepts an optional parent POM and extra dependencies. See [engine features](#engine-features) below and [writing blueprints](/concepts/15-blueprints/).
@@ -35,8 +35,9 @@ Defaults such as package (`com.mycompany.myorg`), version and output folder come
 | [`wfcustom`](#wfcustom) | A workflow service from your own states XML | — |
 | [`mybatisQuery`](#mybatisquery) | A metadata-driven MyBatis query module | — |
 | [`minimonolith`](#minimonolith) | A deployable Spring Boot mini-monolith | — |
-| [`chenile-process-workers`](#process-workers) | One worker JAR for one process definition | **2.1.32** |
-| [`chenile-process-management`](#process-management) | A process **server + worker deployment** (server, worker-listener, per-definition worker JARs, optional registry) | **2.1.32** |
+| [`chenile-process-workers`](#process-workers) | API + service JARs for one process definition | **2.1.32** |
+| [`chenile-process-worker-set`](#process-worker-set) | Expands a whole process spec into per-definition worker modules | **2.1.34** |
+| [`chenile-process-management`](#process-management) | A process **server + worker deployment** (server, one shared worker-listener, per-definition worker JARs, optional registry) | **2.1.32** |
 | [`batch`](#batch) | A batch process from a hierarchy JSON | — |
 | [`chenile-interceptor`](#interceptor) | A Chenile interceptor (service policy) | — |
 | [`it`](#it) | An integration-test project | — |
@@ -84,10 +85,13 @@ Each composed project is generated in isolation before being placed together, so
 ## Process management and batch
 
 ### <a id="process-workers"></a>`chenile-process-workers` <span class="pill">2.1.32</span>
-Generates **one plain worker JAR for one [process](/developer/process-management/) definition**: a **leaf** type gets an **executor**; a **non-leaf** type gets a **splitter + aggregator** in the same JAR. Prompts: `workerModule`, `application`, `packageName`, `processType`, `name`, `inputType`, `leaf` (y), `children` (array of `name`/`inputType`), version, and the usual `destFolder` / `super_pom` / `dependencies`. The generated `doStart` hooks throw until you implement them — they are application code — and the payload model comes from the application's API JAR. It is reused per definition by `chenile-process-management`.
+Generates the **API + service JARs for one [process](/developer/process-management/) definition**: a **leaf** type gets an **executor**; a **non-leaf** type gets a **splitter + aggregator**. Prompts: `workerModule`, `application`, `packageName`, `processType`, `name`, `inputType`, `leaf` (y), `children` (array of `name`/`inputType`), version, and the usual `destFolder` / `super_pom` / `dependencies`. The generated `doStart` hooks throw until you implement them — they are application code — and the payload model comes from the application's API JAR. Normally you don't invoke this directly: `chenile-process-worker-set` calls it once per definition.
+
+### <a id="process-worker-set"></a>`chenile-process-worker-set` <span class="pill">2.1.34</span>
+Takes a complete, prepared process definition set and **expands it into per-definition worker modules**, invoking `chenile-process-workers` once per process type. It owns the iteration (and the process-definition validation) so the process-management aggregate stays simple. You rarely run it standalone — `chenile-process-management` invokes it once with `%{{chenile-process-worker-set}}`.
 
 ### <a id="process-management"></a>`chenile-process-management` <span class="pill">2.1.32</span>
-Generates the whole **[server + worker deployment](/developer/process-management/)** — not a single app — by **composing** `minimonolith` and `chenile-process-workers`. From native `processMap` definitions it emits a process **server**, a headless **worker**, **per-definition worker JARs** and an **optional service registry**, decoupled over **Kafka**.
+Generates the whole **[server + worker deployment](/developer/process-management/)** — not a single app — by **composing** `minimonolith` and `chenile-process-worker-set`. From native `processMap` definitions it emits a process **server**, a headless **worker**, **per-definition worker JARs** and an **optional service registry**, decoupled over **Kafka**.
 
 Prompts: `application`, `applicationVersion`, `destFolder`, `processSpec` (native `processMap` file), `cronSpec` (optional, **separate** cron schedules), `definitionSource` (`json` | `database`), `registryMode` (`create` | `existing` + `existingRegistryUrl`), `registryPlacement` (`server` recommended | `separate`), `serverDeploymentUrl` / `workerDeploymentUrl` / `registryDeploymentUrl` (`:8000/:8001/:8002`), `transport` (`kafka`), `workTopic` (`<application>-work`, fills any definition lacking `config.queue`), plus `super_pom` / `dependencies`.
 
@@ -111,8 +115,8 @@ Cron schedules are a **separate** JSON array (`cronSpec`), read by `JsonCrontabR
 - `<app>-api` — shared typed payloads and process-start contracts.
 - `<app>-server-config` — native definitions + cron seeds (server only).
 - `<app>-server-service` — typed Chenile HTTP services, process bootstrap, runtime services and acknowledged Kafka publication (trigger `202`/`Location`). Ships **no** business workers.
-- `<app>-<processType>-workers` — one JAR per definition (via `chenile-process-workers`).
-- `<app>-worker-listener` — a headless Chenile Kafka listener: subscribes to every topic, validates/restores tenant, invokes workers, calls back through the registry-backed process delegate, handles retry. No process datasource, process service or JDBC starter.
+- `<app>-<processType>-workers` — one API + service JAR per definition (via `chenile-process-worker-set` → `chenile-process-workers`).
+- `<app>-worker-listener` — **one** headless Chenile controller plus Chenile Kafka's generic consumer, serving every worker through the shared `BatchServiceBase` from `process-delegate` (the blueprint generates no duplicate worker service). Configured topics map to the `process-work` event; it validates/restores tenant and calls back through the registry-backed delegate. Worker or callback failures propagate to the queue boundary: **bounded retries, then a dead-letter topic** (default suffix `.DLT`). No process datasource, process service or JDBC starter. (The server has no separate Kafka publisher — publication is the queue-based starter's job.)
 - `<app>Server`, `<app>Worker` — composed `minimonolith` hosts (the server uses one queue-based Kafka starter; the worker has no process DB); `<app>Registry` only when the registry is placed separately.
 
 ```sh
@@ -158,7 +162,7 @@ An **aggregated** blueprint includes other registered blueprints through **empty
 ```text
 %{{minimonolith role=server}}/
 %{{minimonolith role=worker label="Background workers"}}/
-%{{chenile-process-workers forEach=processes as=process}}/   # once per list element
+%{{chenile-process-worker-set}}/              # expands per-definition worker modules
 ```
 {% endraw %}
 
