@@ -12,7 +12,8 @@ Chenile's repositories are versioned together under `chenile-parent` and release
 
 ## By version
 
-- [**2.1.34**]({{ '/release-notes/2.1.34/' | relative_url }}) — *(tagged; parent POM awaiting Maven Central indexing)* the `chenile-process-worker-set` blueprint, a shared concrete worker service, Kafka retry and dead-lettering for worker failures, and header-scoped queue publication.
+- [**2.1.29–2.1.34 complete history**]({{ '/release-notes/2.1.29-to-2.1.34/' | relative_url }}) — consolidated feature and upgrade notes across the release train.
+- [**2.1.34**]({{ '/release-notes/2.1.34/' | relative_url }}) — *(tagged; parent published; dependent bundles validated)* the `chenile-process-worker-set` blueprint, a shared concrete worker service, Kafka retry and dead-lettering for worker failures, and header-scoped queue publication.
 - [**2.1.33**]({{ '/release-notes/2.1.33/' | relative_url }}) — *(built and tested; publication pending)* shared outbox and split crontab dependency management, server/worker process blueprints, composable generation and declarative input validation.
 
 - [**2.1.31**]({{ '/release-notes/2.1.31/' | relative_url }}) — *(release prepared; parent published, dependent artifacts pending)* transport-neutral services, service-registry controls, durable process commands, trigger history, the React management dashboard, and multi-level JGen process blueprints.
