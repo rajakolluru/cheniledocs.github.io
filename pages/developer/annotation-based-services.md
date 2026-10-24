@@ -96,7 +96,14 @@ Read-only mode keeps registry reads and local cache loading, but blocks both aut
 
 ## 3 · HTTP mapping rules <span class="pill">2.1.31</span>
 
-For HTTP controllers, a single `SpringMvcMappingProducer` now reads all five composed Spring annotations (`@GetMapping`, `@PostMapping`, `@PutMapping`, `@PatchMapping`, `@DeleteMapping`) **and** direct `@RequestMapping` declarations. A Chenile operation must resolve to **exactly one HTTP verb and one route**; an ambiguous mapping (several methods or paths) is now **rejected at startup** instead of being silently reduced to its first value.
+For HTTP controllers, a single `SpringMvcMappingProducer` reads all five composed Spring annotations (`@GetMapping`, `@PostMapping`, `@PutMapping`, `@PatchMapping`, `@DeleteMapping`) **and** direct `@RequestMapping` declarations. A Chenile operation must resolve to **exactly one HTTP verb**; several verbs are **rejected at startup**.
+
+<span class="pill">2.1.33</span> An operation may have **several paths**. Every alias is registered against the same handler and the same operation definition, so interceptors, event subscriptions and invocation are shared, and path variables come from whichever route actually matched. In JSON definitions use `urls` (alone or alongside `url`; `getUrl()` stays the canonical one):
+
+```json
+{ "name": "getCustomer", "httpMethod": "GET",
+  "url": "/customers/{id}", "urls": ["/customers/{id}/details"] }
+```
 
 When an operation's implementation throws, the `CANNOT_INVOKE_TARGET` error (E509) now names the operation and the exception type and carries the underlying message — so the `description` your client receives in the `GenericResponse` points at the real cause.
 
@@ -106,6 +113,7 @@ When an operation's implementation throws, the `CANNOT_INVOKE_TARGET` error (E50
 
 - `value` — the service **id**.
 - `serviceName` — the bean name of the implementation (defaults to `_<id>_`, or the bean name in the non-HTTP path).
+- `serviceSelector` <span class="pill">2.1.35</span> — optional bean name of a `ServiceSelector` that picks the implementation **per request** (returning `null` keeps `serviceName`). Mock and trajectory overrides still take precedence. See [choosing the implementation per request](/developer/runtime-internals/#choosing-the-implementation-per-request).
 - `serviceModule`, `bluePrintName`, `additionalAttributes` — metadata for the service definition.
 - `healthCheckerName`, `mockName` — optional companion beans (default to `<id>HealthChecker` / `<id>Mock`).
 - `interfaceClass` — the service interface; if left as `Object.class`, Chenile computes it from the operations.

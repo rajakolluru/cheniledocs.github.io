@@ -50,16 +50,16 @@ the real work.
   "processMap": {
     "batch": {
       "leaf": false,
-      "args": "com.mycompany.myorg.p1.model.BatchIn",
-      "config": { "queue": "p1-work" },
-      "inputFields": { "batchId": "string" }
+      "args": "org.chenile.samples.p1.model.BatchIn",
+      "config": { "queue": "process-work" },
+      "inputFields": { "batchId": "string", "count": "int" }
     },
     "item": {
       "parentProcessType": "batch",
       "leaf": true,
-      "args": "com.mycompany.myorg.p1.model.ItemIn",
-      "config": { "queue": "p1-work" },
-      "inputFields":  { "itemId": "string" },
+      "args": "org.chenile.samples.p1.model.ItemIn",
+      "config": { "queue": "process-work" },
+      "inputFields":  { "itemId": "string", "index": "int" },
       "outputFields": { "processed": "boolean", "itemNumber": "long" }
     }
   }
@@ -69,7 +69,7 @@ the real work.
 - **`leaf`** decides the worker kind: a leaf gets an **executor**; a non-leaf gets a **splitter + aggregator**.
 - **`parentProcessType`** builds the tree; **`inputFields`/`outputFields`** become typed DTOs (`BatchIn`,
   `ItemIn`, `ItemOutput`).
-- **`config.queue`** is the Kafka topic a definition's work is published to (here both use `p1-work`).
+- **`config.queue`** is the Kafka topic a definition's work is published to (here both use `process-work`).
   Anything without a `queue` falls back to the blueprint's default `workTopic`.
 
 Cron schedules live in a **separate** file (`cronSpec`), seeded disabled, read by `JsonCrontabRepository`:
@@ -82,7 +82,7 @@ Cron schedules live in a **separate** file (`cronSpec`), seeded disabled, read b
 
 ## Part 2 — Generate the deployment
 
-The [`chenile-process-management`](/developer/jgen-blueprints/#process-management) JGen blueprint (2.1.34)
+The [`chenile-process-management`](/developer/jgen-blueprints/#process-management) JGen blueprint (2.1.35)
 turns those two files into a runnable deployment. It is an **aggregated** blueprint: it composes `minimonolith`
 (for the two hosts) and [`chenile-process-worker-set`](/developer/jgen-blueprints/#process-worker-set), which in
 turn expands one worker module per process definition.
@@ -102,40 +102,49 @@ What comes out — the `p1` reactor:
 | `p1-server-service` | typed Chenile HTTP services, process bootstrap, acknowledged Kafka publication; **no** business workers |
 | `p1-batch-workers` | the `batch` worker JAR — its API owns `BatchIn` and `AggregatedResult<ItemOutput>`; its service holds the **splitter + aggregator** |
 | `p1-item-workers` | the `item` worker JAR — its API owns `ItemIn`/`ItemOutput`; its service holds the **executor** |
-| `p1-worker-listener` | a **headless Chenile service** that subscribes to Kafka and routes every `WorkerDto` through the shared `BatchServiceBase` to the right worker |
+| `p1-worker-listener` | a **headless Chenile service** that subscribes to Kafka and routes each work message to the right worker bean, with a typed payload |
 | `p1Server`, `p1Worker` | the two composed `minimonolith` hosts (the server uses one queue-based Kafka starter) |
 
 The `p1-worker-listener` is itself generated as a headless service (`bluePrintName="chenile-headless-service"`),
-a nice illustration of blueprints composing blueprints. Its `ProcessWorkListener` subscribes to the
-`process-work` event and binds to the shared `_processWorkService_` bean — a single, now-concrete
-`BatchServiceBase` from `process-delegate` wired once in `DelegateConfiguration`; the blueprint no longer
-generates a per-deployment worker service. The listener validates the message tenant against the process
-tenant and routes to the right worker:
+a nice illustration of blueprints composing blueprints. Its body is empty — the routing is all declarative:
 
 ```java
-@ChenileController(value="processWork", serviceName="_processWorkService_",
-        interfaceClass=BatchService.class, bluePrintName="chenile-headless-service",
-        registerInServiceRegistry=false)
+@ChenileController(value = "processWork", serviceName = "_processWorkService_",
+        serviceSelector = "processWorkServiceSelector",
+        interfaceClass = WorkListenerService.class, bluePrintName = "chenile-headless-service",
+        registerInServiceRegistry = false)
 public class ProcessWorkListener {
-    @EventsSubscribedTo("process-work")
-    @ChenileOperation public boolean startWorker(@ChenileBody WorkerDto dto) { return true; }
+    @EventsSubscribedTo({"process-work"})
+    @ChenileOperation
+    @BodyTypeSelector("processWorkBodyTypeSelector")
+    public boolean accept(String processType, String workerType,
+                          @ChenileBody WorkListenerInput<Object> input) { return true; }
 }
 ```
 
+Each Kafka message carries `processType` and `workerType` headers. The listener's
+[service selector](/developer/runtime-internals/#choosing-the-implementation-per-request) turns them into a
+bean name — `batch` + `SPLITTER` → **`batchSplitter`**, `item` + `EXECUTOR` → **`itemExecutor`** — and Chenile
+calls that bean instead of the default. The body selector reads the chosen worker's generic type, so the
+payload arrives as a real `BatchIn` or `ItemIn`, not a JSON string. (`_processWorkService_` is only a
+fallback that fails loudly if no worker was selected.) **Worker bean names are therefore routing keys**:
+p1 registers `batchSplitter`, `batchAggregator` and `itemExecutor`.
+
 ## Part 3 — Implement the three workers
 
-This is the only code you write. The generated hooks throw (or return empty) until you supply domain logic.
-Each extends a base class from `process-delegate` that handles the event plumbing, the typed (de)serialization,
-and the callback to the server — you only implement `doStart`.
+This is the only code you write. The generated hooks return defaults until you supply domain logic.
+Each extends a typed listener base from `process-delegate` that handles the delivery, the typed payload, the
+tenant context and the callback to the server — you only implement `doStart`. Your input arrives as
+`WorkListenerInput<T>`: the typed `payload` plus `processId`, `dispatchId` and the definition's `execDef`.
 
 **The splitter** turns one `BatchIn` into N child payloads. `makeSubProcessPayload(childInput, childType)`
-builds each one; the base class reports `splitDone` for you.
+builds each one; the base class reports `splitDone` for you (or call `splitPartiallyDone` to submit batches as you go).
 
 ```java
-public class BatchSplitter extends SplitterBase<BatchIn, Object> {
-    @Override protected List<SubProcessPayload> doStart(WorkerDto worker, BatchIn input) {
+public class BatchSplitter extends SplitterWorkListener<BatchIn, Object> {
+    @Override protected List<SubProcessPayload> doStart(WorkListenerInput<BatchIn> input) {
         List<SubProcessPayload> payloads = new ArrayList<>();
-        for (int i = 0; i < input.count; i++)
+        for (int i = 0; i < input.payload.count; i++)
             payloads.add(makeSubProcessPayload(new ItemIn(i), "item"));
         return payloads;
     }
@@ -146,11 +155,11 @@ public class BatchSplitter extends SplitterBase<BatchIn, Object> {
 (or `doneWithErrors` if you throw).
 
 ```java
-public class ItemExecutor extends ExecutorBase<ItemIn, ItemOutput> {
-    @Override protected ItemOutput doStart(WorkerDto worker, ItemIn input) {
+public class ItemExecutor extends ExecutorWorkListener<ItemIn, ItemOutput> {
+    @Override protected ItemOutput doStart(WorkListenerInput<ItemIn> input) {
         ItemOutput out = new ItemOutput();
+        out.itemNumber = (long) input.payload.index;
         out.processed = true;
-        out.itemNumber = (long) input.index;
         return out;          // the generated stub returns an empty ItemOutput until you fill it in
     }
 }
@@ -161,9 +170,10 @@ public class ItemExecutor extends ExecutorBase<ItemIn, ItemOutput> {
 an aggregate model — `doStart` is called once per child, progressively enhancing the result:
 
 ```java
-public class BatchAggregator extends AggregatorBase<BatchIn, AggregatedResult<ItemOutput>, ItemOutput> {
-    @Override protected AggregatedResult<ItemOutput> doStart(AggregatedResult<ItemOutput> out, BatchIn input,
-            ItemOutput childOutput, WorkerDto worker, Process child) {
+public class BatchAggregator
+        extends AggregatorWorkListener<BatchIn, AggregatedResult<ItemOutput>, ItemOutput> {
+    @Override protected AggregatedResult<ItemOutput> doStart(AggregatedResult<ItemOutput> out,
+            WorkListenerInput<BatchIn> input, ItemOutput childOutput, Process child) {
         if (out == null) out = new AggregatedResult<>();
         if (child.errors == null || child.errors.isEmpty()) out.completedChildren++;
         else { out.failedChildren++; /* collect child.errors into out.errors */ }
@@ -187,11 +197,13 @@ durable**, written in the same transaction as the state, and executed after comm
    root `batch` and enters the state machine (`SPLIT_PENDING`).
 3. **Consequence recorded.** In the *same transaction* that saves the process, a `START_WORKER (SPLITTER)`
    row is written to the [durable outbox](/developer/process-outbox/).
-4. **Published to Kafka.** The outbox poller hands the `WorkerDto` to the queue-based starter, which publishes
-   it to `p1-work`, forwarding only the `x-`-prefixed headers (so the tenant rides along as
-   `x-chenile-tenant-id`) and dropping internal transport props.
-5. **Delivered + dispatched.** p1Worker's listener consumes it (group `p1-workers`), validates the tenant, and
-   routes it through the shared `BatchServiceBase` to your `BatchSplitter`.
+4. **Published to Kafka.** The outbox poller hands the work to the queue-based starter, which publishes a
+   `WorkListenerInput` envelope — `processId`, `dispatchId`, the process input as `payload`, and `execDef` — to
+   `process-work`. The headers carry `processType=batch`, `workerType=SPLITTER`, the process's tenant as
+   `x-chenile-tenant-id`, and any other `x-` context headers; internal transport props are dropped.
+5. **Delivered + dispatched.** p1Worker's listener consumes it (group `p1-workers`). The service selector picks
+   **`batchSplitter`**, the body selector types the payload as `BatchIn`, and your `BatchSplitter` runs with the
+   tenant restored in its context.
 6. **splitDone callback.** The splitter returns three `ItemIn`s; `process-delegate` discovers `processService`
    through the **service registry** and calls `splitDone` back on the server. `batch` → `SUB_PROCESSES_PENDING`.
 7. **Items execute.** The server creates three `item` children (`EXECUTING`) and enqueues one
@@ -201,15 +213,23 @@ durable**, written in the same transaction as the state, and executed after comm
 9. **Aggregate + complete.** A `START_WORKER (AGGREGATOR)` runs `BatchAggregator`; `aggregationDone` drives
    `batch` → `PROCESSED`, and `EMIT_COMPLETED` publishes `ProcessCompleted` (chaining any successor).
 
-Because delivery is at-least-once, a `WorkerDto` can arrive twice — the server's three idempotency guards
+Because delivery is at-least-once, a work message can arrive twice — the server's three idempotency guards
 (unique enqueue key, claim-token fencing, and effect-level receipts) make that safe: a replayed child cannot
 be double-counted and a replayed completion cannot create duplicate successors.
 
-**When a worker (or its callback) fails**, the exception propagates out of the listener so Chenile Kafka's
-consumer applies its bounded retry policy; once the attempts are exhausted the message lands on a
-dead-letter topic (default suffix `.DLT`, e.g. `p1-work.DLT`) rather than blocking the partition or being
-lost. There is no separate server-side Kafka publisher to coordinate — the server only publishes through
-the durable outbox, and the worker side owns delivery, retry and dead-lettering.
+**When something fails, it matters what failed.**
+
+- **Your worker throws.** That's a *business* failure: the listener reports it to the server as
+  `splitDoneWithErrors`, `doneWithErrors` or `aggregationDoneWithErrors` (with the message, stack trace and any
+  structured `ErrorNumException` errors). The process records it and ends `PROCESSED_WITH_ERRORS` — the message is
+  acknowledged, not retried, because re-running the same input would just fail again.
+- **The callback fails, or the message is malformed** (no process id, no process type, a worker-type mismatch,
+  no tenant). That's an *infrastructure* failure: the exception propagates, Chenile Kafka's consumer retries with
+  a bounded policy, and exhausted messages land on the dead-letter topic `process-work.DLT` instead of blocking
+  the partition or being lost.
+
+There is no separate server-side Kafka publisher to coordinate — the server only publishes through the durable
+outbox, and the worker side owns delivery, retry and dead-lettering.
 
 ## Part 5 — Run it
 
@@ -224,9 +244,10 @@ export PROCESS_MANAGEMENT_API_KEY="$(openssl rand -hex 32)"
 ./run-workers.sh     # p1Worker on :8001 — joins consumer group p1-workers
 ```
 
-Start Kafka first and create the `p1-work` topic. Worker replicas share the `p1-workers` group (override with
-`PROCESS_WORK_CONSUMER_GROUP`), so scaling the worker is just running more instances — the broker spreads the
-`WorkerDto`s across them. Kick off a run with a trigger:
+Start Kafka first and create the `process-work` and `process-work.DLT` topics. The worker binds the topic with
+`chenile.kafka.consumer.topic-bindings[process-work]=process-work`. Worker replicas share the `p1-workers` group
+(override with `PROCESS_WORK_CONSUMER_GROUP`), so scaling the worker is just running more instances — the broker
+spreads the work messages across them. Kick off a run with a trigger:
 
 ```sh
 curl -X POST http://localhost:8000/trigger \
@@ -254,7 +275,8 @@ Everything is visible through the server's [management API and the process-ui co
 - **Scale the muscle, not the brain.** Add worker replicas (same group) or route heavy process types to their
   own topic and pool. The one server is replicated for availability, not throughput.
 - **Multi-tenant throughout.** `x-chenile-tenant-id` rides the whole cascade — message, worker context and
-  callback — and the worker refuses a message whose tenant doesn't match its process.
+  callback. The starter stamps each work message with its process's tenant, and the listener refuses work that
+  arrives without one.
 
 ## Where to go next
 

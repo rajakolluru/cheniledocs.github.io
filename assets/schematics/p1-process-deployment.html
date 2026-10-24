@@ -108,7 +108,7 @@
         <text class="lbl small" x="144" y="322" text-anchor="middle">START_WORKER</text></g>
       <g id="c-starter"><rect class="comp" x="256" y="286" width="160" height="44" rx="11"/>
         <text class="lbl" x="336" y="307" text-anchor="middle">q-based starter</text>
-        <text class="lbl small" x="336" y="322" text-anchor="middle">publishes WorkerDto</text></g>
+        <text class="lbl small" x="336" y="322" text-anchor="middle">publishes work</text></g>
       <g id="c-reg"><rect class="comp" x="256" y="158" width="160" height="44" rx="11"/>
         <text class="lbl" x="336" y="179" text-anchor="middle">service registry</text>
         <text class="lbl small" x="336" y="194" text-anchor="middle">advertises processService</text></g>
@@ -119,7 +119,7 @@
       <!-- kafka -->
       <g id="c-kafka"><rect class="comp" x="490" y="338" width="108" height="86" rx="12"/>
         <text class="lbl" x="544" y="372" text-anchor="middle">topic</text>
-        <text class="lbl small" x="544" y="390" text-anchor="middle">p1-work</text>
+        <text class="lbl small" x="544" y="390" text-anchor="middle">process-work</text>
         <text class="lbl small" x="544" y="406" text-anchor="middle">group p1-workers</text></g>
 
       <!-- worker components -->
@@ -190,8 +190,8 @@
   <div class="legend">
     <span><i class="sw" style="background:#2a3b55"></i>p1Server (STM · outbox · registry · Postgres)</span>
     <span><i class="sw" style="background:#3a2f52"></i>p1Worker (listener · workers · delegate)</span>
-    <span><i class="sw" style="background:var(--kafka)"></i>Kafka p1-work</span>
-    <span><i class="sw" style="background:var(--accent)"></i>WorkerDto out</span>
+    <span><i class="sw" style="background:var(--kafka)"></i>Kafka process-work</span>
+    <span><i class="sw" style="background:var(--accent)"></i>Work out</span>
     <span><i class="sw" style="background:var(--accent2)"></i>result callback</span>
   </div>
   <footer>Companion to the <b>process deployment tutorial</b> on chenile.org. The server never runs business logic; the worker never touches the process database. Everything between them is one Kafka topic and a registry-discovered callback.</footer>
@@ -209,22 +209,22 @@ const S=[
   t:"Consequence recorded", x:"In the SAME transaction that saves the process, a START_WORKER (SPLITTER) command is written to the durable outbox. State and consequence commit atomically.",
   st:{batch:["SPLIT_PENDING","split"]}},
  {seg:"e-start", lit:["c-outbox","c-starter"], color:"accent",
-  t:"Poller drains", x:"The outbox poller hands the WorkerDto to the queue-based starter.",
+  t:"Poller drains", x:"The outbox poller hands the START_WORKER command to the queue-based starter.",
   st:{}},
- {seg:"e-pub", lit:["c-starter","c-kafka"], packet:"WorkerDto · SPLITTER", color:"accent",
-  t:"Publish to Kafka", x:"QueueBasedProcessStarter publishes the WorkerDto to topic p1-work. The tenant rides along as x-chenile-tenant-id.",
+ {seg:"e-pub", lit:["c-starter","c-kafka"], packet:"batch · SPLITTER", color:"accent",
+  t:"Publish to Kafka", x:"QueueBasedProcessStarter publishes a WorkListenerInput (processId, payload, execDef) to topic process-work, with headers processType=batch, workerType=SPLITTER and the tenant as x-chenile-tenant-id.",
   st:{}},
- {seg:"e-deliver", lit:["c-kafka","c-listener"], packet:"WorkerDto · SPLITTER", color:"accent",
+ {seg:"e-deliver", lit:["c-kafka","c-listener"], packet:"batch · SPLITTER", color:"accent",
   t:"Deliver to worker", x:"p1Worker's Kafka listener (a generated headless Chenile service) consumes the message in group p1-workers.",
   st:{}},
  {seg:"e-disp-s", lit:["c-listener","c-split"], color:"accent2",
-  t:"Dispatch to BatchSplitter", x:"ProcessWorkListener → ProcessWorkers validates the tenant and routes to the SPLITTER for 'batch': your BatchSplitter.",
+  t:"Dispatch to BatchSplitter", x:"The listener's service selector turns batch + SPLITTER into the bean batchSplitter; the body selector types the payload as BatchIn. Your BatchSplitter runs with the tenant restored.",
   st:{}},
  {seg:"e-cb", lit:["c-split","c-del","c-stm"], packet:"splitDone · 3 items", color:"accent2", callback:true,
-  t:"splitDone callback", x:"BatchSplitter.doStart(BatchIn) returns three ItemIn children (makeSubProcessPayload). process-delegate calls splitDone back on the server, discovered via the service registry.",
+  t:"splitDone callback", x:"BatchSplitter.doStart(WorkListenerInput<BatchIn>) returns three ItemIn children (makeSubProcessPayload). process-delegate calls splitDone back on the server, discovered via the service registry.",
   st:{batch:["SUB_PROCESSES_PENDING","split"], items:[0,1,2], chips:"show"}},
  {seg:"e-disp-e", lit:["c-stm","c-exec"], color:"accent2",
-  t:"Items execute", x:"The server creates three item children (EXECUTING) and enqueues START_WORKER (EXECUTOR) for each — published to p1-work and dispatched to your ItemExecutor. Each ItemExecutor.doStart(ItemIn) returns an ItemOutput.",
+  t:"Items execute", x:"The server creates three item children (EXECUTING) and enqueues START_WORKER (EXECUTOR) for each — published to process-work and routed to the itemExecutor bean. Each ItemExecutor.doStart(WorkListenerInput<ItemIn>) returns an ItemOutput.",
   st:{run:[0,1,2]}},
  {seg:"e-cb", lit:["c-exec","c-del","c-stm"], packet:"doneSuccessfully ×3", color:"accent2", callback:true,
   t:"Children complete", x:"Each item reports doneSuccessfully; SIGNAL_PARENT counts it once (receipt-guarded). When all three are done and the split is finalized, batch advances to AGGREGATION_PENDING.",

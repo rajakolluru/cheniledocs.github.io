@@ -42,6 +42,8 @@ public S1Service s1T1Service() {
 
 Same URL, same service registration — Chenile's `ConstructServiceReference` interceptor reads the trajectory from the exchange and, when it's `t1`, hands the request to `s1T1Service` instead of the default. Even the message bundle can differ, so error `1234 "not valid"` becomes `1235 "is illegal"` on `t1`. A request with no header (or `t2`) still gets the default bean.
 
+Trajectories are one of three ways `ConstructServiceReference` can swap the implementation, and the order is fixed: **mock** mode first, then a **trajectory** override, then the service's own [`ServiceSelector`](/developer/runtime-internals/#choosing-the-implementation-per-request) (2.1.35), then the default bean. A trajectory is an *external*, header-driven experiment; a selector is the service's *own* routing rule — and when both apply, the trajectory wins.
+
 ```gherkin
 When I construct a REST request with header "x-chenile-trajectory-id" and value "t1"
 And  I POST a REST request to URL "/s1/op1" with payload "{}"

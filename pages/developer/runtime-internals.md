@@ -74,7 +74,7 @@ That is how one fixed skeleton carries per-deployable, per-service and per-opera
 | 5 | pre-processors | deployable-wide policies |
 | 6 | `transformationClassSelector` | decides the Java body type (`exchange.bodyType`) |
 | 7 | `transformer` | deserializes the raw JSON body into that type (bad request on failure) |
-| 8 | `constructServiceReference` | picks the target bean and method — honouring **mock** mode and [trajectory](/concepts/14-trajectories/) overrides |
+| 8 | `constructServiceReference` | picks the target bean and method — **mock** mode first, then a [trajectory](/concepts/14-trajectories/) override, then the service's optional [`ServiceSelector`](#choosing-the-implementation-per-request), then the default bean |
 | 9 | post-processors | deployable-wide policies |
 | 10 | operation-specific interceptors | e.g. a security or logging policy on one operation |
 | 11 | service-specific interceptors | policies on the whole service |
@@ -112,6 +112,7 @@ Besides [annotations](/concepts/annotation-based-services/), services can be dec
 ```json
 {
   "name": "jsonService", "id": "jsonService",
+  "serviceSelector": "customerServiceSelector",
   "mockName": "jsonServiceMock", "healthCheckerName": "jsonHealthChecker",
   "interceptorComponentNames": ["serviceInterceptor"],
   "operations": [{
@@ -124,7 +125,30 @@ Besides [annotations](/concepts/annotation-based-services/), services can be dec
 }
 ```
 
-`name` is the implementation bean; `id` is the logical service id used by the registry and trajectories. Operation fields: `name`, `url`, `httpMethod`, `produces`/`consumes` (`JSON`, `TEXT`, `HTML`, `PDF`), `input`, `output`, `interceptorComponentNames`, `bodyTypeSelectorComponentNames`, `eventSubscribedTo` and `params`.
+`name` is the implementation bean; `id` is the logical service id used by the registry and trajectories; `serviceSelector` optionally names a bean that can pick a different implementation per request (below). Operation fields: `name`, `url` and/or `urls` (several paths for one operation, since 2.1.33), `httpMethod`, `produces`/`consumes` (`JSON`, `TEXT`, `HTML`, `PDF`), `input`, `output`, `interceptorComponentNames`, `bodyTypeSelectorComponentNames`, `eventSubscribedTo` and `params`.
+
+## Choosing the implementation per request
+
+<span class="pill">2.1.35</span> A service can name a **`ServiceSelector`** — `@ChenileController(serviceSelector = "...")` or `"serviceSelector"` in its JSON definition. The selector is a Spring bean that looks at each exchange and returns the bean name of the implementation to call, or `null` to use the service's normal `serviceName` bean:
+
+```java
+@ChenileController(value = "processWork", serviceName = "_processWorkService_",
+                   serviceSelector = "processWorkServiceSelector")
+public class ProcessWorkListener { ... }
+
+@Component("processWorkServiceSelector")
+public class ProcessWorkServiceSelector implements ServiceSelector {
+    public String selectServiceReferenceName(ChenileExchange exchange, ChenileServiceDefinition sd) {
+        String processType = (String) exchange.getHeader("processType");  // e.g. "item"
+        String workerType  = (String) exchange.getHeader("workerType");   // EXECUTOR | SPLITTER | AGGREGATOR
+        return processType + capitalize(workerType);                       // e.g. "itemExecutor"; null = default
+    }
+}
+```
+
+`constructServiceReference` resolves the implementation in a fixed order: **mock** mode, then a **trajectory** override, then the **selector**, then the default bean. So a trajectory still wins over a selector, and mocks win over both. One service registration, one set of interceptors and one URL can then front several implementations chosen at runtime — by a header, a tenant, a payload attribute, anything on the exchange.
+
+Two things to know. The selector bean itself is checked at startup (a bean that isn't a `ServiceSelector` fails with error 525). The bean it *returns* is looked up — and its method matched by operation name and parameters — **on each request**, so a misnamed or mismatched bean fails that request rather than startup. When the candidate implementations take different body types, pair the selector with a `@BodyTypeSelector`, as [process management's typed work listeners](/developer/process-management/) do.
 
 ## Events reuse the same chain
 

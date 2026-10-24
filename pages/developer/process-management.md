@@ -21,7 +21,7 @@ A trigger raises a `ProcessCreate` event that creates a root `Process`. The stat
 |---|---|
 | `process-api` | Shared model: `Process`, `ProcessDto`, `WorkerDto`, `WorkerType`, the `Constants` catalogue of states/events, payloads, `ProcessCompletedEvent`, the `WorkerStarter` interface and configuration abstraction (`IProcessConfigurator`, `ProcessDef`). |
 | `process-service` | The running service: STM definition, transition commands, `ProcessManagerImpl`, `ProcessController`, `ProcessEntryAction`, the configurators, durable-execution wiring and Spring configuration. |
-| `process-delegate` | Remote manager client, worker APIs and helpers, including `SplitterBase`, `ExecutorBase`, `AggregatorBase` and `BatchServiceBase`. |
+| `process-delegate` | Remote manager client and the worker bases: the typed `ExecutorWorkListener`, `SplitterWorkListener` and `AggregatorWorkListener` (2.1.35), routed by `processWorkServiceSelector` and typed by `processWorkBodyTypeSelector`; the older `SplitterBase` / `ExecutorBase` / `AggregatorBase` / `BatchServiceBase` remain for legacy `WorkerDto` listeners. |
 | `chenile-outbox` | Transactional outbox for [durable execution](/developer/process-outbox/) (database-only, no cycle). |
 | `invm-process-starter` · `q-based-process-starter` · `jdbc-process-starter` | The three interchangeable worker launch strategies. |
 | `trigger-api` · `trigger-service` · `crontab-api` · `crontab-service` | Durable trigger acceptance, shared outbox dispatch and Quartz schedules — see the [trigger framework](/developer/trigger-framework/). |
