@@ -61,7 +61,7 @@ Most entries do work themselves. Five are **interpolation commands** — placeho
 | `operationSpecificProcessorsInterpolation` | interceptors on the operation | `interceptorComponentNames` / `@InterceptedBy` |
 | `serviceSpecificProcessorsInterpolation` | interceptors on the service | service-level `interceptorComponentNames` |
 
-That is how one fixed skeleton carries per-deployable, per-service and per-operation [policies](/concepts/03-service-policies/).
+That is how one fixed skeleton carries per-deployable, per-service and per-operation [policies](/concepts/03-service-policies/). You can add your own interpolation to choose interceptors per request, for example by tenant; see [polymorphism by configuration](/concepts/16-polymorphism/#choosing-the-interceptors).
 
 ## One request, forward and back
 
@@ -148,7 +148,7 @@ public class ProcessWorkServiceSelector implements ServiceSelector {
 
 `constructServiceReference` resolves the implementation in a fixed order: **mock** mode, then a **trajectory** override, then the **selector**, then the default bean. So a trajectory still wins over a selector, and mocks win over both. One service registration, one set of interceptors and one URL can then front several implementations chosen at runtime — by a header, a tenant, a payload attribute, anything on the exchange.
 
-Two things to know. The selector bean itself is checked at startup (a bean that isn't a `ServiceSelector` fails with error 525). The bean it *returns* is looked up — and its method matched by operation name and parameters — **on each request**, so a misnamed or mismatched bean fails that request rather than startup. When the candidate implementations take different body types, pair the selector with a `@BodyTypeSelector`, as [process management's typed work listeners](/developer/process-management/) do.
+Two things to know. The selector bean itself is checked at startup (a bean that isn't a `ServiceSelector` fails with error 525). The bean it *returns* is looked up — and its method matched by operation name and parameters — **on each request**, so a misnamed or mismatched bean fails that request rather than startup. When the candidate implementations take different body types, pair the selector with a `@BodyTypeSelector`, as [process management's typed work listeners](/developer/process-management/) do. For how selectors, trajectories, body-type selectors and the workflow resolvers fit together — and how to catch a wrong choice before a request does — see [polymorphism by configuration](/concepts/16-polymorphism/).
 
 ## Events reuse the same chain
 

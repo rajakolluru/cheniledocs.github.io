@@ -1,0 +1,129 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 680" font-family="Josefin Sans, Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="Polymorphism by configuration: one request carrying a tenant, a trajectory and a workflow event passes through the Chenile pipeline. At each stage one of several alternatives is chosen from data: which interceptors wrap it, what type the body becomes, which implementation bean runs (mock, trajectory, selector, default), whether it runs locally or remotely, and which workflow action fires. The same operation is published to agents as one MCP tool per event, and configuration values are overridden per tenant.">
+  <defs>
+    <linearGradient id="yg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e0801e"/><stop offset="0.5" stop-color="#f89038"/><stop offset="1" stop-color="#ffab52"/></linearGradient>
+    <marker id="ya" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#f89038"/></marker>
+    <filter id="ysh" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#0d0d0d" flood-opacity="0.14"/></filter>
+    <style>.h{font-family:'Sora','Josefin Sans',sans-serif;font-weight:800;fill:#141414}.mut{fill:#857f76}.mono{font-family:ui-monospace,Menlo,Consolas,monospace}.cap{font-weight:700;letter-spacing:.08em;fill:#c8611a}</style>
+  </defs>
+  <text x="550.0" y="38" text-anchor="middle" font-size="24" class="h">One request, many possible paths — <tspan fill="#e0801e">chosen per request, from data</tspan></text>
+  <text x="550.0" y="64" text-anchor="middle" font-size="14" class="mut">At every stage Chenile picks one of several alternatives from the request's headers, payload or workflow event. Your business code has no if statements for it.</text>
+
+  <g filter="url(#ysh)"><rect x="20" y="100" width="170" height="290" rx="14" fill="#fff" stroke="#ece6dd"/></g>
+  <text x="105.0" y="126" text-anchor="middle" font-size="12" class="cap">THE REQUEST</text>
+  <rect x="30" y="142" width="150" height="26" rx="7" fill="#fff1e2" stroke="#ffd9b3" />
+  <text x="105.0" y="159.0" text-anchor="middle" font-size="10.5" font-weight="600" fill="#c8611a" class="mono">PATCH /order/42/assign</text>
+  <text x="36" y="190" font-size="11" class="mut">tenant</text>
+  <text x="36" y="206" font-size="12.5" font-weight="700" fill="#141414" class="mono">acme</text>
+  <text x="36" y="230" font-size="11" class="mut">trajectory</text>
+  <text x="36" y="246" font-size="12.5" font-weight="700" fill="#141414" class="mono">t1</text>
+  <text x="36" y="270" font-size="11" class="mut">event</text>
+  <text x="36" y="286" font-size="12.5" font-weight="700" fill="#141414" class="mono">assign</text>
+  <text x="36" y="310" font-size="11" class="mut">body</text>
+  <text x="36" y="326" font-size="12.5" font-weight="700" fill="#141414" class="mono">{ … JSON … }</text>
+  <text x="105.0" y="376" text-anchor="middle" font-size="10.5" class="mut">headers · payload · state</text>
+  <g filter="url(#ysh)"><rect x="210" y="100" width="166" height="290" rx="14" fill="#fff" stroke="#ece6dd"/></g>
+  <text x="293.0" y="126" text-anchor="middle" font-size="11.5" class="cap">1 · INTERCEPTORS</text>
+  <text x="293.0" y="144" text-anchor="middle" font-size="10.5" class="mut">by service · operation · tenant</text>
+  <rect x="219" y="158" width="148" height="26" rx="7" fill="url(#yg)" stroke="none" />
+  <text x="293.0" y="175.0" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">pre-processors</text>
+  <rect x="219" y="192" width="148" height="26" rx="7" fill="url(#yg)" stroke="none" />
+  <text x="293.0" y="209.0" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">service interceptors</text>
+  <rect x="219" y="226" width="148" height="26" rx="7" fill="url(#yg)" stroke="none" />
+  <text x="293.0" y="243.0" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">operation interceptors</text>
+  <rect x="219" y="260" width="148" height="26" rx="7" fill="url(#yg)" stroke="none" />
+  <text x="293.0" y="277.0" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">acme audit (custom)</text>
+  <rect x="219" y="294" width="148" height="26" rx="7" fill="#fff" stroke="#d9d1c5" stroke-dasharray="4 3"/>
+  <text x="293.0" y="311.0" text-anchor="middle" font-size="11" font-weight="500" fill="#514c44">beta rate-limit</text>
+  <line x1="224" y1="356" x2="362" y2="356" stroke="#ece6dd"/>
+  <text x="293.0" y="376" text-anchor="middle" font-size="9.5" fill="#c8611a" class="mono">interpolations</text>
+  <line x1="191" y1="245.0" x2="208" y2="245.0" stroke="#f89038" stroke-width="2.5" marker-end="url(#ya)"/>
+  <g filter="url(#ysh)"><rect x="388" y="100" width="166" height="290" rx="14" fill="#fff" stroke="#ece6dd"/></g>
+  <text x="471.0" y="126" text-anchor="middle" font-size="11.5" class="cap">2 · INPUT TYPE</text>
+  <text x="471.0" y="144" text-anchor="middle" font-size="10.5" class="mut">by workflow event</text>
+  <rect x="397" y="158" width="148" height="26" rx="7" fill="url(#yg)" stroke="none" />
+  <text x="471.0" y="175.0" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">AssignPayload</text>
+  <rect x="397" y="192" width="148" height="26" rx="7" fill="#fff" stroke="#d9d1c5" stroke-dasharray="4 3"/>
+  <text x="471.0" y="209.0" text-anchor="middle" font-size="11" font-weight="500" fill="#514c44">ShipPayload</text>
+  <rect x="397" y="226" width="148" height="26" rx="7" fill="#fff" stroke="#d9d1c5" stroke-dasharray="4 3"/>
+  <text x="471.0" y="243.0" text-anchor="middle" font-size="11" font-weight="500" fill="#514c44">CancelPayload</text>
+  <rect x="397" y="260" width="148" height="26" rx="7" fill="#fff6e0" stroke="#e8b04a" stroke-dasharray="4 3"/>
+  <text x="471.0" y="277.0" text-anchor="middle" font-size="11" font-weight="700" fill="#9a6400">⚠ fallback: op input</text>
+  <line x1="402" y1="356" x2="540" y2="356" stroke="#ece6dd"/>
+  <text x="471.0" y="376" text-anchor="middle" font-size="9.5" fill="#c8611a" class="mono">StmBodyTypeSelector</text>
+  <line x1="377" y1="245.0" x2="386" y2="245.0" stroke="#f89038" stroke-width="2.5" marker-end="url(#ya)"/>
+  <g filter="url(#ysh)"><rect x="566" y="100" width="166" height="290" rx="14" fill="#fff" stroke="#ece6dd"/></g>
+  <text x="649.0" y="126" text-anchor="middle" font-size="11.5" class="cap">3 · IMPLEMENTATION</text>
+  <text x="649.0" y="144" text-anchor="middle" font-size="10.5" class="mut">first rule that applies wins</text>
+  <rect x="575" y="158" width="148" height="26" rx="7" fill="#f4f1ec" stroke="#ece6dd" />
+  <text x="649.0" y="175.0" text-anchor="middle" font-size="11" font-weight="500" fill="#b3a99a">1 · mock — off</text>
+  <rect x="575" y="192" width="148" height="26" rx="7" fill="#f4f1ec" stroke="#ece6dd" />
+  <text x="649.0" y="209.0" text-anchor="middle" font-size="11" font-weight="500" fill="#b3a99a">2 · trajectory t1 — none</text>
+  <rect x="575" y="226" width="148" height="26" rx="7" fill="url(#yg)" stroke="none" />
+  <text x="649.0" y="243.0" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">3 · selector ➜ premium</text>
+  <rect x="575" y="260" width="148" height="26" rx="7" fill="#fff" stroke="#d9d1c5" stroke-dasharray="4 3"/>
+  <text x="649.0" y="277.0" text-anchor="middle" font-size="11" font-weight="500" fill="#514c44">4 · default bean</text>
+  <line x1="580" y1="356" x2="718" y2="356" stroke="#ece6dd"/>
+  <text x="649.0" y="376" text-anchor="middle" font-size="9.5" fill="#c8611a" class="mono">constructServiceReference</text>
+  <line x1="555" y1="245.0" x2="564" y2="245.0" stroke="#f89038" stroke-width="2.5" marker-end="url(#ya)"/>
+  <g filter="url(#ysh)"><rect x="744" y="100" width="166" height="290" rx="14" fill="#fff" stroke="#ece6dd"/></g>
+  <text x="827.0" y="126" text-anchor="middle" font-size="11.5" class="cap">4 · LOCATION</text>
+  <text x="827.0" y="144" text-anchor="middle" font-size="10.5" class="mut">when called through a proxy</text>
+  <rect x="753" y="158" width="148" height="26" rx="7" fill="url(#yg)" stroke="none" />
+  <text x="827.0" y="175.0" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">local · in-VM</text>
+  <rect x="753" y="192" width="148" height="26" rx="7" fill="#fff" stroke="#d9d1c5" stroke-dasharray="4 3"/>
+  <text x="827.0" y="209.0" text-anchor="middle" font-size="11" font-weight="500" fill="#514c44">remote · HTTP</text>
+  <rect x="753" y="226" width="148" height="26" rx="7" fill="#fff" stroke="#d9d1c5" stroke-dasharray="4 3"/>
+  <text x="827.0" y="243.0" text-anchor="middle" font-size="11" font-weight="500" fill="#514c44">remote · event</text>
+  <line x1="758" y1="356" x2="896" y2="356" stroke="#ece6dd"/>
+  <text x="827.0" y="376" text-anchor="middle" font-size="9.5" fill="#c8611a" class="mono">ProxyTypeRouter</text>
+  <line x1="733" y1="245.0" x2="742" y2="245.0" stroke="#f89038" stroke-width="2.5" marker-end="url(#ya)"/>
+  <g filter="url(#ysh)"><rect x="922" y="100" width="166" height="290" rx="14" fill="#fff" stroke="#ece6dd"/></g>
+  <text x="1005.0" y="126" text-anchor="middle" font-size="11.5" class="cap">5 · WORKFLOW LOGIC</text>
+  <text x="1005.0" y="144" text-anchor="middle" font-size="10.5" class="mut">event assign, tenant acme</text>
+  <rect x="931" y="158" width="148" height="26" rx="7" fill="url(#yg)" stroke="none" />
+  <text x="1005.0" y="175.0" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">acmeOrderAssign</text>
+  <rect x="931" y="192" width="148" height="26" rx="7" fill="#fff" stroke="#d9d1c5" stroke-dasharray="4 3"/>
+  <text x="1005.0" y="209.0" text-anchor="middle" font-size="11" font-weight="500" fill="#514c44">orderAssign</text>
+  <rect x="931" y="226" width="148" height="26" rx="7" fill="#fff6e0" stroke="#e8b04a" stroke-dasharray="4 3"/>
+  <text x="1005.0" y="243.0" text-anchor="middle" font-size="11" font-weight="700" fill="#9a6400">⚠ default action (no-op)</text>
+  <line x1="936" y1="356" x2="1074" y2="356" stroke="#ece6dd"/>
+  <text x="1005.0" y="376" text-anchor="middle" font-size="8.8" fill="#c8611a" class="mono">STMTransitionActionResolver</text>
+  <line x1="911" y1="245.0" x2="920" y2="245.0" stroke="#f89038" stroke-width="2.5" marker-end="url(#ya)"/>
+  <text x="649.0" y="414" text-anchor="middle" font-size="12" class="mut">the same <tspan class="mono" fill="#c8611a" font-size="11">chenile-highway</tspan> pipeline runs for HTTP, events, proxies, the scheduler and MCP</text>
+  <g filter="url(#ysh)"><rect x="20" y="440" width="470" height="172" rx="14" fill="#fff" stroke="#ece6dd"/></g>
+  <text x="36" y="466" font-size="11.5" class="cap">HOW AGENTS SEE IT · MCP</text>
+  <rect x="36" y="501" width="180" height="26" rx="7" fill="#fff1e2" stroke="#ffd9b3" />
+  <text x="126.0" y="518.0" text-anchor="middle" font-size="10.5" font-weight="600" fill="#c8611a" class="mono">PATCH /order/{id}/{event}</text>
+  <path d="M216,514 C 250,514 250,493 288,493" fill="none" stroke="#f89038" stroke-width="2" marker-end="url(#ya)"/>
+  <rect x="292" y="480" width="170" height="26" rx="7" fill="url(#yg)" stroke="none" />
+  <text x="377.0" y="497.0" text-anchor="middle" font-size="10.5" font-weight="700" fill="#fff" class="mono">order_assign</text>
+  <path d="M216,514 C 250,514 250,527 288,527" fill="none" stroke="#f89038" stroke-width="2" marker-end="url(#ya)"/>
+  <rect x="292" y="514" width="170" height="26" rx="7" fill="url(#yg)" stroke="none" />
+  <text x="377.0" y="531.0" text-anchor="middle" font-size="10.5" font-weight="700" fill="#fff" class="mono">order_ship</text>
+  <path d="M216,514 C 250,514 250,561 288,561" fill="none" stroke="#f89038" stroke-width="2" marker-end="url(#ya)"/>
+  <rect x="292" y="548" width="170" height="26" rx="7" fill="url(#yg)" stroke="none" />
+  <text x="377.0" y="565.0" text-anchor="middle" font-size="10.5" font-weight="700" fill="#fff" class="mono">order_cancel</text>
+  <text x="36" y="598" font-size="9.5" fill="#c8611a" class="mono">@ChenilePolymorph · ProcessIdPolymorph — one typed tool per event</text>
+  <g filter="url(#ysh)"><rect x="506" y="440" width="290" height="172" rx="14" fill="#fff" stroke="#ece6dd"/></g>
+  <text x="522" y="466" font-size="11.5" class="cap">WHICH VALUES APPLY</text>
+  <rect x="522" y="482" width="258" height="26" rx="7" fill="#fff" stroke="#d9d1c5" stroke-dasharray="4 3"/>
+  <text x="651.0" y="499.0" text-anchor="middle" font-size="11" font-weight="500" fill="#514c44">maxItems = 100  (module default)</text>
+  <rect x="522" y="516" width="258" height="26" rx="7" fill="url(#yg)" stroke="none" />
+  <text x="651.0" y="533.0" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">maxItems = 250  (tenant acme)</text>
+  <text x="522" y="598" font-size="9.5" fill="#c8611a" class="mono">cconfig overrides · workflow enablement</text>
+  <g filter="url(#ysh)"><rect x="812" y="440" width="268" height="172" rx="14" fill="#fff" stroke="#ece6dd"/></g>
+  <text x="828" y="466" font-size="11.5" class="cap">LEGEND</text>
+  <rect x="828" y="480" width="40" height="18" rx="7" fill="url(#yg)" stroke="none" />
+  <text x="848.0" y="493.0" text-anchor="middle" font-size="11.5" font-weight="700" fill="#fff"></text>
+  <text x="878" y="493" font-size="11.5" fill="#514c44">chosen for this request</text>
+  <rect x="828" y="505" width="40" height="18" rx="7" fill="#fff" stroke="#d9d1c5" stroke-dasharray="4 3"/>
+  <text x="848.0" y="518.0" text-anchor="middle" font-size="11.5" font-weight="500" fill="#514c44"></text>
+  <text x="878" y="518" font-size="11.5" fill="#514c44">available, not chosen</text>
+  <rect x="828" y="530" width="40" height="18" rx="7" fill="#f4f1ec" stroke="#ece6dd" />
+  <text x="848.0" y="543.0" text-anchor="middle" font-size="11.5" font-weight="500" fill="#b3a99a"></text>
+  <text x="878" y="543" font-size="11.5" fill="#514c44">rule did not apply</text>
+  <rect x="828" y="555" width="40" height="18" rx="7" fill="#fff6e0" stroke="#e8b04a" stroke-dasharray="4 3"/>
+  <text x="848.0" y="568.0" text-anchor="middle" font-size="11.5" font-weight="700" fill="#9a6400"></text>
+  <text x="878" y="568" font-size="11.5" fill="#514c44">silent fallback — watch it</text>
+  <text x="550.0" y="656" text-anchor="middle" font-size="12.5" class="mut">Change the tenant, trajectory or event and a different path lights up. The ⚠ boxes are where a wiring mistake shows up as wrong behaviour, not an error.</text>
+</svg>

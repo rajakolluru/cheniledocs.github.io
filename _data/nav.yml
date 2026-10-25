@@ -33,6 +33,8 @@
       url: "/concepts/14-trajectories/"
     - title: "15 · Writing blueprints"
       url: "/concepts/15-blueprints/"
+    - title: "16 · Polymorphism by configuration"
+      url: "/concepts/16-polymorphism/"
 - title: "Architecture"
   url: "/architecture/"
 - title: "Docs"

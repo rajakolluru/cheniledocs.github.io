@@ -42,7 +42,7 @@ public S1Service s1T1Service() {
 
 Same URL, same service registration — Chenile's `ConstructServiceReference` interceptor reads the trajectory from the exchange and, when it's `t1`, hands the request to `s1T1Service` instead of the default. Even the message bundle can differ, so error `1234 "not valid"` becomes `1235 "is illegal"` on `t1`. A request with no header (or `t2`) still gets the default bean.
 
-Trajectories are one of three ways `ConstructServiceReference` can swap the implementation, and the order is fixed: **mock** mode first, then a **trajectory** override, then the service's own [`ServiceSelector`](/developer/runtime-internals/#choosing-the-implementation-per-request) (2.1.35), then the default bean. A trajectory is an *external*, header-driven experiment; a selector is the service's *own* routing rule — and when both apply, the trajectory wins.
+Trajectories are one instance of a wider Chenile idea — [polymorphism by configuration](/concepts/16-polymorphism/). They are one of three ways `ConstructServiceReference` can swap the implementation, and the order is fixed: **mock** mode first, then a **trajectory** override, then the service's own [`ServiceSelector`](/developer/runtime-internals/#choosing-the-implementation-per-request) (2.1.35), then the default bean. A trajectory is an *external*, header-driven experiment; a selector is the service's *own* routing rule — and when both apply, the trajectory wins.
 
 ```gherkin
 When I construct a REST request with header "x-chenile-trajectory-id" and value "t1"
@@ -52,7 +52,7 @@ Then the REST response key "id" is "S1T1ServiceImpl"
 
 ## 2 · A different workflow action or auto-state
 
-Trajectories reach into the state machine too. The [convention-based resolver](/concepts/09-registry-and-proxies/) that finds transition actions, auto-state computations and post-save hooks accepts **context prefixes** — so a trajectory can select a trajectory-specific bean for a given event. The `approve` transition can run `returnsApproveAction` normally and a `t1` variant under trajectory `t1`, chosen automatically by name. Your STM XML doesn't change; the wiring follows the trajectory.
+Trajectories reach into the state machine too. The convention-based resolver that finds transition actions, auto-state computations and post-save hooks accepts **context prefixes** — when it is configured with the trajectory header as one of them (`chenile-trajectory-id`), a trajectory can select a trajectory-specific bean for a given event. The `approve` transition can run `returnsApproveAction` normally and a `t1` variant under trajectory `t1`, chosen automatically by name. Your STM XML doesn't change; the wiring follows the trajectory.
 
 ## 3 · A different configuration value
 
@@ -82,4 +82,4 @@ Finally, [cconfig](/concepts/08-configuration-management/) resolves values per t
 </div>
 
 <div class="callout"><div class="t">Where to look</div>
-<code>@ConditionalOnTrajectory</code> and <code>ConstructServiceReference</code> in <code>chenile-core</code>; header handling in <code>HeaderUtils</code> / <code>RegionToTrajectoryConverter</code> (a region can derive a trajectory); trajectory-aware resolution in <code>STMTransitionActionResolver</code>; per-trajectory config in <code>cconfig</code>. Working example: the <code>s1</code> / <code>s1-t1-service</code> modules in <code>chenile-samples</code>.</div>
+<code>@ConditionalOnTrajectory</code> and <code>ConstructServiceReference</code> in <code>chenile-core</code>; header handling in <code>HeaderUtils</code> / <code>RegionToTrajectoryConverter</code> (a region can derive a trajectory); context-prefix resolution in <code>STMTransitionActionResolver</code> (opt-in for trajectories); per-trajectory config in <code>cconfig</code>. Working example: the <code>s1</code> / <code>s1-t1-service</code> modules in <code>chenile-samples</code>.</div>
