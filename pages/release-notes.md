@@ -12,7 +12,8 @@ Chenile's repositories are versioned together under `chenile-parent` and release
 
 ## By version
 
-- [**2.1.35**]({{ '/release-notes/2.1.35/' | relative_url }}) — *(in development)* per-request service selection (`serviceSelector`), typed process work listeners, interceptor names checked at startup, one JGen validator for blueprint inputs, and a Quartz cron builder in the process console.
+- [**2.1.36**]({{ '/release-notes/2.1.36/' | relative_url }}) — *(in development)* JGen generates Git repositories (`initGit`), standalone blueprint projects, `_DoT_` for dotfiles in templates, and the `GITHUB_REPOSITORY` and `PATTERN` validation rules.
+- [**2.1.35**]({{ '/release-notes/2.1.35/' | relative_url }}) — *(tagged October 27; JGen released October 31)* per-request service selection (`serviceSelector`), typed process work listeners, interceptor names checked at startup, a Quartz cron builder in the process console, and for JGen one validator for blueprint inputs, generation records and `jgen -r`, blueprints from GitHub, and Homebrew/JBang installs.
 - [**2.1.29–2.1.34 complete history**]({{ '/release-notes/2.1.29-to-2.1.34/' | relative_url }}) — consolidated feature and upgrade notes across the release train.
 - [**2.1.34**]({{ '/release-notes/2.1.34/' | relative_url }}) — *(tagged; parent published; dependent bundles validated)* the `chenile-process-worker-set` blueprint, a shared concrete worker service, Kafka retry and dead-lettering for worker failures, and header-scoped queue publication.
 - [**2.1.33**]({{ '/release-notes/2.1.33/' | relative_url }}) — *(built and tested; publication pending)* shared outbox and split crontab dependency management, server/worker process blueprints, composable generation and declarative input validation.
