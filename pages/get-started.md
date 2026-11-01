@@ -21,13 +21,14 @@ summary: "Scaffold a Chenile service with jgen, build a deployable mini-monolith
 ## 1 · Install jgen
 
 ```bash
-git clone https://github.com/rajakolluru/chenile-gen.git
-cd chenile-gen
-make clean all            # builds jgen (and stm-cli) and the CLI wrapper scripts
-source setpath.sh         # puts `jgen` and `stm-cli` on your PATH
+brew install ajapros/jgen-tap/jgen          # macOS / Linux (or: jbang app install jgen@rajakolluru/chenile-gen)
+brew install ajapros/jgen-tap/stm-cli       # optional: diagrams and test cases from states XML
 ```
 
-`make all` builds the multi-module jgen project and prepares the launcher at `jgen/jgen-cli/bin/jgen.sh`. `source setpath.sh` adds that (and `stm-cli`) to your `PATH` for the session — add the same line to your `~/.zshrc` / `~/.bashrc` to make it permanent.
+To build JGen from source instead: `git clone https://github.com/rajakolluru/chenile-gen.git`, `cd chenile-gen`,
+`make clean all`, then `source setpath.sh`, which puts `jgen.sh` on your `PATH`. See
+[Install JGen](https://jgen.chenile.org/install/). JGen and stm-cli are released on their own cadence; `jgen
+--version` shows which Chenile version generated projects target.
 
 ## 2 · (Optional) create a local config
 

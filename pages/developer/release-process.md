@@ -55,7 +55,11 @@ done
 
 ## After the framework
 
-- **JGen** (`chenile-gen`) and its STM CLI are released separately and should be aligned to the new parent.
+- **JGen and stm-cli are not part of the train.** From JGen 2.5.1 and stm-cli 1.0.0 they have their own version
+  lines and release cadence, and build only against released Chenile versions. After a Chenile release, a JGen or
+  stm-cli release may move its `chenile-parent` to the new version, and JGen may move its default `chenileVersion`.
+  That is a separate release of that tool. Don't tag `chenile-gen` or `stm-cli` with Chenile versions. See
+  [JGen releases and versions](https://jgen.chenile.org/releases/).
 - **Javadoc** — bump the parent in `chenile-javadoc/pom.xml`; building the aggregation POM does not publish the Javadoc site by itself.
 - **This website** — `maven_version` in `_config.yml` drives every "latest release" string. A daily workflow (`scripts/update-version.sh`) follows Maven Central but **never downgrades**, so a work-in-progress version set by hand survives. Add release notes under `pages/release-notes/`, and refresh [Chenile by the numbers](/by-the-numbers/) with `python3 scripts/codebase-stats.py ..`.
 
