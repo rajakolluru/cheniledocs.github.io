@@ -171,10 +171,11 @@ The first token is the exact registered blueprint name; the remaining `key=value
 ### Conditional templates and placeholders
 - **Conditional folders** `%%key=value%%` include a subtree only when an input matches — e.g. `%%jpa=true%%`, `%%separateRegistry=true%%`. Everything inside is emitted (unwrapped) when the condition holds and skipped otherwise.
 - **Path placeholders** in folder and file names are substituted: `__service__`, `__Service__`, `__application__`, `__workerModule__`, and the package segments `__com__` / `__company__` / `__org__`.
+- **Dots in names:** every `_DoT_` in a file or folder name becomes a dot, so a template can carry dotfiles that Maven would leave out of the jar: `_DoT_gitignore` becomes `.gitignore`, `_DoT_github/workflows` becomes `.github/workflows`.
 - **Mustache** renders file bodies against the (possibly hook-augmented) input map.
 
 ### Declarative input validation
-Input fields declare a `type` (`STRING`, `BOOLEAN`, `FILE`, `DROPDOWN` + `validValues`, `RECORD_ARRAY` + `childFields`, `SuperPOM`, `POM_Dependencies`) and an optional `validation` rule — `JAVA_IDENTIFIER`, `JAVA_TYPE`, `JAVA_PACKAGE`, `PROJECT_NAME`, `VERSION`, `HTTP_URL`, `KAFKA_TOPIC`. A `visibleWhen` map (e.g. `{"registryMode": "create"}`) gates a prompt's visibility in the CLI and portal **and** its server-side validation. JGen applies all of this uniformly across interactive, file and composed/child inputs **before** any hook runs. **Version gating** is part of the same pass: a blueprint's `sinceVersion` is checked against your configured `chenileVersion` before anything is generated.
+Input fields declare a `type` (`STRING`, `BOOLEAN`, `FILE`, `DROPDOWN` + `validValues`, `RECORD_ARRAY` + `childFields`, `SuperPOM`, `POM_Dependencies`) and an optional `validation` rule — `JAVA_IDENTIFIER`, `JAVA_TYPE`, `JAVA_PACKAGE`, `PROJECT_NAME`, `VERSION`, `HTTP_URL`, `KAFKA_TOPIC`, `GITHUB_REPOSITORY`, or `PATTERN` with your own `pattern` and `patternMessage`. A `visibleWhen` map (e.g. `{"registryMode": "create"}`) gates a prompt's visibility in the CLI and portal **and** its server-side validation. JGen applies all of this uniformly across interactive, file and composed/child inputs **before** any hook runs. **Version gating** is part of the same pass: a blueprint's `sinceVersion` is checked against your configured `chenileVersion` before anything is generated.
 
 Built-in blueprint fields that become Java package segments use `JAVA_IDENTIFIER`,
 including service, batch, interceptor, query, monolith and generated-blueprint names.
