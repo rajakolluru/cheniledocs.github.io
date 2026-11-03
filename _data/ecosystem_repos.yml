@@ -1,0 +1,114 @@
+# Every public Chenile repository outside the 11-repo framework release train (those live in repos.yml).
+# Each group is a section on /repositories/. Tools here have their own version lines, separate from Chenile.
+- id: "tools"
+  short: "Tools"
+  title: "Code generation and command-line tools"
+  lead: "Released on their own cadence and built only against released Chenile. JGen is on the 2.5.x line and stm-cli on 1.0.x; both install from the shared Homebrew tap or with JBang."
+  repos:
+    - name: "chenile-gen"
+      github: "rajakolluru/chenile-gen"
+      icon: "🛠️"
+      kind: "Generator"
+      blurb: "JGen, the pure-Java, blueprint-driven code generator. Generates Chenile services, workflows, queries, mini-monoliths, process deployments and ecosystems, and anything else that is text. Ships the CLI, the template engine, the Pebble extension and the built-in blueprints."
+      modules: ["jgen-cli", "jgen-base", "jgen-ext-pebble", "jgen-portal", "bp-service", "bp-headless-service", "bp-wfservice", "bp-wfcustom", "bp-mybatisQuery", "bp-minimonolith", "bp-ecosystem", "bp-process-management", "bp-process-workers", "bp-batch", "bp-interceptor", "bp-it", "bp-jgen-blueprint"]
+      install: "brew install ajapros/jgen-tap/jgen\njbang app install jgen@rajakolluru/chenile-gen"
+      site: "https://jgen.chenile.org"
+    - name: "jgen-catalog"
+      github: "ajapros/jgen-catalog"
+      icon: "📚"
+      kind: "Catalog"
+      blurb: "The official JGen blueprint catalog. A catalog.json mapping short names to GitHub-hosted blueprints, so anyone can generate from a blueprint by name. JGen trusts entries here without asking, so every addition is reviewed like code. A pull-request check validates the file."
+      modules: ["catalog.json", "scripts/validate.py"]
+      install: "jgen --search <term>\njgen -g <name>@<version> -o input.json"
+      site: "https://jgen.chenile.org/catalogs/"
+    - name: "homebrew-jgen-tap"
+      github: "ajapros/homebrew-jgen-tap"
+      icon: "🍺"
+      kind: "Homebrew tap"
+      blurb: "The Homebrew tap for Chenile's command-line tools. Its formulas install the release zips from GitHub with OpenJDK 25, the man pages and shell completions. The tap holds two formulas, jgen and stm-cli."
+      modules: ["Formula/jgen.rb", "Formula/stm-cli.rb"]
+      install: "brew tap ajapros/jgen-tap\nbrew install jgen stm-cli"
+    - name: "stm-cli"
+      github: "ajapros/stm-cli"
+      icon: "🧩"
+      kind: "CLI"
+      blurb: "Renders and inspects Chenile state-machine definitions (the states XML used by Chenile STM and Finito) without starting the machine: Mermaid and PlantUML diagrams, the events allowed in a state, and generated test cases that walk every transition. It replaces the CLI that used to live inside workflow-utils."
+      modules: ["org.chenile.stmcli.StmCli"]
+      install: "brew install ajapros/jgen-tap/stm-cli\njbang app install stm-cli@ajapros/stm-cli"
+
+- id: "ai"
+  short: "AI"
+  title: "AI assistants"
+  lead: "Agent skills that teach Claude and Codex the Chenile contracts, house rules and JGen blueprints."
+  repos:
+    - name: "chenile-claude-plugins"
+      github: "ajapros/chenile-claude-plugins"
+      icon: "🤖"
+      kind: "Plugin"
+      blurb: "The chenile plugin for Claude Code, Claude desktop and Codex, with one shared set of skills. Each release also attaches one zip per skill for uploading to claude.ai."
+      modules: ["chenile-framework-knowledge", "chenile-jgen", "chenile-architecture", "chenile-process-management", "chenile-query-workflow-blueprints"]
+      install: "claude plugin marketplace add ajapros/chenile-claude-plugins\nclaude plugin install chenile@chenile-plugins\ncodex plugin marketplace add ajapros/chenile-claude-plugins\ncodex plugin add chenile@chenile-plugins"
+
+- id: "learning"
+  short: "Samples"
+  title: "Samples"
+  lead: "Runnable applications that show each Chenile feature in isolation. They track the latest Chenile release."
+  repos:
+    - name: "chenile-samples"
+      github: "ajapros/chenile-samples"
+      icon: "🎓"
+      kind: "Samples"
+      blurb: "Sample services behind the tutorials: persistence, queries, workflows, Owiz orchestration, interceptors, security, the service registry, MQTT, the scheduler (JDBC and Kubernetes CronJob modes), bulk-upload processes and BDD tests."
+      modules: ["service-with-persistence", "order-query-service", "student-query-service", "owiz-tut", "foo-interceptor", "feed-orchestrator", "bulk-upload-process-sample", "scheduler-sample", "service-registry-sample", "security-auth-sample", "secservice", "secmonolith", "mqtt-multi-client-sample", "mqtt-multi-client-workflow-sample", "chenile-bdd-sample", "how_to_extend_chenile_service", "how_to_extend_chenile_service_multitenant_pubsub"]
+
+- id: "sites"
+  short: "Sites"
+  title: "Documentation and websites"
+  lead: "Each site is a GitHub Pages repository and is rebuilt on every push."
+  repos:
+    - name: "cheniledocs.github.io"
+      github: "rajakolluru/cheniledocs.github.io"
+      icon: "🌐"
+      kind: "Website"
+      blurb: "This site: concepts, architecture, developer docs, release notes, the repository map and the video series. A Jekyll site whose repository cards and figures come from the files in _data."
+      modules: ["_concepts", "_episodes", "pages/developer", "pages/release-notes", "_data"]
+      site: "https://chenile.org"
+    - name: "jgen-microsite"
+      github: "ajapros/jgen-microsite"
+      icon: "📘"
+      kind: "Website"
+      blurb: "The JGen documentation site: install and the CLI manual, configuration and versions, the blueprint catalogue, template conventions, the generation pipeline, writing, composing and publishing blueprints, input validation and catalogs. Its content is derived from chenile-gen."
+      modules: ["install", "manual", "blueprints", "template-conventions", "pipeline", "authoring", "composable-blueprints", "aggregated-blueprints", "remote-blueprints", "catalogs", "extensions", "scripting"]
+      site: "https://jgen.chenile.org"
+    - name: "state-flow-welcome-page"
+      github: "ajapros/state-flow-welcome-page"
+      icon: "🔁"
+      kind: "Website"
+      blurb: "The single-page site for Finito, Chenile's finite-state-machine engine: XML, fluent or JSON flows, convention-based wiring to Spring, and automatic Mermaid and PlantUML diagrams."
+      modules: ["index.html"]
+      site: "https://thefinito.org"
+    - name: "chenile-javadoc"
+      github: "ajapros/chenile-javadoc"
+      icon: "📑"
+      kind: "API reference"
+      blurb: "Builds one unified Javadoc for every Chenile module from the artifacts on Maven Central. Bumping its chenile-parent version and pushing to main republishes the site, so the Maven Central deploy has to come first."
+      modules: ["pom.xml", "deploy-javadoc.yml"]
+      site: "https://javadoc.chenile.org"
+
+- id: "legacy"
+  short: "Legacy"
+  title: "Legacy repositories"
+  lead: "Kept for history. New work happens in the repositories above."
+  repos:
+    - name: "chenile"
+      github: "rajakolluru/chenile"
+      icon: "🗄️"
+      kind: "Legacy"
+      blurb: "The original single-repository Chenile (the 1.x line, last at 1.4.2), before the framework was split into the 11 repositories that now move together under chenile-parent."
+      modules: ["chenile-core", "chenile-http", "chenile-proxy", "chenile-security", "chenile-mqtt", "chenile-query-service"]
+    - name: "chenile-samples (original)"
+      github: "rajakolluru/chenile-samples"
+      icon: "🗄️"
+      kind: "Legacy"
+      blurb: "The first home of the sample applications, last updated in November 2024. The maintained copy is ajapros/chenile-samples."
+      modules: []

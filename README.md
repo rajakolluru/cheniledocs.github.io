@@ -21,7 +21,8 @@ chenile-site/
 ├── _data/
 │   ├── stats.yml          # PLACEHOLDER stat figures
 │   ├── reviews.yml        # PLACEHOLDER testimonials
-│   ├── repos.yml          # the 11 repositories
+│   ├── repos.yml          # the 11 framework repositories
+│   ├── ecosystem_repos.yml  # every other public repo (tools, plugin, samples, sites)
 │   └── nav.yml            # top navigation
 ├── _concepts/             # the 5-part story (collection → /concepts/...)
 ├── _episodes/             # 8 YouTube episode scripts (collection → /video-series/...)

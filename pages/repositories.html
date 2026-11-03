@@ -1,21 +1,38 @@
 ---
 layout: default
-title: "The 11 repositories"
+title: "Repositories"
 permalink: /repositories/
-summary: "One framework, cleanly split across eleven repositories that move together under chenile-parent."
+summary: "Every public Chenile repository: the eleven framework repositories that move together under chenile-parent, plus JGen, its catalog, the Homebrew tap, stm-cli, the AI plugin, samples and the documentation sites."
 ---
+{% assign groups = site.data.ecosystem_repos %}
+{% assign other_count = 0 %}
+{% for g in groups %}{% assign other_count = other_count | plus: g.repos.size %}{% endfor %}
+{% assign total_count = site.data.repos.size | plus: other_count %}
 <div class="page-hero">
   <div class="narrow">
     <div class="kicker">Source map</div>
-    <h1>The 11 Chenile repositories</h1>
-    <p class="lead">Versioned together under <code>chenile-parent</code>, currently aligned on v{{ site.maven_version }}. Each repository owns a clear slice of the framework.</p>
+    <h1>Every Chenile repository</h1>
+    <p class="lead">{{ total_count }} public repositories. The framework itself is {{ site.data.repos.size }} repositories versioned together under <code>chenile-parent</code>, currently on v{{ site.maven_version }}. Around it sit the code generator, its catalog and Homebrew tap, the state-machine CLI, the AI plugin, the samples and the documentation sites.</p>
   </div>
 </div>
 <section>
   <div class="wrap">
+    <div class="doc" style="max-width:none;overflow-x:auto">
+      <table class="repo-index">
+        <thead><tr><th>Repository</th><th>Group</th><th>Kind</th></tr></thead>
+        <tbody>
+          {% for r in site.data.repos %}<tr><td><a href="#{{ r.name | slugify }}"><code>{{ r.name }}</code></a></td><td><a href="#framework">Framework</a></td><td>{{ r.layer }}</td></tr>
+          {% endfor %}{% for g in groups %}{% for r in g.repos %}<tr><td><a href="#{{ r.name | slugify }}"><code>{{ r.name }}</code></a></td><td><a href="#{{ g.id }}">{{ g.short }}</a></td><td>{{ r.kind }}</td></tr>
+          {% endfor %}{% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="framework" style="margin-top:56px">The framework: {{ site.data.repos.size }} repositories, one release train</h2>
+    <p class="lead" style="margin-bottom:28px">Released together in a fixed order, starting with <code>chenile-parent</code>, and published to Maven Central under <code>org.chenile</code>.</p>
     <div class="repo-grid">
       {% for r in site.data.repos %}
-      <div class="repo">
+      <div class="repo" id="{{ r.name | slugify }}">
         <div class="top">
           <span class="ic">{{ r.icon }}</span>
           <code>{{ r.name }}</code>
@@ -27,13 +44,40 @@ summary: "One framework, cleanly split across eleven repositories that move toge
         </div>
         {% assign cs = site.data.codebase.repos | where: "name", r.name | first %}
         {% if cs and cs.main_loc > 0 %}<p class="repo-size" style="margin:10px 0 0;font-family:var(--mono);font-size:.78rem;color:var(--muted)">{{ cs.main_loc }} production · {{ cs.test_loc }} test lines of Java · {{ cs.modules }} modules</p>{% endif %}
+        <div class="repo-links"><a href="https://github.com/{{ r.github }}">github.com/{{ r.github }} →</a></div>
       </div>
       {% endfor %}
     </div>
     <div class="callout" style="margin-top:40px">
       <div class="t">How they layer</div>
-      <code>chenile-parent</code> defines versions → <code>chenile-core</code> provides the runtime → <code>chenile-query-workflow-blueprints</code> and <code>chenile-process-management</code> add application patterns → <code>chenile-service-registry</code>, <code>chenile-proxies</code>, <code>chenile-security</code> and <code>chenile-messaging</code> add integration → <code>chenile-bdd</code> and <code>chenile-others</code> add testing and operations → <code>cconfig</code> supplies runtime configuration.
+      <code>chenile-parent</code> defines versions → <code>chenile-core</code> provides the runtime → <code>chenile-query-workflow-blueprints</code> and <code>chenile-process-management</code> add application patterns → <code>chenile-service-registry</code>, <code>chenile-proxies</code>, <code>chenile-security</code> and <code>chenile-messaging</code> add integration → <code>chenile-bdd</code> and <code>chenile-others</code> add testing and operations → <code>cconfig</code> supplies runtime configuration. The <code>cconfig</code> source lives in the GitHub repository <code>ajapros/config</code>.
     </div>
-    <p style="text-align:center;margin-top:34px"><a class="btn btn-ghost" href="{{ '/by-the-numbers/' | relative_url }}">Chenile by the numbers →</a> &nbsp; <a class="btn btn-ghost" href="{{ site.github_repo }}">Browse the source on GitHub →</a></p>
+
+    {% for g in groups %}
+    <h2 id="{{ g.id }}" style="margin-top:72px">{{ g.title }}</h2>
+    <p class="lead" style="margin-bottom:28px">{{ g.lead }}</p>
+    <div class="repo-grid">
+      {% for r in g.repos %}
+      <div class="repo" id="{{ r.name | slugify }}">
+        <div class="top">
+          <span class="ic">{{ r.icon }}</span>
+          <code>{{ r.name }}</code>
+          <span class="tag layer">{{ r.kind }}</span>
+        </div>
+        <p>{{ r.blurb }}</p>
+        {% if r.modules.size > 0 %}<div class="mods">
+          {% for m in r.modules %}<span>{{ m }}</span>{% endfor %}
+        </div>{% endif %}
+        {% if r.install %}<pre class="repo-install"><code>{{ r.install | escape }}</code></pre>{% endif %}
+        <div class="repo-links">
+          <a href="https://github.com/{{ r.github }}">github.com/{{ r.github }} →</a>
+          {% if r.site %}<a href="{{ r.site }}">{{ r.site | remove: "https://" }} →</a>{% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% endfor %}
+
+    <p style="text-align:center;margin-top:48px"><a class="btn btn-ghost" href="{{ '/by-the-numbers/' | relative_url }}">Chenile by the numbers →</a> &nbsp; <a class="btn btn-ghost" href="{{ '/release-notes/' | relative_url }}">Release notes →</a></p>
   </div>
 </section>

@@ -210,6 +210,12 @@ pre code { background: none; color: inherit; padding: 0; }
 .repo p { color: var(--slate); font-size: .94rem; margin: 12px 0 12px; }
 .repo .mods { display: flex; flex-wrap: wrap; gap: 6px; }
 .repo .mods span { font-family: var(--mono); font-size: .72rem; background: var(--soft); border: 1px solid var(--line); color: var(--muted); padding: 2px 8px; border-radius: 6px; }
+.repo { scroll-margin-top: 90px; display: flex; flex-direction: column; min-width: 0; }
+.repo .repo-install { margin: 14px 0 0; padding: 12px 14px; font-size: .74rem; border-radius: 10px; white-space: pre-wrap; overflow-wrap: anywhere; }
+.wrap > h2[id] { scroll-margin-top: 90px; }
+.repo .repo-install code { font-size: inherit; font-weight: 400; color: inherit; }
+.repo .repo-links { margin-top: auto; padding-top: 14px; display: flex; flex-wrap: wrap; gap: 6px 16px; font-family: var(--mono); font-size: .78rem; overflow-wrap: anywhere; }
+.repo-index td:first-child code { background: none; padding: 0; }
 
 /* ---------- Reviews ---------- */
 .reviews { display: grid; grid-template-columns: repeat(2,1fr); gap: 22px; }
