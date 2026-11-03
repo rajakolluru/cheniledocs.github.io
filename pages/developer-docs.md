@@ -28,6 +28,7 @@ These guides focus on implementing Chenile services and safely extending their r
 - [Beyond HTTP — alternate entry points]({{ '/developer/entry-points/' | relative_url }}) — trigger the same service from an event, a cron schedule (scheduler) or a dropped file (file-watch), plus caching.
 - [Messaging transports]({{ '/developer/messaging-transports/' | relative_url }}) — configure MQTT, Kafka, Azure Event Hubs, in-JVM pub/sub and the cloud-edge switch behind the one pub/sub interface.
 - [MCP — services as AI tools]({{ '/developer/mcp/' | relative_url }}) — expose services, workflows and queries to AI agents over the Model Context Protocol.
+- [Building Chenile with Claude]({{ '/developer/claude/' | relative_url }}) — the Chenile plugin for Claude: framework knowledge, house rules and JGen skills, installed with `/plugin install chenile@chenile-plugins`.
 - [External API logging]({{ '/developer/external-api-logging/' | relative_url }}) — capture and publish inbound/outbound third-party API traffic for audit.
 
 ## Data &amp; queries

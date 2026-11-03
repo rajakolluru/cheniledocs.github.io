@@ -44,6 +44,8 @@ items:
     url: "/developer/config-maven-plugin/"
   - title: "JGen blueprint reference"
     url: "/developer/jgen-blueprints/"
+  - title: "Building Chenile with Claude"
+    url: "/developer/claude/"
   - title: "Releasing Chenile"
     url: "/developer/release-process/"
   - title: "Chenile by the numbers"

@@ -30,6 +30,10 @@ To build JGen from source instead: `git clone https://github.com/rajakolluru/che
 [Install JGen](https://jgen.chenile.org/install/). JGen and stm-cli are released on their own cadence; `jgen
 --version` shows which Chenile version generated projects target.
 
+**Using Claude?** Install the [Chenile plugin for Claude]({{ '/developer/claude/' | relative_url }}). Claude then
+follows Chenile's house rules and uses JGen blueprints when it writes code:
+`/plugin marketplace add ajapros/chenile-claude-plugins`, then `/plugin install chenile@chenile-plugins`.
+
 ## 2 · (Optional) create a local config
 
 jgen ships sensible defaults (package `com.mycompany.myorg`, version `0.0.1-SNAPSHOT`, output `./output`). To customise them for your company:
