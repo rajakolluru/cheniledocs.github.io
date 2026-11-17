@@ -32,7 +32,7 @@ The most-used ones for building applications are:
 - **`chenile-headless-service`** — a non-HTTP, transport-neutral Chenile service *(2.1.31)*.
 - **`chenile-ecosystem`** — composes the standard blueprints into a complete
   service ecosystem *(2.1.31)*.
-- **`chenile-process-management`** — a typed, multi-level [process](/developer/process-management/) application with workers, definitions and cron triggers *(2.1.31)*.
+- **`chenile-process-management`** — a typed, multi-level [process](/developer/process-management/) application with workers, definitions and schedules *(2.1.31)*.
 
 Plus `chenile-interceptor` (a reusable policy), `it` (an integration-test harness), `batch` (bulk processing), and the wonderfully recursive **`jgen-blueprint`** — a blueprint that generates new blueprints.
 

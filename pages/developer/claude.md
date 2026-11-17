@@ -31,7 +31,15 @@ It contains five skills:
 
 ## Install
 
-**Claude Code:**
+**Claude desktop (Cowork):**
+
+1. Open **Customize → Plugins**.
+2. Choose **Add → Add marketplace** and enter `ajapros/chenile-claude-plugins`.
+3. Install **chenile** from the list.
+
+Use **Check for updates** on the marketplace to get new versions.
+
+**Claude Code** (`/plugin` is a Claude Code command; it doesn't exist in the desktop app):
 
 ```text
 /plugin marketplace add ajapros/chenile-claude-plugins
@@ -41,7 +49,7 @@ It contains five skills:
 Claude then uses the skills on its own whenever your work matches. To get updates, run
 `/plugin marketplace update chenile-plugins`.
 
-**claude.ai and Claude desktop:**
+**claude.ai (web), without plugins:**
 
 1. Download the skill zips from the
    [repository's releases](https://github.com/ajapros/chenile-claude-plugins/releases), or build them with

@@ -24,7 +24,7 @@ Both Chenile [process management](/developer/process-management/) and Temporal r
 | External effects | At-least-once; receivers deduplicate (`WorkerDto.dispatchId`) | At-least-once activities; make them idempotent |
 | Crash recovery | Lease reclaim + stale-claimant fencing | Automatic via replay |
 | Retries / dead-letter | Exponential backoff, max attempts, `DEAD`, compensation, `replayDead` | Per-activity retry policies |
-| Timers / cron | Visibility delay + entry-level Quartz crontabs | Native durable timers and schedules |
+| Timers / cron | Visibility delay + Quartz schedules that fire `ProcessCreate` through the durable trigger service | Native durable timers and schedules |
 | Signals / queries | Events via REST/STM + durable parent signalling | First-class signals and queries |
 | Visibility | SQL over process/trigger/outbox tables + the [admin dashboard](/developer/process-admin/) | Web UI + searchable history |
 | Scaling | `FOR UPDATE SKIP LOCKED` + database backlog (KEDA) | Task queues + workers |

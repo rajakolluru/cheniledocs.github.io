@@ -9,8 +9,8 @@
 - name: "chenile-core"
   github: "ajapros/chenile-core"
   layer: "Core runtime"
-  blurb: "The execution engine: ChenileExchange model, the interceptor pipeline, service/operation definitions, HTTP binding, state-machine (STM) support and MCP support."
-  modules: ["stm", "chenile-base", "owiz", "chenile-core", "chenile-http", "cucumber-utils", "utils", "jpa-utils", "multi-datasource-utils", "chenile-mcp", "chenile-admin-ui"]
+  blurb: "The execution engine: ChenileExchange model, the interceptor pipeline, service/operation definitions, HTTP binding, the Chenile event model and its TriggerService, state-machine (STM) support and MCP support."
+  modules: ["stm", "chenile-base", "owiz", "chenile-core", "chenile-trigger", "chenile-http", "cucumber-utils", "utils", "jpa-utils", "multi-datasource-utils", "chenile-mcp", "chenile-admin-ui"]
   icon: "⚙️"
 
 - name: "chenile-query-workflow-blueprints"
@@ -23,8 +23,8 @@
 - name: "chenile-process-management"
   github: "ajapros/chenile-process-management"
   layer: "Application blueprints"
-  blurb: "Orchestration for long-running parent and child processes: splitter/aggregator trees, pluggable worker starters, trigger ingress with cron schedules, a shared mandatory durable outbox, and an administrator API with a React dashboard."
-  modules: ["process-api", "process-service", "process-delegate", "invm-process-starter", "q-based-process-starter", "jdbc-process-starter", "chenile-outbox", "trigger-api", "trigger-service", "crontab-api", "crontab-service", "process-admin-server", "process-ui"]
+  blurb: "Orchestration for long-running parent and child processes: splitter/aggregator trees, pluggable worker starters, trigger ingress for schedules and files, a shared mandatory durable outbox, and an administrator API with a React dashboard."
+  modules: ["process-api", "process-service", "process-delegate", "invm-process-starter", "q-based-process-starter", "jdbc-process-starter", "chenile-outbox", "trigger-service", "process-admin-server", "process-ui"]
   icon: "🧭"
 
 - name: "chenile-service-registry"
@@ -65,8 +65,8 @@
 - name: "chenile-others"
   github: "ajapros/chenile-others"
   layer: "Auxiliary"
-  blurb: "Supporting entry points and integrations: file-watch, a Kubernetes-aware scheduler, cache, and the config maven plugin."
-  modules: ["chenile-filewatch", "chenile-scheduler", "chenile-cache", "chenile-config-maven-plugin"]
+  blurb: "Event sources and integrations: schedules (in JSON, code or the database) and file watch, both raising Chenile events, plus cache and the config maven plugin."
+  modules: ["chenile-filewatch", "chenile-scheduler", "chenile-scheduler-db", "chenile-cache", "chenile-config-maven-plugin"]
   icon: "🧰"
 
 - name: "cconfig"

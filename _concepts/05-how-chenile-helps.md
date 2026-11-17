@@ -47,6 +47,7 @@ The pieces that make this work are spread across the framework's repositories, b
 - **`chenile-service-registry`** — the registry that binds policies to operations and carries their configuration.
 - **`chenile-proxies`** — call other Chenile services through their interface, locally or remotely, without hand-written transport, so the same policy model spans in-process and cross-process calls.
 - **`chenile-messaging`** — extends the model beyond HTTP to pub/sub (MQTT, Kafka, Azure, in-JVM) and the cloud-edge switch, so policies apply to event-driven entry points too.
+- **Chenile events** — other than HTTP, everything that starts work is an internal [Chenile event](/concepts/17-events/): a message on a topic, a schedule coming due (`chenile-scheduler`), a file landing in a folder (`chenile-filewatch`). Operations subscribe to events; the mapping from the external happening to the event is configuration.
 
 Because a policy is configuration-driven and orchestration-unaware, the *same* authorization interceptor can guard an HTTP request at the gateway, an internal proxy call at the last mile, and a message consumed from a queue.
 

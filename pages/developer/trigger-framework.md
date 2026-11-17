@@ -1,29 +1,45 @@
 ---
 layout: doc
 title: Trigger framework architecture
-description: Durable trigger acceptance, shared outbox dispatch, status queries, and process correlation.
+description: The TriggerService contract, the in-memory and durable implementations, outbox dispatch, status queries and process correlation.
 permalink: /developer/trigger-framework/
 ---
 
 # Trigger framework architecture
 
-Trigger sources submit event invocations into the shared `chenile-outbox` infrastructure. The
-trigger API remains independent of cron and process management. There is no separate trigger table.
+Every internal source of a [Chenile event](/concepts/17-events/) (the scheduler, file watch, the `/trigger`
+endpoint and your own code) raises it through one contract, `TriggerService`, from the `chenile-trigger` module in
+chenile-core. There are two implementations, and Chenile picks one automatically.
 
-## Acceptance and identity
+<span class="pill">{{ site.maven_version }}</span> Release status: chenile-trigger, and the scheduler and file watch
+firing through it, arrive in Chenile 2.1.36, which is in development.
+
+| | `DirectTriggerService` | `EventTriggerService` |
+|---|---|---|
+| Module | `chenile-trigger` (chenile-core) | `trigger-service` (chenile-process-management) |
+| Used when | no other `TriggerService` exists (auto-configuration) | `trigger-service` is on the class path |
+| Raises the event | at once, in the caller's thread | later, from the shared outbox dispatcher |
+| A failure | is thrown to the caller; the key is released for a retry | is retried; a trigger that keeps failing ends as DEAD |
+| Deduplication | in memory, on this node, for a limited time | durable, across nodes |
+| Status | in memory: RUNNING, DONE or FAILED | from the outbox: PENDING, RUNNING, DONE or DEAD |
+
+Both apply the same input rules (shared in `TriggerRequests`): an event id is required, headers must start with
+`x-`, the tenant must match the caller's, any incoming `x-chenile-trigger-id` is dropped, and
+`x-chenile-event-source` is set from the input's source.
+
+## Durable acceptance and identity
 
 POST /trigger accepts eventId, the original payload, x-prefixed headers, generic triggerContext,
-triggerTime and an optional idempotencyKey. It commits acceptance before returning HTTP 202. The
-Chenile response payload contains only `{"triggerId":"<outbox-id>"}`. No event is invoked during submission.
-The Location header and GET /trigger/{id} provide tenant-scoped status queries.
+triggerTime and an optional idempotencyKey. With `EventTriggerService` it commits acceptance before returning
+HTTP 202. The Chenile response payload contains only `{"triggerId":"<outbox-id>"}`. No event is invoked during
+submission. The Location header and GET /trigger/{id} provide tenant-scoped status queries.
 `TriggerResult` implements Chenile's `ResponseHeadersAware` contract to expose that header;
-`@ChenileResponseCodes(success = 202, warning = 202)` supplies the status. The controller simply
-calls `process(...)`, with no special header construction or response-body code rewriting.
-The header metadata is excluded from the JSON payload.
+`@ChenileResponseCodes(success = 202, warning = 202)` supplies the status. The header metadata is excluded from
+the JSON payload.
 
-The outbox ID is the trigger ID. Dispatch sets x-chenile-trigger-id to this ID, and a resulting process
-records it for correlation. Retry keys are separate: the same tenant/event/key returns the original
-acknowledgement, including after failure. Without a key, every submission is a new trigger.
+The outbox ID is the trigger ID. Dispatch sets `x-chenile-trigger-id` to this ID, and a resulting process records
+it for correlation. Retry keys are separate: the same tenant/event/key returns the original acknowledgement,
+including after failure. Without a key, every submission is a new trigger. There is no separate trigger table.
 
 ## Execution and recovery
 
@@ -36,14 +52,15 @@ Status progresses through PENDING, RUNNING, DONE or DEAD. Failures retry with th
 lease, fencing and backoff rules. A missing subscriber is a failure. Preserve trigger command
 identities and decodable envelopes so status and duplicate suppression survive retention cleanup.
 
-## Cron and process lineage
+## Schedules, files and process lineage
 
-`crontab-api` owns schedule models and contracts; `crontab-service` implements them and depends on
-trigger-api for event submission, never trigger-service. Quartz schedules remain in chenile_crontab. A firing
-uses schedule ID and Quartz fire identity as a submission key; the acknowledged trigger ID is
-assigned separately. Cron metadata and all configured/generated x-headers are triggerContext JSON.
-The scheduler passes eventPayloadJson unchanged; subscriber conversion validates the event body.
+The scheduler and file watch do not know which implementation they call. A schedule fires with source `CRON`, the
+key `schedule:<id>:<scheduled fire time>` and the schedule headers; a file record with source `FILE`, the key
+`file:<fileWatchId>:<file name>:<sha256>:<record index>` and the file headers. So in a deployment with
+`trigger-service`, every scheduled fire and file record is accepted durably and retried, and in a cluster a fire
+from two nodes is accepted once. See [schedules and file watch](/developer/entry-points/).
 
 Processes keep trigger, parent and predecessor correlation. Completion and chaining use terminal
 process state and transactional receipts; no separate completion-event snapshot is required.
-The management API and React dashboard read trigger history from DISPATCH_TRIGGER commands.
+The management API and React dashboard read trigger history from DISPATCH_TRIGGER commands and filter it by
+schedule through the `x-chenile-schedule-id` header.

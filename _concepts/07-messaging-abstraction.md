@@ -79,6 +79,14 @@ The payoff is bigger than transport portability. Because `chenile-core` normaliz
 - The same **service implementation** can be reached by REST, by an in-process [proxy](/repositories/), or by a message — without rewriting it. A Chenile service is, in effect, protocol-agnostic; Chenile acts as an in-VM message bus that also speaks HTTP.
 - **`cloud-edge-switch`** builds on this to route the same messages between edge devices and a cloud broker, so an event can originate at the edge and be handled centrally with identical logic.
 
+### A message is one way to raise a Chenile event
+
+Other than HTTP, Chenile treats everything as an event. A message received on a topic is mapped onto an
+internal **Chenile event** (by default the event id is the topic; `chenile.kafka.consumer.topic-bindings` maps a
+topic to another event id), and every operation subscribed to that event runs. A schedule coming due and a file
+arriving in a watched folder raise Chenile events in exactly the same way, so a subscriber does not care which of
+them fired it. See [Everything but HTTP is an event](/concepts/17-events/).
+
 <div class="callout">
   <div class="t">In one line</div>
   Messaging in Chenile is not a bolt-on. It's the same architecture — interface over implementation, one pipeline for every entry point — extended from request/response to events. Choose your broker in configuration; keep your business logic and your policies exactly as they are.

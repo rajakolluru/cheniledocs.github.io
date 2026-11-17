@@ -35,6 +35,8 @@
       url: "/concepts/15-blueprints/"
     - title: "16 · Polymorphism by configuration"
       url: "/concepts/16-polymorphism/"
+    - title: "17 · Everything but HTTP is an event"
+      url: "/concepts/17-events/"
 - title: "Architecture"
   url: "/architecture/"
 - title: "Docs"

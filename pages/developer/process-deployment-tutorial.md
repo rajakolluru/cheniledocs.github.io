@@ -72,10 +72,12 @@ the real work.
 - **`config.queue`** is the Kafka topic a definition's work is published to (here both use `process-work`).
   Anything without a `queue` falls back to the blueprint's default `workTopic`.
 
-Cron schedules live in a **separate** file (`cronSpec`), seeded disabled, read by `JsonCrontabRepository`:
+Schedules live in a **separate** file (`scheduleSpec`). The generator checks each one (Quartz cron, timezone,
+`ProcessCreate`, payload against `inputFields`) and the server seeds them, disabled, as database schedules
+(chenile-scheduler-db) <span class="pill">2.1.36</span>:
 
 ```json
-[ { "name": "daily-batch", "eventName": "ProcessCreate", "cronExpression": "0 0 2 * * ?",
+[ { "name": "daily-batch", "tenant": "default", "eventId": "ProcessCreate", "cronExpression": "0 0 2 * * ?",
     "timezone": "UTC", "enabled": false,
     "payload": { "processDefName": "batch", "args": { "batchId": "example" } } } ]
 ```

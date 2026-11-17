@@ -24,7 +24,7 @@ A trigger raises a `ProcessCreate` event that creates a root `Process`. The stat
 | `process-delegate` | Remote manager client and the worker bases: the typed `ExecutorWorkListener`, `SplitterWorkListener` and `AggregatorWorkListener` (2.1.35), routed by `processWorkServiceSelector` and typed by `processWorkBodyTypeSelector`; the older `SplitterBase` / `ExecutorBase` / `AggregatorBase` / `BatchServiceBase` remain for legacy `WorkerDto` listeners. |
 | `chenile-outbox` | Transactional outbox for [durable execution](/developer/process-outbox/) (database-only, no cycle). |
 | `invm-process-starter` · `q-based-process-starter` · `jdbc-process-starter` | The three interchangeable worker launch strategies. |
-| `trigger-api` · `trigger-service` · `crontab-api` · `crontab-service` | Durable trigger acceptance, shared outbox dispatch and Quartz schedules — see the [trigger framework](/developer/trigger-framework/). |
+| `trigger-service` | Durable trigger acceptance and shared outbox dispatch; implements chenile-core's `chenile-trigger` contract — see the [trigger framework](/developer/trigger-framework/). Schedules come from chenile-others' `chenile-scheduler` and `chenile-scheduler-db` <span class="pill">2.1.36</span>. |
 | `process-admin-server` · `process-ui` | Runnable administrator host and React dashboard — see [administration](/developer/process-admin/). |
 
 ## The domain model
@@ -49,7 +49,7 @@ A new process starts at `isThisLeafNode`. **There is no parked or dormant state 
 ## End-to-end lifecycle
 
 ```
-Trigger (Quartz crontab, HTTP, or any adapter)
+Trigger (a schedule, a file, HTTP, or any adapter)
   → TriggerService.trigger(TriggerInput)            idempotent on (triggerId, eventName)
   → EventProcessor.handleEvent("ProcessCreate", ProcessDto, headers)
   → ProcessManagerImpl.create(ProcessDto)            root created, trigger correlation kept
@@ -71,7 +71,7 @@ Trigger (Quartz crontab, HTTP, or any adapter)
 | `POST /process/completed` (also the `ProcessCompleted` event) | Completion ingress used for chaining |
 
 ```json
-{ "processDefName": "feed", "args": { "file": "s3://…" }, "triggerId": "crontab:nightly:abc", "description": "Nightly feed" }
+{ "processDefName": "feed", "args": { "file": "s3://…" }, "triggerId": "schedule:nightly:abc", "description": "Nightly feed" }
 ```
 
 `create` requires `processDefName`, serializes `args` into `input`, and records `triggerId` from the payload or the `x-chenile-trigger-id` header. A direct `POST /process` always creates a new root — deduplicating repeated activations is the [trigger layer's](/developer/trigger-framework/) job, not the process manager's.
@@ -166,18 +166,14 @@ x-chenile-trigger-id and process correlation. There is no trigger_log table. Cro
 and x-headers are generic triggerContext JSON. Local subscriber effects and command acknowledgement
 commit together; external effects still need receiver-side idempotency.
 
-## Crontab API and service split
+## Schedules <span class="pill">2.1.36</span>
 
-`crontab-api` contains the shared JPA model and service/reader contracts. `crontab-service`
-contains implementations, persistence, validation, Quartz integration, and the Chenile controller.
-Replace the old `crontab-trigger` Maven dependency with `crontab-service` (or only `crontab-api`
-for contract consumers). Public Java packages and database schema are unchanged.
-
-The controller exposes POST/GET `/crontab` and GET/DELETE `/crontab/{id}` through the Chenile
-highway. Every operation delegates to `process(...)`; the service owns validation, tenant
-isolation, and transactions. Successful responses use standard Chenile envelopes with HTTP 200;
-invalid input returns 400 and absent/foreign-tenant records return 404. Quartz changes run after
-commit. See the crontab service README for request examples and BDD coverage.
+A schedule that starts a process fires the `ProcessCreate` event with a `ProcessDto` payload. Schedules are
+chenile-others' [`chenile-scheduler`](/developer/entry-points/#schedules) (JSON and code) and
+`chenile-scheduler-db` (stored, managed over `POST|GET /schedule` and in the console). They replace
+`crontab-api` and `crontab-service`, which are removed; the old `chenile_crontab` table is no longer used and its
+rows are not migrated. Each fire goes through the durable trigger service, keyed by
+`schedule:<id>:<scheduled fire time>`, and carries `x-chenile-schedule-id`.
 
 ## Standalone process-definition REST API
 

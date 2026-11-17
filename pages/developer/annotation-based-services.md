@@ -185,5 +185,5 @@ objects. Persistence scans belong to the host application rather than library co
 
 BDD uses Cucumber REST steps from `cucumber-utils`, Spring glue, and the real Chenile highway and
 service implementation. Pass tenant headers explicitly and cover persistence, errors, tenant
-isolation, and external effects at the proper transaction boundary. The split `crontab-api` and
-`crontab-service` modules provide an example, including the `/crontab` controller and feature suite.
+isolation, and external effects at the proper transaction boundary. chenile-others' `chenile-scheduler-db`
+module provides an example, including the `/schedule` controller and feature suite.

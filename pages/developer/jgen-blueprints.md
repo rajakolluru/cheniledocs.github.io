@@ -93,7 +93,7 @@ Takes a complete, prepared process definition set and **expands it into per-defi
 ### <a id="process-management"></a>`chenile-process-management` <span class="pill">2.1.32</span>
 Generates the whole **[server + worker deployment](/developer/process-management/)** — not a single app — by **composing** `minimonolith` and `chenile-process-worker-set`. From native `processMap` definitions it emits a process **server**, a headless **worker**, **per-definition worker JARs** and an **optional service registry**, decoupled over **Kafka**.
 
-Prompts: `application`, `applicationVersion`, `destFolder`, `processSpec` (native `processMap` file), `cronSpec` (optional, **separate** cron schedules), `definitionSource` (`json` | `database`), `registryMode` (`create` | `existing` + `existingRegistryUrl`), `registryPlacement` (`server` recommended | `separate`), `serverDeploymentUrl` / `workerDeploymentUrl` / `registryDeploymentUrl` (`:8000/:8001/:8002`), `transport` (`kafka`), `workTopic` (`<application>-work`, fills any definition lacking `config.queue`), plus `super_pom` / `dependencies`.
+Prompts: `application`, `applicationVersion`, `destFolder`, `processSpec` (native `processMap` file), `scheduleSpec` (optional, **separate** schedules), `definitionSource` (`json` | `database`), `registryMode` (`create` | `existing` + `existingRegistryUrl`), `registryPlacement` (`server` recommended | `separate`), `serverDeploymentUrl` / `workerDeploymentUrl` / `registryDeploymentUrl` (`:8000/:8001/:8002`), `transport` (`kafka`), `workTopic` (`<application>-work`, fills any definition lacking `config.queue`), plus `super_pom` / `dependencies`.
 
 The process spec keeps the runtime's **native shape** (not the old `processes[]` array):
 
@@ -108,7 +108,7 @@ The process spec keeps the runtime's **native shape** (not the old `processes[]`
 }
 ```
 
-Cron schedules are a **separate** JSON array (`cronSpec`), read by `JsonCrontabRepository`, seeded **disabled**, packaged only by the server. `inputFields` map to typed DTOs; a definition with no children is a leaf; `predecessorProcessType`/`predecessorArgs` chain processes. Names, hierarchy, deployment URLs and the Kafka topic are validated before any file is written.
+Schedules are a **separate** JSON array (`scheduleSpec`), checked by the generator, packaged only by the server as `schedules.json` and seeded **disabled** into chenile-scheduler-db (generated projects need Chenile 2.1.36). `inputFields` map to typed DTOs; a definition with no children is a leaf; `predecessorProcessType`/`predecessorArgs` chain processes. Names, hierarchy, deployment URLs and the Kafka topic are validated before any file is written.
 
 **Generated modules:**
 

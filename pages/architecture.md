@@ -17,7 +17,7 @@ Chenile is organized as layers that build on one another. Each layer is a set of
 
 `chenile-core` is the substrate everything else builds on. Its concerns are:
 
-- normalizing every request or event into a **`ChenileExchange`**,
+- normalizing every request or event into a **`ChenileExchange`**. Other than HTTP, everything that starts work is an internal [Chenile event](/concepts/17-events/) (a message on a topic, a schedule coming due, a file arriving) that operations subscribe to; `chenile-trigger` holds the `TriggerService` the internal event sources raise events through,
 - executing that exchange through an **interceptor and orchestration pipeline**,
 - loading **service and operation definitions**,
 - **HTTP adaptation**, **state-machine (STM)** support, and persistence/utility helpers,
@@ -35,7 +35,7 @@ This pipeline is the mechanism behind the whole policy story — interceptors *a
 
 ### Layer 5 — Testing, auxiliary and configuration
 
-`chenile-bdd` supplies Cucumber-based integration testing; `chenile-others` adds file-watch, a Kubernetes-aware scheduler, cache and the config maven plugin; `cconfig` supplies modular runtime configuration the rest of the stack can consume.
+`chenile-bdd` supplies Cucumber-based integration testing; `chenile-others` adds the event sources (schedules, held in JSON, code or the database, and file watch), cache and the config maven plugin; `cconfig` supplies modular runtime configuration the rest of the stack can consume.
 
 ## The runtime model in one picture
 

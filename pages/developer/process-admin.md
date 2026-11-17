@@ -1,7 +1,7 @@
 ---
 layout: doc
 title: Process administration — API, dashboard & server
-description: Manage crons, manual triggers, process definitions and execution traces through the process-management API, the React dashboard, and the runnable administrator server.
+description: Manage schedules, manual triggers, process definitions and execution traces through the process-management API, the React dashboard, and the runnable administrator server.
 permalink: /developer/process-admin/
 ---
 
@@ -60,10 +60,10 @@ All paths are relative to `/process-management/api`. Responses are plain JSON DT
 
 | Method / path | Purpose |
 |---|---|
-| `GET /info` | Definition source and write capability, cron availability, supported creation events |
-| `GET /crontabs` · `POST /crontabs` · `PUT /crontabs/{id}` | List, add, edit/enable/disable `ProcessCreate` schedules |
+| `GET /info` | Definition source and write capability, `schedulesAvailable`, supported creation events |
+| `GET /schedules` · `POST /schedules` · `PUT /schedules/{id}` | List, add, edit/enable/disable `ProcessCreate` schedules (chenile-scheduler-db) <span class="pill">2.1.36</span> |
 | `POST /triggers` | Generate `ProcessCreate` through the normal trigger ingress |
-| `GET /executions` | Trigger history — filters `triggerId`, `crontabId`, `status` |
+| `GET /executions` | Trigger history — filters `triggerId`, `scheduleId`, `status` |
 | `GET /definitions` · `POST /definitions` · `PUT /definitions/{name}` | Inspect or edit definitions (writes need the database configurator; JSON returns 409) |
 | `POST /definitions/refresh` | Clear this instance's definition cache |
 | `GET /processes` | Filters `processType`, `status`, `triggerId`, `parentId`, `predecessorId` |
@@ -71,7 +71,7 @@ All paths are relative to `/process-management/api`. Responses are plain JSON DT
 | `GET /trace?processId=…` or `?triggerId=…` | Connected execution graph (edges `PROCESS_CREATE`, `SUBPROCESS`, `EMITS`, `SUCCESSOR`) |
 
 ```json
-// POST /crontabs — Quartz syntax, with seconds
+// POST /schedules — Quartz syntax, with seconds
 { "name": "five-minute-import", "cronExpression": "0 0/5 * * * ?", "timezone": "UTC", "enabled": true,
   "payload": { "processDefName": "Import", "args": { "source": "feed-A" } } }
 
@@ -83,15 +83,15 @@ All paths are relative to `/process-management/api`. Responses are plain JSON DT
   "config": { "batchSize": "100" } }
 ```
 
-The API rejects predecessor cycles. Saving a definition invalidates **this** instance's cache — call `/definitions/refresh` on other instances. Cron writes return 503 if Quartz isn't configured; the current cron implementation expects **one scheduler owner**. Traces refuse executions above 1,000 processes/events (HTTP 413) — page through `/processes` instead.
+The API rejects predecessor cycles. Saving a definition invalidates **this** instance's cache — call `/definitions/refresh` on other instances. Schedule writes return 503 if chenile-scheduler-db isn't in the host. With several server nodes, use Quartz's clustered job store so that each fire happens on one node; the trigger's idempotency key accepts each scheduled time once either way. Traces refuse executions above 1,000 processes/events (HTTP 413) — page through `/processes` instead.
 
 ## What the dashboard shows
 
-Cron creation and editing, manual `ProcessCreate`, execution history for every trigger source, definition inspection/editing, a paginated process dashboard with child and successor drill-downs, and a clickable causal graph plus timeline from the first trigger through completion-driven successors. Execution views refresh every ten seconds.
+Schedule creation and editing (the **Schedules** tab), manual `ProcessCreate`, execution history for every trigger source, definition inspection/editing, a paginated process dashboard with child and successor drill-downs, and a clickable causal graph plus timeline from the first trigger through completion-driven successors. Execution views refresh every ten seconds.
 
 ## History semantics
 
-Execution history is a filtered view of `DISPATCH_TRIGGER` rows in the shared `chenile_process_outbox` — there is no separate `trigger_log` or `chenile_trigger_execution` table. Each row carries its source, scheduled/received/start/finish times, event, payload, failure details and cron ID; the outbox idempotency key suppresses duplicate acceptances, so duplicates add no history. Status reads `PENDING` / `RUNNING` / `DONE` / `DEAD`; `DONE` means dispatch returned, not that its processes finished. Completion is derived from a process's terminal state and its transactional receipts — there is no `chenile_process_completion_event` snapshot table. Graph edges use stored IDs, not timestamp guesses; legacy relationships show as `LEGACY_SUCCESSOR`. Choose your own retention policy for argument data and errors.
+Execution history is a filtered view of `DISPATCH_TRIGGER` rows in the shared `chenile_process_outbox` — there is no separate `trigger_log` or `chenile_trigger_execution` table. Each row carries its source, scheduled/received/start/finish times, event, payload, failure details and schedule id (`x-chenile-schedule-id`); the outbox idempotency key suppresses duplicate acceptances, so duplicates add no history. Status reads `PENDING` / `RUNNING` / `DONE` / `DEAD`; `DONE` means dispatch returned, not that its processes finished. Completion is derived from a process's terminal state and its transactional receipts — there is no `chenile_process_completion_event` snapshot table. Graph edges use stored IDs, not timestamp guesses; legacy relationships show as `LEGACY_SUCCESSOR`. Choose your own retention policy for argument data and errors.
 
 ## Production (PostgreSQL)
 

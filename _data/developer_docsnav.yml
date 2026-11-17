@@ -22,7 +22,7 @@ items:
     url: "/developer/process-vs-temporal/"
   - title: "Trigger framework architecture"
     url: "/developer/trigger-framework/"
-  - title: "Beyond HTTP — entry points"
+  - title: "Beyond HTTP: events, schedules, files"
     url: "/developer/entry-points/"
   - title: "MCP — services as AI tools"
     url: "/developer/mcp/"
