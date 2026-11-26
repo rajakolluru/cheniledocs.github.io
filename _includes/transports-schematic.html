@@ -5,7 +5,7 @@
   chenile-mcp, chenile-proxies and chenile-messaging (2.1.36).
 {% endcomment %}
 <style>
-.tx{--tx-panel:#151515;--tx-line:#2c2c2c;--tx-text:#ececec;--tx-muted:#9b9b9b;--accent:#f89038;--a2:#ffab52;--http:#ffab52;--pub:#4fd1c5;--trg:#c792ea}
+.tx{position:relative;--tx-panel:#151515;--tx-line:#2c2c2c;--tx-text:#ececec;--tx-muted:#9b9b9b;--accent:#f89038;--a2:#ffab52;--http:#ffab52;--pub:#4fd1c5;--trg:#c792ea}
 .tx .stage{background:var(--tx-panel);border:1px solid var(--tx-line);border-radius:14px;padding:16px}
 .tx svg{display:block;width:100%;height:auto}
 @media (max-width:820px){.tx .stage{overflow-x:auto;-webkit-overflow-scrolling:touch}.tx .stage svg{min-width:880px}}
@@ -33,6 +33,15 @@
 .tx .dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:7px}
 .tx .label{font-family:var(--mono);font-size:13px;color:var(--tx-muted)}
 .tx #status{font-family:var(--mono);font-size:14px;color:var(--a2);min-height:24px;margin:4px 0 0}
+.tx [data-k]{cursor:pointer;outline:none}
+.tx [data-k]:hover>rect:first-child,.tx [data-k]:focus>rect:first-child{stroke:var(--a2);stroke-width:2}
+.tx .hint{font-family:var(--mono);font-size:13px;color:var(--tx-muted);margin:10px 0 0}
+.tx .pop{position:absolute;z-index:5;width:290px;background:#1b1b1b;border:1px solid var(--accent);border-radius:10px;padding:14px 16px;box-shadow:0 10px 30px rgba(0,0,0,.5);color:var(--tx-text);font-size:14px;line-height:1.45}
+.tx .pop[hidden]{display:none}
+.tx .pop h4{margin:0 0 6px;font-family:var(--mono);font-size:14px;color:var(--a2)}
+.tx .pop p{margin:0 0 10px;color:#d6d6d6}
+.tx .pop a{color:var(--accent);margin-right:14px;font-size:13px}
+.tx .pop .x{position:absolute;top:6px;right:8px;background:none;border:none;color:var(--tx-muted);font-size:18px;padding:2px 6px}
 </style>
 <div class="tx">
 <div class="stage">
@@ -41,7 +50,7 @@
 <desc id="d">HTTP clients, local Chenile proxies, AI agents over MCP, pub-sub brokers (Kafka, Azure Event Hub, MQTT, JVM pub-sub) and triggers (cron, file watcher, external HTTP) reach transport adapters (ControllerSupport, HttpEntryPoint, LocalProxyInvoker, ChenileMCP, PubSubEntryPoint for @ChenilePubSub invocations, EventProcessor for Chenile events), which all hand off to ChenileEntryPoint and the chenile-highway interceptor chain before the registered services are invoked. A remote proxy becomes an HTTP client of the service. A Spring RestController sits in the request path; a non-REST ChenileController only supplies the definition at startup.</desc>
 <defs><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
 
-<g><rect class="src" x="30" y="58" width="180" height="44" rx="6"/><text class="ttl" x="120" y="80" text-anchor="middle" dominant-baseline="central">HTTP client</text></g>
+<g id="s-hc1"><rect class="src" x="30" y="58" width="180" height="44" rx="6"/><text class="ttl" x="120" y="80" text-anchor="middle" dominant-baseline="central">HTTP client</text></g>
 <g id="s-hc2"><rect class="src" x="30" y="168" width="180" height="44" rx="6"/><text class="ttl" x="120" y="190" text-anchor="middle" dominant-baseline="central">HTTP client</text></g>
 <g id="s-px"><rect class="src" x="30" y="308" width="180" height="44" rx="6"/><text class="ttl" x="120" y="330" text-anchor="middle" dominant-baseline="central">Chenile proxy</text></g>
 <g id="s-ai"><rect class="src" x="30" y="388" width="180" height="44" rx="6"/><text class="ttl" x="120" y="410" text-anchor="middle" dominant-baseline="central">AI agent (MCP)</text></g>
@@ -136,6 +145,8 @@
   <button id="auto" style="margin-left:auto">Pause auto-play</button>
 </div>
 <div id="status">Watching traffic…</div>
+<p class="hint">Click any box to see what it is and where to read more.</p>
+<div class="pop" id="txpop" role="dialog" hidden><button class="x" aria-label="Close">×</button><h4></h4><p></p><div class="links"></div></div>
 </div>
 <script>(function(){
 const NS='http://www.w3.org/2000/svg',layer=document.getElementById('pk');
@@ -205,4 +216,46 @@ let visible=false;
 if('IntersectionObserver' in window){new IntersectionObserver(es=>{visible=es[0].isIntersecting;},{threshold:.2}).observe($('sch'));}else visible=true;
 setInterval(()=>{if(auto&&visible&&!document.hidden)fire(seq[ai++%seq.length]);},1500);
 window.txFire=fire;
+
+// Every box explains itself: a short note, the page that covers it and, where it exists, its Javadoc.
+const JD='https://javadoc.chenile.org/org/chenile/';
+const INFO={
+  'http':['HTTP client','Any caller over HTTP. The request lands on a Spring @RestController or on a route registered from a Chenile service definition.','/how-it-works/'],
+  's-px':['Chenile proxy','Call another Chenile service through its interface. A local service is invoked in-VM; a remote one becomes an HTTP call.','/concepts/09-registry-and-proxies/'],
+  's-ai':['AI agent (MCP)','An agent calls Chenile operations as MCP tools, and every tool call runs through the same interceptor chain.','/developer/mcp/'],
+  'broker':['Message broker','Kafka, Azure Event Hubs, MQTT or the in-JVM pub-sub. A message on a topic raises a Chenile event, or invokes one @ChenilePubSub operation.','/developer/messaging-transports/'],
+  's-t0':['Cron','A schedule coming due raises its Chenile event through the TriggerService.','/developer/entry-points/#schedules'],
+  's-t1':['File watcher','A file landing in a watched folder raises one Chenile event per record.','/developer/entry-points/#file-watch'],
+  's-t2':['External HTTP trigger','POST /trigger raises a named event, accepted durably when process management is present.','/developer/trigger-framework/'],
+  'b-rc':['@RestController','A Spring controller in the request path. It hands the call to ControllerSupport.process(...).','/developer/runtime-internals/'],
+  'b-cc':['@ChenileController','Only a definition: it registers the routes at startup and is never in the request path.','/concepts/annotation-based-services/'],
+  'b-pub':['Pub-sub consumers','chenile-messaging consumers, one per transport, behind one ChenilePub / ChenileSub interface.','/concepts/07-messaging-abstraction/'],
+  'b-ts':['TriggerService','The one door for internal event sources. Direct by default; durable, with an outbox, under process management.','/developer/trigger-framework/'],
+  'b-cs':['ControllerSupport','Base class of Chenile REST controllers: process(...) builds the exchange and calls the entry point.','/developer/runtime-internals/',JD+'http/handler/ControllerSupport.html'],
+  'b-hep':['HttpEntryPoint','Serves routes registered from annotation and JSON service definitions, with no controller class in the path.','/concepts/annotation-based-services/',JD+'http/handler/HttpEntryPoint.html'],
+  'b-lpi':['LocalProxyInvoker','Turns a local proxy call into a ChenileExchange and calls the entry point directly. No HTTP hop.','/concepts/09-registry-and-proxies/',JD+'proxy/invoker/LocalProxyInvoker.html'],
+  'b-mcp':['ChenileMCP','Exposes operations as MCP tools; each tool call becomes a ChenileExchange.','/developer/mcp/'],
+  'b-pse':['PubSubEntryPoint','A topic that names one service operation invokes just that operation.','/developer/messaging-transports/',JD+'pubsub/entry/PubSubEntryPoint.html'],
+  'b-ep':['EventProcessor','Raises a Chenile event: one exchange for every operation that subscribes to it. Everything but HTTP arrives as an event.','/concepts/17-events/',JD+'core/event/EventProcessor.html'],
+  'b-ob':['Outbox','With process management, a trigger is first written as a durable outbox row, then dispatched with retries.','/developer/process-outbox/'],
+  'b-cep':['ChenileEntryPoint','Where every transport hands off. It runs the exchange through the chenile-highway.','/developer/runtime-internals/',JD+'core/entrypoint/ChenileEntryPoint.html'],
+  'b-hw':['chenile-highway','The interceptor chain: headers, pre-processors, transformation, service selection, post-processors, invoke. Your policies live here.','/concepts/03-service-policies/',JD+'core/context/ChenileExchange.html'],
+  'svc':['Your service','A plain Java class with business logic only. The policies run around it, not inside it.','/concepts/02-definition-vs-implementation/']
+};
+const KEY={'s-hc1':'http','s-hc2':'http','s-p0':'broker','s-p1':'broker','s-p2':'broker','s-p3':'broker','b-s0':'svc','b-s1':'svc'};
+const pop=$('txpop'),box=pop.parentElement;
+function info(id){return INFO[KEY[id]||id];}
+function openPop(g,x,y){const d=info(g.id);if(!d)return;
+  pop.querySelector('h4').textContent=d[0];pop.querySelector('p').textContent=d[1];
+  pop.querySelector('.links').innerHTML='<a href="'+d[2]+'">Read more →</a>'+(d[3]?'<a href="'+d[3]+'" target="_blank" rel="noopener">Javadoc ↗</a>':'');
+  pop.hidden=false;const r=box.getBoundingClientRect();
+  pop.style.left=Math.max(8,Math.min(x-r.left+12,r.width-pop.offsetWidth-8))+'px';
+  pop.style.top=Math.max(8,y-r.top+12)+'px';pop.querySelector('a').focus({preventScroll:true});}
+document.querySelectorAll('#sch g[id]').forEach(g=>{if(!info(g.id))return;
+  g.setAttribute('data-k','');g.setAttribute('tabindex','0');g.setAttribute('role','button');g.setAttribute('aria-label',info(g.id)[0]);
+  g.addEventListener('click',e=>{e.stopPropagation();openPop(g,e.clientX,e.clientY);});
+  g.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();const b=g.getBoundingClientRect();openPop(g,b.left+b.width/2,b.top+b.height/2);}});});
+pop.querySelector('.x').onclick=()=>pop.hidden=true;
+document.addEventListener('click',e=>{if(!pop.hidden&&!pop.contains(e.target))pop.hidden=true;});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')pop.hidden=true;});
 })();</script>
