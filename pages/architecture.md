@@ -39,6 +39,8 @@ This pipeline is the mechanism behind the whole policy story — interceptors *a
 
 ## The runtime model in one picture
 
+For how every transport (HTTP, proxies, MCP, brokers, schedules, file watch) reaches a service through its transport adapter and the one `ChenileEntryPoint`, see the animated schematic on [How it works](/how-it-works/). The picture below shows where policies run: at the gateway and at the last mile.
+
 <p><img src="/assets/img/chenile-architecture.svg" alt="Chenile runtime: a request flows from the client through the API gateway (authentication, rate-limiting, coarse authorization) into a service, where it becomes a ChenileExchange and runs through the interception pipeline of policies before reaching the pure business logic. The same interceptor contract runs in both the gateway and the last mile."></p>
 
 The same exchange-and-pipeline model runs inside the auth **gateway** and inside each **service**, which is what lets a single policy abstraction serve both the edge and the last mile. A request is normalized into a `ChenileExchange`, run through the interception pipeline (your service policies — security, tenancy, i18n, logging), reaches the pure business logic, and returns back out through the same pipeline.
@@ -49,4 +51,4 @@ The same exchange-and-pipeline model runs inside the auth **gateway** and inside
 
 Dependencies always point toward abstractions: consumers depend on `*-api` modules, never on `*-service` modules. Repositories are versioned together through `chenile-parent` and are currently aligned on **v{{ site.maven_version }}**.
 
-<p style="margin-top:2em"><a class="btn btn-ghost" href="/repositories/">See every repository →</a></p>
+<p style="margin-top:2em"><a class="btn btn-ghost" href="/repositories/">See every repository →</a> &nbsp; <a class="btn btn-ghost" href="/by-the-numbers/">Chenile by the numbers →</a></p>

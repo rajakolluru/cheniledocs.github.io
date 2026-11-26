@@ -4,26 +4,6 @@ title: "Chenile — Microservices done right"
 permalink: /
 ---
 
-<!-- ===================== CHENAILE BANNER ===================== -->
-<section class="chenaile" id="chenaile">
-  <div class="wrap">
-    <div class="chenaile-inner">
-      <div class="chenaile-logo"><img src="{{ '/assets/img/chenaile-logo.png' | relative_url }}" alt="ChenAIle — Chenile plus AI: agentic microservices" width="800" height="570"></div>
-      <div class="chenaile-text">
-        <span class="chenaile-tag">Coming soon</span>
-        <h2><span class="ai-hl">AI</span>, governed by Chenile.</h2>
-        <p class="chenaile-lead">Chenile already knows your services, their contracts, their workflows and their metrics. Chen<span class="ai-hl">AI</span>le puts AI to work on all of it.</p>
-      </div>
-    </div>
-    <div class="chenaile-grid">
-      <div class="chenaile-card"><div class="ic">01</div><h3>Chen<span class="ai-hl">AI</span>le agents</h3><p>AI agents that act through governed Chenile services and workflows, under the same policies as every other caller. Powered by Chenile <a href="https://thefinito.org">Finito</a>.</p></div>
-      <div class="chenaile-card"><div class="ic">02</div><h3>Chen<span class="ai-hl">AI</span>le tool calls</h3><p>An MCP layer, along with a registry, that can expose Chenile services as AI tools.</p></div>
-      <div class="chenaile-card"><div class="ic">03</div><h3>Chen<span class="ai-hl">AI</span>le machine learning</h3><p>AI-based machine learning on the signals Chenile services already produce.</p></div>
-      <div class="chenaile-card"><div class="ic">04</div><h3>Business rules engine</h3><p>A rules engine that leverages the metrics coming from Chenile services to drive business decisions.</p></div>
-    </div>
-  </div>
-</section>
-
 <!-- ===================== HERO ===================== -->
 <header class="hero">
   <div class="hero-inner wrap">
@@ -32,7 +12,7 @@ permalink: /
     <p class="lead">Chenile lets you write plain-Java services that hold nothing but business logic — then apply security, logging, tenancy, i18n and retries as reusable <em>service policies</em>, consistently at the API gateway <em>and</em> the last mile.</p>
     <div class="hero-actions">
       <a class="btn btn-primary" href="{{ '/get-started/' | relative_url }}">Get started →</a>
-      <a class="btn btn-light" href="{{ '/concepts/01-why-microservices/' | relative_url }}">Read the story</a>
+      <a class="btn btn-light" href="{{ '/how-it-works/' | relative_url }}">See how it works</a>
       <a class="btn btn-light" href="{{ '/video-series/' | relative_url }}">▶ Watch the series</a>
     </div>
     <div class="hero-note">org.chenile · v{{ site.maven_version }} · 11 repositories, one release train</div>
@@ -55,152 +35,18 @@ permalink: /
   </div>
 </section>
 
-<!-- ===================== THE STORY ===================== -->
-<section class="bg-soft">
+<!-- ===================== ONE SERVICE, MANY TRANSPORTS ===================== -->
+<section class="bg-ink" id="how-it-works">
   <div class="wrap">
     <div class="section-head">
-      <span class="eyebrow">The idea, step by step</span>
-      <h2>The Chenile story</h2>
-      <p class="lead">The website and the video series both follow the same arc — from a plain question about microservices to a concrete way of governing them.</p>
+      <span class="eyebrow" style="background:rgba(255,255,255,.12);color:#ffc98a">How it works</span>
+      <h2>One service, many transports</h2>
+      <p class="lead">Define a service once. HTTP, proxies, AI agents over MCP, Kafka, MQTT, Azure Event Hubs, schedules and file drops all reach it through a transport adapter, and every adapter hands off to the same <code>ChenileEntryPoint</code>. Your policies run once, in one place, whatever the caller.</p>
     </div>
-    <div class="rail">
-      <a class="story" href="{{ '/concepts/01-why-microservices/' | relative_url }}">
-        <div class="step">1</div>
-        <div>
-          <h3>Why microservices?</h3>
-          <p>What we actually want from microservices — independent deployability, clear ownership, blast-radius control — and the tax we pay when every team re-implements the same plumbing.</p>
-          <span>Read part 1 →</span>
-        </div>
-      </a>
-      <a class="story" href="{{ '/concepts/02-definition-vs-implementation/' | relative_url }}">
-        <div class="step">2</div>
-        <div>
-          <h3>Separate service <em>definition</em> from <em>implementation</em></h3>
-          <p>A service is a contract, not a codebase. Chenile puts the interface and model in an <code>api</code> module that consumers depend on, and the logic in a <code>service</code> module nobody depends on. That's the Dependency Inversion Principle, made physical.</p>
-          <span>Read part 2 →</span>
-        </div>
-      </a>
-      <a class="story" href="{{ '/concepts/03-service-policies/' | relative_url }}">
-        <div class="step">3</div>
-        <div>
-          <h3>Service policies are part of the division</h3>
-          <p>Authentication, authorization, logging, i18n, multi-tenancy, retries — these are <em>horizontal</em> requirements that cut across every service. They belong to the definition side, not tangled into business code. Chenile expresses each as a single-responsibility interceptor.</p>
-          <span>Read part 3 →</span>
-        </div>
-      </a>
-      <a class="story" href="{{ '/concepts/04-policy-placement/' | relative_url }}">
-        <div class="step">4</div>
-        <div>
-          <h3>Where do policies live? Gateway <em>and</em> last mile</h3>
-          <p>Some policies belong at the edge — the API gateway — where you terminate auth and shed load early. Others must run at the last mile, right next to the service, where the business context lives. Most real systems need both.</p>
-          <span>Read part 4 →</span>
-        </div>
-      </a>
-      <a class="story" href="{{ '/concepts/05-how-chenile-helps/' | relative_url }}">
-        <div class="step">5</div>
-        <div>
-          <h3>How Chenile implements policies in both places</h3>
-          <p>The same interceptor abstraction runs in Chenile's gateway and inside each service's interception pipeline. Write a policy once; deploy it at the edge, at the last mile, or both — driven by service-registry configuration, not by rewriting code.</p>
-          <span>Read part 5 →</span>
-        </div>
-      </a>
-      <a class="story" href="{{ '/concepts/06-bdd-testing/' | relative_url }}">
-        <div class="step">6</div>
-        <div>
-          <h3>Test once, run everywhere: BDD across unit &amp; integration</h3>
-          <p>The same idea, applied to testing. One Gherkin <code>.feature</code> file runs as a fast in-process unit test over Spring MockMvc <em>and</em> as a full integration test over REST Assured. Write the behaviour once; swap the glue, not the spec.</p>
-          <span>Read part 6 →</span>
-        </div>
-      </a>
-      <a class="story" href="{{ '/concepts/07-messaging-abstraction/' | relative_url }}">
-        <div class="step">7</div>
-        <div>
-          <h3>Messaging: one interface, many transports</h3>
-          <p>The same move, applied to events. Services depend on the <code>chenile-pub-sub</code> interface while MQTT, Kafka, Azure and in-JVM are swappable implementations — and every message runs the same interception pipeline as an HTTP call, so your policies just work.</p>
-          <span>Read part 7 →</span>
-        </div>
-      </a>
-      <a class="story" href="{{ '/concepts/08-configuration-management/' | relative_url }}">
-        <div class="step">8</div>
-        <div>
-          <h3>Configuration management with cconfig</h3>
-          <p>Every module owns a JSON config that can be overridden at runtime — down to a nested path — and resolved per tenant via a custom attribute. Sources (properties, JSON, env, database) are pluggable behind one <code>CconfigClient</code>.</p>
-          <span>Read part 8 →</span>
-        </div>
-      </a>
-      <a class="story" href="{{ '/concepts/09-registry-and-proxies/' | relative_url }}">
-        <div class="step">9</div>
-        <div>
-          <h3>Service registry &amp; proxies — with client-side interception</h3>
-          <p>Chenile ships its own service registry and a proxy framework: call another service through its interface, routed locally or remotely without code changes, while a configurable client-side interceptor chain handles headers, auth, retries and responses on the way out.</p>
-          <span>Read part 9 →</span>
-        </div>
-      </a>
-      <a class="story" href="{{ '/concepts/10-owiz/' | relative_url }}">
-        <div class="step">10</div>
-        <div>
-          <h3>Owiz — the orchestration engine underneath it all</h3>
-          <p>Commands enrich a shared context; chains, routers, splitter-aggregators and parallel blocks compose them into flows. This tiny, framework-agnostic engine in <code>chenile-core</code> is what actually runs the interception pipeline.</p>
-          <span>Read part 10 →</span>
-        </div>
-      </a>
-      <a class="story" href="{{ '/concepts/11-chenile-query/' | relative_url }}">
-        <div class="step">11</div>
-        <div>
-          <h3>Chenile Query — search over MyBatis, no code</h3>
-          <p>Describe a query's columns in JSON, pair it with a MyBatis mapper, and get a filter/sort/paginate/download REST endpoint — tenant-aware, generated by the <code>mybatisQuery</code> blueprint.</p>
-          <span>Read part 11 →</span>
-        </div>
-      </a>
-      <a class="story" href="{{ '/concepts/12-jgen/' | relative_url }}">
-        <div class="step">12</div>
-        <div>
-          <h3>jgen — scaffold whole projects from blueprints</h3>
-          <p>Choose a blueprint (service, workflow, query, monolith…), answer a few questions, and jgen expands a Mustache template tree into a project that compiles against the standard Chenile runtime.</p>
-          <span>Read part 12 →</span>
-        </div>
-      </a>
-      <a class="story" href="{{ '/concepts/13-multi-tenant-saas/' | relative_url }}">
-        <div class="step">13</div>
-        <div>
-          <h3>Multi-tenant SaaS — one deployment, many customers</h3>
-          <p>Resolve the tenant once into the context, then route writes (<code>multi-datasource-utils</code>), reads (Chenile Query) and config (<code>cconfig</code>) per tenant — while your business code stays tenant-agnostic.</p>
-          <span>Read part 13 →</span>
-        </div>
-      </a>
-      <a class="story" href="{{ '/concepts/14-trajectories/' | relative_url }}">
-        <div class="step">14</div>
-        <div>
-          <h3>Trajectories — alternate behaviour, no branching</h3>
-          <p>Set the header <code>x-chenile-trajectory-id</code> and Chenile swaps in a different service implementation, workflow action or config value for that request — great for A/B tests, canaries and migrations, with nothing to untangle later.</p>
-          <span>Read part 14 →</span>
-        </div>
-      </a>
-      <a class="story" href="{{ '/concepts/15-blueprints/' | relative_url }}">
-        <div class="step">15</div>
-        <div>
-          <h3>Blueprints — author your own generator</h3>
-          <p>jgen's blueprints are small plugins: a JSON contract, an optional Java hook and a Mustache template tree. Encode your team's conventions once — and scaffold a brand-new blueprint with the <code>jgen-blueprint</code> blueprint.</p>
-          <span>Read part 15 →</span>
-        </div>
-      </a>
-      <a class="story" href="{{ '/concepts/16-polymorphism/' | relative_url }}">
-        <div class="step">16</div>
-        <div>
-          <h3>Polymorphism by configuration</h3>
-          <p>Which code runs is decided per request from data — a header, a tenant, a payload, a workflow state. Service selectors, trajectories, interpolations and body-type selectors are one idea seen from several sides.</p>
-          <span>Read part 16 →</span>
-        </div>
-      </a>
-      <a class="story" href="{{ '/concepts/17-events/' | relative_url }}">
-        <div class="step">17</div>
-        <div>
-          <h3>Everything but HTTP is an event</h3>
-          <p>HTTP calls an operation; everything else raises an internal Chenile event that operations subscribe to. A file landing in a folder, a cron schedule coming due and a message on a topic are all mapped onto Chenile events by configuration.</p>
-          <span>Read part 17 →</span>
-        </div>
-      </a>
-    </div>
+    {% include transports-schematic.html %}
+    <p style="text-align:center;margin-top:30px">
+      <a class="btn btn-light" href="{{ '/how-it-works/' | relative_url }}">Walk through every adapter →</a>
+    </p>
   </div>
 </section>
 
@@ -278,27 +124,6 @@ public class S1ServiceImpl implements S1Service {
   </div>
 </section>
 
-<!-- ===================== ANIMATED SCHEMATICS ===================== -->
-<section class="bg-soft">
-  <div class="wrap">
-    <div class="section-head">
-      <span class="eyebrow">See it move</span>
-      <h2>Watch a request — and an entity — flow</h2>
-      <p class="lead">Two animations that run on their own: a request travelling the Owiz-powered interception pipeline, and an entity walking its state machine as events fire.</p>
-    </div>
-    <div style="max-width:860px;margin:0 auto">
-      <h3 style="margin:0 0 10px">The request-processing pipeline</h3>
-      <div class="jsx" data-jsx="pipeline"></div>
-      <h3 style="margin:34px 0 10px">A state machine in motion</h3>
-      <div class="jsx" data-jsx="statemachine"></div>
-    </div>
-    <p style="text-align:center;margin-top:26px">
-      <a class="btn btn-ghost" href="{{ '/concepts/10-owiz/' | relative_url }}">How Owiz powers the pipeline →</a>
-      &nbsp; <a class="btn btn-ghost" href="https://thefinito.org">Meet Finito, the state machine ↗</a>
-    </p>
-  </div>
-</section>
-
 <!-- ===================== BDD TESTING ===================== -->
 <section>
   <div class="wrap">
@@ -326,56 +151,46 @@ public class S1ServiceImpl implements S1Service {
   </div>
 </section>
 
-<!-- ===================== REPOSITORIES ===================== -->
+<!-- ===================== GO DEEPER ===================== -->
 <section class="bg-soft">
   <div class="wrap">
     <div class="section-head">
-      <span class="eyebrow">One framework, cleanly split</span>
-      <h2>The 11 Chenile repositories</h2>
-      <p class="lead">Versioned together under <code>chenile-parent</code> and currently aligned on v{{ site.maven_version }}.</p>
+      <span class="eyebrow">Go deeper</span>
+      <h2>Read it, see it, watch it</h2>
     </div>
-    <div class="repo-grid">
-      {% for r in site.data.repos %}
-      <div class="repo">
-        <div class="top">
-          <span class="ic">{{ r.icon }}</span>
-          <code>{{ r.name }}</code>
-          <span class="tag layer">{{ r.layer }}</span>
-        </div>
-        <p>{{ r.blurb }}</p>
-        <div class="mods">
-          {% for m in r.modules limit: 5 %}<span>{{ m }}</span>{% endfor %}
-          {% assign extra = r.modules | size | minus: 5 %}
-          {% if extra > 0 %}<span>+{{ extra }} more</span>{% endif %}
-        </div>
-      </div>
-      {% endfor %}
+    <div class="grid-3">
+      <a class="card" href="{{ '/concepts/' | relative_url }}" style="text-decoration:none;color:inherit">
+        <h3>The Chenile story</h3>
+        <p>{{ site.concepts | size }} short chapters, from why microservices to polymorphism and events. Read end to end or jump in anywhere.</p>
+      </a>
+      <a class="card" href="{{ '/architecture/' | relative_url }}" style="text-decoration:none;color:inherit">
+        <h3>Architecture and repositories</h3>
+        <p>The layers, the {{ site.data.repos.size }} repositories on one release train, and the code measured from source.</p>
+      </a>
+      <a class="card" href="{{ '/video-series/' | relative_url }}" style="text-decoration:none;color:inherit">
+        <h3>The video series</h3>
+        <p>Narrated episodes that follow the same arc as the story, a few minutes each.</p>
+      </a>
     </div>
-    <p style="text-align:center;margin-top:34px"><a class="btn btn-ghost" href="{{ '/repositories/' | relative_url }}">Explore all repositories →</a></p>
   </div>
 </section>
 
-<!-- ===================== REVIEWS ===================== -->
-<section>
+<!-- ===================== CHENAILE BANNER ===================== -->
+<section class="chenaile" id="chenaile">
   <div class="wrap">
-    <div class="section-head">
-      <span class="eyebrow">What teams say</span>
-      <h2>Loved by the engineers who maintain it</h2>
-      <p class="lead" style="color:var(--muted);font-family:var(--mono);font-size:.9rem">↓ Placeholder testimonials — swap in real, attributable quotes before publishing.</p>
-    </div>
-    <div class="reviews">
-      {% for rv in site.data.reviews %}
-      <div class="review">
-        <p class="quote">{{ rv.quote }}</p>
-        <div class="who">
-          <div class="avatar">{{ rv.avatar_initials }}</div>
-          <div>
-            <div class="name">{{ rv.name }}</div>
-            <div class="role">{{ rv.role }} · {{ rv.company }}</div>
-          </div>
-        </div>
+    <div class="chenaile-inner">
+      <div class="chenaile-logo"><img src="{{ '/assets/img/chenaile-logo.png' | relative_url }}" alt="ChenAIle — Chenile plus AI: agentic microservices" width="800" height="570"></div>
+      <div class="chenaile-text">
+        <span class="chenaile-tag">Coming soon</span>
+        <h2><span class="ai-hl">AI</span>, governed by Chenile.</h2>
+        <p class="chenaile-lead">Chenile already knows your services, their contracts, their workflows and their metrics. Chen<span class="ai-hl">AI</span>le puts AI to work on all of it.</p>
       </div>
-      {% endfor %}
+    </div>
+    <div class="chenaile-grid">
+      <div class="chenaile-card"><div class="ic">01</div><h3>Chen<span class="ai-hl">AI</span>le agents</h3><p>AI agents that act through governed Chenile services and workflows, under the same policies as every other caller. Powered by Chenile <a href="https://thefinito.org">Finito</a>.</p></div>
+      <div class="chenaile-card"><div class="ic">02</div><h3>Chen<span class="ai-hl">AI</span>le tool calls</h3><p>Chenile services as MCP tools, governed by the same pipeline as every other caller. Tool calls through the entry point ship in 2.1.36; a tool registry follows.</p></div>
+      <div class="chenaile-card"><div class="ic">03</div><h3>Chen<span class="ai-hl">AI</span>le machine learning</h3><p>AI-based machine learning on the signals Chenile services already produce.</p></div>
+      <div class="chenaile-card"><div class="ic">04</div><h3>Business rules engine</h3><p>A rules engine that leverages the metrics coming from Chenile services to drive business decisions.</p></div>
     </div>
   </div>
 </section>

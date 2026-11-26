@@ -50,7 +50,7 @@ Each transport is a separate module that **implements** the same interface. Noth
   <div class="card">
     <div class="ic">📡</div>
     <h3><code>chenile-mqtt</code></h3>
-    <p><code>MqttPublisher</code> / <code>MqttSubscriber</code> — MQTT brokers, ideal for IoT and edge fan-out. Also used internally by the cloud-edge switch.</p>
+    <p><code>MqttPublisher</code> / <code>MqttSubscriber</code> — MQTT brokers, ideal for IoT and edge fan-out. A topic bound to a Chenile event raises it; a <code>@ChenilePubSub</code> topic invokes one operation. Also used internally by the cloud-edge switch.</p>
   </div>
   <div class="card">
     <div class="ic">🟧</div>

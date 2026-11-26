@@ -1,0 +1,97 @@
+---
+layout: default
+title: "How it works — one service, many transports"
+permalink: /how-it-works/
+summary: "A Chenile service is defined once. HTTP, proxies, AI agents, brokers and triggers reach it through transport adapters, and every adapter hands off to the same ChenileEntryPoint and chenile-highway."
+---
+<div class="page-hero">
+  <div class="narrow">
+    <div class="kicker">How it works</div>
+    <h1>One service, many transports</h1>
+    <p class="lead">A Chenile service is defined and registered once. HTTP, proxies, AI agents, pub-sub brokers and triggers each reach it through a <em>transport adapter</em>, and every adapter hands off to the same <code>ChenileEntryPoint</code> and <code>chenile-highway</code>. Your policies run once, in one place, whatever the caller.</p>
+  </div>
+</div>
+
+<section class="bg-ink" style="padding-top:56px">
+  <div class="wrap">
+    {% include transports-schematic.html %}
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Reading the picture</span>
+      <h2>Define once, subscribe many ways</h2>
+    </div>
+    <div class="grid-2">
+      <div class="card">
+        <h3>1 · Register a Chenile service</h3>
+        <p>A <code>@ChenileController</code> or a JSON definition describes the service once: its operations, parameters and body types. At startup it registers HTTP routes and event subscriptions. A non-REST <code>@ChenileController</code> is <strong>never invoked on a request</strong>; it is only the definition.</p>
+      </div>
+      <div class="card">
+        <h3>2 · Subscribe to HTTP</h3>
+        <p>A Spring <code>@RestController</code> sits <strong>in the request path</strong>: it receives the request and deflects it through <code>ControllerSupport</code>. Annotation and JSON services skip it, because <code>HttpEntryPoint</code> handles their routes directly.</p>
+      </div>
+      <div class="card">
+        <h3>3 · Subscribe to a Chenile event</h3>
+        <p>Other than HTTP, everything is an <a href="{{ '/concepts/17-events/' | relative_url }}">event</a>. Kafka, Azure Event Hubs, MQTT and JVM pub-sub topics, schedules, file watch and posted triggers all raise events through <code>EventProcessor</code>, which creates one exchange for each subscribed operation.</p>
+      </div>
+      <div class="card">
+        <h3>4 · Proxies and agents</h3>
+        <p>A Chenile proxy to a local service calls <code>ChenileEntryPoint</code> through <code>LocalProxyInvoker</code>; to a remote service it becomes an HTTP client, so the call comes in through that service&rsquo;s HTTP entry point. An MCP tool call enters through <code>ChenileMCP</code>, so AI agents get the same security, tenancy and logging as every other caller.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="bg-soft">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">The adapters</span>
+      <h2>Every door leads to one entry point</h2>
+      <p class="lead">Each adapter turns its transport's message into a <code>ChenileExchange</code> and calls <code>ChenileEntryPoint</code>. Nothing reaches a service bean any other way.</p>
+    </div>
+    <div class="grid-3">
+      <div class="card"><h3><code>ControllerSupport</code></h3><p>Spring <code>@RestController</code> classes call <code>process(...)</code>. <a href="{{ '/developer/runtime-internals/' | relative_url }}">Runtime internals →</a></p></div>
+      <div class="card"><h3><code>HttpEntryPoint</code></h3><p>Routes registered from annotation and JSON service definitions. <a href="{{ '/concepts/annotation-based-services/' | relative_url }}">Annotation services →</a></p></div>
+      <div class="card"><h3><code>LocalProxyInvoker</code></h3><p>A proxy call to a service in the same deployable. A remote proxy becomes an HTTP client instead. <a href="{{ '/concepts/09-registry-and-proxies/' | relative_url }}">Registry and proxies →</a></p></div>
+      <div class="card"><h3><code>ChenileMCP</code></h3><p>AI tool calls over MCP Streamable HTTP, with the caller's headers. <a href="{{ '/developer/mcp/' | relative_url }}">MCP →</a></p></div>
+      <div class="card"><h3><code>EventProcessor</code></h3><p>Chenile events from brokers, schedules, file watch and triggers; one exchange per subscriber. <a href="{{ '/developer/entry-points/' | relative_url }}">Events →</a></p></div>
+      <div class="card"><h3><code>PubSubEntryPoint</code></h3><p><code>@ChenilePubSub</code> invocations: a topic that names one service operation. <a href="{{ '/developer/messaging-transports/' | relative_url }}">Messaging transports →</a></p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Zoom in</span>
+      <h2>Inside the highway</h2>
+      <p class="lead">The <code>chenile-highway</code> is an Owiz chain of interceptors. Your service policies are interceptors, so they run around the business logic, never inside it.</p>
+    </div>
+    <div style="max-width:860px;margin:0 auto">
+      <div class="jsx" data-jsx="pipeline"></div>
+    </div>
+    <p style="text-align:center;margin-top:26px">
+      <a class="btn btn-ghost" href="{{ '/developer/runtime-internals/' | relative_url }}">Runtime internals →</a>
+      &nbsp; <a class="btn btn-ghost" href="{{ '/concepts/10-owiz/' | relative_url }}">How Owiz runs the chain →</a>
+    </p>
+  </div>
+</section>
+
+<section class="bg-soft">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">When the service is a workflow</span>
+      <h2>An entity walking its state machine</h2>
+      <p class="lead">Workflow services add a Finito state machine behind the same entry point: each event moves the entity to its next state.</p>
+    </div>
+    <div style="max-width:860px;margin:0 auto">
+      <div class="jsx" data-jsx="statemachine"></div>
+    </div>
+    <p style="text-align:center;margin-top:26px">
+      <a class="btn btn-ghost" href="https://thefinito.org">Meet Finito, the state machine ↗</a>
+    </p>
+  </div>
+</section>

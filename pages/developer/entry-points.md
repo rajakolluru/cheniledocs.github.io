@@ -8,7 +8,8 @@ permalink: /developer/entry-points/
 # Beyond HTTP: events, schedules and file watch
 
 A Chenile service is [protocol-agnostic](/concepts/07-messaging-abstraction/): the same operation, behind the same
-[interception pipeline](/concepts/10-owiz/), can be reached by an HTTP request, an in-VM proxy call or an event.
+[interception pipeline](/concepts/10-owiz/), can be reached by an HTTP request, an in-VM proxy call, an MCP tool call
+or an event. Each arrives through a transport adapter that calls `ChenileEntryPoint`; see [How it works](/how-it-works/).
 **Other than HTTP, Chenile treats everything as an event.** A schedule coming due, a file landing in a folder and a
 message on a topic each raise a Chenile event, and the operations that subscribe to it run. The concept is explained
 in [Everything but HTTP is an event](/concepts/17-events/); this page is the developer's reference.

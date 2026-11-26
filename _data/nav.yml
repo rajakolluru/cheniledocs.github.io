@@ -1,8 +1,11 @@
 # Primary navigation
-- title: "Why Chenile"
-  url: "/concepts/"
+- title: "How it works"
+  url: "/how-it-works/"
 - title: "Concepts"
+  url: "/concepts/"
   dropdown:
+    - title: "The whole story"
+      url: "/concepts/"
     - title: "1 · Why microservices"
       url: "/concepts/01-why-microservices/"
     - title: "2 · Definition vs. implementation"
@@ -39,6 +42,13 @@
       url: "/concepts/17-events/"
 - title: "Architecture"
   url: "/architecture/"
+  dropdown:
+    - title: "Layers and runtime"
+      url: "/architecture/"
+    - title: "Repositories"
+      url: "/repositories/"
+    - title: "By the numbers"
+      url: "/by-the-numbers/"
 - title: "Docs"
   url: "/developer-docs/"
   dropdown:
@@ -46,12 +56,7 @@
       url: "/developer-docs/"
     - title: "Release notes"
       url: "/release-notes/"
-- title: "Repositories"
-  url: "/repositories/"
-- title: "Video series"
+- title: "Videos"
   url: "/video-series/"
-- title: '<img class="nav-ico" src="/assets/img/chenaile-icon.svg" alt="">Chen<span class="ai-hl">AI</span>le<span class="soon">soon</span>'
-  url: "/#chenaile"
-  class: "nav-soon"
 - title: "Get started"
   url: "/get-started/"

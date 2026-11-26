@@ -52,7 +52,7 @@ never learns what raised the event, unless it chooses to read the [standard head
 |---|---|---|
 | A cron schedule becomes due | [chenile-scheduler](/developer/entry-points/#schedules) | `eventId` on a schedule (JSON file, code, or the database with chenile-scheduler-db) |
 | A file lands in a watched folder | [chenile-filewatch](/developer/entry-points/#file-watch) | `eventId` on a file watch definition (defaults to the file watch id); one event per record |
-| A message arrives on a topic | [chenile-messaging](/concepts/07-messaging-abstraction/) (Kafka, MQTT, Azure, in-JVM) | `chenile.kafka.consumer.topic-bindings` maps a topic to an event id; by default the event id is the topic |
+| A message arrives on a topic | [chenile-messaging](/concepts/07-messaging-abstraction/) (Kafka, MQTT, Azure, in-JVM) | `chenile.kafka.consumer.topic-bindings` maps a Kafka topic to an event id (by default the event id is the topic); `chenile.mqtt.topic-bindings` does the same for MQTT (opt-in) |
 | A trigger is posted | `POST /trigger` | the `eventId` in the request |
 | Code raises it | `TriggerService.trigger(...)` | the `eventId` on `TriggerInput` |
 

@@ -13,7 +13,7 @@ Chenile already knows a great deal about each service: its operations, their par
 
 `chenile-mcp` (in `chenile-core`) turns Chenile operations into MCP **tool callbacks**. Its `ChenileMCPInitializer` discovers eligible operations and registers them; `ChenileToolCallback` adapts a Chenile operation to an MCP tool, and the model classes (`ChenileMCP`, and the `ChenilePolymorph` / `ChenilePolymorphProvider` / `ChenilePolymorphVariant` types) describe polymorphic payloads so tools with type hierarchies are represented correctly to the agent.
 
-Because the tool call enters the normal pipeline, **your security, tenancy, logging and validation policies apply to agent calls automatically** — you don't get a second, unguarded door for AI traffic.
+`ChenileToolCallback` is a transport adapter: it builds a `ChenileExchange` from the tool call (the body as JSON, typed inside the highway; header parameters as headers; the caller's `x-` and `Authorization` headers when the Streamable HTTP server is used) and calls `ChenileEntryPoint` <span class="pill">2.1.36</span>. Because the tool call enters the normal pipeline, **your security, tenancy, logging and validation policies apply to agent calls automatically** — you don't get a second, unguarded door for AI traffic.
 
 ## Workflows and queries too
 

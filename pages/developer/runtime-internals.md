@@ -7,7 +7,7 @@ permalink: /developer/runtime-internals/
 
 # Runtime internals — the exchange and the interceptor chain
 
-Every Chenile entry point — HTTP, an event, a proxy call, a scheduler tick, an MCP tool call — ends up in the same place: a **`ChenileExchange`** pushed through one **interceptor chain**. This guide follows a request through that machinery so you can read, debug and extend it. For the concepts behind it, see [service policies](/concepts/03-service-policies/) and [Owiz](/concepts/10-owiz/).
+Every way into a Chenile service — an HTTP request, a Chenile event, a proxy call, an MCP tool call — ends up in the same place: a **`ChenileExchange`** pushed through one **interceptor chain** by `ChenileEntryPoint`. The picture is on [How it works](/how-it-works/). This guide follows a request through that machinery so you can read, debug and extend it. For the concepts behind it, see [service policies](/concepts/03-service-policies/) and [Owiz](/concepts/10-owiz/).
 
 ## The exchange
 
@@ -20,7 +20,20 @@ Every Chenile entry point — HTTP, an event, a proxy call, a scheduler tick, an
 | Invocation | `serviceReference`, `method`, `apiInvocation` | service resolution; argument binding |
 | Outgoing | `response`, `exception`, `httpResponseStatusCode`, `responseMessages` | invocation and the unwinding chain |
 
-Exchanges are created either by a transport (`HttpEntryPoint` builds one per HTTP request, putting path variables into `headers`) or **programmatically** by `ChenileExchangeBuilder`, which looks up the service and operation by name and can copy framework headers through a `HeaderCopier` — the path used by `ControllerSupport`, proxies and internal integrations.
+### Transport adapters
+
+Exchanges are created by **transport adapters**. Each one turns its transport's message into a `ChenileExchange` and calls `ChenileEntryPoint.execute`; nothing reaches a service bean any other way.
+
+| Adapter | Module | What it serves |
+|---|---|---|
+| `ControllerSupport` | chenile-http | Spring `@RestController` classes, which stay in the request path and call `process(...)` |
+| `HttpEntryPoint` | chenile-http | routes registered from annotation (`@ChenileController`) and JSON service definitions; path variables go into `headers`. A non-REST `@ChenileController` is only the definition and is never invoked on a request |
+| `LocalProxyInvoker` | chenile-proxy | a [proxy](/concepts/09-registry-and-proxies/) call to a service in the same deployable (to a remote service the proxy becomes an HTTP client, so the call arrives through that service's HTTP entry point) |
+| `ChenileToolCallback` (ChenileMCP) | chenile-mcp | MCP tool calls: the body as JSON, header parameters as headers, the caller's `x-` and `Authorization` headers <span class="pill">2.1.36</span> |
+| `EventProcessor` | chenile-core | [Chenile events](/concepts/17-events/) from Kafka, Azure Event Hubs, MQTT and JVM pub-sub topics, schedules, file watch and triggers; one exchange per subscriber |
+| `PubSubEntryPoint` | chenile-pub-sub | `@ChenilePubSub` invocations, where the topic names one service operation |
+
+`ChenileExchangeBuilder` is not an adapter: it is a utility that looks up a service and operation by name and builds an empty exchange (optionally copying headers through a `HeaderCopier`). `ControllerSupport` and `LocalProxyInvoker` use it.
 
 ## The chain is XML — `chenile-highway`
 

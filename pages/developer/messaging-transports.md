@@ -28,7 +28,23 @@ Typical combos: **base event-driven** = `chenile-pub-sub` + one transport; **loc
 <dependency><groupId>org.chenile</groupId><artifactId>chenile-mqtt</artifactId></dependency>
 ```
 
-Provides the MQTT transport via the Eclipse Paho client. Configure the broker connection and point `chenile.properties` at the service's MQTT config; publish with `ChenilePub` and consume with `@EventsSubscribedTo`. Ideal for IoT/edge topologies, and used internally by the cloud-edge switch.
+Provides the MQTT transport via the Eclipse Paho client. Configure the broker connection and point `chenile.properties` at the service's MQTT config, and publish with `ChenilePub`. Ideal for IoT/edge topologies, and used internally by the cloud-edge switch.
+
+An inbound MQTT message reaches a service in one of two ways.
+
+**Topic bound to a Chenile event.** <span class="pill">2.1.36</span> Bind the topic to an event id, and the message raises that [Chenile event](/concepts/17-events/) through `EventProcessor`: every operation subscribed with `@EventsSubscribedTo` (or `eventSubscribedTo` in JSON) runs, each through the full interception pipeline. This is the same model as Kafka, Azure Event Hubs and in-JVM pub/sub.
+
+```yaml
+chenile:
+  mqtt:
+    qos: 1                                      # QoS for the bound topics (default 1)
+    topic-bindings:
+      "[devices/telemetry]": telemetryReceived  # MQTT topic -> Chenile event id
+```
+
+Bindings are opt-in: unlike Kafka, MQTT does not subscribe to every event id by default, because an MQTT broker is often shared with devices. Topics are matched exactly (no `+` or `#` wildcards). A binding to an unknown event id fails startup. If a subscriber fails, the message is not acknowledged, so the broker can redeliver it at QoS 1 or 2. The exchange carries `x-chenile-entry-point: PUB_SUB` with sub-type `MQTT`, and the MQTT user properties as headers.
+
+**`@ChenilePubSub` invocation.** Annotate a service controller with `@ChenilePubSub` and Chenile subscribes to `<subscribe-topic>/+`. The last level of the topic names the operation, and `PubSubEntryPoint` invokes that one operation. Use this to call a service over the broker, as the cloud-edge switch does; use event bindings when several operations should react to a message. If a topic is bound to an event, the event binding wins.
 
 ## Kafka
 
