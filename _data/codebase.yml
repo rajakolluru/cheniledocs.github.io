@@ -195,13 +195,13 @@ tooling:
     config_files: 118
     templates: 396
     md_files: 10
-    md_words: 13283
-    commits: 143
+    md_words: 13294
+    commits: 145
 docs:
   - { label: "Concept articles", pages: 17, words: 12634 }
-  - { label: "Developer guides", pages: 23, words: 20095 }
+  - { label: "Developer guides", pages: 23, words: 20079 }
   - { label: "Release notes", pages: 9, words: 9820 }
   - { label: "Video episode pages", pages: 13, words: 4625 }
   - { label: "Other site pages", pages: 5, words: 2599 }
 site_pages: 67
-site_words: 49773
+site_words: 49757

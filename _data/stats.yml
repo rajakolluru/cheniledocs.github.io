@@ -4,15 +4,15 @@
   suffix: ""
   label: "Modular repositories"
   note: "One coherent framework, versioned together"
-- value: 33
+- value: 35
   suffix: "K"
   label: "Lines of production Java"
-  note: "Plus ~21K lines of tests"
-- value: 791
+  note: "Plus ~23K lines of tests"
+- value: 861
   suffix: ""
   label: "Automated framework tests"
-  note: "Plus 22 in JGen · zero failures on 2.1.31"
-- value: 74
+  note: "Plus 152 in JGen · zero failures on 2.1.36"
+- value: 75
   suffix: ""
   label: "Maven modules"
   note: "Released together under chenile-parent"
