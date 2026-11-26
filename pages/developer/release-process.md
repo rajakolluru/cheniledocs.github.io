@@ -55,11 +55,12 @@ done
 
 ## After the framework
 
-- **JGen and stm-cli are not part of the train.** From JGen 2.5.1 and stm-cli 1.0.0 they have their own version
-  lines and release cadence, and build only against released Chenile versions. After a Chenile release, a JGen or
-  stm-cli release may move its `chenile-parent` to the new version, and JGen may move its default `chenileVersion`.
-  That is a separate release of that tool. Don't tag `chenile-gen` or `stm-cli` with Chenile versions. See
-  [JGen releases and versions](https://jgen.chenile.org/releases/).
+- **JGen and stm-cli have independent release versions.** When they adopt a new
+  published Chenile parent, bump each tool's own patch version, rebuild and verify
+  its distribution, and publish it with its own version tag. JGen 2.5.2 and stm-cli
+  1.0.1 adopt Chenile 2.1.36. JGen's generation default also stays on published
+  Chenile, even when framework development advances. Don't give the tools Chenile
+  version tags. See [JGen releases](https://jgen.chenile.org/releases/).
 - **Javadoc** — publish a released tag using `gh workflow run deploy-javadoc.yml -f version=<version>` in `chenile-javadoc`. Release-tag pushes also publish; development branch pushes do not. The working POM can follow the next version while the site continues to serve the last release.
 - **This website** — `maven_version` in `_config.yml` drives every "latest release" string. A daily workflow (`scripts/update-version.sh`) follows Maven Central but **never downgrades**, so a work-in-progress version set by hand survives. Add release notes under `pages/release-notes/`, and refresh [Chenile by the numbers](/by-the-numbers/) with `python3 scripts/codebase-stats.py ..`.
 
@@ -87,9 +88,9 @@ branch pushes.
 
 ## Next development cycle: 2.1.37
 
-The 11 framework working copies, Javadoc parent, process dashboard metadata, JGen
-generator default and this site's working version setting now follow `2.1.37`.
+The 11 framework working copies, Javadoc parent, process dashboard metadata and
+this site's working version setting now follow `2.1.37`.
 There is no `2.1.37` release tag and no deployment for that development version.
-JGen and stm-cli retain independent artifact versions and build against the
-released `2.1.36` parent. Generated applications that resolve only Maven Central
-should explicitly select `chenileVersion=2.1.36` until the next release ships.
+JGen 2.5.2 and stm-cli 1.0.1 build against released `2.1.36`; JGen also generates
+`2.1.36` projects by default. Tool build parents and generation defaults do not
+follow unpublished framework development versions.
