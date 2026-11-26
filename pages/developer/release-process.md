@@ -63,19 +63,33 @@ done
 - **Javadoc** — bump the parent in `chenile-javadoc/pom.xml`; building the aggregation POM does not publish the Javadoc site by itself.
 - **This website** — `maven_version` in `_config.yml` drives every "latest release" string. A daily workflow (`scripts/update-version.sh`) follows Maven Central but **never downgrades**, so a work-in-progress version set by hand survives. Add release notes under `pages/release-notes/`, and refresh [Chenile by the numbers](/by-the-numbers/) with `python3 scripts/codebase-stats.py ..`.
 
-## Release status: 2.1.34
+## Release status: 2.1.36
 
-As of October 22, 2026, all 11 framework repositories build and pass their Maven
-tests against `2.1.34`. JGen, STM CLI and the Javadoc aggregation build also pass;
-the process UI passes its tests and production build. The version-alignment
-commits are pushed, and the website and JGen default select `2.1.34`. The 11
-framework repositories, `chenile-gen`, and `chenile-javadoc` are tagged and pushed
-as `2.1.34`.
+Prepared on November 26, 2026. The framework release includes unified event triggers,
+rebuilt schedules, MQTT event bindings, MCP calls through the Chenile pipeline, and
+shared tenant discovery with pinned database routing for background work. See the
+[2.1.36 release notes](/release-notes/2.1.36/) for migration steps.
 
-**2.1.34 is tagged.** The `chenile-parent:2.1.34` signed bundle was accepted and
-validated by Central Publishing, but Maven Central still returns 404 for the
-artifact. Stop before deploying dependent repositories and wait until the parent
-POM is visible on Maven Central. It refines the 2.1.33 process deployment story — the
-`chenile-process-worker-set` blueprint, a shared concrete worker service, Kafka
-retry and dead-lettering for worker failures, and header-scoped queue
-publication. See the [2.1.34 release notes](/release-notes/2.1.34/).
+All 11 repositories pass Maven builds and 877 framework tests, including all 17
+PostgreSQL integration tests. Local release preparation signs the 73 publishing
+modules and attaches source and Javadoc JARs. The test-only `cconfig-tests` module
+is excluded from the Central bundle. The process console passes 10 unit tests,
+four browser checks and its production build; the Javadoc aggregation builds.
+
+**Maven Central publication is pending.** The parent POM download returned HTTP 404
+on November 26. Local release preparation and source tags do not publish artifacts.
+Run `make deploy` in `chenile-parent` only when publication is requested, then wait
+for this exact POM to download successfully before deploying any dependent repository:
+
+```text
+https://repo.maven.apache.org/maven2/org/chenile/chenile-parent/2.1.36/chenile-parent-2.1.36.pom
+```
+
+The release profile attaches sources and Javadocs and signs artifacts with GPG.
+`mvn install -B -ntp -DskipTests -Drevision=2.1.36 -DperformRelease=true` prepares
+those artifacts locally without running Maven's deploy phase. The publishing plugin
+has `autoPublish=true`: `make deploy` uploads for automatic publication, so it is
+outside preparation-only work.
+
+JGen stays on its own release line and released Chenile 2.1.35 dependency/default
+until a separate tooling release adopts published 2.1.36 artifacts.

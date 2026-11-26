@@ -8,7 +8,7 @@ summary: "How much code, tests and documentation make up the 11 Chenile reposito
 {% assign test_pct = t.test_loc | times: 100.0 | divided_by: t.main_loc | round %}
 {% assign doc_words = c.site_words | plus: t.md_words %}
 
-<p style="color:var(--muted);font-family:var(--mono);font-size:.85rem">Measured {{ c.measured }} from the working copies of the 11 repositories, including the in-progress <a href="{{ '/release-notes/2.1.31/' | relative_url }}">2.1.31</a> work.</p>
+<p style="color:var(--muted);font-family:var(--mono);font-size:.85rem">Measured {{ c.measured }} from the working copies of the 11 repositories, for the prepared <a href="{{ '/release-notes/2.1.36/' | relative_url }}">2.1.36</a> release.</p>
 
 <div class="stats" style="margin:1.6em 0 2.4em">
   <div class="stat"><div class="num fmt" data-n="{{ t.main_loc }}">{{ t.main_loc }}</div><div class="lbl">Lines of production Java</div><div class="note">{{ t.main_files }} source files</div></div>
@@ -62,7 +62,7 @@ Alongside the Java there are **{{ t.config_files }}** configuration and schema f
 On top of the prose:
 
 - **<span class="fmt" data-n="{{ t.javadoc }}">{{ t.javadoc }}</span> lines of Javadoc** in the source, published as API reference.
-- **791 automated framework tests** (plus 22 in JGen) passing for the 2.1.31 release, with zero failures — see the [release process]({{ '/developer/release-process/' | relative_url }}).
+- **877 automated framework tests** passing for 2.1.36 release preparation, including 17 PostgreSQL integration tests, with zero failures — see the [release process]({{ '/developer/release-process/' | relative_url }}).
 - **{{ t.features }} executable Gherkin specifications** — documentation that is also a test (see [BDD]({{ '/concepts/06-bdd-testing/' | relative_url }})).
 - **The [video series]({{ '/video-series/' | relative_url }})** — 12 narrated episodes, about 21 minutes in total, with captions and full scripts on each episode page.
 - **Interactive explainers** on the concept pages, and generated workflow diagrams from every state machine.

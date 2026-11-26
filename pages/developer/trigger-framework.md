@@ -12,7 +12,7 @@ endpoint and your own code) raises it through one contract, `TriggerService`, fr
 chenile-core. There are two implementations, and Chenile picks one automatically.
 
 <span class="pill">{{ site.maven_version }}</span> Release status: chenile-trigger, and the scheduler and file watch
-firing through it, arrive in Chenile 2.1.36, which is in development.
+firing through it, arrive in Chenile 2.1.36, which is prepared for release with Maven Central publication pending.
 
 | | `DirectTriggerService` | `EventTriggerService` |
 |---|---|---|

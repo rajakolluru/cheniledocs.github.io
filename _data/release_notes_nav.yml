@@ -2,7 +2,7 @@ section: "Release notes"
 items:
   - title: "Release notes home"
     url: "/release-notes/"
-  - title: "2.1.36 (in development)"
+  - title: "2.1.36 (prepared)"
     url: "/release-notes/2.1.36/"
   - title: "2.1.35"
     url: "/release-notes/2.1.35/"

@@ -7,10 +7,12 @@ permalink: /developer/jgen-blueprints/
 
 # JGen blueprint reference
 
-Current source and generator defaults target **Chenile {{ site.maven_version }}**. The
-2.1.34 build is verified; artifact publication is pending. See the
-[release notes](/release-notes/2.1.34/). Version labels below identify when a feature
-was introduced or its minimum runtime, rather than claiming publication.
+JGen has its own release line. Its current parent and generator default target **Chenile 2.1.35**;
+blueprint changes that use the new trigger and schedule APIs require **Chenile 2.1.36**,
+whose Maven Central publication is pending. Adopt that runtime after publication and
+a separate JGen release. See the [2.1.36 release notes](/release-notes/2.1.36/) and
+[JGen releases](https://jgen.chenile.org/releases/). Version labels below identify
+when a feature was introduced or its minimum runtime.
 
 [JGen](/concepts/12-jgen/) is Chenile's Java code generator (repository `rajakolluru/chenile-gen`). A **blueprint** is a template tree plus a `META-INF/blueprint.json` that declares its prompts; the engine copies the tree, renders Mustache templates, renames placeholder paths (`__service__`, `__Service__`, `__application__`, …), applies conditional folders (`%%jpa=true%%`), invokes other blueprints through aggregation markers (`{% raw %}%{{minimonolith role=server}}{% endraw %}`), and runs the blueprint's init hook. Every blueprint also accepts an optional parent POM and extra dependencies. See [engine features](#engine-features) below and [writing blueprints](/concepts/15-blueprints/).
 
