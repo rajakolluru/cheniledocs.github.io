@@ -15,7 +15,7 @@ message on a topic each raise a Chenile event, and the operations that subscribe
 in [Everything but HTTP is an event](/concepts/17-events/); this page is the developer's reference.
 
 <span class="pill">{{ site.maven_version }}</span> Release status: the model on this page arrives in Chenile 2.1.36,
-which is prepared for release with Maven Central publication pending. See the [2.1.36 release notes](/release-notes/2.1.36/).
+which is published to Maven Central. See the [2.1.36 release notes](/release-notes/2.1.36/).
 
 ## Subscribing to an event
 

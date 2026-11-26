@@ -7,10 +7,11 @@ permalink: /developer/jgen-blueprints/
 
 # JGen blueprint reference
 
-JGen has its own release line. Its current parent and generator default target **Chenile 2.1.35**;
-blueprint changes that use the new trigger and schedule APIs require **Chenile 2.1.36**,
-whose Maven Central publication is pending. Adopt that runtime after publication and
-a separate JGen release. See the [2.1.36 release notes](/release-notes/2.1.36/) and
+JGen has its own release line. Its working build uses released **Chenile 2.1.36**.
+The development generator default follows **Chenile 2.1.37**, which is not published;
+set `chenileVersion` to **2.1.36** when generating against Maven Central.
+Blueprint changes that use the new trigger and schedule APIs require Chenile 2.1.36
+or later. See the [2.1.36 release notes](/release-notes/2.1.36/) and
 [JGen releases](https://jgen.chenile.org/releases/). Version labels below identify
 when a feature was introduced or its minimum runtime.
 

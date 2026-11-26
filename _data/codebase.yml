@@ -15,7 +15,7 @@ repos:
     templates: 0
     md_files: 2
     md_words: 443
-    commits: 115
+    commits: 116
   - name: "chenile-core"
     modules: 13
     main_files: 333
@@ -30,7 +30,7 @@ repos:
     templates: 0
     md_files: 29
     md_words: 25753
-    commits: 172
+    commits: 173
   - name: "chenile-query-workflow-blueprints"
     modules: 13
     main_files: 121
@@ -45,7 +45,7 @@ repos:
     templates: 1
     md_files: 7
     md_words: 6171
-    commits: 131
+    commits: 132
   - name: "chenile-process-management"
     modules: 10
     main_files: 114
@@ -60,7 +60,7 @@ repos:
     templates: 0
     md_files: 18
     md_words: 23333
-    commits: 105
+    commits: 106
   - name: "chenile-service-registry"
     modules: 4
     main_files: 20
@@ -75,7 +75,7 @@ repos:
     templates: 0
     md_files: 0
     md_words: 0
-    commits: 56
+    commits: 57
   - name: "chenile-proxies"
     modules: 2
     main_files: 17
@@ -90,7 +90,7 @@ repos:
     templates: 0
     md_files: 2
     md_words: 667
-    commits: 53
+    commits: 54
   - name: "chenile-security"
     modules: 11
     main_files: 61
@@ -105,7 +105,7 @@ repos:
     templates: 0
     md_files: 2
     md_words: 597
-    commits: 60
+    commits: 61
   - name: "chenile-messaging"
     modules: 8
     main_files: 64
@@ -120,7 +120,7 @@ repos:
     templates: 0
     md_files: 5
     md_words: 3355
-    commits: 74
+    commits: 75
   - name: "chenile-bdd"
     modules: 3
     main_files: 11
@@ -135,7 +135,7 @@ repos:
     templates: 0
     md_files: 2
     md_words: 277
-    commits: 48
+    commits: 49
   - name: "chenile-others"
     modules: 6
     main_files: 34
@@ -150,7 +150,7 @@ repos:
     templates: 0
     md_files: 4
     md_words: 4077
-    commits: 52
+    commits: 53
   - name: "cconfig"
     modules: 4
     main_files: 26
@@ -165,7 +165,7 @@ repos:
     templates: 0
     md_files: 1
     md_words: 1049
-    commits: 53
+    commits: 54
 totals:
   modules: 75
   main_files: 801
@@ -180,7 +180,7 @@ totals:
   templates: 1
   md_files: 72
   md_words: 65722
-  commits: 919
+  commits: 930
 tooling:
   - name: "chenile-gen"
     modules: 18
@@ -196,12 +196,12 @@ tooling:
     templates: 396
     md_files: 10
     md_words: 13283
-    commits: 142
+    commits: 143
 docs:
   - { label: "Concept articles", pages: 17, words: 12634 }
-  - { label: "Developer guides", pages: 23, words: 20066 }
-  - { label: "Release notes", pages: 8, words: 9771 }
+  - { label: "Developer guides", pages: 23, words: 20095 }
+  - { label: "Release notes", pages: 9, words: 9820 }
   - { label: "Video episode pages", pages: 13, words: 4625 }
-  - { label: "Other site pages", pages: 5, words: 2580 }
-site_pages: 66
-site_words: 49676
+  - { label: "Other site pages", pages: 5, words: 2599 }
+site_pages: 67
+site_words: 49773

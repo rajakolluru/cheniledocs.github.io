@@ -60,7 +60,7 @@ done
   stm-cli release may move its `chenile-parent` to the new version, and JGen may move its default `chenileVersion`.
   That is a separate release of that tool. Don't tag `chenile-gen` or `stm-cli` with Chenile versions. See
   [JGen releases and versions](https://jgen.chenile.org/releases/).
-- **Javadoc** — bump the parent in `chenile-javadoc/pom.xml`; building the aggregation POM does not publish the Javadoc site by itself.
+- **Javadoc** — publish a released tag using `gh workflow run deploy-javadoc.yml -f version=<version>` in `chenile-javadoc`. Release-tag pushes also publish; development branch pushes do not. The working POM can follow the next version while the site continues to serve the last release.
 - **This website** — `maven_version` in `_config.yml` drives every "latest release" string. A daily workflow (`scripts/update-version.sh`) follows Maven Central but **never downgrades**, so a work-in-progress version set by hand survives. Add release notes under `pages/release-notes/`, and refresh [Chenile by the numbers](/by-the-numbers/) with `python3 scripts/codebase-stats.py ..`.
 
 ## Release status: 2.1.36
@@ -76,20 +76,20 @@ modules and attaches source and Javadoc JARs. The test-only `cconfig-tests` modu
 is excluded from the Central bundle. The process console passes 10 unit tests,
 four browser checks and its production build; the Javadoc aggregation builds.
 
-**Maven Central publication is pending.** The parent POM download returned HTTP 404
-on November 26. Local release preparation and source tags do not publish artifacts.
-Run `make deploy` in `chenile-parent` only when publication is requested, then wait
-for this exact POM to download successfully before deploying any dependent repository:
+**Maven Central publication is complete.** Post-release verification downloaded the
+parent POM and checked all 259 POM, binary, source and Javadoc URLs for the 73
+publishing modules; every URL returned HTTP 200. `cconfig-tests` is intentionally
+excluded from publication.
 
-```text
-https://repo.maven.apache.org/maven2/org/chenile/chenile-parent/2.1.36/chenile-parent-2.1.36.pom
-```
+The released API docs are published at [javadoc.chenile.org](https://javadoc.chenile.org/).
+The Javadoc workflow publishes release tags; it no longer publishes development
+branch pushes.
 
-The release profile attaches sources and Javadocs and signs artifacts with GPG.
-`mvn install -B -ntp -DskipTests -Drevision=2.1.36 -DperformRelease=true` prepares
-those artifacts locally without running Maven's deploy phase. The publishing plugin
-has `autoPublish=true`: `make deploy` uploads for automatic publication, so it is
-outside preparation-only work.
+## Next development cycle: 2.1.37
 
-JGen stays on its own release line and released Chenile 2.1.35 dependency/default
-until a separate tooling release adopts published 2.1.36 artifacts.
+The 11 framework working copies, Javadoc parent, process dashboard metadata, JGen
+generator default and this site's working version setting now follow `2.1.37`.
+There is no `2.1.37` release tag and no deployment for that development version.
+JGen and stm-cli retain independent artifact versions and build against the
+released `2.1.36` parent. Generated applications that resolve only Maven Central
+should explicitly select `chenileVersion=2.1.36` until the next release ships.

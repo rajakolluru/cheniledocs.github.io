@@ -8,11 +8,12 @@ permalink: /release-notes/
 
 # Release notes
 
-Chenile's repositories are versioned together under `chenile-parent` and released on one train, so a single version number moves the whole framework forward. The current framework version is **v{{ site.maven_version }}** (also shown in the footer). Some releases may be work-in-progress and not yet on Maven Central.
+Chenile's repositories are versioned together under `chenile-parent` and released on one train, so a single version number moves the whole framework forward. The working framework version is **v{{ site.maven_version }}** (also shown in the footer). The latest published release is **2.1.36**; **2.1.37** is the next development version.
 
 ## By version
 
-- [**2.1.36**]({{ '/release-notes/2.1.36/' | relative_url }}) — *(release prepared; Maven Central publication pending)* one event model: everything but HTTP is a Chenile event, with the new chenile-trigger, rebuilt schedules (chenile-scheduler, chenile-scheduler-db) and file watch firing events, and MQTT topics bound to events; MCP tool calls go through `ChenileEntryPoint` with the caller's headers; process management moves to schedules and polls every tenant's outbox; JGen and stm-cli move to their own release cadence (JGen 2.5.1, stm-cli 1.0.0).
+- [**2.1.37**]({{ '/release-notes/2.1.37/' | relative_url }}) — *(in development)* version alignment for the next release cycle; no release tag or Maven Central publication.
+- [**2.1.36**]({{ '/release-notes/2.1.36/' | relative_url }}) — *(published to Maven Central)* one event model: everything but HTTP is a Chenile event, with the new chenile-trigger, rebuilt schedules (chenile-scheduler, chenile-scheduler-db) and file watch firing events, and MQTT topics bound to events; MCP tool calls go through `ChenileEntryPoint` with the caller's headers; process management moves to schedules and polls every tenant's outbox; JGen and stm-cli move to their own release cadence (JGen 2.5.1, stm-cli 1.0.0).
 - [**2.1.35**]({{ '/release-notes/2.1.35/' | relative_url }}) — *(tagged October 27; JGen released October 31)* per-request service selection (`serviceSelector`), typed process work listeners, interceptor names checked at startup, a Quartz cron builder in the process console, and for JGen one validator for blueprint inputs, generation records and `jgen -r`, blueprints from GitHub, and Homebrew/JBang installs.
 - [**2.1.29–2.1.34 complete history**]({{ '/release-notes/2.1.29-to-2.1.34/' | relative_url }}) — consolidated feature and upgrade notes across the release train.
 - [**2.1.34**]({{ '/release-notes/2.1.34/' | relative_url }}) — *(tagged; parent published; dependent bundles validated)* the `chenile-process-worker-set` blueprint, a shared concrete worker service, Kafka retry and dead-lettering for worker failures, and header-scoped queue publication.
